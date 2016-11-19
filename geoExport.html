@@ -32,7 +32,7 @@
         }
         #delete, #export {
             position: absolute;
-            top:50px;
+            top:120px;
             right:10px;
             z-index:100;
             background:white;
@@ -111,24 +111,12 @@
             var long = place.geometry.location.lng();
             console.log("lat: "+lat);
             console.log("long: "+long);
-            // Create a marker for each place.
-            // var marker = L.marker([
-            //   place.geometry.location.lat(),
-            //   place.geometry.location.lng()
-            // ]);
-            // console.log(marker);
-            // // group.addLayer(marker);
-            map = L.mapbox.map('map')
-            .setView([lat,long], 12);
+            var pairs = [lat, long]
+            map.setView([lat,long], 15);
           });
-
-
-          // group.addTo(map);
-          // map.fitBounds(group.getBounds());
 
         });
 
-        // on click, clear all layers
         document.getElementById('delete').onclick = function(e) {
             featureGroup.clearLayers();
         }
