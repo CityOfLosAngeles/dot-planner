@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Get started with MapView - Create a 2D map</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <script src="https://js.arcgis.com/4.1/init.js"></script>
+    <!-- <script type="text/javascript" scr="/js/script.js"></script> -->
+
+
+    <script>
+      require([
+        // "esri/Map",
+        "esri/WebMap",
+        "esri/views/MapView",
+        "esri/geometry/Extent",
+        "dojo/domReady!"
+      ], function(WebMap, MapView, Extent) {
+        // var map = new Map({
+        //   basemap: "streets-vector"
+        // });
+        var webmap = new WebMap({
+        portalItem: { // autocasts as new PortalItem()
+            id: "46f3f1aa0e564775b32aa52842231e61"
+          }
+        });
+
+        var view = new MapView({
+          container: "viewDiv",  // Reference to the DOM node that will contain the view
+          map: webmap               // References the map object created in step 3
+        });
+
+        // extent=-119.9709,32.4659,-114.2415,35.3018
+        var ext = new Extent({
+          xmax: -119.9709,
+          ymax: 32.4659,
+          xmin: -114.2415,
+          ymin: 35.3018
+        });
+
+        view.extent = ext;
+
+      });
+    </script>
+
+
+  </head>
+  <body>
+    <div class="jumbotron text-center">
+      <h1 class="header">Sunny SoCal</h1>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form">
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <h3 class="header">Results</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque non laudantium optio perferendis eius, eum accusantium nam soluta libero possimus, hic mollitia labore maxime natus! Molestiae assumenda beatae provident nulla.</p>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 ">
+          <div id="viewDiv"></div>
+        <div class="col-sm-3"></div>
+
+        </div>
+      </div>
+    </div>
+    
+
+
+  </body>
+</html>
