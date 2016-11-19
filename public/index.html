@@ -5,7 +5,16 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Get started with MapView - Create a 2D map</title>
     <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+     <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <script src="https://js.arcgis.com/4.1/init.js"></script>
     <!-- <script type="text/javascript" scr="/js/script.js"></script> -->
@@ -49,26 +58,35 @@
 
   </head>
   <body>
-    <div class="jumbotron text-center">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">LADOT</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><button type="button" class="btn btn-success navbar-btn">Add Project</button></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Filters
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#" class="small" data-value="option1" tabIndex="-1"><input type="checkbox"/>&nbsp;Funded</a></li>
+              <li><a href="#" class="small" data-value="option2" tabIndex="-1"><input type="checkbox"/>&nbsp;Unfunded</a></li>
+            </ul>
+          </li>
+          <li><button type="button" class="btn btn-success navbar-btn">Log Out</button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- <div class="jumbotron text-center">
       <h1 class="header">Sunny SoCal</h1>
       <div id="browse_app">
         <a class="btn btn-large btn-info" href="form.html">New Project</a>
       </div>
-    </div>
+    </div> -->
 
     <div class="container">
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="form">
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name">
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <h3 class="header">Results</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque non laudantium optio perferendis eius, eum accusantium nam soluta libero possimus, hic mollitia labore maxime natus! Molestiae assumenda beatae provident nulla.</p>
-        </div>
-      </div>
       <div class="row text-center">
         <div class="col-sm-3"></div>
         <div class="col-sm-6 ">
