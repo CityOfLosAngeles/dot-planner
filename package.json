@@ -11,9 +11,9 @@
     "debug": "~2.2.0",
     "express": "~4.13.4",
     "hbs": "~4.0.0",
-    "mongoose": "^4.6.8",
-    "mongoose-geojson-schema": "^2.1.2",
     "morgan": "~1.7.0",
+    "pg": "^6.1.0",
+    "sequelize": "^3.27.0",
     "serve-favicon": "~2.3.0"
   }
 }
