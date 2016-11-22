@@ -9,11 +9,13 @@
     "port": "5432"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
+    "username": "postgres",
+    "password": "password",
+    "database": "dot",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres",
+    "protocol": "postgres",
+    "port": "5432"
   },
   "production": {
     "username": "tkyuhedlumlsai",
@@ -22,6 +24,11 @@
     "host": "ec2-54-225-121-93.compute-1.amazonaws.com",
     "dialect": "postgres",
     "protocol": "postgres",
-    "port": "5432"
-  }
+    "port": "5432",
+    "ssl": true,
+    "dialectOptions":{
+       "ssl":{
+          "require":true
+       }
+    }
 }
