@@ -1,8 +1,8 @@
 var sendObj = {};
-var featureCollection = {
-    "type": "FeatureCollection",
-    features: []
-};
+// var featureCollection = {
+//     "type": "FeatureCollection",
+//     features: []
+// };
 
 var map = L.mapbox.map('map').setView([
     34.0522, -118.2437
@@ -66,17 +66,18 @@ $.ajax({
     datatype: 'JSON',
     success: function(data) {
         if (data) {
-            var features = [];
-            for (var i = 0; i < data.length; i++) {
-                var newGeo = {
-                    type: "Feature",
-                    properties: data[i].properties,
-                    geometry: data[i].geometry
-                }
-                featureCollection.features.push(newGeo);
-            }
+            // var features = [];
+            // for (var i = 0; i < data.length; i++) {
+            //     var newGeo = {
+            //         type: "Feature",
+            //         properties: data[i].properties,
+            //         geometry: data[i].geometry
+            //     }
+            //     featureCollection.features.push(newGeo);
+            // }
             // myLayer.addData(featureCollection);
-            L.geoJson(featureCollection, {
+            console.log(data);
+            L.geoJson(data, {
                 style: function(feature) {
                     return {"color": "#78c679", "weight": 5, "opacity": 0.9}
                 },

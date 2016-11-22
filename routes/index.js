@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var Geo = require('../models/Geo.js');
+var models = require('../models');
+// var Geo = require('../models/Geo.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -8,34 +9,38 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/geo', function(req, res){
-  Geo.find({}).exec(function(err, found){
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(found);
+  var featureCollection = {
+      "type": "FeatureCollection",
+      features: []
+  };
+  models.Project.findAll().then(function(data){
+    // console.log(data[1].uid);
+    for (var i = 0; i < data.length; i++) {
+      var newGeo = {
+          type: "Feature",
+          properties: {
+            UID: data[i].uid,
+            title: data[i].project_title,
+            description: data[i].project_description
+          },
+          geometry: data[i].geometry
+      }
+      featureCollection.features.push(newGeo);
+      res.send(featureCollection);
     }
   });
 });
 
 router.post('/new/geo', function(req, res){
   var coordinates = JSON.parse(req.body.coordinates);
-  var data = {
-    properties: {
-      UID: req.body.UID,
-      title: req.body.title,
-      description: req.body.description
-    },
+  models.Project.create({
+    uid: req.body.UID,
+    project_title: req.body.title,
+    project_description: req.body.description,
     geometry: {
       type: req.body.type,
       coordinates: coordinates
     }
-  }
-  var newGeo = new Geo(data);
-  newGeo.save(function(err){
-    if(err){
-      console.log(err);
-    }
-    console.log('Successfully saved to Mongo');
   });
   res.send({"success": "Yes!"});
 });
