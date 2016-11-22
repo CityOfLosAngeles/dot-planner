@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
 var routes = require('./routes/index');
 
 var app = express();
@@ -13,24 +13,24 @@ var app = express();
 
 //local mongo instance
 // var link = 'mongodb://localhost/geo';
-var link = 'mongodb://heroku_77qf8k9j:mmnlmmn5hsqf7qm90672v5htfe@ds159237.mlab.com:59237/heroku_77qf8k9j';
+// var link = 'mongodb://heroku_77qf8k9j:mmnlmmn5hsqf7qm90672v5htfe@ds159237.mlab.com:59237/heroku_77qf8k9j';
 
 // Drop DB (uncomment this if you want to drop DB on start)
 // mongoose.connect(link, function() {
 //     mongoose.connection.db.dropDatabase();
 // });
 
-mongoose.connect(link);
-
-var db = mongoose.connection;
-
-db.on('error', function(err) {
-    console.log('database error', err);
-});
-
-db.once('open', function() {
-    console.log("Mongoose is connected!");
-});
+// mongoose.connect(link);
+//
+// var db = mongoose.connection;
+//
+// db.on('error', function(err) {
+//     console.log('database error', err);
+// });
+//
+// db.once('open', function() {
+//     console.log("Mongoose is connected!");
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
