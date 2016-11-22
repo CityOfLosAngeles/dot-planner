@@ -1,60 +1,10 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-// var mongoose = require('mongoose');
 var routes = require('./routes/index');
 
 var app = express();
-
-var sequelize = require('../index').connect();
-
-if (sequelize)
-{
-    sequelize.authenticate().then( function() {
-        var config = sequelize.connectionManager.config;
-        console.log('sequelize-heroku: Connected to '+config.host+' as '+config.username+'.');
-
-        sequelize.query('SELECT 1+1 as test').then( function(res) {
-
-            console.log('1+1='+res[0].test);
-
-        });
-
-    }).catch( function(err) {
-        var config = sequelize.connectionManager.config;
-        console.log('Sequelize: Error connecting '+config.host+' as '+config.user+': '+err);
-    });
-}
-else
-{
-    console.log('No environnement variable found.');
-}
-
-//MongoDB setup
-
-//local mongo instance
-// var link = 'mongodb://localhost/geo';
-// var link = 'mongodb://heroku_77qf8k9j:mmnlmmn5hsqf7qm90672v5htfe@ds159237.mlab.com:59237/heroku_77qf8k9j';
-
-// Drop DB (uncomment this if you want to drop DB on start)
-// mongoose.connect(link, function() {
-//     mongoose.connection.db.dropDatabase();
-// });
-
-// mongoose.connect(link);
-//
-// var db = mongoose.connection;
-//
-// db.on('error', function(err) {
-//     console.log('database error', err);
-// });
-//
-// db.once('open', function() {
-//     console.log("Mongoose is connected!");
-// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
