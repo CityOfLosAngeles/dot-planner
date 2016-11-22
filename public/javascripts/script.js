@@ -40,41 +40,41 @@ $.ajax({
     }
 });
 
-//Setting up the Google search box
-var GooglePlacesSearchBox = L.Control.extend({
-  onAdd: function() {
-    var element = document.createElement("input");
-    element.id = "searchBox";
-    return element;
-  }
-});
-
-//Adding the Google search box to the map
-(new GooglePlacesSearchBox)().addTo(map);
-
-var input = document.getElementById("searchBox");
-var searchBox = new google.maps.places.SearchBox(input);
-
-searchBox.addListener('places_changed', function() {
-  var places = searchBox.getPlaces();
-
-  if (places.length == 0) {
-    return;
-  }
-
-  var group = L.featureGroup();
-
-  places.forEach(function(place) {
-
-    var lat = place.geometry.location.lat();
-    var long = place.geometry.location.lng();
-    console.log("lat: "+lat);
-    console.log("long: "+long);
-    var pairs = [lat, long]
-    map.setView([lat,long], 15);
-  });
-
-});
+// //Setting up the Google search box
+// var GooglePlacesSearchBox = L.Control.extend({
+//   onAdd: function() {
+//     var element = document.createElement("input");
+//     element.id = "searchBox";
+//     return element;
+//   }
+// });
+//
+// //Adding the Google search box to the map
+// (new GooglePlacesSearchBox).addTo(map);
+//
+// var input = document.getElementById("searchBox");
+// var searchBox = new google.maps.places.SearchBox(input);
+//
+// searchBox.addListener('places_changed', function() {
+//   var places = searchBox.getPlaces();
+//
+//   if (places.length == 0) {
+//     return;
+//   }
+//
+//   var group = L.featureGroup();
+//
+//   places.forEach(function(place) {
+//
+//     var lat = place.geometry.location.lat();
+//     var long = place.geometry.location.lng();
+//     console.log("lat: "+lat);
+//     console.log("long: "+long);
+//     var pairs = [lat, long]
+//     map.setView([lat,long], 15);
+//   });
+//
+// });
 
 //Example of how we can style the drawing tool and shapes as they are drawn
 var options = {
