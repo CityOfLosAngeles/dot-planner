@@ -1,0 +1,264 @@
+<div id='map'></div>
+<div id='delete'>Delete Features</div>
+<a data-toggle="modal" data-target="#myModal" id='export'>Export Features</a>
+
+<!-- modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title" id="lineModalLabel">Project Details</h3>
+            </div>
+            <div class="modal-body text-center">
+
+                <!-- content goes here -->
+                <form>
+                    <div class="form-group">
+                        <label for="UID">Unique ID</label>
+                        <input type="number" class="form-control" id="UID" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="Proj_Title">Project Title</label>
+                        <input type="text" class="form-control" id="Proj_Title" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="Proj_Desc">Project Description</label>
+                        <textarea class="form-control" rows="3" id="Proj_Desc"></textarea>
+                        <p class="help-block">Brief statement of project purpose and scope</p>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="Lead_Ag">Lead Agency/Department of Proposal</label>
+                        <input type="text" class="form-control" id="Proj_Desc" placeholder="i.e. LADOT/BOE">
+                    </div>
+                    <div class="form-group">
+                        <label for="Fund_St">Funding Status</label>
+                        <div class="radio">
+                            <label>
+                      <input type="radio" name="Fund_St" id="funded" value="Funded">
+                      Funded
+                    </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                      <input type="radio" name="Fund_St" id="unfunded" value="Unfunded">
+                      Unfunded
+                    </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Proj_Man">Project Manager</label>
+                        <input type="text" class="form-control" id="Proj_Man" placeholder="Manager Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="Contact_info">Project Contact Information</label>
+                        <input type="text" class="form-control" id="Contact_infoName" placeholder="Contact Name">
+                        <p class="help-block"></p>
+                        <input type="tel" class="form-control" id="Contact_infoPhone" placeholder="Contact Phone">
+                        <p class="help-block"></p>
+                        <input type="email" class="form-control" id="Contact_infoEmail" placeholder="Contact Email">
+                        <p class="help-block"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="moreInfo">More Info</label>
+                        <input type="url" class="form-control" id="moreInfo" placeholder="Link to detailed project information">
+                    </div>
+                    <div class="form-group">
+                        <label for="CD">Council District Number</label>
+                        <input type="number" min="1" max="14" class="form-control" id="CD" placeholder="1-14">
+                    </div>
+                    <div class="form-group">
+                        <label for="Access">Accessibility</label>
+                        <div class="radio">
+                            <label>
+                      <input type="radio" name="Access" id="access" value="Internal">
+                      Internal
+                    </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                      <input type="radio" name="Access" id="access" value="External">
+                      External
+                    </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                      <input type="radio" name="Access" id="access" value="Subject to Change">
+                      Subject to Change
+                    </label>
+                        </div>
+                        <p class="help-block">Define project’s accessibility to different users.</p>
+                    </div>
+            </div>
+
+            <div id="fundedAttributes">
+                <div class="form-group">
+                    <label for="Dept_Proj_ID">Department Project ID</label>
+                    <input class="form-control" id="Dept_Proj_ID" placeholder="Any ID assigned to projects by departments">
+                </div>
+                <div class="form-group">
+                    <label for="Total_bgt">Total Budget</label>
+                    <input type="number" step="0.01" class="form-control" id="Total_bgt" placeholder="Estimated budget of the project">
+                </div>
+                <div class="form-group">
+                    <label for="grant">Grant</label>
+                    <input type="number" step="0.01" class="form-control" id="grant" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="otherFunds">Other Funds</label>
+                    <input type="number" step="0.01" class="form-control" id="otherFunds" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="propC">Prop C</label>
+                    <input type="number" step="0.01" class="form-control" id="propC" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="measureR">Measure R</label>
+                    <input type="number" step="0.01" class="form-control" id="measureR" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="generalFund">General Fund</label>
+                    <input type="number" step="0.01" class="form-control" id="generalFund" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="Current_Status">Current Status</label>
+                    <input type="text" class="form-control" id="Current_Status" placeholder="Project’s current construction stage">
+                </div>
+                <div class="form-group">
+                    <label for="Issues">Issues</label>
+                    <input class="form-control" id="Issues" placeholder="Obstacles that may jeopardize the project">
+                </div>
+                <div class="form-group">
+                    <label for="Deobligation">At Risk of Deobligation?</label>
+                    <div class="radio">
+                        <label>
+                      <input type="radio" name="Deobligation" id="deobligation" value="Y">
+                      Yes
+                    </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                      <input type="radio" name="Deobligation" id="deobligation" value="N">
+                      No
+                    </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Explanation">Explain Risk of Deobligation</label>
+                    <textarea class="form-control" rows="3" id="Explanation"></textarea>
+                    <p class="help-block">Reasons why the project is/is not at risk.</p>
+                </div>
+                <div class="form-group">
+                    <label for="Other_ID">Other Project ID</label>
+                    <input class="form-control" id="Other_ID" placeholder="i.e. grant application ID, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="Constr_by">Construction By</label>
+                    <input class="form-control" id="Constr_by" placeholder="i.e. contractor, city force">
+                </div>
+                <div class="form-group">
+                    <label for="infoSource">Info Source</label>
+                    <input class="form-control" id="infoSource" placeholder="">
+                </div>
+            </div>
+
+            <div id="unfundedAttributes">
+                <div class="form-group">
+                    <label for="Grant_Cat">Grant Category</label>
+                    <input class="form-control" id="Grant_Cat" placeholder="CFP,Pl,Bl, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="Proj_Ty">Project Type</label>
+                    <div class="checkbox">
+                        <label>
+                      <input type="checkbox" value="bikeOnly">
+                      Bike only
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                      <input type="checkbox" value="pedOnly">
+                      Ped Only
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                      <input type="checkbox" value="safety">
+                      Safety
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                      <input type="checkbox" value="peopleStreet">
+                      People Street
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                      <input type="checkbox" value="SRTS">
+                      SRTS
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                      <input type="checkbox" value="firstMikeAndLastMile">
+                      First mile and last mile
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                      <input type="checkbox" value="bikePed">
+                      Bike/ped
+                    </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                      <input type="checkbox" value="ideaProject">
+                      Idea Project
+                    </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Est_Cost">Estimated Cost</label>
+                    <input type="number" step="0.01" class="form-control" id="Est_Cost" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="Fund_Rq">Fund Request</label>
+                    <input type="number" step="0.01" class="form-control" id="Fund_Rq" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="Lc_match">Local Match</label>
+                    <input type="number" step="0.01" class="form-control" id="Lc_match" placeholder="">
+                    <p class="help-block">Amount of fund provided by lead agency</p>
+                </div>
+                <div class="form-group">
+                    <label for="Match_Pt">Match Percentage (%)</label>
+                    <input type="number" class="form-control" id="Match_Pt" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="Comments">Comments</label>
+                    <textarea class="form-control" rows="3" id="Proj_Desc"></textarea>
+                </div>
+            </div> -->
+
+
+            <!-- <button type="submit" id="submit" class="btn btn-default">Submit</button> -->
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <div class="btn-group btn-group-justified" role="group" aria-label="group button">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" role="button">Close</button>
+                </div>
+                <div class="btn-group btn-delete hidden" role="group">
+                    <button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal" role="button">Delete</button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="saveImage" class="btn btn-default btn-hover-green" data-action="save" role="button">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
