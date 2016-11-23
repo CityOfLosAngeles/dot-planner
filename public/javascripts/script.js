@@ -95,15 +95,24 @@ map.on(L.Draw.Event.CREATED, function(e) {
     featureGroup.addLayer(e.layer);
     drawControlFull.removeFrom(map);
     drawControlEditOnly.addTo(map);
+
+    // Show shape submit buttons when created
+    $("#delete").show();
+    $("#export").show();
 });
 
 $('#delete').on('click', function(e) {
-    eatureGroup.clearLayers();
+    featureGroup.clearLayers();
     drawControlEditOnly.removeFrom(map);
-    drawControlFull.addTo(map);
+
+    // Remove drawing controls and buttons
+    drawControlFull.removeFrom(map);
+    $("#delete").hide();
+    $("#export").hide();
 });
 
 $('#export').on('click', function() {
+
     // Extract GeoJson from featureGroup
     var data = featureGroup.toGeoJSON();
     var coordinates = JSON.stringify(data.features[0].geometry.coordinates);
@@ -112,6 +121,7 @@ $('#export').on('click', function() {
 });
 
 $('#saveImage').on('click', function() {
+
     sendObj.UID = $('#UID').val();
     sendObj.title = $('#Proj_Title').val();
     sendObj.description = $('#Proj_Desc').val();
@@ -128,9 +138,27 @@ $('#saveImage').on('click', function() {
           window.location.reload();
         }
     });
+
+
+});
+
+// When user clicks "Add Project"...
+$("#addProject").on("click", function() {
+
+    // Show edit tools
+    drawControlFull.addTo(map);
+    return false;
 });
 
 $(document).ready(function() {
+    
+    // Automatically hide drawing tools
+    drawControlFull.removeFrom(map);
+    
+    // Automatically hide delete and export buttons
+    $("#delete").hide();
+    $("#export").hide();
+
     // Automatically hide bottom half of form and submit button
     $("#fundedAttributes").hide();
     $("#unfundedAttributes").hide();
