@@ -1,35 +1,23 @@
 {
-  "development": {
-    "username": "postgres",
-    "password": "password",
-    "database": "dot",
-    "host": "127.0.0.1",
-    "dialect": "postgres",
-    "protocol": "postgres",
-    "port": "5432"
-  },
-  "test": {
-    "username": "postgres",
-    "password": "password",
-    "database": "dot",
-    "host": "127.0.0.1",
-    "dialect": "postgres",
-    "protocol": "postgres",
-    "port": "5432"
-  },
-  "production": {
-    "username": "xdklmuizhpihci",
-    "password": "SobDLRax27AHcwmqVdbvuLJd-2",
-    "database": "dij3vl0h8mfb2",
-    "host": "ec2-50-17-227-146.compute-1.amazonaws.com",
-    "dialect": "postgres",
-    "protocol": "postgres",
-    "port": "5432",
-    "ssl": true,
-    "dialectOptions":{
-       "ssl":{
-          "require":true
-       }
+    "development": {
+        "username": "postgres",
+        "password": "password",
+        "database": "dot",
+        "host": "127.0.0.1",
+        "dialect": "postgres",
+        "protocol": "postgres",
+        "port": "5432"
+    },
+    "test": {
+        "username": "postgres",
+        "password": "password",
+        "database": "dot",
+        "host": "127.0.0.1",
+        "dialect": "postgres",
+        "protocol": "postgres",
+        "port": "5432"
+    },
+    "production": {
+        "use_env_variable": "DATABASE_URL"
     }
-  }
 }
