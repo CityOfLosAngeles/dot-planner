@@ -158,13 +158,11 @@ $('#save').on('click', function() {
         dataType: "json",
         data: newProject,
         success: function(data) {
-          console.log(data);
-          window.location.reload();
+          // console.log(data);
+          // window.location.reload();
         }
     });
 });
-
-//test
 
 //Colin's code for the form
 
