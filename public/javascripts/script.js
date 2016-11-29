@@ -137,7 +137,10 @@ $('#delete').on('click', function(e) {
     drawControlEditOnly.removeFrom(map);
 
     // Remove drawing controls and buttons
-    drawControlFull.removeFrom(map);
+    // drawControlFull.removeFrom(map);
+
+    console.log("test");
+
     $("#delete").hide();
     $("#export").hide();
 });
@@ -169,7 +172,9 @@ $('#save').on('click', function() {
         data: newProject,
         success: function(data) {
           // console.log(data);
-          // window.location.reload();
+
+          // Reload page so that modal loading sign disappears
+          window.location.reload();
         }
     });
 
@@ -186,10 +191,10 @@ $("#addProject").on("click", function() {
 
 $(document).ready(function() {
     
-    // Automatically hide drawing tools
+    // Automatically hide drawing tools upon page load
     drawControlFull.removeFrom(map);
     
-    // Automatically hide delete and export buttons
+    // Automatically hide delete and export buttons upon page load
     $("#delete").hide();
     $("#export").hide();
 
