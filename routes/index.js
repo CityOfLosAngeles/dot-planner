@@ -26,8 +26,8 @@ router.get('/geo', function(req, res){
           geometry: data[i].geometry
       }
       featureCollection.features.push(newGeo);
-      res.send(featureCollection);
     }
+    res.send(featureCollection);
   });
 });
 
