@@ -13,32 +13,15 @@ var map = L.mapbox.map('map').setView([
 //     'Terrain Map': L.mapbox.tileLayer('bobbysud.i2pfp2lb', {detectRetina: true})
 // }).addTo(map);
 
+// TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
+
 //Adding the underlying map layer to the map
-L.mapbox.tileLayer('bobbysud.i2pfp2lb', {detectRetina: true}).addTo(map);
+// L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw309ms000ba2ko45wvaj6ay/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q', {detectRetina: true}).addTo(map);
+
+L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ubnn/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q', {detectRetina: true}).addTo(map);
 
 //Adding a feature group to the map
 var featureGroup = L.featureGroup().addTo(map);
-
-//AJAX request to the PostgreSQL database to get all projects and render them on the map
-$.ajax({
-    type: 'GET',
-    url: '/geo',
-    datatype: 'JSON',
-    success: function(data) {
-        if (data) {
-            L.geoJson(data, {
-                //We can use this style option to style the render shapes however we'd like
-                style: function(feature) {
-                    return {"color": "#78c679", "weight": 5, "opacity": 0.9}
-                },
-                //Function to be run any time a feature is clicked. This one presents the popup with a little bit of project information
-                onEachFeature: function(feature, layer) {
-                    layer.bindPopup('<h1>UID: ' + feature.properties.UID + '</h1>' + '<h1>Title: ' + feature.properties.title + '</h1>' + '<h1>Description: ' + feature.properties.description + '</h1>');
-                }
-            }).addTo(map);
-        }
-    }
-});
 
 // //Setting up the Google search box
 // var GooglePlacesSearchBox = L.Control.extend({
@@ -76,41 +59,8 @@ $.ajax({
 //
 // });
 
-//Example of how we can style the drawing tool and shapes as they are drawn
-var options = {
-    position: 'topleft',
-    draw: {
-        polyline: {
-            shapeOptions: {
-                color: '#f357a1',
-                weight: 10
-            }
-        },
-        polygon: {
-            allowIntersection: false, // Restricts shapes to simple polygons
-            drawError: {
-                color: '#e1e100', // Color the shape will turn when intersects
-                message: '<strong>Sorry!<strong>you can\'t draw that!' // Message that will show when intersect
-            },
-            shapeOptions: {
-                color: '#bada55'
-            }
-        },
-        circle: false, // We can turn off drawing tool options
-        rectangle: {
-            shapeOptions: {
-                clickable: false
-            }
-        }
-    },
-    edit: {
-        featureGroup: featureGroup, //REQUIRED!!
-        remove: false
-    }
-};
-
 //Add the drawing tool to the map passing in the above options as an argument
-var drawControlFull = new L.Control.Draw(options).addTo(map);
+var drawControlFull = new L.Control.Draw().addTo(map);
 
 //This is a workaround to allow only one shape to be drawn and exported. When a shape is finished the drawControlFull is removed from the map and this edit only tool is rendered instead.
 var drawControlEditOnly = new L.Control.Draw({
@@ -167,7 +117,7 @@ $('#save').on('click', function() {
     console.log(newProject);
     $.ajax({
         method: "POST",
-        url: "/new/geo",
+        url: "/projects/new",
         dataType: "json",
         data: newProject,
         success: function(data) {
@@ -190,31 +140,32 @@ $("#addProject").on("click", function() {
 });
 
 $(document).ready(function() {
-    
+
     // Automatically hide drawing tools upon page load
-    drawControlFull.removeFrom(map);
-    
+    // drawControlFull.removeFrom(map);
+
     // Automatically hide delete and export buttons upon page load
     $("#delete").hide();
     $("#export").hide();
 
     // Colin's code for the form
+
     // Automatically hide bottom half of form and submit button
-    // $("#fundedAttributes").hide();
-    // $("#unfundedAttributes").hide();
-    // $("#submit").hide();
+    $("#fundedAttributes").hide();
+    $("#unfundedAttributes").hide();
+    $("#submit").hide();
     // When click the "funded" radiobutton...
-    // $("#funded").on("click", function() {
+    $("#funded").on("click", function() {
         // Show submit button and appropriate form
-    //     $("#submit").show();
-    //     $("#unfundedAttributes").hide();
-    //     $("#fundedAttributes").show();
-    // });
-    // // When click the "unfunded" radiobutton...
-    // $("#unfunded").on("click", function() {
-    //     // Show submit button and appropriate form
-    //     $("#submit").show();
-    //     $("#fundedAttributes").hide();
-    //     $("#unfundedAttributes").show();
-    // });
+        $("#submit").show();
+        $("#unfundedAttributes").hide();
+        $("#fundedAttributes").show();
+    });
+    // When click the "unfunded" radiobutton...
+    $("#unfunded").on("click", function() {
+        // Show submit button and appropriate form
+        $("#submit").show();
+        $("#fundedAttributes").hide();
+        $("#unfundedAttributes").show();
+    });
 });
