@@ -127,24 +127,37 @@ map.on(L.Draw.Event.CREATED, function(e) {
     featureGroup.addLayer(e.layer);
     drawControlFull.removeFrom(map);
     drawControlEditOnly.addTo(map);
+
+    // Show shape submit buttons when created
+    $("#delete").show();
+    $("#export").show();
 });
 
 //If the delete button is clicked remove the shape from the map and put the full drawing tool back on the map
 $('#delete').on('click', function(e) {
     featureGroup.clearLayers();
     drawControlEditOnly.removeFrom(map);
-    drawControlFull.addTo(map);
+
+    // Remove drawing controls and buttons
+    // drawControlFull.removeFrom(map);
+
+    console.log("test");
+
+    $("#delete").hide();
+    $("#export").hide();
 });
 
 //When the export button is clicked the drawn shape is converted to geoJSON and put in the newProject object
 //This also triggers the modal where more project details are entered before being saved
 $('#export').on('click', function() {
+
     // Extract GeoJson from featureGroup
     var data = featureGroup.toGeoJSON();
     var coordinates = JSON.stringify(data.features[0].geometry.coordinates);
     newProject.type = data.features[0].geometry.type;
     newProject.coordinates = coordinates;
 });
+
 
 //When the save button is clicked the newProject object is completed and an AJAX post sends the object to the back end to be saved in the PostgreSQL database
 $('#save').on('click', function() {
@@ -161,30 +174,49 @@ $('#save').on('click', function() {
         data: newProject,
         success: function(data) {
           // console.log(data);
-          // window.location.reload();
+
+          // Reload page so that modal loading sign disappears
+          window.location.reload();
         }
     });
+
+
 });
 
-//Colin's code for the form
+// When user clicks "Add Project"...
+$("#addProject").on("click", function() {
 
-// $(document).ready(function() {
-//     // Automatically hide bottom half of form and submit button
-//     $("#fundedAttributes").hide();
-//     $("#unfundedAttributes").hide();
-//     $("#submit").hide();
-//     // When click the "funded" radiobutton...
-//     $("#funded").on("click", function() {
-//         // Show submit button and appropriate form
-//         $("#submit").show();
-//         $("#unfundedAttributes").hide();
-//         $("#fundedAttributes").show();
-//     });
-//     // When click the "unfunded" radiobutton...
-//     $("#unfunded").on("click", function() {
-//         // Show submit button and appropriate form
-//         $("#submit").show();
-//         $("#fundedAttributes").hide();
-//         $("#unfundedAttributes").show();
-//     });
-// });
+    // Show edit tools
+    drawControlFull.addTo(map);
+    return false;
+});
+
+$(document).ready(function() {
+    
+    // Automatically hide drawing tools upon page load
+    drawControlFull.removeFrom(map);
+    
+    // Automatically hide delete and export buttons upon page load
+    $("#delete").hide();
+    $("#export").hide();
+
+    // Colin's code for the form
+    // Automatically hide bottom half of form and submit button
+    // $("#fundedAttributes").hide();
+    // $("#unfundedAttributes").hide();
+    // $("#submit").hide();
+    // When click the "funded" radiobutton...
+    // $("#funded").on("click", function() {
+        // Show submit button and appropriate form
+    //     $("#submit").show();
+    //     $("#unfundedAttributes").hide();
+    //     $("#fundedAttributes").show();
+    // });
+    // // When click the "unfunded" radiobutton...
+    // $("#unfunded").on("click", function() {
+    //     // Show submit button and appropriate form
+    //     $("#submit").show();
+    //     $("#fundedAttributes").hide();
+    //     $("#unfundedAttributes").show();
+    // });
+});
