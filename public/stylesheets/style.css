@@ -5,15 +5,15 @@ body {
 
 #map {
     position: absolute;
-    top: 0;
+    top: 52px;
     bottom: 0;
-    width: 100%;
+    width: 77%;
 }
 
 #delete, #export {
     position: absolute;
-    top: 50px;
-    right: 10px;
+    top: 60px;
+    right: 26%;
     z-index: 100;
     background: white;
     color: black;
