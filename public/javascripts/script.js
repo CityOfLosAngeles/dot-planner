@@ -14,7 +14,9 @@ var map = L.mapbox.map('map').setView([
 // }).addTo(map);
 
 //Adding the underlying map layer to the map
-L.mapbox.tileLayer('bobbysud.i2pfp2lb', {detectRetina: true}).addTo(map);
+// L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw309ms000ba2ko45wvaj6ay/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q', {detectRetina: true}).addTo(map);
+
+L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ubnn/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q', {detectRetina: true}).addTo(map);
 
 //Adding a feature group to the map
 var featureGroup = L.featureGroup().addTo(map);
