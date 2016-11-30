@@ -1,13 +1,32 @@
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+
 }
 
-#map {
-    position: absolute;
-    top: 52px;
-    bottom: 0;
-    width: 77%;
+.navbar {
+  margin-bottom: 0;
+}
+
+#map{
+  width: 100%;
+  height: -o-calc(100vh - 50px); /* opera */
+  height: -webkit-calc(100vh - 50px); /* google, safari */
+  height: -moz-calc(100vh - 50px); /* firefox */
+}
+
+#map-column{
+  padding: 0;
+}
+
+#sidebar {
+  height: -o-calc(100vh - 50px); /* opera */
+  height: -webkit-calc(100vh - 50px); /* google, safari */
+  height: -moz-calc(100vh - 50px); /* firefox */
+  overflow-y: scroll;
+  padding: 25px;
 }
 
 #delete, #export {
@@ -29,13 +48,7 @@ body {
     top: 90px;
 }
 
-#sidebar {
-    float: right;
-    width: 23%;
-    margin: -20px auto 0 auto;
-}
-
-.center {
+/*.center {
     margin-top:50px;
 }
 
@@ -57,4 +70,4 @@ body {
 
 .modal-footer .btn-group:last-child > button {
 	border-right: 0;
-}
+}*/

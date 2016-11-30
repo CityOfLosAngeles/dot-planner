@@ -8,7 +8,14 @@ router.get('/', function(req, res, next) {
     res.render('index');
 });
 
-router.get('/geo', function(req, res){
+
+//Renders the new project page where PM can add projects
+router.get('/projects/new', function(req, res){
+  res.render('new-project');
+})
+
+//Gets all projects from the DB
+router.get('/projects', function(req, res){
   var featureCollection = {
       "type": "FeatureCollection",
       features: []
@@ -31,7 +38,8 @@ router.get('/geo', function(req, res){
   });
 });
 
-router.post('/new/geo', function(req, res){
+//Saves a new project to the DB
+router.post('/projects/new', function(req, res){
   var coordinates = JSON.parse(req.body.coordinates);
   models.Project.create({
     uid: req.body.UID,
@@ -42,6 +50,8 @@ router.post('/new/geo', function(req, res){
       coordinates: coordinates
     }
   });
+
+  // TODO: Research proper status code to send back after successful POST
   res.send({"success": "Yes!"});
 });
 
