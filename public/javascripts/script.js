@@ -5,6 +5,7 @@ var newProject = {};
 var map = L.mapbox.map('map').setView([
     34.0522, -118.2437
 ], 14);
+map.invalidateSize();
 
 //If we want to include multiple map layers
 
@@ -24,7 +25,7 @@ var featureGroup = L.featureGroup().addTo(map);
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
 $.ajax({
     type: 'GET',
-    url: '/geo',
+    url: '/projects',
     datatype: 'JSON',
     success: function(data) {
         if (data) {
@@ -169,7 +170,7 @@ $('#save').on('click', function() {
     console.log(newProject);
     $.ajax({
         method: "POST",
-        url: "/new/geo",
+        url: "/projects/new",
         dataType: "json",
         data: newProject,
         success: function(data) {
@@ -192,31 +193,32 @@ $("#addProject").on("click", function() {
 });
 
 $(document).ready(function() {
-    
+
     // Automatically hide drawing tools upon page load
     drawControlFull.removeFrom(map);
-    
+
     // Automatically hide delete and export buttons upon page load
     $("#delete").hide();
     $("#export").hide();
 
     // Colin's code for the form
+
     // Automatically hide bottom half of form and submit button
-    // $("#fundedAttributes").hide();
-    // $("#unfundedAttributes").hide();
-    // $("#submit").hide();
+    $("#fundedAttributes").hide();
+    $("#unfundedAttributes").hide();
+    $("#submit").hide();
     // When click the "funded" radiobutton...
-    // $("#funded").on("click", function() {
+    $("#funded").on("click", function() {
         // Show submit button and appropriate form
-    //     $("#submit").show();
-    //     $("#unfundedAttributes").hide();
-    //     $("#fundedAttributes").show();
-    // });
-    // // When click the "unfunded" radiobutton...
-    // $("#unfunded").on("click", function() {
-    //     // Show submit button and appropriate form
-    //     $("#submit").show();
-    //     $("#fundedAttributes").hide();
-    //     $("#unfundedAttributes").show();
-    // });
+        $("#submit").show();
+        $("#unfundedAttributes").hide();
+        $("#fundedAttributes").show();
+    });
+    // When click the "unfunded" radiobutton...
+    $("#unfunded").on("click", function() {
+        // Show submit button and appropriate form
+        $("#submit").show();
+        $("#fundedAttributes").hide();
+        $("#unfundedAttributes").show();
+    });
 });
