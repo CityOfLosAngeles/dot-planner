@@ -142,7 +142,7 @@ $("#addProject").on("click", function() {
 $(document).ready(function() {
 
     // Automatically hide drawing tools upon page load
-    drawControlFull.removeFrom(map);
+    // drawControlFull.removeFrom(map);
 
     // Automatically hide delete and export buttons upon page load
     $("#delete").hide();
