@@ -60,7 +60,7 @@ var featureGroup = L.featureGroup().addTo(map);
 // });
 
 //Add the drawing tool to the map passing in the above options as an argument
-var drawControlFull = new L.Control.Draw(options).addTo(map);
+var drawControlFull = new L.Control.Draw().addTo(map);
 
 //This is a workaround to allow only one shape to be drawn and exported. When a shape is finished the drawControlFull is removed from the map and this edit only tool is rendered instead.
 var drawControlEditOnly = new L.Control.Draw({

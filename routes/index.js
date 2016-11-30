@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 
 //Renders the new project page where PM can add projects
-router.get('/projects/new', function(req, res){
+router.get('/new', function(req, res){
   res.render('new-project');
 })
 
