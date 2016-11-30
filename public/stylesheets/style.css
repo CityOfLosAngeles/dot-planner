@@ -29,6 +29,12 @@ body {
     top: 90px;
 }
 
+#sidebar {
+    float: right;
+    width: 23%;
+    margin: -20px auto 0 auto;
+}
+
 .center {
     margin-top:50px;
 }
