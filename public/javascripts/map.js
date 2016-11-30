@@ -67,7 +67,11 @@ $.ajax({
                 },
                 //Function to be run any time a feature is clicked. This one presents the popup with a little bit of project information
                 onEachFeature: function(feature, layer) {
-                    layer.bindPopup('<h1>UID: ' + feature.properties.UID + '</h1>' + '<h1>Title: ' + feature.properties.title + '</h1>' + '<h1>Description: ' + feature.properties.description + '</h1>');
+                    // layer.bindPopup('<h1>UID: ' + feature.properties.UID + '</h1>' + '<h1>Title: ' + feature.properties.title + '</h1>' + '<h1>Description: ' + feature.properties.description + '</h1>');
+                    layer.on('click', function (e) {
+                      // TODO: Show project details in the sidebar
+                      console.log(feature.properties);
+                    });
                 }
             }).addTo(map);
         }
