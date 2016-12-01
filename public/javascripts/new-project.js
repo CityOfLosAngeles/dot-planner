@@ -112,7 +112,7 @@ $(document).ready(function() {
       },
       More_info: $('#More_info').val(),
       CD: $('#CD').val(),
-      Access: $('#Access[type="radio"]:checked').val(),
+      Access: $('#Access input[type="radio"]:checked').val(),
 
       //Funded Attributes
       Dept_Proj_ID: $('#Dept_Proj_ID').val(),
