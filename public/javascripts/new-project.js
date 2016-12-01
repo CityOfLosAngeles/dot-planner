@@ -6,166 +6,117 @@ var map = L.mapbox.map('map').setView([
     34.0522, -118.2437
 ], 14);
 
-//If we want to include multiple map layers
-
-// L.control.layers({
-//     'Satellite Map': L.mapbox.tileLayer('bobbysud.map-l4i2m7nd', {detectRetina: true}).addTo(map),
-//     'Terrain Map': L.mapbox.tileLayer('bobbysud.i2pfp2lb', {detectRetina: true})
-// }).addTo(map);
-
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
-
-//Adding the underlying map layer to the map
-// L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw309ms000ba2ko45wvaj6ay/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q', {detectRetina: true}).addTo(map);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ubnn/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q', {detectRetina: true}).addTo(map);
 
 //Adding a feature group to the map
 var featureGroup = L.featureGroup().addTo(map);
 
-// //Setting up the Google search box
-// var GooglePlacesSearchBox = L.Control.extend({
-//   onAdd: function() {
-//     var element = document.createElement("input");
-//     element.id = "searchBox";
-//     return element;
-//   }
-// });
-//
-// //Adding the Google search box to the map
-// (new GooglePlacesSearchBox).addTo(map);
-//
-// var input = document.getElementById("searchBox");
-// var searchBox = new google.maps.places.SearchBox(input);
-//
-// searchBox.addListener('places_changed', function() {
-//   var places = searchBox.getPlaces();
-//
-//   if (places.length == 0) {
-//     return;
-//   }
-//
-//   var group = L.featureGroup();
-//
-//   places.forEach(function(place) {
-//
-//     var lat = place.geometry.location.lat();
-//     var long = place.geometry.location.lng();
-//     console.log("lat: "+lat);
-//     console.log("long: "+long);
-//     var pairs = [lat, long]
-//     map.setView([lat,long], 15);
-//   });
-//
-// });
-
 //Add the drawing tool to the map passing in the above options as an argument
-var drawControlFull = new L.Control.Draw().addTo(map);
+var drawControlFull = new L.Control.Draw({
+  edit: {
+      featureGroup: featureGroup, //REQUIRED!!,
+      edit: false,
+      remove: false
+  }
+}).addTo(map);
 
 //This is a workaround to allow only one shape to be drawn and exported. When a shape is finished the drawControlFull is removed from the map and this edit only tool is rendered instead.
 var drawControlEditOnly = new L.Control.Draw({
     edit: {
-        featureGroup: featureGroup
+        featureGroup: featureGroup,
+        edit: false,
+        remove: false
     },
     draw: false
 });
 
 //When a shape is created add it to the map and remove the full drawing tool from the map and replace it with an edit only version so that only one shape can be drawn and exported
 map.on(L.Draw.Event.CREATED, function(e) {
-    featureGroup.addLayer(e.layer);
-    drawControlFull.removeFrom(map);
-    drawControlEditOnly.addTo(map);
+  featureGroup.addLayer(e.layer);
+  drawControlFull.removeFrom(map);
+  drawControlEditOnly.addTo(map);
 
-    // Show shape submit buttons when created
-    $("#delete").show();
-    $("#export").show();
+  // Show shape submit buttons when created
+  $("#delete").show();
+  $("#export").show();
 });
 
+// TODO: Add a delete button to the map or somewhere else
 //If the delete button is clicked remove the shape from the map and put the full drawing tool back on the map
 $('#delete').on('click', function(e) {
-    featureGroup.clearLayers();
-    drawControlEditOnly.removeFrom(map);
+  featureGroup.clearLayers();
+  drawControlEditOnly.removeFrom(map);
 
-    // Remove drawing controls and buttons
-    // drawControlFull.removeFrom(map);
+  // Remove drawing controls and buttons
+  // drawControlFull.removeFrom(map);
 
-    console.log("test");
+  console.log("test");
 
-    $("#delete").hide();
-    $("#export").hide();
+  $("#delete").hide();
+  $("#export").hide();
 });
 
 //When the export button is clicked the drawn shape is converted to geoJSON and put in the newProject object
 //This also triggers the modal where more project details are entered before being saved
 $('#export').on('click', function() {
-
-    // Extract GeoJson from featureGroup
-    var data = featureGroup.toGeoJSON();
-    var coordinates = JSON.stringify(data.features[0].geometry.coordinates);
-    newProject.type = data.features[0].geometry.type;
-    newProject.coordinates = coordinates;
+  // Extract GeoJson from featureGroup
+  var data = featureGroup.toGeoJSON();
+  var coordinates = JSON.stringify(data.features[0].geometry.coordinates);
+  newProject.type = data.features[0].geometry.type;
+  newProject.coordinates = coordinates;
 });
 
+
+// TODO: This all needs to be redone with ALL of the form fields
 
 //When the save button is clicked the newProject object is completed and an AJAX post sends the object to the back end to be saved in the PostgreSQL database
-$('#save').on('click', function() {
-    newProject.UID = $('#UID').val();
-    newProject.title = $('#Proj_Title').val();
-    newProject.description = $('#Proj_Desc').val();
-    $('.modal-body').empty();
-    $('.modal-body').append('<img src="/images/loading.gif" class="text-center">')
-    console.log(newProject);
-    $.ajax({
-        method: "POST",
-        url: "/projects/new",
-        dataType: "json",
-        data: newProject,
-        success: function(data) {
-          // console.log(data);
-
-          // Reload page so that modal loading sign disappears
-          window.location.reload();
-        }
-    });
-
-
-});
-
-// When user clicks "Add Project"...
-$("#addProject").on("click", function() {
-
-    // Show edit tools
-    drawControlFull.addTo(map);
-    return false;
-});
+// $('#save').on('click', function() {
+//     newProject.UID = $('#UID').val();
+//     newProject.title = $('#Proj_Title').val();
+//     newProject.description = $('#Proj_Desc').val();
+//     $('.modal-body').empty();
+//     $('.modal-body').append('<img src="/images/loading.gif" class="text-center">')
+//     console.log(newProject);
+//     $.ajax({
+//         method: "POST",
+//         url: "/projects/new",
+//         dataType: "json",
+//         data: newProject,
+//         success: function(data) {
+//           // console.log(data);
+//
+//           // Reload page so that modal loading sign disappears
+//           window.location.reload();
+//         }
+//     });
+// });
 
 $(document).ready(function() {
 
-    // Automatically hide drawing tools upon page load
-    // drawControlFull.removeFrom(map);
+  // Automatically hide delete and export buttons upon page load
+  $("#delete").hide();
+  $("#export").hide();
 
-    // Automatically hide delete and export buttons upon page load
-    $("#delete").hide();
-    $("#export").hide();
+  // Colin's code for the form
 
-    // Colin's code for the form
-
-    // Automatically hide bottom half of form and submit button
-    $("#fundedAttributes").hide();
-    $("#unfundedAttributes").hide();
-    $("#submit").hide();
-    // When click the "funded" radiobutton...
-    $("#funded").on("click", function() {
-        // Show submit button and appropriate form
-        $("#submit").show();
-        $("#unfundedAttributes").hide();
-        $("#fundedAttributes").show();
-    });
-    // When click the "unfunded" radiobutton...
-    $("#unfunded").on("click", function() {
-        // Show submit button and appropriate form
-        $("#submit").show();
-        $("#fundedAttributes").hide();
-        $("#unfundedAttributes").show();
-    });
+  // Automatically hide bottom half of form and submit button
+  $("#fundedAttributes").hide();
+  $("#unfundedAttributes").hide();
+  $("#submit").hide();
+  // When click the "funded" radiobutton...
+  $("#funded").on("click", function() {
+      // Show submit button and appropriate form
+      $("#submit").show();
+      $("#unfundedAttributes").hide();
+      $("#fundedAttributes").show();
+  });
+  // When click the "unfunded" radiobutton...
+  $("#unfunded").on("click", function() {
+      // Show submit button and appropriate form
+      $("#submit").show();
+      $("#fundedAttributes").hide();
+      $("#unfundedAttributes").show();
+  });
 });
