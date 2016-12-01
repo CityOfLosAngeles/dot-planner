@@ -58,31 +58,6 @@ $('#delete').on('click', function(e) {
   $("#export").hide();
 });
 
-
-// TODO: This all needs to be redone with ALL of the form fields
-
-//When the save button is clicked the newProject object is completed and an AJAX post sends the object to the back end to be saved in the PostgreSQL database
-// $('#save').on('click', function() {
-//     newProject.UID = $('#UID').val();
-//     newProject.title = $('#Proj_Title').val();
-//     newProject.description = $('#Proj_Desc').val();
-//     $('.modal-body').empty();
-//     $('.modal-body').append('<img src="/images/loading.gif" class="text-center">')
-//     console.log(newProject);
-//     $.ajax({
-//         method: "POST",
-//         url: "/projects/new",
-//         dataType: "json",
-//         data: newProject,
-//         success: function(data) {
-//           // console.log(data);
-//
-//           // Reload page so that modal loading sign disappears
-//           window.location.reload();
-//         }
-//     });
-// });
-
 $(document).ready(function() {
 
   // Automatically hide delete and export buttons upon page load
@@ -169,6 +144,18 @@ $(document).ready(function() {
 
     }
     console.log(newProject);
+    //     $.ajax({
+    //         method: "POST",
+    //         url: "/new",
+    //         dataType: "json",
+    //         data: newProject,
+    //         success: function(data) {
+    //           // console.log(data);
+    //
+    //           // Reload page so that modal loading sign disappears
+    //           window.location.reload();
+    //         }
+    //     });
     return false;
   });
 });
