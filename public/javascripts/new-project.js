@@ -93,10 +93,10 @@ $(document).ready(function() {
     //New project object that sequelize will use to create a table row in Postgres
     var newProject = {
       //Geometry
-      Geometry: {
+      Geometry: JSON.stringify({
         type: data.features[0].geometry.type,
         coordinates: JSON.stringify(data.features[0].geometry.coordinates)
-      },
+      }),
 
       //Common Attributes
       UID: $('#UID').val(),
@@ -144,18 +144,18 @@ $(document).ready(function() {
 
     }
     console.log(newProject);
-    //     $.ajax({
-    //         method: "POST",
-    //         url: "/new",
-    //         dataType: "json",
-    //         data: newProject,
-    //         success: function(data) {
-    //           // console.log(data);
-    //
-    //           // Reload page so that modal loading sign disappears
-    //           window.location.reload();
-    //         }
-    //     });
+        $.ajax({
+            method: "POST",
+            url: "/new",
+            dataType: "json",
+            data: newProject,
+            success: function(data) {
+              // console.log(data);
+
+              // Reload page so that modal loading sign disappears
+              // window.location.reload();
+            }
+        });
     return false;
   });
 });
