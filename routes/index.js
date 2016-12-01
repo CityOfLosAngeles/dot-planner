@@ -50,7 +50,9 @@ router.post('/new', function(req, res){
   newProject.Geometry = geometry;
   var contactInfo = JSON.parse(newProject.Contact_info);
   newProject.Contact_info = contactInfo;
-  models.Project.create(newProject);
+  var projectType = JSON.parse(newProject.Proj_Ty);
+  newProject.Proj_Ty = projectType;
+  // models.Project.create(newProject);
 
   // TODO: Research proper status code to send back after successful POST
   res.send({"success": "Yes!"});

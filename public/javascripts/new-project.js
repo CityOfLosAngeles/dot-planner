@@ -124,7 +124,7 @@ $(document).ready(function() {
       General_fund: $('#General_fund').val(),
       Current_Status: $('#Current_Status').val(),
       Issues: $('#Issues').val(),
-      Deobligation: $('#Deobligation[type="radio"]:checked').val(),
+      Deobligation: $('#Deobligation input[type="radio"]:checked').val(),
       Explanation: $('#Explanation').val(),
       Other_ID: $('#Other_ID').val(),
       Constr_by: $('#Constr_by').val(),
@@ -133,9 +133,9 @@ $(document).ready(function() {
       //Unfunded Attributes
       Grant_Cat: $('#Grant_Cat').val(),
       //This will return an array of values from the checkboxes
-      Proj_Ty: $('#Proj_Ty input[type="checkbox"]:checked').map(function(_, el) {
+      Proj_Ty: JSON.stringify($('#Proj_Ty input[type="checkbox"]:checked').map(function(_, el) {
                   return $(el).val();
-                }).get(),
+                }).get()),
       Est_Cost: $('#Est_Cost').val(),
       Fund_Rq: $('#Fund_Rq').val(),
       Lc_match: $('#Lc_match').val(),
