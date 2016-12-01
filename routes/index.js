@@ -42,12 +42,14 @@ router.get('/projects', function(req, res){
 router.post('/new', function(req, res){
   var newProject = req.body;
   var geometry = JSON.parse(newProject.Geometry);
-  var coordinates = JSON.parse geometry.coordinates;
+  var coordinates = JSON.parse (geometry.coordinates);
   var parsedGeometry = {
     type: geometry.type,
     coordinates: coordinates
   }
   newProject.Geometry = geometry;
+  var contactInfo = JSON.parse(newProject.Contact_info);
+  newProject.Contact_info = contactInfo;
   models.Project.create(newProject);
 
   // TODO: Research proper status code to send back after successful POST
