@@ -39,17 +39,16 @@ router.get('/projects', function(req, res){
 });
 
 //Saves a new project to the DB
-router.post('/projects/new', function(req, res){
-  var coordinates = JSON.parse(req.body.coordinates);
-  models.Project.create({
-    uid: req.body.UID,
-    project_title: req.body.title,
-    project_description: req.body.description,
-    geometry: {
-      type: req.body.type,
-      coordinates: coordinates
-    }
-  });
+router.post('/new', function(req, res){
+  var newProject = req.body;
+  var geometry = JSON.parse(newProject.Geometry);
+  var coordinates = JSON.parse geometry.coordinates;
+  var parsedGeometry = {
+    type: geometry.type,
+    coordinates: coordinates
+  }
+  newProject.Geometry = geometry;
+  models.Project.create(newProject);
 
   // TODO: Research proper status code to send back after successful POST
   res.send({"success": "Yes!"});
