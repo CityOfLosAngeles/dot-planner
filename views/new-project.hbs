@@ -23,9 +23,9 @@
               </div>
               <div class="form-group">
                   <label for="Lead_Ag">Lead Agency/Department of Proposal</label>
-                  <input type="text" class="form-control" id="Proj_Desc" placeholder="i.e. LADOT/BOE">
+                  <input type="text" class="form-control" id="Lead_Ag" placeholder="i.e. LADOT/BOE">
               </div>
-              <div class="form-group">
+              <div class="form-group" id="Fund_St">
                   <label for="Fund_St">Funding Status</label>
                   <div class="radio">
                       <label>
@@ -46,38 +46,38 @@
               </div>
               <div class="form-group">
                   <label for="Contact_info">Project Contact Information</label>
-                  <input type="text" class="form-control" id="Contact_infoName" placeholder="Contact Name">
+                  <input type="text" class="form-control" id="Contact_info_name" placeholder="Contact Name">
                   <p class="help-block"></p>
-                  <input type="tel" class="form-control" id="Contact_infoPhone" placeholder="Contact Phone">
+                  <input type="tel" class="form-control" id="Contact_info_phone" placeholder="Contact Phone">
                   <p class="help-block"></p>
-                  <input type="email" class="form-control" id="Contact_infoEmail" placeholder="Contact Email">
+                  <input type="email" class="form-control" id="Contact_info_email" placeholder="Contact Email">
                   <p class="help-block"></p>
               </div>
               <div class="form-group">
-                  <label for="moreInfo">More Info</label>
-                  <input type="url" class="form-control" id="moreInfo" placeholder="Link to detailed project information">
+                  <label for="More_info">More Info</label>
+                  <input type="url" class="form-control" id="More_info" placeholder="Link to detailed project information">
               </div>
               <div class="form-group">
                   <label for="CD">Council District Number</label>
                   <input type="number" min="1" max="14" class="form-control" id="CD" placeholder="1-14">
               </div>
-              <div class="form-group">
+              <div class="form-group" id="Access">
                   <label for="Access">Accessibility</label>
                   <div class="radio">
                       <label>
-                <input type="radio" name="Access" id="access" value="Internal">
+                <input type="radio" name="Access" value="Internal">
                 Internal
               </label>
                   </div>
                   <div class="radio">
                       <label>
-                <input type="radio" name="Access" id="access" value="External">
+                <input type="radio" name="Access" value="External">
                 External
               </label>
                   </div>
                   <div class="radio">
                       <label>
-                <input type="radio" name="Access" id="access" value="Subject to Change">
+                <input type="radio" name="Access" value="Subject to Change">
                 Subject to Change
               </label>
                   </div>
@@ -94,24 +94,24 @@
                       <input type="number" step="0.01" class="form-control" id="Total_bgt" placeholder="Estimated budget of the project">
                   </div>
                   <div class="form-group">
-                      <label for="grant">Grant</label>
-                      <input type="number" step="0.01" class="form-control" id="grant" placeholder="">
+                      <label for="Grant">Grant</label>
+                      <input type="number" step="0.01" class="form-control" id="Grant" placeholder="">
                   </div>
                   <div class="form-group">
-                      <label for="otherFunds">Other Funds</label>
-                      <input type="number" step="0.01" class="form-control" id="otherFunds" placeholder="">
+                      <label for="Other_funds">Other Funds</label>
+                      <input type="number" step="0.01" class="form-control" id="Other_funds" placeholder="">
                   </div>
                   <div class="form-group">
-                      <label for="propC">Prop C</label>
-                      <input type="number" step="0.01" class="form-control" id="propC" placeholder="">
+                      <label for="Prop_c">Prop C</label>
+                      <input type="number" step="0.01" class="form-control" id="Prop_c" placeholder="">
                   </div>
                   <div class="form-group">
-                      <label for="measureR">Measure R</label>
-                      <input type="number" step="0.01" class="form-control" id="measureR" placeholder="">
+                      <label for="Measure_r">Measure R</label>
+                      <input type="number" step="0.01" class="form-control" id="Measure_r" placeholder="">
                   </div>
                   <div class="form-group">
-                      <label for="generalFund">General Fund</label>
-                      <input type="number" step="0.01" class="form-control" id="generalFund" placeholder="">
+                      <label for="General_fund">General Fund</label>
+                      <input type="number" step="0.01" class="form-control" id="General_fund" placeholder="">
                   </div>
                   <div class="form-group">
                       <label for="Current_Status">Current Status</label>
@@ -121,17 +121,17 @@
                       <label for="Issues">Issues</label>
                       <input class="form-control" id="Issues" placeholder="Obstacles that may jeopardize the project">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" id="Deobligation">
                       <label for="Deobligation">At Risk of Deobligation?</label>
                       <div class="radio">
                           <label>
-                        <input type="radio" name="Deobligation" id="deobligation" value="Y">
+                        <input type="radio" name="Deobligation" value="Yes">
                         Yes
                       </label>
                       </div>
                       <div class="radio">
                           <label>
-                        <input type="radio" name="Deobligation" id="deobligation" value="N">
+                        <input type="radio" name="Deobligation" value="No">
                         No
                       </label>
                       </div>
@@ -150,8 +150,8 @@
                       <input class="form-control" id="Constr_by" placeholder="i.e. contractor, city force">
                   </div>
                   <div class="form-group">
-                      <label for="infoSource">Info Source</label>
-                      <input class="form-control" id="infoSource" placeholder="">
+                      <label for="Info_source">Info Source</label>
+                      <input class="form-control" id="Info_source" placeholder="">
                   </div>
               </div>
 
@@ -160,29 +160,29 @@
                       <label for="Grant_Cat">Grant Category</label>
                       <input class="form-control" id="Grant_Cat" placeholder="CFP,Pl,Bl, etc.">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" id="Proj_Ty">
                       <label for="Proj_Ty">Project Type</label>
                       <div class="checkbox">
                           <label>
-                        <input type="checkbox" value="bikeOnly">
+                        <input type="checkbox" value="Bike Only">
                         Bike only
                       </label>
                       </div>
                       <div class="checkbox">
                           <label>
-                        <input type="checkbox" value="pedOnly">
+                        <input type="checkbox" value="Ped Only">
                         Ped Only
                       </label>
                       </div>
                       <div class="checkbox">
                           <label>
-                        <input type="checkbox" value="safety">
+                        <input type="checkbox" value="Safety">
                         Safety
                       </label>
                       </div>
                       <div class="checkbox">
                           <label>
-                        <input type="checkbox" value="peopleStreet">
+                        <input type="checkbox" value="People Street">
                         People Street
                       </label>
                       </div>
@@ -194,19 +194,19 @@
                       </div>
                       <div class="checkbox">
                           <label>
-                        <input type="checkbox" value="firstMikeAndLastMile">
+                        <input type="checkbox" value="First Mile and Last Mile">
                         First mile and last mile
                       </label>
                       </div>
                       <div class="checkbox">
                           <label>
-                        <input type="checkbox" value="bikePed">
+                        <input type="checkbox" value="Bike/PED">
                         Bike/ped
                       </label>
                       </div>
                       <div class="checkbox">
                           <label>
-                        <input type="checkbox" value="ideaProject">
+                        <input type="checkbox" value="Idea Project">
                         Idea Project
                       </label>
                       </div>
@@ -230,12 +230,12 @@
                   </div>
                   <div class="form-group">
                       <label for="Comments">Comments</label>
-                      <textarea class="form-control" rows="3" id="Proj_Desc"></textarea>
+                      <textarea class="form-control" rows="3" id="Comments"></textarea>
                   </div>
               </div>
 
 
-              <button type="submit" id="submit" class="btn btn-default">Submit</button>
+              <button type="submit" id="submit-project" class="btn btn-default">Submit</button>
             </form>
         </div>
       </div>

@@ -58,16 +58,6 @@ $('#delete').on('click', function(e) {
   $("#export").hide();
 });
 
-//When the export button is clicked the drawn shape is converted to geoJSON and put in the newProject object
-//This also triggers the modal where more project details are entered before being saved
-$('#export').on('click', function() {
-  // Extract GeoJson from featureGroup
-  var data = featureGroup.toGeoJSON();
-  var coordinates = JSON.stringify(data.features[0].geometry.coordinates);
-  newProject.type = data.features[0].geometry.type;
-  newProject.coordinates = coordinates;
-});
-
 
 // TODO: This all needs to be redone with ALL of the form fields
 
@@ -118,5 +108,67 @@ $(document).ready(function() {
       $("#submit").show();
       $("#fundedAttributes").hide();
       $("#unfundedAttributes").show();
+  });
+
+
+  $('#submit-project').on('click', function(){
+    // Extract GeoJson from featureGroup
+    var data = featureGroup.toGeoJSON();
+
+    //New project object that sequelize will use to create a table row in Postgres
+    var newProject = {
+      //Geometry
+      Geometry: {
+        type: data.features[0].geometry.type,
+        coordinates: JSON.stringify(data.features[0].geometry.coordinates)
+      },
+
+      //Common Attributes
+      UID: $('#UID').val(),
+      Proj_Title: $('#Proj_Title').val(),
+      Proj_Desc: $('#Proj_Desc').val(),
+      Lead_Ag: $('#Lead_Ag').val(),
+      Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
+      Proj_Man: $('#Proj_Man').val(),
+      Contact_info: {
+        Contact_info_name: $('#Contact_info_name').val(),
+        Contact_info_phone: $('#Contact_info_phone').val(),
+        Contact_info_email: $('#Contact_info_email').val()
+      },
+      More_info: $('#More_info').val(),
+      CD: $('#CD').val(),
+      Access: $('#Access[type="radio"]:checked').val(),
+
+      //Funded Attributes
+      Dept_Proj_ID: $('#Dept_Proj_ID').val(),
+      Total_bgt: $('#Total_bgt').val(),
+      Grant: $('#Grant').val(),
+      Other_funds: $('#Other_funds').val(),
+      Prop_c: $('#Prop_c').val(),
+      Measure_r: $('#Measure_r').val(),
+      General_fund: $('#General_fund').val(),
+      Current_Status: $('#Current_Status').val(),
+      Issues: $('#Issues').val(),
+      Deobligation: $('#Deobligation[type="radio"]:checked').val(),
+      Explanation: $('#Explanation').val(),
+      Other_ID: $('#Other_ID').val(),
+      Constr_by: $('#Constr_by').val(),
+      Info_source: $('#Info_source').val(),
+
+      //Unfunded Attributes
+      Grant_Cat: $('#Grant_Cat').val(),
+      //This will return an array of values from the checkboxes
+      Proj_Ty: $('#Proj_Ty input[type="checkbox"]:checked').map(function(_, el) {
+                  return $(el).val();
+                }).get(),
+      Est_Cost: $('#Est_Cost').val(),
+      Fund_Rq: $('#Fund_Rq').val(),
+      Lc_match: $('#Lc_match').val(),
+      Match_Pt: $('#Match_Pt').val(),
+      Comments: $('#Comments').val()
+
+    }
+    console.log(newProject);
+    return false;
   });
 });
