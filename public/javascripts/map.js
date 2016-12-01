@@ -10,6 +10,26 @@ L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ub
 //Adding a feature group to the map
 var featureGroup = L.featureGroup().addTo(map);
 
+var input = document.getElementById("google-search");
+
+var searchBox = new google.maps.places.SearchBox(input);
+searchBox.addListener('places_changed', function() {
+  var places = searchBox.getPlaces();
+  if (places.length == 0) {
+    return;
+  }
+  var group = L.featureGroup();
+  places.forEach(function(place) {
+    var lat = place.geometry.location.lat();
+    var long = place.geometry.location.lng();
+    var pairs = [lat, long]
+    map.setView([lat,long], 15);
+    L.marker(pairs).addTo(map);
+    //Empty the search box afterwards (looks kind of weird right now so commented out.)
+    // $('#google-search').val('');
+  });
+});
+
 
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
 $.ajax({
@@ -17,6 +37,7 @@ $.ajax({
     url: '/projects',
     datatype: 'JSON',
     success: function(data) {
+      console.log(data);
         if (data) {
             L.geoJson(data, {
                 //We can use this style option to style the render shapes however we'd like
