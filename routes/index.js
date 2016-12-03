@@ -42,7 +42,7 @@ router.get('/projects', function(req, res){
 router.post('/new', function(req, res){
   var newProject = req.body;
   var geometry = JSON.parse(newProject.Geometry);
-  var coordinates = JSON.parse geometry.coordinates;
+  var coordinates = JSON.parse (geometry.coordinates);
   var parsedGeometry = {
     type: geometry.type,
     coordinates: coordinates
