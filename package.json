@@ -11,6 +11,7 @@
     "hbs": "~4.0.0",
     "pg": "^6.1.0",
     "sequelize": "^3.27.0",
+    "sequelize-cli": "^2.4.0",
     "serve-favicon": "~2.3.0"
   }
 }
