@@ -168,26 +168,54 @@ $(document).ready(function() {
 // Form validation
 // ===============
 
+// UID must be a number
 $("#UID").keyup(function(){
   if($("#UID").val() != "" && $.isNumeric($("#UID").val())){
     uidComplete = true;
     hasSuccess("#UID-group","#UID-span");
   }
   else{
-    firstNameComplete = false;
+    uidComplete = false;
     hasError("#UID-group","#UID-span");
   }
   checkForm();
 });
 
+// Project Title must be a string of text
 $("#Proj_Title").keyup(function(){
-  if($("#Proj_Title").val() != "" && /[a-zA-Z]/.test($("#Proj_Title").val())){
+  if($("#Proj_Title").val() != ""){
     proj_titleComplete = true;
     hasSuccess("#Proj_Title-group","#Proj_Title-span");
   }
   else{
-    lastNameComplete = false;
+    proj_titleComplete = false;
     hasError("#Proj_Title-group","#Proj_Title-span");
+  }
+  checkForm();
+});
+
+// Projet Description must be a string of text
+$("#Proj_Desc").keyup(function(){
+  if($("#Proj_Desc").val() != ""){
+    proj_descComplete = true;
+    hasSuccess("#Proj_Desc-group","#Proj_Desc-span");
+  }
+  else{
+    proj_descComplete = false;
+    hasError("#Proj_Desc-group","#Proj_Desc-span");
+  }
+  checkForm();
+});
+
+// Lead Agency must be something like LADOT or BOE
+$("#Lead_Ag").keyup(function(){
+  if($("#Lead_Ag").val() != ""){
+    lead_agComplete = true;
+    hasSuccess("#Lead_Ag-group","#Lead_Ag-span");
+  }
+  else{
+    lead_agComplete = false;
+    hasError("#Lead_Ag-group","#Lead_Ag-span");
   }
   checkForm();
 });
