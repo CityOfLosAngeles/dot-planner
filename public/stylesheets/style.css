@@ -68,9 +68,14 @@ body {
 
 #delete-button{
   position: absolute;
-  top:25px;
-  right:10px;
+  top:80px;
+  left:11px;
   z-index:100;
-  padding: 0, 100px;
   display: none;
+  background-color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 3px;
+  border: #999 solid 1px;
+  box-sizing: border-box;
 }
