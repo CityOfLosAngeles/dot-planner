@@ -133,9 +133,7 @@ $(document).ready(function() {
       //Unfunded Attributes
       Grant_Cat: $('#Grant_Cat').val(),
       //This will return an array of values from the checkboxes
-      Proj_Ty: JSON.stringify($('#Proj_Ty input[type="checkbox"]:checked').map(function(_, el) {
-                  return $(el).val();
-                }).get()),
+      Proj_Ty: $('#Proj_Ty input[type="radio"]:checked'),
       Est_Cost: $('#Est_Cost').val(),
       Fund_Rq: $('#Fund_Rq').val(),
       Lc_match: $('#Lc_match').val(),
