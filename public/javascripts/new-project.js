@@ -81,57 +81,84 @@ $(document).ready(function() {
   $('#submit-project').on('click', function(){
     // Extract GeoJson from featureGroup
     var data = featureGroup.toGeoJSON();
+    var fundStatus = $('#Fund_St input[type="radio"]:checked').val()
 
-    //New project object that sequelize will use to create a table row in Postgres
-    var newProject = {
-      //Geometry
-      Geometry: JSON.stringify({
-        type: data.features[0].geometry.type,
-        coordinates: JSON.stringify(data.features[0].geometry.coordinates)
-      }),
+    if (fundStatus === 'Funded') {
+      var newProject = {
+        //Geometry
+        Geometry: JSON.stringify({
+          type: data.features[0].geometry.type,
+          coordinates: JSON.stringify(data.features[0].geometry.coordinates)
+        }),
 
-      //Common Attributes
-      UID: $('#UID').val(),
-      Proj_Title: $('#Proj_Title').val(),
-      Proj_Desc: $('#Proj_Desc').val(),
-      Lead_Ag: $('#Lead_Ag').val(),
-      Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
-      Proj_Man: $('#Proj_Man').val(),
-      Contact_info: {
-        Contact_info_name: $('#Contact_info_name').val(),
-        Contact_info_phone: $('#Contact_info_phone').val(),
-        Contact_info_email: $('#Contact_info_email').val()
-      },
-      More_info: $('#More_info').val(),
-      CD: $('#CD').val(),
-      Access: $('#Access input[type="radio"]:checked').val(),
+        //Common Attributes
+        UID: $('#UID').val(),
+        Proj_Title: $('#Proj_Title').val(),
+        Proj_Desc: $('#Proj_Desc').val(),
+        Lead_Ag: $('#Lead_Ag').val(),
+        Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
+        Proj_Man: $('#Proj_Man').val(),
+        Contact_info: JSON.stringify({
+          Contact_info_name: $('#Contact_info_name').val(),
+          Contact_info_phone: $('#Contact_info_phone').val(),
+          Contact_info_email: $('#Contact_info_email').val()
+        }),
+        More_info: $('#More_info').val(),
+        CD: $('#CD').val(),
+        Access: $('#Access input[type="radio"]:checked').val(),
 
-      //Funded Attributes
-      Dept_Proj_ID: $('#Dept_Proj_ID').val(),
-      Total_bgt: $('#Total_bgt').val(),
-      Grant: $('#Grant').val(),
-      Other_funds: $('#Other_funds').val(),
-      Prop_c: $('#Prop_c').val(),
-      Measure_r: $('#Measure_r').val(),
-      General_fund: $('#General_fund').val(),
-      Current_Status: $('#Current_Status').val(),
-      Issues: $('#Issues').val(),
-      Deobligation: $('#Deobligation input[type="radio"]:checked').val(),
-      Explanation: $('#Explanation').val(),
-      Other_ID: $('#Other_ID').val(),
-      Constr_by: $('#Constr_by').val(),
-      Info_source: $('#Info_source').val(),
+        //Funded Attributes
+        Dept_Proj_ID: $('#Dept_Proj_ID').val(),
+        Total_bgt: parseInt($('#Total_bgt').val()).toFixed(2),
+        Grant: parseInt($('#Grant').val()).toFixed(2),
+        Other_funds: parseInt($('#Other_funds').val()).toFixed(2),
+        Prop_c: parseInt($('#Prop_c').val()).toFixed(2),
+        Measure_r: parseInt($('#Measure_r').val()).toFixed(2),
+        General_fund: parseInt($('#General_fund').val()).toFixed(2),
+        Current_Status: $('#Current_Status').val(),
+        Issues: $('#Issues').val(),
+        Deobligation: $('#Deobligation input[type="radio"]:checked').val(),
+        Explanation: $('#Explanation').val(),
+        Other_ID: $('#Other_ID').val(),
+        Constr_by: $('#Constr_by').val(),
+        Info_source: $('#Info_source').val(),
 
-      //Unfunded Attributes
-      Grant_Cat: $('#Grant_Cat').val(),
-      //This will return an array of values from the checkboxes
-      Proj_Ty: $('#Proj_Ty input[type="radio"]:checked'),
-      Est_Cost: $('#Est_Cost').val(),
-      Fund_Rq: $('#Fund_Rq').val(),
-      Lc_match: $('#Lc_match').val(),
-      Match_Pt: $('#Match_Pt').val(),
-      Comments: $('#Comments').val()
+      }
+    } else {
 
+      var newProject = {
+        //Geometry
+        Geometry: JSON.stringify({
+          type: data.features[0].geometry.type,
+          coordinates: JSON.stringify(data.features[0].geometry.coordinates)
+        }),
+
+        //Common Attributes
+        UID: $('#UID').val(),
+        Proj_Title: $('#Proj_Title').val(),
+        Proj_Desc: $('#Proj_Desc').val(),
+        Lead_Ag: $('#Lead_Ag').val(),
+        Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
+        Proj_Man: $('#Proj_Man').val(),
+        Contact_info: JSON.stringify({
+          Contact_info_name: $('#Contact_info_name').val(),
+          Contact_info_phone: $('#Contact_info_phone').val(),
+          Contact_info_email: $('#Contact_info_email').val()
+        }),
+        More_info: $('#More_info').val(),
+        CD: $('#CD').val(),
+        Access: $('#Access input[type="radio"]:checked').val(),
+
+        //Unfunded Attributes
+        Grant_Cat: $('#Grant_Cat').val(),
+        Proj_Ty: $('#Proj_Ty input[type="radio"]:checked').val(),
+        Est_Cost: parseInt($('#Est_Cost').val()).toFixed(2),
+        Fund_Rq: parseInt($('#Fund_Rq').val()).toFixed(2),
+        Lc_match: parseInt($('#Lc_match').val()).toFixed(2),
+        Match_Pt: $('#Match_Pt').val(),
+        Comments: $('#Comments').val()
+
+      }
     }
     console.log(newProject);
         $.ajax({
