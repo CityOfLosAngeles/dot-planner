@@ -49,13 +49,9 @@ router.post('/new', function(req, res){
   newProject.Geometry = parsedGeometry;
   var contactInfo = JSON.parse(newProject.Contact_info);
   newProject.Contact_info = contactInfo;
-  var projectType = JSON.parse(newProject.Proj_Ty);
-  newProject.Proj_Ty = projectType;
-
-  // models.Project.create(newProject);
-
-  // TODO: Research proper status code to send back after successful POST
-  res.send({"success": "Yes!"});
-});
+  models.Project.create(newProject).then(function(project) {
+    res.send({"success": "Yes!"});
+  });
+});  
 
 module.exports = router;
