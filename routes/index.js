@@ -49,9 +49,24 @@ router.post('/new', function(req, res){
   newProject.Geometry = parsedGeometry;
   var contactInfo = JSON.parse(newProject.Contact_info);
   newProject.Contact_info = contactInfo;
-  models.Project.create(newProject).then(function(project) {
-    res.send({"success": "Yes!"});
-  });
-});  
+
+  if (newProject.Fund_St === "Funded") {
+    models.Funded.create(newProject).then(function(newFunded){
+      models.Detail.create(newProject).then(function(newDetail){
+        newFunded.setDetail(newDetail).then(function(){
+          res.send({"success": "Yes!"});
+        });
+      });
+    });
+  } else {
+    models.Unfunded.create(newProject).then(function(newUnfunded){
+      models.Detail.create(newProject).then(function(newDetail){
+        newUnfunded.setDetail(newDetail).then(function(){
+          res.send({"success": "Yes!"});
+        });
+      });
+    });
+  }
+});
 
 module.exports = router;
