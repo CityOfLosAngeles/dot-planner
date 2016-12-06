@@ -8,24 +8,26 @@
       <div id="sidebar" class="col-xs-4">
         <div>
           <form>
-              <div class="form-group">
+              <div class="form-group" id="UID-group">
                   <label for="UID">Unique ID</label>
                   <input type="number" class="form-control" id="UID" placeholder="">
+                  <span id="UID-span" aria-hidden="true"></span>
               </div>
-              <div class="form-group">
+              <div class="form-group" id="Proj_Title-group">
                   <label for="Proj_Title">Project Title</label>
                   <input type="text" class="form-control" id="Proj_Title" placeholder="">
+                  <span id="Proj_Title-span" aria-hidden="true"></span>
               </div>
-              <div class="form-group">
+              <div class="form-group"{{!--  id="Proj_Desc-group" --}}>
                   <label for="Proj_Desc">Project Description</label>
                   <textarea class="form-control" rows="3" id="Proj_Desc"></textarea>
                   <p class="help-block">Brief statement of project purpose and scope</p>
               </div>
-              <div class="form-group">
+              <div class="form-group"{{!--  id="Lead_Ag-group" --}}>
                   <label for="Lead_Ag">Lead Agency/Department of Proposal</label>
                   <input type="text" class="form-control" id="Lead_Ag" placeholder="i.e. LADOT/BOE">
               </div>
-              <div class="form-group" id="Fund_St">
+              <div class="form-group" id="Fund_St"{{!--  id="funded-group" --}}>
                   <label for="Fund_St">Funding Status</label>
                   <div class="radio">
                       <label>
