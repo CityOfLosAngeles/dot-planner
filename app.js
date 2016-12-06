@@ -22,8 +22,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
 //sequelize sync
-var models = require('./models');
-models.sequelize.sync({force: true});
+// var models = require('./models');
+// models.sequelize.sync({force: true});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
