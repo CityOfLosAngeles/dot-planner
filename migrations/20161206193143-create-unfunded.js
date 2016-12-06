@@ -1,24 +1,33 @@
 'use strict';
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('Projects', {
+    return queryInterface.createTable('Unfundeds', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      uid: {
+      Grant_Cat: {
+        type: Sequelize.STRING
+      },
+      Proj_Ty: {
+        type: Sequelize.STRING
+      },
+      Est_Cost: {
+        type: Sequelize.DECIMAL
+      },
+      Fund_Rq: {
+        type: Sequelize.DECIMAL
+      },
+      Lc_match: {
+        type: Sequelize.DECIMAL
+      },
+      Match_Pt: {
         type: Sequelize.INTEGER
       },
-      project_title: {
+      Comments: {
         type: Sequelize.STRING
-      },
-      project_description: {
-        type: Sequelize.STRING
-      },
-      geometry: {
-        type: Sequelize.JSONB
       },
       createdAt: {
         allowNull: false,
@@ -31,6 +40,6 @@ module.exports = {
     });
   },
   down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('Projects');
+    return queryInterface.dropTable('Unfundeds');
   }
 };
