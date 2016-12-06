@@ -39,23 +39,15 @@ map.on(L.Draw.Event.CREATED, function(e) {
   drawControlEditOnly.addTo(map);
 
   // Show shape submit buttons when created
-  $("#delete").show();
-  $("#export").show();
+  $("#delete-button").show();
 });
 
-// TODO: Add a delete button to the map or somewhere else
 //If the delete button is clicked remove the shape from the map and put the full drawing tool back on the map
-$('#delete').on('click', function(e) {
+$('#delete-button').on('click', function(e) {
   featureGroup.clearLayers();
   drawControlEditOnly.removeFrom(map);
-
-  // Remove drawing controls and buttons
-  // drawControlFull.removeFrom(map);
-
-  console.log("test");
-
-  $("#delete").hide();
-  $("#export").hide();
+  drawControlFull.addTo(map);
+  $('#delete-button').hide();
 });
 
 $(document).ready(function() {
