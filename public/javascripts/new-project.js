@@ -69,18 +69,18 @@ $(document).ready(function() {
   // Automatically hide bottom half of form and submit button
   $("#fundedAttributes").hide();
   $("#unfundedAttributes").hide();
-  $("#submit").hide();
+  // $("#submit").hide();
   // When click the "funded" radiobutton...
   $("#funded").on("click", function() {
       // Show submit button and appropriate form
-      $("#submit").show();
+      // $("#submit").show();
       $("#unfundedAttributes").hide();
       $("#fundedAttributes").show();
   });
   // When click the "unfunded" radiobutton...
   $("#unfunded").on("click", function() {
       // Show submit button and appropriate form
-      $("#submit").show();
+      // $("#submit").show();
       $("#fundedAttributes").hide();
       $("#unfundedAttributes").show();
   });
