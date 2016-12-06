@@ -65,3 +65,17 @@ body {
 #searchbar{
   padding: 0;
 }
+
+#delete-button{
+  position: absolute;
+  top:80px;
+  left:11px;
+  z-index:100;
+  display: none;
+  background-color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 3px;
+  border: #999 solid 1px;
+  box-sizing: border-box;
+}
