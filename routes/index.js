@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
-// var Geo = require('../models/Geo.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -47,8 +46,13 @@ router.post('/new', function(req, res){
     type: geometry.type,
     coordinates: coordinates
   }
-  newProject.Geometry = geometry;
-  models.Project.create(newProject);
+  newProject.Geometry = parsedGeometry;
+  var contactInfo = JSON.parse(newProject.Contact_info);
+  newProject.Contact_info = contactInfo;
+  var projectType = JSON.parse(newProject.Proj_Ty);
+  newProject.Proj_Ty = projectType;
+
+  // models.Project.create(newProject);
 
   // TODO: Research proper status code to send back after successful POST
   res.send({"success": "Yes!"});
