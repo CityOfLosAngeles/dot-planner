@@ -48,7 +48,7 @@ body {
     top: 90px;
 }
 
-#google-search{
+/*#google-search{
   height: 60px;
   border-radius: 0 !important;
   margin: 0;
@@ -60,6 +60,15 @@ body {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
+}*/
+
+#google-search{
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  z-index: 100;
+  width: 275px;
+  border-radius: 0 !important;
 }
 
 #searchbar{

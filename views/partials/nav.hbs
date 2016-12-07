@@ -20,22 +20,22 @@
                 <li><a href="/new">Add a Project</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map Filters <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" id="map-filter">
                         <li>
-                            <a><input type="checkbox"> Funded</a>
+                            <a><input type="checkbox" checked="checked" value="funded" id="funded-checkbox"> Funded</a>
                         </li>
                         <li>
-                            <a><input type="checkbox"> Unfunded</a>
+                            <a><input type="checkbox" checked="checked" value="unfunded" id="unfunded-checkbox"> Unfunded</a>
                         </li>
                         <li role="separator" class="divider"></li>
-                        <li>
-                            <a><input type="checkbox"> Bike</a>
+                        <li class="type">
+                            <a><input type="checkbox" checked="checked" value="bike"> Bike</a>
                         </li>
-                        <li>
-                            <a><input type="checkbox"> Pedestrian</a>
+                        <li class="type">
+                            <a><input type="checkbox" checked="checked" value="pedestrian"> Pedestrian</a>
                         </li>
-                        <li>
-                            <a><input type="checkbox"> Street</a>
+                        <li class="type">
+                            <a><input type="checkbox" checked="checked" value="street"> Street</a>
                         </li>
                     </ul>
                 </li>
