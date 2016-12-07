@@ -27,7 +27,7 @@ searchBox.addListener('places_changed', function() {
     map.setView([lat,long], 15);
     L.marker(pairs).addTo(map);
     //Empty the search box afterwards (looks kind of weird right now so commented out.)
-    // $('#google-search').val('');
+    $('#google-search').val('');
   });
 });
 
@@ -40,20 +40,47 @@ $.ajax({
     success: function(data) {
       console.log(data);
         if (data) {
-            L.geoJson(data, {
-                //We can use this style option to style the render shapes however we'd like
-                style: function(feature) {
-                    return {"color": "#78c679", "weight": 5, "opacity": 0.9}
-                },
-                //Function to be run any time a feature is clicked. This one presents the popup with a little bit of project information
-                onEachFeature: function(feature, layer) {
-                    // layer.bindPopup('<h1>UID: ' + feature.properties.UID + '</h1>' + '<h1>Title: ' + feature.properties.title + '</h1>' + '<h1>Description: ' + feature.properties.description + '</h1>');
-                    layer.on('click', function (e) {
-                      // TODO: Show project details in the sidebar
-                      console.log(feature.properties);
-                    });
-                }
-            }).addTo(map);
+          L.geoJson(data, {
+              //Function to be run any time a feature is clicked. This one presents the popup with a little bit of project information
+              onEachFeature: function(feature, layer) {
+                  layer.on('click', function (e) {
+                    // TODO: Show project details in the sidebar
+                    console.log(feature.properties);
+                  });
+              }
+          }).addTo(map);
         }
     }
 });
+
+//Commented out for now
+
+// function checkFiltersAndFilter() {
+//   var options = { };
+//
+//   if(!$('#funded-checkbox').is(':checked')){
+//     options.funded = false;
+//   } else {
+//     options.funded = true;
+//   }
+//
+//   if(!$('#unfunded-checkbox').is(':checked')){
+//     options.unfunded = false;
+//   } else {
+//     options.unfunded = false;
+//   }
+//
+//   options.types = $('.type input[type=checkbox]:checked').map(function(_, el) {
+//     return $(el).val();
+//   }).get();
+//
+//   console.log(options);
+// }
+//
+// $('#map-filter input').change(function() {
+//   checkFiltersAndFilter();
+// });
+//
+// $(document).ready(function() {
+//   checkFiltersAndFilter();
+// });
