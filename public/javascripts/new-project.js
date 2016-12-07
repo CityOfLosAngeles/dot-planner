@@ -148,8 +148,8 @@ $('#submit-project').on('click', function(){
 $(document).ready(function() {
 
   // Automatically hide delete and export buttons upon page load
-  $("#delete").hide();
-  $("#export").hide();
+  // $("#delete").hide();
+  // $("#export").hide();
 
   // Colin's code for the form
 
@@ -157,34 +157,27 @@ $(document).ready(function() {
   $("#fundedAttributes").hide();
   $("#unfundedAttributes").hide();
   // $("#submit").hide();
-  // When click the "funded" radiobutton...
-  $("#funded").on("click", function() {
-      // Show submit button and appropriate form
-      // $("#submit").show();
-      $("#unfundedAttributes").hide();
-      $("#fundedAttributes").show();
-  });
-  // When click the "unfunded" radiobutton...
-  $("#unfunded").on("click", function() {
-      // Show submit button and appropriate form
-      // $("#submit").show();
-      $("#fundedAttributes").hide();
-      $("#unfundedAttributes").show();
-  });
-
-  // For form validation
-  var uidComplete = false;
-  var proj_titleComplete = false;
-  var proj_descComplete = false;
-  var lead_agComplete = false;
-  var fund_stComplete = false;
+  
 });
 
 
 // Form validation
 // ===============
 
-// UID must be a number
+var uidComplete = false;
+var proj_titleComplete = false;
+var proj_descComplete = false;
+var lead_agComplete = false;
+var fund_stComplete = false;
+var proj_manComplete = false;
+var contact_info_nameComplete = false;
+var contact_info_phoneComplete = false;
+var contact_info_emailComplete = false;
+var more_infoComplete = false;
+var cdComplete = false;
+var accessComplete = false;
+
+// Required and must be a number
 $("#UID").keyup(function(){
   if($("#UID").val() != "" && $.isNumeric($("#UID").val())){
     uidComplete = true;
@@ -197,7 +190,7 @@ $("#UID").keyup(function(){
   checkForm();
 });
 
-// Project Title must be a string of text
+// Required
 $("#Proj_Title").keyup(function(){
   if($("#Proj_Title").val() != ""){
     proj_titleComplete = true;
@@ -210,7 +203,7 @@ $("#Proj_Title").keyup(function(){
   checkForm();
 });
 
-// Projet Description must be a string of text
+// Required
 $("#Proj_Desc").keyup(function(){
   if($("#Proj_Desc").val() != ""){
     proj_descComplete = true;
@@ -223,7 +216,7 @@ $("#Proj_Desc").keyup(function(){
   checkForm();
 });
 
-// Lead Agency must be something like LADOT or BOE
+// Required
 $("#Lead_Ag").keyup(function(){
   if($("#Lead_Ag").val() != ""){
     lead_agComplete = true;
@@ -236,6 +229,119 @@ $("#Lead_Ag").keyup(function(){
   checkForm();
 });
 
+// When click the "funded" radiobutton...
+$("#funded").on("click", function() {
+    // Show submit button and appropriate form
+    // $("#submit").show();
+    $("#unfundedAttributes").hide();
+    $("#fundedAttributes").show();
+
+    fund_stComplete = true;
+    checkForm();
+});
+
+// When click the "unfunded" radiobutton...
+$("#unfunded").on("click", function() {
+    // Show submit button and appropriate form
+    // $("#submit").show();
+    $("#fundedAttributes").hide();
+    $("#unfundedAttributes").show();
+
+    fund_stComplete = true;
+    checkForm();
+});
+
+// Required, TODO NO NUMBERS
+$("#Proj_Man").keyup(function(){
+  if($("#Proj_Man").val() != ""){
+    proj_manComplete = true;
+    hasSuccess("#Proj_Man-group","#Proj_Man-span");
+  }
+  else{
+    proj_manComplete = false;
+    hasError("#Proj_Man-group","#Proj_Man-span");
+  }
+  checkForm();
+});
+
+// Required
+$("#Contact_info_name").keyup(function(){
+  if($("#Contact_info_name").val() != ""){
+    contact_info_nameComplete = true;
+    hasSuccess("#Contact_info_name-group","#Contact_info_name-span");
+  }
+  else{
+    contact_info_nameComplete = false;
+    hasError("#Contact_info_name-group","#Contact_info_name-span");
+  }
+  checkForm();
+});
+
+$("#Contact_info_phone").keyup(function(){
+  if($("#Contact_info_phone").val() != ""){
+    contact_info_phoneComplete = true;
+    hasSuccess("#Contact_info_phone-group","#Contact_info_phone-span");
+  }
+  else{
+    contact_info_phoneComplete = false;
+    hasError("#Contact_info_phone-group","#Contact_info_phone-span");
+  }
+  checkForm();
+});
+
+$("#Contact_info_email").keyup(function(){
+  if($("#Contact_info_email").val() != ""){
+    contact_info_emailComplete = true;
+    hasSuccess("#Contact_info_email-group","#Contact_info_email-span");
+  }
+  else{
+    contact_info_emailComplete = false;
+    hasError("#Contact_info_email-group","#Contact_info_email-span");
+  }
+  checkForm();
+});
+
+$("#More_info").keyup(function(){
+  if($("#More_info").val() != ""){
+    more_infoComplete = true;
+    hasSuccess("#More_info-group","#More_info-span");
+  }
+  else{
+    more_infoComplete = false;
+    hasError("#More_info-group","#More_info-span");
+  }
+  checkForm();
+});
+
+$("#CD").keyup(function(){
+  if($("#CD").val() != ""){
+    cdComplete = true;
+    hasSuccess("#CD-group","#CD-span");
+  }
+  else{
+    cdComplete = false;
+    hasError("#CD-group","#CD-span");
+  }
+  checkForm();
+});
+
+$("#internal").on("click", function() {
+    accessComplete = true;
+    checkForm();
+});
+
+$("#external").on("click", function() {
+    accessComplete = true;
+    checkForm();
+});
+
+$("#subject_to_change").on("click", function() {
+    accessComplete = true;
+    checkForm();
+});
+
+
+
 // $("#street").keyup(function(){
 //   if($("#street").val() != "" && /\d/.test($("#street").val()) && /[a-zA-Z]/.test($("#street").val())){
 //     streetAddressComplete = true;
@@ -244,17 +350,6 @@ $("#Lead_Ag").keyup(function(){
 //   else{
 //     streetAddressComplete = false;
 //     hasError("#street-address-group","#street-address-span");
-//   }
-//   checkForm();
-// });
-// $("#city").keyup(function(){
-//   if($("#city").val() != "" && !/\d/.test($("#city").val())){
-//     cityComplete = true;
-//     hasSuccess("#city-group","#city-span");
-//   }
-//   else{
-//     cityComplete = false;
-//     hasError("#city-group","#city-span");
 //   }
 //   checkForm();
 // });
@@ -280,28 +375,6 @@ $("#Lead_Ag").keyup(function(){
 //   }
 //   checkForm();
 // });
-// $("#pwd").keyup(function(){
-//   if($("#pwd").val() != ""){
-//     passwordComplete = true;
-//     hasSuccess("#password-group","#password-span");
-
-//     if($("#confirm-pwd").val() != ""){
-//       if($("#confirm-pwd").val() == $("#pwd").val()){
-//         confirmPasswordComplete = true;
-//         hasSuccess("#confirm-password-group","#confirm-password-span");
-//       }
-//       else{
-//         confirmPasswordComplete = false;
-//         hasError("#confirm-password-group","#confirm-password-span");
-//       }
-//     }
-//   }
-//   else{
-//     passwordComplete = false;
-//     hasError("#password-group","#password-span");
-//   }
-//   checkForm();
-// });
 // $("#confirm-pwd").keyup(function(){
 //   if($("#confirm-pwd").val() != "" && $("#confirm-pwd").val() == $("#pwd").val()){
 //     confirmPasswordComplete = true;
@@ -314,11 +387,12 @@ $("#Lead_Ag").keyup(function(){
 //   checkForm();
 // });
 
+
 function checkForm(){
-  if(uidComplete && proj_titleComplete && proj_descComplete && lead_agComplete && fund_stComplete)
-    $("#submit-button").removeAttr("disabled");
+  if(uidComplete && proj_titleComplete && proj_descComplete && lead_agComplete && fund_stComplete && proj_manComplete && contact_info_nameComplete && contact_info_phoneComplete && contact_info_emailComplete && more_infoComplete && cdComplete && accessComplete)
+    $("#submit-project").removeAttr("disabled");
   else
-    $("#submit-button").attr("disabled",true);
+    $("#submit-project").attr("disabled",true);
 }
 
 function hasSuccess(divID,spanID){
