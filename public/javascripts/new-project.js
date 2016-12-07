@@ -167,10 +167,7 @@ $(document).ready(function() {
             dataType: "json",
             data: newProject,
             success: function(data) {
-              // console.log(data);
-
-              // Reload page so that modal loading sign disappears
-              // window.location.reload();
+              window.location = '/'
             }
         });
     return false;

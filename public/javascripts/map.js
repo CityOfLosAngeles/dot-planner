@@ -34,7 +34,7 @@ searchBox.addListener('places_changed', function() {
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
 $.ajax({
     type: 'GET',
-    url: '/projects',
+    url: '/funded',
     datatype: 'JSON',
     success: function(data) {
       console.log(data);
