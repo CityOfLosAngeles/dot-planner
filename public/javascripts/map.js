@@ -53,22 +53,16 @@ $.ajax({
                     return feature.properties.Fund_St === "Funded";
                 },
                 onEachFeature: function(feature, layer) {
-                    layer.on('click', function(e) {
-                        // TODO: Show project details in the sidebar
-                        console.log(feature.properties);
-                    });
-                }
+                  onEachFeature(feature, layer);
+                },
             });
             unfunded = L.geoJson(allProjects, {
                 filter: function(feature, layer) {
                     return feature.properties.Fund_St === "Unfunded";
                 },
                 onEachFeature: function(feature, layer) {
-                    layer.on('click', function(e) {
-                        // TODO: Show project details in the sidebar
-                        console.log(feature.properties);
-                    });
-                }
+                  onEachFeature(feature, layer);
+                },
             });
 
             // bikeOnly = L.geoJson(allProjects, {
@@ -105,7 +99,7 @@ function filterProjects() {
   } else {
     map.removeLayer(unfunded);
   }
-  
+
   // if($('#bike-only-checkbox').is(':checked')){
   //   bikeOnly.addTo(map);
   // } else {
@@ -123,6 +117,20 @@ $('#map-filter input').change(function() {
   filterProjects();
 });
 //
-// $(document).ready(function() {
-//   checkFiltersAndFilter();
-// });
+
+function onEachFeature(feature, layer) {
+  layer.on('click', function(e) {
+    console.log(feature.properties);
+    $('#UID').text(feature.properties.UID);
+    $('#Proj_Title').text(feature.properties.Proj_Title);
+    $('#Proj_Desc').text(feature.properties.Proj_Desc);
+    $('#Lead_Ag').text(feature.properties.Lead_Ag);
+    $('#Fund_St').text(feature.properties.Fund_St);
+    $('#Proj_Man').text(feature.properties.Proj_Man);
+    $('#Contact_info_name').text(feature.properties.Contact_info.Contact_info_name);
+    $('#Contact_info_phone').text(feature.properties.Contact_info.Contact_info_phone);
+    $('#Contact_info_email').text(feature.properties.Contact_info.Contact_info_email);
+    $('#More_info').text(feature.properties.More_info);
+    $('#CD').text(feature.properties.CD);
+  });
+}

@@ -88,3 +88,7 @@ body {
   border: #999 solid 1px;
   box-sizing: border-box;
 }
+
+#project-details{
+  margin-top: 50px;
+}
