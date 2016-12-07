@@ -1,3 +1,8 @@
+//Global Variables
+var allProjects;
+var funded;
+var unfunded;
+
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map').setView([
     34.0522, -118.2437
@@ -14,23 +19,24 @@ var input = document.getElementById("google-search");
 
 var searchBox = new google.maps.places.SearchBox(input);
 searchBox.addListener('places_changed', function() {
-  var places = searchBox.getPlaces();
-  if (places.length == 0) {
-    return;
-  }
-  var group = L.featureGroup();
-  places.forEach(function(place) {
-    // console.log("for each");
-    var lat = place.geometry.location.lat();
-    var long = place.geometry.location.lng();
-    var pairs = [lat, long]
-    map.setView([lat,long], 15);
-    L.marker(pairs).addTo(map);
-    //Empty the search box afterwards (looks kind of weird right now so commented out.)
-    $('#google-search').val('');
-  });
+    var places = searchBox.getPlaces();
+    if (places.length == 0) {
+        return;
+    }
+    var group = L.featureGroup();
+    places.forEach(function(place) {
+        // console.log("for each");
+        var lat = place.geometry.location.lat();
+        var long = place.geometry.location.lng();
+        var pairs = [lat, long]
+        map.setView([
+            lat, long
+        ], 15);
+        L.marker(pairs).addTo(map);
+        //Empty the search box afterwards (looks kind of weird right now so commented out.)
+        $('#google-search').val('');
+    });
 });
-
 
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
 $.ajax({
@@ -38,48 +44,63 @@ $.ajax({
     url: '/projects',
     datatype: 'JSON',
     success: function(data) {
-      console.log(data);
+        console.log(data);
         if (data) {
-          L.geoJson(data, {
-              //Function to be run any time a feature is clicked. This one presents the popup with a little bit of project information
-              onEachFeature: function(feature, layer) {
-                  layer.on('click', function (e) {
-                    // TODO: Show project details in the sidebar
-                    console.log(feature.properties);
-                  });
-              }
-          }).addTo(map);
+            allProjects = data;
+            funded = L.geoJson(allProjects, {
+                filter: function(feature, layer) {
+                    return feature.properties.Fund_St == "Funded";
+                },
+                onEachFeature: function(feature, layer) {
+                    layer.on('click', function(e) {
+                        // TODO: Show project details in the sidebar
+                        console.log(feature.properties);
+                    });
+                }
+            });
+            unfunded = L.geoJson(allProjects, {
+                filter: function(feature, layer) {
+                    return feature.properties.Fund_St == "Unfunded";
+                },
+                onEachFeature: function(feature, layer) {
+                    layer.on('click', function(e) {
+                        // TODO: Show project details in the sidebar
+                        console.log(feature.properties);
+                    });
+                }
+            });
+            funded.addTo(map);
+            unfunded.addTo(map);
         }
     }
 });
 
 //Commented out for now
 
-// function checkFiltersAndFilter() {
-//   var options = { };
+function filterProjects() {
+
+  if($('#funded-checkbox').is(':checked')){
+    funded.addTo(map);
+  } else {
+    map.removeLayer(funded);
+  }
+
+  if($('#unfunded-checkbox').is(':checked')){
+    unfunded.addTo(map);
+  } else {
+    map.removeLayer(unfunded);
+  }
+
+  //Get the types that are check and store them in an array
+
+  // options.types = $('.type input[type=checkbox]:checked').map(function(_, el) {
+  //   return $(el).val();
+  // }).get();
+}
 //
-//   if(!$('#funded-checkbox').is(':checked')){
-//     options.funded = false;
-//   } else {
-//     options.funded = true;
-//   }
-//
-//   if(!$('#unfunded-checkbox').is(':checked')){
-//     options.unfunded = false;
-//   } else {
-//     options.unfunded = false;
-//   }
-//
-//   options.types = $('.type input[type=checkbox]:checked').map(function(_, el) {
-//     return $(el).val();
-//   }).get();
-//
-//   console.log(options);
-// }
-//
-// $('#map-filter input').change(function() {
-//   checkFiltersAndFilter();
-// });
+$('#map-filter input').change(function() {
+  filterProjects();
+});
 //
 // $(document).ready(function() {
 //   checkFiltersAndFilter();
