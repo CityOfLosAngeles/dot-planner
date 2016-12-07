@@ -20,6 +20,7 @@ searchBox.addListener('places_changed', function() {
   }
   var group = L.featureGroup();
   places.forEach(function(place) {
+    // console.log("for each");
     var lat = place.geometry.location.lat();
     var long = place.geometry.location.lng();
     var pairs = [lat, long]
