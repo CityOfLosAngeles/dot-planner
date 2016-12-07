@@ -50,35 +50,7 @@ $('#delete-button').on('click', function(e) {
   $('#delete-button').hide();
 });
 
-$(document).ready(function() {
-
-  // Automatically hide delete and export buttons upon page load
-  $("#delete").hide();
-  $("#export").hide();
-
-  // Colin's code for the form
-
-  // Automatically hide bottom half of form and submit button
-  $("#fundedAttributes").hide();
-  $("#unfundedAttributes").hide();
-  $("#submit").hide();
-  // When click the "funded" radiobutton...
-  $("#funded").on("click", function() {
-      // Show submit button and appropriate form
-      $("#submit").show();
-      $("#unfundedAttributes").hide();
-      $("#fundedAttributes").show();
-  });
-  // When click the "unfunded" radiobutton...
-  $("#unfunded").on("click", function() {
-      // Show submit button and appropriate form
-      $("#submit").show();
-      $("#fundedAttributes").hide();
-      $("#unfundedAttributes").show();
-  });
-
-
-  $('#submit-project').on('click', function(){
+$('#submit-project').on('click', function(){
     // Extract GeoJson from featureGroup
     var data = featureGroup.toGeoJSON();
     var fundStatus = $('#Fund_St input[type="radio"]:checked').val()
@@ -171,5 +143,268 @@ $(document).ready(function() {
             }
         });
     return false;
-  });
 });
+
+$(document).ready(function() {
+
+  // Automatically hide delete and export buttons upon page load
+  // $("#delete").hide();
+  // $("#export").hide();
+
+  // Colin's code for the form
+
+  // Automatically hide bottom half of form and submit button
+  $("#fundedAttributes").hide();
+  $("#unfundedAttributes").hide();
+  // $("#submit").hide();
+  
+});
+
+
+// Form validation
+// ===============
+
+var uidComplete = false;
+var proj_titleComplete = false;
+var proj_descComplete = false;
+var lead_agComplete = false;
+var fund_stComplete = false;
+var proj_manComplete = false;
+var contact_info_nameComplete = false;
+var contact_info_phoneComplete = false;
+var contact_info_emailComplete = false;
+var more_infoComplete = false;
+var cdComplete = false;
+var accessComplete = false;
+
+// Required and must be a number
+$("#UID").keyup(function(){
+  if($("#UID").val() != "" && $.isNumeric($("#UID").val())){
+    uidComplete = true;
+    hasSuccess("#UID-group","#UID-span");
+  }
+  else{
+    uidComplete = false;
+    hasError("#UID-group","#UID-span");
+  }
+  checkForm();
+});
+
+// Required
+$("#Proj_Title").keyup(function(){
+  if($("#Proj_Title").val() != ""){
+    proj_titleComplete = true;
+    hasSuccess("#Proj_Title-group","#Proj_Title-span");
+  }
+  else{
+    proj_titleComplete = false;
+    hasError("#Proj_Title-group","#Proj_Title-span");
+  }
+  checkForm();
+});
+
+// Required
+$("#Proj_Desc").keyup(function(){
+  if($("#Proj_Desc").val() != ""){
+    proj_descComplete = true;
+    hasSuccess("#Proj_Desc-group","#Proj_Desc-span");
+  }
+  else{
+    proj_descComplete = false;
+    hasError("#Proj_Desc-group","#Proj_Desc-span");
+  }
+  checkForm();
+});
+
+// Required
+$("#Lead_Ag").keyup(function(){
+  if($("#Lead_Ag").val() != ""){
+    lead_agComplete = true;
+    hasSuccess("#Lead_Ag-group","#Lead_Ag-span");
+  }
+  else{
+    lead_agComplete = false;
+    hasError("#Lead_Ag-group","#Lead_Ag-span");
+  }
+  checkForm();
+});
+
+// When click the "funded" radiobutton...
+$("#funded").on("click", function() {
+    // Show submit button and appropriate form
+    // $("#submit").show();
+    $("#unfundedAttributes").hide();
+    $("#fundedAttributes").show();
+
+    fund_stComplete = true;
+    checkForm();
+});
+
+// When click the "unfunded" radiobutton...
+$("#unfunded").on("click", function() {
+    // Show submit button and appropriate form
+    // $("#submit").show();
+    $("#fundedAttributes").hide();
+    $("#unfundedAttributes").show();
+
+    fund_stComplete = true;
+    checkForm();
+});
+
+// Required, TODO NO NUMBERS
+$("#Proj_Man").keyup(function(){
+  if($("#Proj_Man").val() != ""){
+    proj_manComplete = true;
+    hasSuccess("#Proj_Man-group","#Proj_Man-span");
+  }
+  else{
+    proj_manComplete = false;
+    hasError("#Proj_Man-group","#Proj_Man-span");
+  }
+  checkForm();
+});
+
+// Required
+$("#Contact_info_name").keyup(function(){
+  if($("#Contact_info_name").val() != ""){
+    contact_info_nameComplete = true;
+    hasSuccess("#Contact_info_name-group","#Contact_info_name-span");
+  }
+  else{
+    contact_info_nameComplete = false;
+    hasError("#Contact_info_name-group","#Contact_info_name-span");
+  }
+  checkForm();
+});
+
+$("#Contact_info_phone").keyup(function(){
+  if($("#Contact_info_phone").val() != ""){
+    contact_info_phoneComplete = true;
+    hasSuccess("#Contact_info_phone-group","#Contact_info_phone-span");
+  }
+  else{
+    contact_info_phoneComplete = false;
+    hasError("#Contact_info_phone-group","#Contact_info_phone-span");
+  }
+  checkForm();
+});
+
+$("#Contact_info_email").keyup(function(){
+  if($("#Contact_info_email").val() != ""){
+    contact_info_emailComplete = true;
+    hasSuccess("#Contact_info_email-group","#Contact_info_email-span");
+  }
+  else{
+    contact_info_emailComplete = false;
+    hasError("#Contact_info_email-group","#Contact_info_email-span");
+  }
+  checkForm();
+});
+
+$("#More_info").keyup(function(){
+  if($("#More_info").val() != ""){
+    more_infoComplete = true;
+    hasSuccess("#More_info-group","#More_info-span");
+  }
+  else{
+    more_infoComplete = false;
+    hasError("#More_info-group","#More_info-span");
+  }
+  checkForm();
+});
+
+$("#CD").keyup(function(){
+  if($("#CD").val() != ""){
+    cdComplete = true;
+    hasSuccess("#CD-group","#CD-span");
+  }
+  else{
+    cdComplete = false;
+    hasError("#CD-group","#CD-span");
+  }
+  checkForm();
+});
+
+$("#internal").on("click", function() {
+    accessComplete = true;
+    checkForm();
+});
+
+$("#external").on("click", function() {
+    accessComplete = true;
+    checkForm();
+});
+
+$("#subject_to_change").on("click", function() {
+    accessComplete = true;
+    checkForm();
+});
+
+
+
+// $("#street").keyup(function(){
+//   if($("#street").val() != "" && /\d/.test($("#street").val()) && /[a-zA-Z]/.test($("#street").val())){
+//     streetAddressComplete = true;
+//     hasSuccess("#street-address-group","#street-address-span");
+//   }
+//   else{
+//     streetAddressComplete = false;
+//     hasError("#street-address-group","#street-address-span");
+//   }
+//   checkForm();
+// });
+// $("#zip").keyup(function(){
+//   if($("#zip").val() != "" && $("#zip").val().length == 5 && $.isNumeric($("#zip").val())){
+//     zipCodeComplete = true;
+//     hasSuccess("#zip-code-group","#zip-code-span");
+//   }
+//   else{
+//     zipCodeComplete = false;
+//     hasError("#zip-code-group","#zip-code-span");
+//   }
+//   checkForm();
+// });
+// $("#email").keyup(function(){
+//   if($("#email").val() != "" && $("#email").val().includes("@") && $("#email").val().includes(".") && $("#email").val().length > 5 && $("#email").val().indexOf("@.") == -1 && $("#email").val().indexOf(" ") == -1){
+//     emailComplete = true;
+//     hasSuccess("#email-group","#email-span");
+//   }
+//   else{
+//     emailComplete = false;
+//     hasError("#email-group","#email-span");
+//   }
+//   checkForm();
+// });
+// $("#confirm-pwd").keyup(function(){
+//   if($("#confirm-pwd").val() != "" && $("#confirm-pwd").val() == $("#pwd").val()){
+//     confirmPasswordComplete = true;
+//     hasSuccess("#confirm-password-group","#confirm-password-span");
+//   }
+//   else{
+//     confirmPasswordComplete = false;
+//     hasError("#confirm-password-group","#confirm-password-span");
+//   }
+//   checkForm();
+// });
+
+
+function checkForm(){
+  if(uidComplete && proj_titleComplete && proj_descComplete && lead_agComplete && fund_stComplete && proj_manComplete && contact_info_nameComplete && contact_info_phoneComplete && contact_info_emailComplete && more_infoComplete && cdComplete && accessComplete)
+    $("#submit-project").removeAttr("disabled");
+  else
+    $("#submit-project").attr("disabled",true);
+}
+
+function hasSuccess(divID,spanID){
+  $(divID).removeClass("has-error has-feedback");
+  $(divID).addClass("has-success has-feedback");
+  $(spanID).removeClass("glyphicon glyphicon-remove form-control-feedback");
+  $(spanID).addClass("glyphicon glyphicon-ok form-control-feedback");
+}
+
+function hasError(divID,spanID){
+  $(divID).removeClass("has-success has-feedback");
+  $(divID).addClass("has-error has-feedback");
+  $(spanID).removeClass("glyphicon glyphicon-ok form-control-feedback");
+  $(spanID).addClass("glyphicon glyphicon-remove form-control-feedback");
+}
