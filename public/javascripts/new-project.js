@@ -51,9 +51,15 @@ $('#delete-button').on('click', function(e) {
 });
 
 $('#submit-project').on('click', function(){
-    // Extract GeoJson from featureGroup
-    var data = featureGroup.toGeoJSON();
-    var fundStatus = $('#Fund_St input[type="radio"]:checked').val()
+
+  //Extract geoJSON from the featureGroup
+  var data = featureGroup.toGeoJSON();
+
+  //Check to make sure a feature was drawn on the map
+  if (data.features.length >= 1) {
+
+    //Check the fund status of the new project
+    var fundStatus = $('#Fund_St input[type="radio"]:checked').val();
 
     if (fundStatus === 'Funded') {
       var newProject = {
@@ -142,7 +148,15 @@ $('#submit-project').on('click', function(){
               window.location = '/'
             }
         });
+
     return false;
+
+  } else {
+
+    // TODO: change this to a modal or something else nicer than an alert
+    alert('Oops it looks like you forgot to add geometry to the map.');
+    return false;
+  }
 });
 
 $(document).ready(function() {
@@ -157,7 +171,7 @@ $(document).ready(function() {
   $("#fundedAttributes").hide();
   $("#unfundedAttributes").hide();
   // $("#submit").hide();
-  
+
 });
 
 
