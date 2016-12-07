@@ -12,6 +12,12 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         // associations can be defined here
+        Unfunded.belongsTo(models.Detail,
+          {
+            foreignKey: 'detail_id',
+            onDelete: 'CASCADE'
+          }
+        );
       }
     }
   });
