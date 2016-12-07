@@ -29,6 +29,14 @@ body {
   padding: 25px;
 }
 
+#project-view-sidebar {
+  height: -o-calc(100vh - 50px); /* opera */
+  height: -webkit-calc(100vh - 50px); /* google, safari */
+  height: -moz-calc(100vh - 50px); /* firefox */
+  overflow-y: scroll;
+  padding: 25px;
+}
+
 #delete, #export {
     position: absolute;
     top: 60px;
@@ -92,3 +100,7 @@ body {
 #project-details{
   margin-top: 50px;
 }
+
+/*#funded-attributes, #unfunded-attributes {
+  display: none;
+}*/
