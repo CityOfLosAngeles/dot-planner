@@ -2,6 +2,7 @@
 var allProjects;
 var funded;
 var unfunded;
+var bikeOnly;
 
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map').setView([
@@ -49,7 +50,7 @@ $.ajax({
             allProjects = data;
             funded = L.geoJson(allProjects, {
                 filter: function(feature, layer) {
-                    return feature.properties.Fund_St == "Funded";
+                    return feature.properties.Fund_St === "Funded";
                 },
                 onEachFeature: function(feature, layer) {
                     layer.on('click', function(e) {
@@ -60,7 +61,7 @@ $.ajax({
             });
             unfunded = L.geoJson(allProjects, {
                 filter: function(feature, layer) {
-                    return feature.properties.Fund_St == "Unfunded";
+                    return feature.properties.Fund_St === "Unfunded";
                 },
                 onEachFeature: function(feature, layer) {
                     layer.on('click', function(e) {
@@ -69,7 +70,21 @@ $.ajax({
                     });
                 }
             });
+
+            // bikeOnly = L.geoJson(allProjects, {
+            //     filter: function(feature, layer) {
+            //         return feature.properties.Proj_Ty === "Bike Only";
+            //     },
+            //     onEachFeature: function(feature, layer) {
+            //         layer.on('click', function(e) {
+            //             // TODO: Show project details in the sidebar
+            //             console.log(feature.properties);
+            //         });
+            //     }
+            // });
+
             funded.addTo(map);
+            // bikeOnly.addTo(map);
             unfunded.addTo(map);
         }
     }
@@ -90,6 +105,12 @@ function filterProjects() {
   } else {
     map.removeLayer(unfunded);
   }
+  
+  // if($('#bike-only-checkbox').is(':checked')){
+  //   bikeOnly.addTo(map);
+  // } else {
+  //   map.removeLayer(bikeOnly);
+  // }
 
   //Get the types that are check and store them in an array
 
