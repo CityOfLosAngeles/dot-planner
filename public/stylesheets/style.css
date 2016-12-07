@@ -29,6 +29,14 @@ body {
   padding: 25px;
 }
 
+#project-view-sidebar {
+  height: -o-calc(100vh - 50px); /* opera */
+  height: -webkit-calc(100vh - 50px); /* google, safari */
+  height: -moz-calc(100vh - 50px); /* firefox */
+  overflow-y: scroll;
+  padding: 25px;
+}
+
 #delete, #export {
     position: absolute;
     top: 60px;
@@ -48,7 +56,7 @@ body {
     top: 90px;
 }
 
-#google-search{
+/*#google-search{
   height: 60px;
   border-radius: 0 !important;
   margin: 0;
@@ -60,6 +68,15 @@ body {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
+}*/
+
+#google-search{
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  z-index: 100;
+  width: 275px;
+  border-radius: 0 !important;
 }
 
 #searchbar{
@@ -79,3 +96,11 @@ body {
   border: #999 solid 1px;
   box-sizing: border-box;
 }
+
+#project-details{
+  margin-top: 25px;
+}
+
+/*#funded-attributes, #unfunded-attributes {
+  display: none;
+}*/

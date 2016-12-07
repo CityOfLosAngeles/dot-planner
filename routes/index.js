@@ -52,6 +52,7 @@ function toGeoJSON(project, features) {
         CD: project.Detail.CD,
         Access: project.Detail.Access,
 
+        //Unfunded attributes
         Grant_Cat: project.Grant_Cat,
         Proj_Ty: project.Proj_Ty,
         Est_Cost: project.Est_Cost,
