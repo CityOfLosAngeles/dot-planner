@@ -101,6 +101,10 @@ body {
   margin-top: 25px;
 }
 
+.intersections{
+  margin-top: 10px;
+}
+
 /*#funded-attributes, #unfunded-attributes {
   display: none;
 }*/
