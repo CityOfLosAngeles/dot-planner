@@ -176,6 +176,14 @@ $('#submit-project').on('click', function(){
   }
 });
 
+//Add more intersections
+$('#add-intersection').on('click', function() {
+  var input = $('<input class="form-control">');
+  input.addClass('intersections');
+  input.attr('placeholder', 'Street');
+  $('#intersections').append(input);
+});
+
 $(document).ready(function() {
 
   // Automatically hide delete and export buttons upon page load
