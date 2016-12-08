@@ -73,6 +73,10 @@ $('#submit-project').on('click', function(){
         UID: $('#UID').val(),
         Proj_Title: $('#Proj_Title').val(),
         Proj_Desc: $('#Proj_Desc').val(),
+        // TODO: Make this an array of all values of inputs with the class Intersections
+        Intersections: JSON.stringify({
+          intersections: $('.Intersections').val()
+        }),
         Lead_Ag: $('#Lead_Ag').val(),
         Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
         Proj_Man: $('#Proj_Man').val(),
@@ -101,6 +105,15 @@ $('#submit-project').on('click', function(){
         Constr_by: $('#Constr_by').val(),
         Info_source: $('#Info_source').val(),
 
+        //Unfunded attributes
+        Grant_Cat: $('#Grant_Cat').val(),
+        Proj_Ty: $('#Proj_Ty input[type="radio"]:checked').val(),
+        Est_Cost: parseInt($('#Est_Cost').val()).toFixed(2),
+        Fund_Rq: parseInt($('#Fund_Rq').val()).toFixed(2),
+        Lc_match: parseInt($('#Lc_match').val()).toFixed(2),
+        Match_Pt: $('#Match_Pt').val(),
+        Comments: $('#Comments').val()
+
       }
     } else {
 
@@ -115,6 +128,10 @@ $('#submit-project').on('click', function(){
         UID: $('#UID').val(),
         Proj_Title: $('#Proj_Title').val(),
         Proj_Desc: $('#Proj_Desc').val(),
+        // TODO: Make this an array of all values of inputs with the class Intersections
+        Intersections: JSON.stringify({
+          intersections: $('.Intersections').val()
+        }),
         Lead_Ag: $('#Lead_Ag').val(),
         Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
         Proj_Man: $('#Proj_Man').val(),
