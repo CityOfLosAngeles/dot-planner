@@ -92,6 +92,91 @@
                       </label>
                   </div>
                   <p class="help-block">Define project’s accessibility to different users.</p>
+                  <div class="form-group">
+                      <label for="Grant_Cat">Grant Category</label>
+                      <input class="form-control" id="Grant_Cat" placeholder="CFP,Pl,Bl, etc.">
+                  </div>
+                  <div class="form-group" id="Proj_Ty">
+                      <label for="Proj_Ty">Project Type</label>
+                      <div class="radio">
+                          <label>
+                        <input type="radio" value="Bike Only" name="Proj_Ty">
+                        Bike only
+                      </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                        <input type="radio" value="Ped Only" name="Proj_Ty">
+                        Ped Only
+                      </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                        <input type="radio" value="Safety" name="Proj_Ty">
+                        Safety
+                      </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                        <input type="radio" value="People Street" name="Proj_Ty">
+                        People St
+                      </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                        <input type="radio" value="SRTS" name="Proj_Ty">
+                        SRTS
+                      </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                        <input type="radio" value="First Mile and Last Mile" name="Proj_Ty">
+                        First mile and last mile
+                      </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                        <input type="radio" value="Bike/PED" name="Proj_Ty">
+                        Bike/ped
+                      </label>
+                      </div>
+                      <div class="radio">
+                          <label>
+                        <input type="radio" value="Idea Project" name="Proj_Ty">
+                        Idea Project
+                      </label>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="Est_Cost">Estimated Cost</label>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="number" step="0.01" class="form-control" id="Est_Cost" placeholder="">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="Fund_Rq">Fund Request</label>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="number" step="0.01" class="form-control" id="Fund_Rq" placeholder="">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="Lc_match">Local Match</label>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="number" step="0.01" class="form-control" id="Lc_match" placeholder="">
+                      </div>
+                      <p class="help-block">Amount of fund provided by lead agency</p>
+                  </div>
+                  <div class="form-group">
+                      <label for="Match_Pt">Match Percentage (%)</label>
+                      <input type="number" class="form-control" id="Match_Pt" placeholder="">
+                  </div>
+                  <div class="form-group">
+                      <label for="Comments">Comments</label>
+                      <textarea class="form-control" rows="3" id="Comments"></textarea>
+                  </div>
               </div>
 
               <div id="fundedAttributes">
@@ -180,94 +265,6 @@
                   <div class="form-group">
                       <label for="Info_source">Info Source</label>
                       <input class="form-control" id="Info_source" placeholder="">
-                  </div>
-              </div>
-
-              <div id="unfundedAttributes">
-                  <div class="form-group">
-                      <label for="Grant_Cat">Grant Category</label>
-                      <input class="form-control" id="Grant_Cat" placeholder="CFP,Pl,Bl, etc.">
-                  </div>
-                  <div class="form-group" id="Proj_Ty">
-                      <label for="Proj_Ty">Project Type</label>
-                      <div class="radio">
-                          <label>
-                        <input type="radio" value="Bike Only" name="Proj_Ty">
-                        Bike only
-                      </label>
-                      </div>
-                      <div class="radio">
-                          <label>
-                        <input type="radio" value="Ped Only" name="Proj_Ty">
-                        Ped Only
-                      </label>
-                      </div>
-                      <div class="radio">
-                          <label>
-                        <input type="radio" value="Safety" name="Proj_Ty">
-                        Safety
-                      </label>
-                      </div>
-                      <div class="radio">
-                          <label>
-                        <input type="radio" value="People Street" name="Proj_Ty">
-                        People St
-                      </label>
-                      </div>
-                      <div class="radio">
-                          <label>
-                        <input type="radio" value="SRTS" name="Proj_Ty">
-                        SRTS
-                      </label>
-                      </div>
-                      <div class="radio">
-                          <label>
-                        <input type="radio" value="First Mile and Last Mile" name="Proj_Ty">
-                        First mile and last mile
-                      </label>
-                      </div>
-                      <div class="radio">
-                          <label>
-                        <input type="radio" value="Bike/PED" name="Proj_Ty">
-                        Bike/ped
-                      </label>
-                      </div>
-                      <div class="radio">
-                          <label>
-                        <input type="radio" value="Idea Project" name="Proj_Ty">
-                        Idea Project
-                      </label>
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <label for="Est_Cost">Estimated Cost</label>
-                      <div class="input-group">
-                        <span class="input-group-addon">$</span>
-                        <input type="number" step="0.01" class="form-control" id="Est_Cost" placeholder="">
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <label for="Fund_Rq">Fund Request</label>
-                      <div class="input-group">
-                        <span class="input-group-addon">$</span>
-                        <input type="number" step="0.01" class="form-control" id="Fund_Rq" placeholder="">
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <label for="Lc_match">Local Match</label>
-                      <div class="input-group">
-                        <span class="input-group-addon">$</span>
-                        <input type="number" step="0.01" class="form-control" id="Lc_match" placeholder="">
-                      </div>
-                      <p class="help-block">Amount of fund provided by lead agency</p>
-                  </div>
-                  <div class="form-group">
-                      <label for="Match_Pt">Match Percentage (%)</label>
-                      <input type="number" class="form-control" id="Match_Pt" placeholder="">
-                  </div>
-                  <div class="form-group">
-                      <label for="Comments">Comments</label>
-                      <textarea class="form-control" rows="3" id="Comments"></textarea>
                   </div>
               </div>
 
