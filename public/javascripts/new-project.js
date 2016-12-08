@@ -169,7 +169,7 @@ $(document).ready(function() {
 
   // Automatically hide bottom half of form and submit button
   $("#fundedAttributes").hide();
-  $("#unfundedAttributes").hide();
+  // $("#unfundedAttributes").hide();
   // $("#submit").hide();
 
 });
@@ -247,7 +247,7 @@ $("#Lead_Ag").keyup(function(){
 $("#funded").on("click", function() {
     // Show submit button and appropriate form
     // $("#submit").show();
-    $("#unfundedAttributes").hide();
+    // $("#unfundedAttributes").hide();
     $("#fundedAttributes").show();
 
     fund_stComplete = true;
@@ -259,7 +259,7 @@ $("#unfunded").on("click", function() {
     // Show submit button and appropriate form
     // $("#submit").show();
     $("#fundedAttributes").hide();
-    $("#unfundedAttributes").show();
+    // $("#unfundedAttributes").show();
 
     fund_stComplete = true;
     checkForm();
