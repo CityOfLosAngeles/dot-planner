@@ -191,7 +191,11 @@ var more_infoComplete = false;
 var cdComplete = false;
 var accessComplete = false;
 
-// Required and must be a number
+// Unique ID
+// =========
+// HTML type = number
+// Required
+// Is a number
 $("#UID").keyup(function(){
   if($("#UID").val() != "" && $.isNumeric($("#UID").val())){
     uidComplete = true;
@@ -204,6 +208,9 @@ $("#UID").keyup(function(){
   checkForm();
 });
 
+// Project Title
+// =============
+// HTML type = text
 // Required
 $("#Proj_Title").keyup(function(){
   if($("#Proj_Title").val() != ""){
@@ -291,6 +298,9 @@ $("#Contact_info_name").keyup(function(){
   checkForm();
 });
 
+// Project Contact Information: Phone Number
+// =========================================
+// HTML validation = 
 $("#Contact_info_phone").keyup(function(){
   if($("#Contact_info_phone").val() != ""){
     contact_info_phoneComplete = true;
