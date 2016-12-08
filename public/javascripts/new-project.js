@@ -160,15 +160,15 @@ $('#submit-project').on('click', function(){
       }
     }
     console.log(newProject);
-        // $.ajax({
-        //     method: "POST",
-        //     url: "/new",
-        //     dataType: "json",
-        //     data: newProject,
-        //     success: function(data) {
-        //       window.location = '/'
-        //     }
-        // });
+        $.ajax({
+            method: "POST",
+            url: "/new",
+            dataType: "json",
+            data: newProject,
+            success: function(data) {
+              window.location = '/'
+            }
+        });
 
     return false;
 
@@ -434,43 +434,6 @@ $("#subject_to_change").on("click", function() {
     accessComplete = true;
     checkForm();
 });
-
-
-
-// $("#street").keyup(function(){
-//   if($("#street").val() != "" && /\d/.test($("#street").val()) && /[a-zA-Z]/.test($("#street").val())){
-//     streetAddressComplete = true;
-//     hasSuccess("#street-address-group","#street-address-span");
-//   }
-//   else{
-//     streetAddressComplete = false;
-//     hasError("#street-address-group","#street-address-span");
-//   }
-//   checkForm();
-// });
-// $("#zip").keyup(function(){
-//   if($("#zip").val() != "" && $("#zip").val().length == 5 && $.isNumeric($("#zip").val())){
-//     zipCodeComplete = true;
-//     hasSuccess("#zip-code-group","#zip-code-span");
-//   }
-//   else{
-//     zipCodeComplete = false;
-//     hasError("#zip-code-group","#zip-code-span");
-//   }
-//   checkForm();
-// });
-// $("#confirm-pwd").keyup(function(){
-//   if($("#confirm-pwd").val() != "" && $("#confirm-pwd").val() == $("#pwd").val()){
-//     confirmPasswordComplete = true;
-//     hasSuccess("#confirm-password-group","#confirm-password-span");
-//   }
-//   else{
-//     confirmPasswordComplete = false;
-//     hasError("#confirm-password-group","#confirm-password-span");
-//   }
-//   checkForm();
-// });
-
 
 function checkForm(){
   if(uidComplete && proj_titleComplete && proj_descComplete && lead_agComplete && fund_stComplete && proj_manComplete && contact_info_nameComplete && contact_info_phoneComplete && contact_info_emailComplete && more_infoComplete && cdComplete && accessComplete)
