@@ -61,6 +61,12 @@ $('#submit-project').on('click', function(){
     //Check the fund status of the new project
     var fundStatus = $('#Fund_St input[type="radio"]:checked').val();
 
+    //Push all the intersections into an array
+    var interArr = [ ];
+    $('.Intersections').each(function() {
+      interArr.push($(this).val());
+    });
+
     if (fundStatus === 'Funded') {
       var newProject = {
         //Geometry
@@ -73,9 +79,8 @@ $('#submit-project').on('click', function(){
         UID: $('#UID').val(),
         Proj_Title: $('#Proj_Title').val(),
         Proj_Desc: $('#Proj_Desc').val(),
-        // TODO: Make this an array of all values of inputs with the class Intersections
         Intersections: JSON.stringify({
-          intersections: $('.Intersections').val()
+          Intersections: interArr
         }),
         Lead_Ag: $('#Lead_Ag').val(),
         Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
@@ -128,9 +133,8 @@ $('#submit-project').on('click', function(){
         UID: $('#UID').val(),
         Proj_Title: $('#Proj_Title').val(),
         Proj_Desc: $('#Proj_Desc').val(),
-        // TODO: Make this an array of all values of inputs with the class Intersections
         Intersections: JSON.stringify({
-          intersections: $('.Intersections').val()
+          intersections: interArr
         }),
         Lead_Ag: $('#Lead_Ag').val(),
         Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
@@ -156,15 +160,15 @@ $('#submit-project').on('click', function(){
       }
     }
     console.log(newProject);
-        $.ajax({
-            method: "POST",
-            url: "/new",
-            dataType: "json",
-            data: newProject,
-            success: function(data) {
-              window.location = '/'
-            }
-        });
+        // $.ajax({
+        //     method: "POST",
+        //     url: "/new",
+        //     dataType: "json",
+        //     data: newProject,
+        //     success: function(data) {
+        //       window.location = '/'
+        //     }
+        // });
 
     return false;
 
@@ -174,6 +178,14 @@ $('#submit-project').on('click', function(){
     alert('Oops it looks like you forgot to add geometry to the map.');
     return false;
   }
+});
+
+//Add more intersections
+$('#add-intersection').on('click', function() {
+  var input = $('<input class="form-control">');
+  input.addClass('Intersections');
+  input.attr('placeholder', 'Street');
+  $('#intersections').append(input);
 });
 
 $(document).ready(function() {
