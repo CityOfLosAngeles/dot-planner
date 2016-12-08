@@ -101,6 +101,15 @@ $('#submit-project').on('click', function(){
         Constr_by: $('#Constr_by').val(),
         Info_source: $('#Info_source').val(),
 
+        //Unfunded attributes
+        Grant_Cat: $('#Grant_Cat').val(),
+        Proj_Ty: $('#Proj_Ty input[type="radio"]:checked').val(),
+        Est_Cost: parseInt($('#Est_Cost').val()).toFixed(2),
+        Fund_Rq: parseInt($('#Fund_Rq').val()).toFixed(2),
+        Lc_match: parseInt($('#Lc_match').val()).toFixed(2),
+        Match_Pt: $('#Match_Pt').val(),
+        Comments: $('#Comments').val()
+
       }
     } else {
 
