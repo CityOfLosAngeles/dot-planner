@@ -33,7 +33,7 @@ function toGeoJSON(project, features) {
         Explanation: project.Explanation,
         Other_ID: project.Other_ID,
         Constr_by: project.Constr_by,
-        Info_source: project.Info_source
+        Info_source: project.Info_source,
 
         //Unfunded attributes
         Grant_Cat: project.Grant_Cat,
@@ -165,7 +165,8 @@ router.post('/new', function(req, res) {
     newProject.Geometry = parsedGeometry;
     var contactInfo = JSON.parse(newProject.Contact_info);
     newProject.Contact_info = contactInfo;
-
+    var intersections = JSON.parse(newProject.Intersections);
+    newProject.Intersections = intersections;
     models.Project.create(newProject).then(function() {
       res.send({"success": "Yes!"});
     });
