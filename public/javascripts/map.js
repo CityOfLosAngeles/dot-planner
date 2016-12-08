@@ -136,7 +136,7 @@ function onEachFeature(feature, layer) {
 
     //Separate section for funded attributes
     if (feature.properties.Fund_St === 'Funded') {
-      $('#unfunded-attributes').hide();
+      // $('#unfunded-attributes').hide();
       $('#Dept_Proj_ID').text(feature.properties.Dept_Proj_ID);
       $('#Total_bgt').text('$' + feature.properties.Total_bgt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('#Grant').text('$' + feature.properties.Grant.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
@@ -152,6 +152,15 @@ function onEachFeature(feature, layer) {
       $('#Constr_by').text(feature.properties.Constr_by);
       $('#Info_source').text(feature.properties.Info_source);
 
+      //Unfunded
+      $('#Grant_Cat').text(feature.properties.Grant_Cat);
+      $('#Proj_Ty').text(feature.properties.Proj_Ty);
+      $('#Est_Cost').text('$' + feature.properties.Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $('#Fund_Rq').text('$' + feature.properties.Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $('#Lc_match').text('$' + feature.properties.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $('#Match_Pt').text(feature.properties.Match_Pt + '%');
+      $('#Comments').text(feature.properties.Comments);
+
       $('#funded-attributes').show();
     } else {
       $('#funded-attributes').hide();
@@ -163,7 +172,7 @@ function onEachFeature(feature, layer) {
       $('#Lc_match').text('$' + feature.properties.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('#Match_Pt').text(feature.properties.Match_Pt + '%');
       $('#Comments').text(feature.properties.Comments);
-      $('#unfunded-attributes').show();
+      // $('#unfunded-attributes').show();
     }
   });
 }
