@@ -220,7 +220,11 @@ var more_infoComplete = false;
 var cdComplete = false;
 var accessComplete = false;
 
-// Required and must be a number
+// Unique ID
+// =========
+// HTML type = number
+// Required
+// Is a number
 $("#UID").keyup(function(){
   if($("#UID").val() != "" && $.isNumeric($("#UID").val())){
     uidComplete = true;
@@ -233,6 +237,9 @@ $("#UID").keyup(function(){
   checkForm();
 });
 
+// Project Title
+// =============
+// HTML type = text
 // Required
 $("#Proj_Title").keyup(function(){
   if($("#Proj_Title").val() != ""){
@@ -246,6 +253,8 @@ $("#Proj_Title").keyup(function(){
   checkForm();
 });
 
+// Project Description
+// ===================
 // Required
 $("#Proj_Desc").keyup(function(){
   if($("#Proj_Desc").val() != ""){
@@ -259,6 +268,17 @@ $("#Proj_Desc").keyup(function(){
   checkForm();
 });
 
+
+
+
+//  TODO :  ADD INTERSECTION FORM VALIDATION AND MAKE REQUIRED
+
+
+
+
+// Lead Agency
+// ===========
+// HTML type = text
 // Required
 $("#Lead_Ag").keyup(function(){
   if($("#Lead_Ag").val() != ""){
@@ -294,7 +314,10 @@ $("#unfunded").on("click", function() {
     checkForm();
 });
 
-// Required, TODO NO NUMBERS
+// Project Manager
+// ===============
+// HTML type = text
+// Required
 $("#Proj_Man").keyup(function(){
   if($("#Proj_Man").val() != ""){
     proj_manComplete = true;
@@ -307,6 +330,9 @@ $("#Proj_Man").keyup(function(){
   checkForm();
 });
 
+// Project Contact Information: Name
+// =================================
+// HTML type = text
 // Required
 $("#Contact_info_name").keyup(function(){
   if($("#Contact_info_name").val() != ""){
@@ -320,8 +346,13 @@ $("#Contact_info_name").keyup(function(){
   checkForm();
 });
 
+// Project Contact Information: Phone Number
+// =========================================
+// HTML type = tel
+// Required
+// Regex expression
 $("#Contact_info_phone").keyup(function(){
-  if($("#Contact_info_phone").val() != ""){
+  if($("#Contact_info_phone").val() != "" && $("#Contact_info_phone").val().match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)){
     contact_info_phoneComplete = true;
     hasSuccess("#Contact_info_phone-group","#Contact_info_phone-span");
   }
@@ -332,8 +363,16 @@ $("#Contact_info_phone").keyup(function(){
   checkForm();
 });
 
+// Project Contact Information: Email
+// ==================================
+// HTML type = email
+// Required
+// Contains these symbols: @., but not in succession
+// Greater than 5 characters
+// Contains no spaces
+// Regex express
 $("#Contact_info_email").keyup(function(){
-  if($("#Contact_info_email").val() != ""){
+  if($("#Contact_info_email").val() != "" && $("#Contact_info_email").val().includes("@") && $("#Contact_info_email").val().includes(".") && $("#Contact_info_email").val().length > 5 && $("#Contact_info_email").val().indexOf("@.") == -1 && $("#Contact_info_email").val().indexOf(" ")==-1 && $("#Contact_info_email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
     contact_info_emailComplete = true;
     hasSuccess("#Contact_info_email-group","#Contact_info_email-span");
   }
@@ -344,8 +383,15 @@ $("#Contact_info_email").keyup(function(){
   checkForm();
 });
 
+// Link to More Project Info
+// =========================
+// HTML type = url
+// Required
+// Contains the symbol: .
+// Contains no spaces
+// Regex expression
 $("#More_info").keyup(function(){
-  if($("#More_info").val() != ""){
+  if($("#More_info").val() != "" && $("#More_info").val().includes(".") && $("#More_info").val().indexOf(" ")==-1 && $("#More_info").val().match(/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i)){
     more_infoComplete = true;
     hasSuccess("#More_info-group","#More_info-span");
   }
@@ -356,8 +402,14 @@ $("#More_info").keyup(function(){
   checkForm();
 });
 
+// Council District Number
+// =======================
+// HTML type = number
+// Required
+// Is numeric
+// Is between [1, 14]
 $("#CD").keyup(function(){
-  if($("#CD").val() != ""){
+  if($("#CD").val() != "" && $.isNumeric($("#CD").val()) && $("#CD").val()>=1 && $("#CD").val()<=14){
     cdComplete = true;
     hasSuccess("#CD-group","#CD-span");
   }
@@ -404,17 +456,6 @@ $("#subject_to_change").on("click", function() {
 //   else{
 //     zipCodeComplete = false;
 //     hasError("#zip-code-group","#zip-code-span");
-//   }
-//   checkForm();
-// });
-// $("#email").keyup(function(){
-//   if($("#email").val() != "" && $("#email").val().includes("@") && $("#email").val().includes(".") && $("#email").val().length > 5 && $("#email").val().indexOf("@.") == -1 && $("#email").val().indexOf(" ") == -1){
-//     emailComplete = true;
-//     hasSuccess("#email-group","#email-span");
-//   }
-//   else{
-//     emailComplete = false;
-//     hasError("#email-group","#email-span");
 //   }
 //   checkForm();
 // });
