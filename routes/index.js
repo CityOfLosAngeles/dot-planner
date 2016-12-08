@@ -3,21 +3,21 @@ var router = express.Router();
 var models = require('../models');
 
 function toGeoJSON(project, features) {
-  if (project.Detail.Fund_St === 'Funded') {
+  if (project.Fund_St === 'Funded') {
     var feature = {
       type: "Feature",
-      geometry: project.Detail.Geometry,
+      geometry: project.Geometry,
       properties: {
-        UID: project.Detail.UID,
-        Proj_Title: project.Detail.Proj_Title,
-        Proj_Desc: project.Detail.Proj_Desc,
-        Lead_Ag: project.Detail.Lead_Ag,
-        Fund_St: project.Detail.Fund_St,
-        Proj_Man: project.Detail.Proj_Man,
-        Contact_info: project.Detail.Contact_info,
-        More_info: project.Detail.More_info,
-        CD: project.Detail.CD,
-        Access: project.Detail.Access,
+        UID: project.UID,
+        Proj_Title: project.Proj_Title,
+        Proj_Desc: project.Proj_Desc,
+        Lead_Ag: project.Lead_Ag,
+        Fund_St: project.Fund_St,
+        Proj_Man: project.Proj_Man,
+        Contact_info: project.Contact_info,
+        More_info: project.More_info,
+        CD: project.CD,
+        Access: project.Access,
 
         //Funded Attributes
         Dept_Proj_ID: project.Dept_Proj_ID,
@@ -48,18 +48,18 @@ function toGeoJSON(project, features) {
   } else {
     var feature = {
       type: "Feature",
-      geometry: project.Detail.Geometry,
+      geometry: project.Geometry,
       properties: {
-        UID: project.Detail.UID,
-        Proj_Title: project.Detail.Proj_Title,
-        Proj_Desc: project.Detail.Proj_Desc,
-        Lead_Ag: project.Detail.Lead_Ag,
-        Fund_St: project.Detail.Fund_St,
-        Proj_Man: project.Detail.Proj_Man,
-        Contact_info: project.Detail.Contact_info,
-        More_info: project.Detail.More_info,
-        CD: project.Detail.CD,
-        Access: project.Detail.Access,
+        UID: project.UID,
+        Proj_Title: project.Proj_Title,
+        Proj_Desc: project.Proj_Desc,
+        Lead_Ag: project.Lead_Ag,
+        Fund_St: project.Fund_St,
+        Proj_Man: project.Proj_Man,
+        Contact_info: project.Contact_info,
+        More_info: project.More_info,
+        CD: project.CD,
+        Access: project.Access,
 
         //Unfunded attributes
         Grant_Cat: project.Grant_Cat,
@@ -85,15 +85,17 @@ router.get('/new', function(req, res) {
     res.render('new-project');
 });
 
-router.get('/projects', function() {
+router.get('/projects', function(req, res) {
   var featureCollection = {
       "type": "FeatureCollection",
       features: []
   };
   models.Project.findAll().then(function(projects) {
-    toGeoJSON(projects, featuresCollection.features);
+    for (var i = 0; i < projects.length; i++) {
+      toGeoJSON(projects[i], featureCollection.features);
+    }
   }).then(function(){
-    res.send(featuresCollection);
+    res.send(featureCollection);
   });
 });
 
@@ -105,14 +107,14 @@ router.get('/projects', function() {
 //   };
 //
 //   models.Funded.findAll({
-//     include: [models.Detail]
+//     include: [models]
 //   }).then(function(allFunded) {
 //     for (var i = 0; i < allFunded.length; i++) {
 //       toGeoJSON(allFunded[i], featureCollection.features);
 //     }
 //   }).then(function() {
 //     models.Unfunded.findAll({
-//       include: [models.Detail]
+//       include: [models]
 //     }).then(function(allUnfunded) {
 //       for (var i = 0; i < allUnfunded.length; i++) {
 //         toGeoJSON(allUnfunded[i], featureCollection.features);
@@ -129,7 +131,7 @@ router.get('/projects', function() {
 //     features: [ ]
 //   };
 //   models.Funded.findAll({
-//     include: [models.Detail]
+//     include: [models]
 //   }).then(function(allFunded) {
 //     for (var i = 0; i < allFunded.length; i++) {
 //       toGeoJSON(allFunded[i], featureCollection.features);
@@ -144,7 +146,7 @@ router.get('/projects', function() {
 //     features: [ ]
 //   };
 //   models.Unfunded.findAll({
-//     include: [models.Detail]
+//     include: [models]
 //   }).then(function(allUnfunded) {
 //     for (var i = 0; i < allUnfunded.length; i++) {
 //       toGeoJSON(allUnfunded[i], featureCollection.features);
@@ -173,7 +175,7 @@ router.post('/new', function(req, res) {
 
     // if (newProject.Fund_St === "Funded") {
     //     models.Funded.create(newProject).then(function(newFunded) {
-    //         models.Detail.create(newProject).then(function(newDetail) {
+    //         models.create(newProject).then(function(newDetail) {
     //             newFunded.setDetail(newDetail).then(function() {
     //                 res.send({"success": "Yes!"});
     //             });
@@ -181,7 +183,7 @@ router.post('/new', function(req, res) {
     //     });
     // } else {
     //     models.Unfunded.create(newProject).then(function(newUnfunded) {
-    //         models.Detail.create(newProject).then(function(newDetail) {
+    //         models.create(newProject).then(function(newDetail) {
     //             newUnfunded.setDetail(newDetail).then(function() {
     //                 res.send({"success": "Yes!"});
     //             });

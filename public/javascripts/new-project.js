@@ -75,7 +75,7 @@ $('#submit-project').on('click', function(){
         Proj_Desc: $('#Proj_Desc').val(),
         // TODO: Make this an array of all values of inputs with the class Intersections
         Intersections: JSON.stringify({
-          intersections: $('.Intersections').val('')
+          intersections: $('.Intersections').val()
         }),
         Lead_Ag: $('#Lead_Ag').val(),
         Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
@@ -130,7 +130,7 @@ $('#submit-project').on('click', function(){
         Proj_Desc: $('#Proj_Desc').val(),
         // TODO: Make this an array of all values of inputs with the class Intersections
         Intersections: JSON.stringify({
-          intersections: $('.Intersections').val('')
+          intersections: $('.Intersections').val()
         }),
         Lead_Ag: $('#Lead_Ag').val(),
         Fund_St: $('#Fund_St input[type="radio"]:checked').val(),

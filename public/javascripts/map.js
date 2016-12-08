@@ -152,6 +152,15 @@ function onEachFeature(feature, layer) {
       $('#Constr_by').text(feature.properties.Constr_by);
       $('#Info_source').text(feature.properties.Info_source);
 
+      //Unfunded
+      $('#Grant_Cat').text(feature.properties.Grant_Cat);
+      $('#Proj_Ty').text(feature.properties.Proj_Ty);
+      $('#Est_Cost').text('$' + feature.properties.Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $('#Fund_Rq').text('$' + feature.properties.Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $('#Lc_match').text('$' + feature.properties.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $('#Match_Pt').text(feature.properties.Match_Pt + '%');
+      $('#Comments').text(feature.properties.Comments);
+
       $('#funded-attributes').show();
     } else {
       $('#funded-attributes').hide();
