@@ -1,5 +1,6 @@
 //Global variable for creating new project
 var newProject = {};
+var intersectionCounter = 1;
 
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map').setView([
@@ -49,6 +50,19 @@ $('#delete-button').on('click', function(e) {
   drawControlFull.addTo(map);
   $('#delete-button').hide();
 });
+
+var defaultBounds = new google.maps.LatLngBounds(
+  new google.maps.LatLng(34.0522, -118.2437)
+);
+
+var googleOptions = {
+  location: defaultBounds,
+  types: ['address']
+};
+
+var input = document.getElementById('intersection1');
+
+autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
 
 $('#submit-project').on('click', function(){
 
@@ -182,10 +196,14 @@ $('#submit-project').on('click', function(){
 
 //Add more intersections
 $('#add-intersection').on('click', function() {
+  intersectionCounter++;
   var input = $('<input class="form-control">');
   input.addClass('Intersections');
   input.attr('placeholder', 'Street');
+  input.attr('id', 'intersection' + intersectionCounter);
   $('#intersections').append(input);
+  var input = document.getElementById('intersection' + intersectionCounter);
+  autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
 });
 
 $(document).ready(function() {
@@ -201,6 +219,10 @@ $(document).ready(function() {
   // $("#unfundedAttributes").hide();
   // $("#submit").hide();
 
+});
+
+$('#sidebar').on('scroll', function() {
+    $('.Intersections').blur();
 });
 
 
