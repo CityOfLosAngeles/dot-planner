@@ -20,6 +20,9 @@ module.exports = {
       Proj_Desc: {
         type: Sequelize.STRING
       },
+      Intersections: {
+        type: Sequelize.JSONB
+      },
       Lead_Ag: {
         type: Sequelize.STRING
       },

@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     UID: DataTypes.INTEGER,
     Proj_Title: DataTypes.STRING,
     Proj_Desc: DataTypes.STRING,
+    Intersections: DataTypes.JSONB,
     Lead_Ag: DataTypes.STRING,
     Fund_St: DataTypes.STRING,
     Proj_Man: DataTypes.STRING,
