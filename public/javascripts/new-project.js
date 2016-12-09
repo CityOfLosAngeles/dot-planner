@@ -174,15 +174,36 @@ $('#submit-project').on('click', function(){
       }
     }
     console.log(newProject);
-        $.ajax({
-            method: "POST",
-            url: "/new",
-            dataType: "json",
-            data: newProject,
-            success: function(data) {
-              window.location = '/'
-            }
-        });
+
+    $.ajax({
+      method: "GET",
+      url: "/projects",
+      success: function(projects) {
+
+        var possibleDuplicates = [];
+
+        // Check for duplicates
+        for(var i=0; i<projects.features.length; i++){
+          if(newProject.Proj_Title == projects.features[i].properties.Proj_Title || newProject.Proj_Desc == projects.features[i].properties.Proj_Desc || newProject.Intersections == projects.features[i].properties.Intersections || newProject.More_info == projects.features[i].properties.More_info)
+            possibleDuplicates.push(projects.features[i]);
+        }
+
+        if (possibleDuplicates.length > 0){
+          alert("The project you are trying to add may be a duplicate.");
+        }
+
+      }
+    });
+
+    $.ajax({
+        method: "POST",
+        url: "/new",
+        dataType: "json",
+        data: newProject,
+        success: function(data) {
+          window.location = '/'
+        }
+    });
 
     return false;
 
@@ -204,6 +225,11 @@ $('#add-intersection').on('click', function() {
   $('#intersections').append(input);
   var input = document.getElementById('intersection' + intersectionCounter);
   autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
+});
+
+$("#cancel-intersection").on('click', function() {
+  intersectionCounter--;
+
 });
 
 $(document).ready(function() {
