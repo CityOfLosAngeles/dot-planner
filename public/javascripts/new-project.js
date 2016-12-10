@@ -115,18 +115,18 @@ $('#submit-project').on('click', function(){
       Proj_Title: $('#Proj_Title').val(),
       Proj_Ty: $('#Proj_Ty input[type="radio"]:checked').val(),
       Proj_Desc: $('#Proj_Desc').val(),
-      Contact_info: JSON.stringify({
-        Contact_info_name: $('#Contact_info_name').val(),
-        Contact_info_phone: $('#Contact_info_phone').val(),
-        Contact_info_email: $('#Contact_info_email').val()
-      }),
       More_info: $('#More_info').val()
     }
 
     //Funded and Unfunded but NOT Idea Attributes
     if (fundStatus != 'Idea Project') {
+      newProject.Contact_info = JSON.stringify({
+      Contact_info_name: $('#Contact_info_name').val(),
+      Contact_info_phone: $('#Contact_info_phone').val(),
+      Contact_info_email: $('#Contact_info_email').val()
+      });
       newProject.Primary_Street = $('#Primary_Street').val();
-      newProject.Intersections =  JSON.stringify({
+      newProject.Cross_Streets =  JSON.stringify({
         Intersections: interArr
       });
       newProject.CD = $('#CD').val();

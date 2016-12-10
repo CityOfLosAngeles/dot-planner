@@ -85,19 +85,19 @@ router.get('/new', function(req, res) {
     res.render('new-project');
 });
 
-router.get('/projects', function(req, res) {
-  var featureCollection = {
-      "type": "FeatureCollection",
-      features: []
-  };
-  models.Project.findAll().then(function(projects) {
-    for (var i = 0; i < projects.length; i++) {
-      toGeoJSON(projects[i], featureCollection.features);
-    }
-  }).then(function(){
-    res.send(featureCollection);
-  });
-});
+// router.get('/projects', function(req, res) {
+//   var featureCollection = {
+//       "type": "FeatureCollection",
+//       features: []
+//   };
+//   models.Project.findAll().then(function(projects) {
+//     for (var i = 0; i < projects.length; i++) {
+//       toGeoJSON(projects[i], featureCollection.features);
+//     }
+//   }).then(function(){
+//     res.send(featureCollection);
+//   });
+// });
 
 //Gets all projects from the DB
 // router.get('/projects', function(req, res) {
@@ -158,6 +158,7 @@ router.get('/projects', function(req, res) {
 //Saves a new project to the DB
 router.post('/new', function(req, res) {
     var newProject = req.body;
+    var fundStatus = newProject.Fund_St;
     var geometry = JSON.parse(newProject.Geometry);
     var coordinates = JSON.parse(geometry.coordinates);
     var parsedGeometry = {
@@ -165,31 +166,21 @@ router.post('/new', function(req, res) {
         coordinates: coordinates
     }
     newProject.Geometry = parsedGeometry;
-    var contactInfo = JSON.parse(newProject.Contact_info);
-    newProject.Contact_info = contactInfo;
-    var intersections = JSON.parse(newProject.Intersections);
-    newProject.Intersections = intersections;
-    models.Project.create(newProject).then(function() {
-      res.send({"success": "Yes!"});
-    });
 
-    // if (newProject.Fund_St === "Funded") {
-    //     models.Funded.create(newProject).then(function(newFunded) {
-    //         models.create(newProject).then(function(newDetail) {
-    //             newFunded.setDetail(newDetail).then(function() {
-    //                 res.send({"success": "Yes!"});
-    //             });
-    //         });
-    //     });
-    // } else {
-    //     models.Unfunded.create(newProject).then(function(newUnfunded) {
-    //         models.create(newProject).then(function(newDetail) {
-    //             newUnfunded.setDetail(newDetail).then(function() {
-    //                 res.send({"success": "Yes!"});
-    //             });
-    //         });
-    //     });
-    // }
+    if (fundStatus === 'Idea Project') {
+      models.Project.create(newProject).then(function() {
+        res.send({"success": "Yes!"});
+      });
+    } else {
+      var contactInfo = JSON.parse(newProject.Contact_info);
+      newProject.Contact_info = contactInfo;
+      var crossStreets = JSON.parse(newProject.Cross_Streets);
+      newProject.Cross_Streets = crossStreets;
+      models.Project.create(newProject).then(function() {
+        res.send({"success": "Yes!"});
+      });
+    }
+    console.log(newProject);
 });
 
 module.exports = router;
