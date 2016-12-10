@@ -19,13 +19,13 @@ function toGeoJSON(project, features) {
       Proj_Title:project.Proj_Title,
       Proj_Ty: project.Proj_Ty,
       Proj_Desc: project.Proj_Desc,
+      Contact_info: project.Contact_info,
       More_info: project.More_info
     }
   }
 
   //Funded and Unfunded but NOT Idea Attributes
   if (fundStatus != 'Idea Project') {
-    feature.properties.Contact_info = project.Contact_info;
     feature.properties.Primary_Street = project.Primary_Street;
     feature.properties.Cross_Streets =  project.Cross_Streets;
     feature.properties.CD = project.CD;
@@ -100,14 +100,14 @@ router.post('/new', function(req, res) {
         coordinates: coordinates
     }
     newProject.Geometry = parsedGeometry;
+    var contactInfo = JSON.parse(newProject.Contact_info);
+    newProject.Contact_info = contactInfo;
 
     if (fundStatus === 'Idea Project') {
       models.Project.create(newProject).then(function() {
         res.send({"success": "Yes!"});
       });
     } else {
-      var contactInfo = JSON.parse(newProject.Contact_info);
-      newProject.Contact_info = contactInfo;
       var crossStreets = JSON.parse(newProject.Cross_Streets);
       newProject.Cross_Streets = crossStreets;
       models.Project.create(newProject).then(function() {
