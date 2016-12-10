@@ -150,7 +150,6 @@ $('#submit-project').on('click', function(){
       newProject.Explanation = $('#Explanation').val();
       newProject.Constr_by = $('#Constr_by').val();
       newProject.Info_source = $('#Info_source').val();
-      newProject.CD = $('#CD').val();
       newProject.Access = $('#Access input[type="radio"]:checked').val();
     }
 

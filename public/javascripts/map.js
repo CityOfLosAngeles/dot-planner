@@ -47,23 +47,13 @@ $.ajax({
     success: function(data) {
         console.log(data);
         if (data) {
+          console.log(data);
             allProjects = data;
-            funded = L.geoJson(allProjects, {
-                filter: function(feature, layer) {
-                    return feature.properties.Fund_St === "Funded";
-                },
+            L.geoJson(data, {
                 onEachFeature: function(feature, layer) {
                   onEachFeature(feature, layer);
                 },
-            });
-            unfunded = L.geoJson(allProjects, {
-                filter: function(feature, layer) {
-                    return feature.properties.Fund_St === "Unfunded";
-                },
-                onEachFeature: function(feature, layer) {
-                  onEachFeature(feature, layer);
-                },
-            });
+            }).addTo(map);
 
             // bikeOnly = L.geoJson(allProjects, {
             //     filter: function(feature, layer) {
@@ -76,42 +66,38 @@ $.ajax({
             //         });
             //     }
             // });
-
-            funded.addTo(map);
-            // bikeOnly.addTo(map);
-            unfunded.addTo(map);
         }
     }
 });
 
 //Commented out for now
 
-function filterProjects() {
-
-  if($('#funded-checkbox').is(':checked')){
-    funded.addTo(map);
-  } else {
-    map.removeLayer(funded);
-  }
-
-  if($('#unfunded-checkbox').is(':checked')){
-    unfunded.addTo(map);
-  } else {
-    map.removeLayer(unfunded);
-  }
-
-  // if($('#bike-only-checkbox').is(':checked')){
-  //   bikeOnly.addTo(map);
-  // } else {
-  //   map.removeLayer(bikeOnly);
-  // }
-
-  //Get the types that are check and store them in an array
-
-  // options.types = $('.type input[type=checkbox]:checked').map(function(_, el) {
-  //   return $(el).val();
-  // }).get();
-}
+// function filterProjects() {
+//
+//   if($('#funded-checkbox').is(':checked')){
+//     funded.addTo(map);
+//   } else {
+//     map.removeLayer(funded);
+//   }
+//
+//   if($('#unfunded-checkbox').is(':checked')){
+//     unfunded.addTo(map);
+//   } else {
+//     map.removeLayer(unfunded);
+//   }
+//
+//   // if($('#bike-only-checkbox').is(':checked')){
+//   //   bikeOnly.addTo(map);
+//   // } else {
+//   //   map.removeLayer(bikeOnly);
+//   // }
+//
+//   //Get the types that are check and store them in an array
+//
+//   // options.types = $('.type input[type=checkbox]:checked').map(function(_, el) {
+//   //   return $(el).val();
+//   // }).get();
+// }
 //
 $('#map-filter input').change(function() {
   filterProjects();
