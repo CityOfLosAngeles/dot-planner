@@ -2,6 +2,26 @@
 var newProject = {};
 var intersectionCounter = 1;
 
+$('#Fund_St').on('click', function() {
+  var fundedStatus = $('#Fund_St input[type="radio"]:checked').val();
+  switch(fundedStatus) {
+    case 'Funded':
+    $('#fundedAndUnfundedAttributes').show();
+    $('#fundedAttributes').show();
+    $('#unfundedAttributes').hide();
+    break;
+    case 'Unfunded':
+      $('#fundedAndUnfundedAttributes').show();
+      $('#fundedAttributes').hide();
+      $('#unfundedAttributes').show();
+    break;
+    case 'Idea Project':
+    $('#fundedAndUnfundedAttributes').hide();
+    $('#fundedAttributes').hide();
+    $('#unfundedAttributes').hide();
+  }
+});
+
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map').setView([
     34.0522, -118.2437
@@ -51,18 +71,18 @@ $('#delete-button').on('click', function(e) {
   $('#delete-button').hide();
 });
 
-var defaultBounds = new google.maps.LatLngBounds(
-  new google.maps.LatLng(34.0522, -118.2437)
-);
-
-var googleOptions = {
-  location: defaultBounds,
-  types: ['address']
-};
-
-var input = document.getElementById('intersection1');
-
-autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
+// var defaultBounds = new google.maps.LatLngBounds(
+//   new google.maps.LatLng(34.0522, -118.2437)
+// );
+//
+// var googleOptions = {
+//   location: defaultBounds,
+//   types: ['address']
+// };
+//
+// var input = document.getElementById('intersection1');
+//
+// autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
 
 $('#submit-project').on('click', function(){
 
@@ -90,7 +110,7 @@ $('#submit-project').on('click', function(){
         }),
 
         //Common Attributes
-        UID: $('#UID').val(),
+        Legacy_ID: $('#Legacy_ID').val(),
         Proj_Title: $('#Proj_Title').val(),
         Proj_Desc: $('#Proj_Desc').val(),
         Intersections: JSON.stringify({
@@ -215,7 +235,7 @@ $(document).ready(function() {
   // Colin's code for the form
 
   // Automatically hide bottom half of form and submit button
-  $("#fundedAttributes").hide();
+  // $("#fundedAttributes").hide();
   // $("#unfundedAttributes").hide();
   // $("#submit").hide();
 
@@ -312,28 +332,6 @@ $("#Lead_Ag").keyup(function(){
     hasError("#Lead_Ag-group","#Lead_Ag-span");
   }
   checkForm();
-});
-
-// When click the "funded" radiobutton...
-$("#funded").on("click", function() {
-    // Show submit button and appropriate form
-    // $("#submit").show();
-    // $("#unfundedAttributes").hide();
-    $("#fundedAttributes").show();
-
-    fund_stComplete = true;
-    checkForm();
-});
-
-// When click the "unfunded" radiobutton...
-$("#unfunded").on("click", function() {
-    // Show submit button and appropriate form
-    // $("#submit").show();
-    $("#fundedAttributes").hide();
-    // $("#unfundedAttributes").show();
-
-    fund_stComplete = true;
-    checkForm();
 });
 
 // Project Manager
