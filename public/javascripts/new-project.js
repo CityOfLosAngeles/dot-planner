@@ -82,7 +82,7 @@ $('#submit-project').on('click', function(){
     });
 
     if (fundStatus === 'Funded') {
-      var newProject = {
+      newProject = {
         //Geometry
         Geometry: JSON.stringify({
           type: data.features[0].geometry.type,
@@ -136,7 +136,7 @@ $('#submit-project').on('click', function(){
       }
     } else {
 
-      var newProject = {
+      newProject = {
         //Geometry
         Geometry: JSON.stringify({
           type: data.features[0].geometry.type,
@@ -174,15 +174,35 @@ $('#submit-project').on('click', function(){
       }
     }
     console.log(newProject);
-        $.ajax({
-            method: "POST",
-            url: "/new",
-            dataType: "json",
-            data: newProject,
-            success: function(data) {
-              window.location = '/'
-            }
-        });
+
+    $.ajax({
+      method: "GET",
+      url: "/projects",
+      success: function(projects) {
+
+        var possibleDuplicates = [];
+
+        // Check for duplicates
+        for(var i=0; i<projects.features.length; i++){
+          if(newProject.Proj_Title.toLowerCase() == projects.features[i].properties.Proj_Title.toLowerCase() || newProject.Proj_Desc.toLowerCase() == projects.features[i].properties.Proj_Desc.toLowerCase() || newProject.Intersections == projects.features[i].properties.Intersections || newProject.More_info.toLowerCase() == projects.features[i].properties.More_info.toLowerCase())
+            possibleDuplicates.push(projects.features[i]);
+        }
+
+        // If there are duplicates...
+        if (possibleDuplicates.length > 0){
+          for(var i=0; i<possibleDuplicates.length; i++){
+            $('#duplicateProjects').append('<div id="duplicate' + i + '">Project Title: ' + possibleDuplicates[i].properties.Proj_Title + '</div>');
+            $('#duplicateProjects').append('<br>');
+          }
+          $('#myModal').modal();
+        }
+
+        // If there are no duplicates...
+        else{
+          addProject(newProject);
+        }
+      }
+    });
 
     return false;
 
@@ -204,6 +224,11 @@ $('#add-intersection').on('click', function() {
   $('#intersections').append(input);
   var input = document.getElementById('intersection' + intersectionCounter);
   autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
+});
+
+$("#cancel-intersection").on('click', function() {
+  intersectionCounter--;
+
 });
 
 $(document).ready(function() {
@@ -457,6 +482,17 @@ $("#subject_to_change").on("click", function() {
     checkForm();
 });
 
+
+// Modal onclicks
+$("#flag-button").on("click", function() {
+
+});
+
+$("#add-button").on("click", function() {
+  addProject(newProject);
+});
+
+
 function checkForm(){
   if(uidComplete && proj_titleComplete && proj_descComplete && lead_agComplete && fund_stComplete && proj_manComplete && contact_info_nameComplete && contact_info_phoneComplete && contact_info_emailComplete && more_infoComplete && cdComplete && accessComplete)
     $("#submit-project").removeAttr("disabled");
@@ -476,4 +512,16 @@ function hasError(divID,spanID){
   $(divID).addClass("has-error has-feedback");
   $(spanID).removeClass("glyphicon glyphicon-ok form-control-feedback");
   $(spanID).addClass("glyphicon glyphicon-remove form-control-feedback");
+}
+
+function addProject(project){
+  $.ajax({
+    method: "POST",
+    url: "/new",
+    dataType: "json",
+    data: project,
+    success: function(data) {
+      window.location = '/'
+    }
+  });
 }
