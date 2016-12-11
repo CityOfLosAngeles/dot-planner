@@ -7,7 +7,7 @@ var client = new pg.Client(config);
 client.connect(function(err) {
 	if (err) console.log(err);
 
-	client.query('SELECT "project_ti", "scope__sum", ST_AsText(shape) FROM sde.fpolygons', function (err, result) {
+	client.query('SELECT "project_ti", "scope__sum", ST_AsText(shape) FROM sde.fpoints', function (err, result) {
 	    if (err) throw err;
 	    // console.log(result.rows[0]);
 	    for (var i = 0; i < 2; i++) {

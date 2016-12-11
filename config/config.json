@@ -2,7 +2,7 @@
     "development": {
         "username": "postgres",
         "password": "password",
-        "database": "dot",
+        "database": "migratedot",
         "host": "127.0.0.1",
         "dialect": "postgres",
         "protocol": "postgres",

@@ -63,7 +63,12 @@ client.connect(function(err) {
 			    Match_Pt: null,
 			    Comments: null
 			}*/
-			console.log(newProject);
+			models.Project.create(newProject).then(function(result) {
+				console.log("success");
+			})
+			.catch(function(err) {
+				console.log(err);
+			});
 	    }
 	 	
 	    // disconnect the client 
