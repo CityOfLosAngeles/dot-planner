@@ -59,6 +59,10 @@ body {
   display: none;
 }
 
+#undo-intersection{
+  display: none;
+}
+
 /*#google-search{
   height: 60px;
   border-radius: 0 !important;
