@@ -1,9 +1,3 @@
-//Global Variables
-var allProjects;
-var funded;
-var unfunded;
-var bikeOnly;
-
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map').setView([
     34.0522, -118.2437
@@ -45,7 +39,7 @@ $.ajax({
         if (data) {
           console.log(data);
             allProjects = data;
-            L.geoJson(data, {
+            geoJSON = L.geoJson(data, {
                 onEachFeature: function(feature, layer) {
                   onEachFeature(feature, layer);
                 },
@@ -54,39 +48,41 @@ $.ajax({
     }
 });
 
-//Commented out for now
 
-// function filterProjects() {
-//
-//   if($('#funded-checkbox').is(':checked')){
-//     funded.addTo(map);
-//   } else {
-//     map.removeLayer(funded);
-//   }
-//
-//   if($('#unfunded-checkbox').is(':checked')){
-//     unfunded.addTo(map);
-//   } else {
-//     map.removeLayer(unfunded);
-//   }
-//
-//   // if($('#bike-only-checkbox').is(':checked')){
-//   //   bikeOnly.addTo(map);
-//   // } else {
-//   //   map.removeLayer(bikeOnly);
-//   // }
-//
-//   //Get the types that are check and store them in an array
-//
-//   // options.types = $('.type input[type=checkbox]:checked').map(function(_, el) {
-//   //   return $(el).val();
-//   // }).get();
-// }
-//
-$('#map-filter input').change(function() {
+$('#filter').on('click', function() {
   filterProjects();
 });
-//
+
+//Commented out for now
+function filterProjects() {
+  var fundingTypes = $('.funding-types input[type="checkbox"]:checked').map(function(_, el) {
+    return $(el).val();
+  }).get();
+
+  for (var i = 0; i < fundingTypes.length; i++) {
+    fundingTypes[i] = fundingTypes[i].replace(' ', '%20');
+  }
+  var queryString = fundingTypes.join('&');
+  console.log(queryString);
+  $.ajax({
+      type: 'GET',
+      url: '/projects/' + queryString,
+      datatype: 'JSON',
+      success: function(data) {
+          console.log(data);
+          if (data) {
+            geoJSON.clearLayers();
+            geoJSON = L.geoJson(data, {
+                  onEachFeature: function(feature, layer) {
+                    onEachFeature(feature, layer);
+                  },
+              }).addTo(map);
+          }
+      }
+  });
+}
+
+
 
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
