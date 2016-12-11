@@ -56,6 +56,10 @@ body {
   display: none;
 }
 
+#sidebar-funded-attributes, #sidebar-fundedAndUnfunded, #sidebar-unfunded-attributes {
+  display: none;
+}
+
 /*#google-search{
   height: 60px;
   border-radius: 0 !important;

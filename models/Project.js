@@ -25,6 +25,7 @@ module.exports = function(sequelize, DataTypes) {
     Measure_r: DataTypes.DECIMAL,
     Gas_Tax: DataTypes.DECIMAL,
     General_fund: DataTypes.DECIMAL,
+    Authorization: DataTypes.STRING,
     Issues: DataTypes.STRING,
     Deobligation: DataTypes.STRING,
     Explanation: DataTypes.STRING,
