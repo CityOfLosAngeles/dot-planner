@@ -90,7 +90,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       Other_ID: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       Constr_by: {
         type: Sequelize.STRING
