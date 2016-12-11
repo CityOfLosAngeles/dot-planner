@@ -11,31 +11,40 @@ module.exports = {
       Geometry: {
         type: Sequelize.JSONB
       },
-      UID: {
+      Fund_St: {
+        type: Sequelize.STRING
+      },
+      Legacy_ID: {
         type: Sequelize.INTEGER
-      },
-      Proj_Title: {
-        type: Sequelize.STRING
-      },
-      Proj_Desc: {
-        type: Sequelize.STRING
-      },
-      Intersections: {
-        type: Sequelize.JSONB
       },
       Lead_Ag: {
         type: Sequelize.STRING
       },
-      Fund_St: {
+      Proj_Title: {
         type: Sequelize.STRING
       },
-      Proj_Man: {
+      Proj_Ty: {
+        type: Sequelize.STRING
+      },
+      Proj_Desc: {
         type: Sequelize.STRING
       },
       Contact_info: {
         type: Sequelize.JSONB
       },
       More_info: {
+        type: Sequelize.STRING
+      },
+      Primary_Street: {
+        type: Sequelize.STRING
+      },
+      Cross_Streets: {
+        type: Sequelize.JSONB
+      },
+      Proj_Status: {
+        type: Sequelize.STRING
+      },
+      Proj_Man: {
         type: Sequelize.STRING
       },
       CD: {
@@ -62,10 +71,13 @@ module.exports = {
       Measure_r: {
         type: Sequelize.DECIMAL
       },
+      Gas_Tax: {
+        type: Sequelize.DECIMAL
+      },
       General_fund: {
         type: Sequelize.DECIMAL
       },
-      Current_Status: {
+      Authorization: {
         type: Sequelize.STRING
       },
       Issues: {
@@ -89,7 +101,7 @@ module.exports = {
       Grant_Cat: {
         type: Sequelize.STRING
       },
-      Proj_Ty: {
+      Grant_Cycle: {
         type: Sequelize.STRING
       },
       Est_Cost: {
@@ -103,9 +115,6 @@ module.exports = {
       },
       Match_Pt: {
         type: Sequelize.INTEGER
-      },
-      Comments: {
-        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

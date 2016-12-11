@@ -1,9 +1,3 @@
-//Global Variables
-var allProjects;
-var funded;
-var unfunded;
-var bikeOnly;
-
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map').setView([
     34.0522, -118.2437
@@ -16,40 +10,36 @@ L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ub
 //Adding a feature group to the map
 var featureGroup = L.featureGroup().addTo(map);
 
-var input = document.getElementById("google-search");
+var defaultBounds = new google.maps.LatLngBounds(
+  new google.maps.LatLng(34.0522, -118.2437)
+);
 
-var searchBox = new google.maps.places.SearchBox(input);
-searchBox.addListener('places_changed', function() {
-    var places = searchBox.getPlaces();
-    if (places.length == 0) {
-        return;
-    }
-    var group = L.featureGroup();
-    places.forEach(function(place) {
-        // console.log("for each");
-        var lat = place.geometry.location.lat();
-        var long = place.geometry.location.lng();
-        var pairs = [lat, long]
-        map.setView([
-            lat, long
-        ], 15);
-        L.marker(pairs).addTo(map);
-        //Empty the search box afterwards (looks kind of weird right now so commented out.)
-        $('#google-search').val('');
-    });
+var googleOptions = {
+  location: defaultBounds,
+  types: ['address']
+};
+
+var input = document.getElementById("google-search");
+var autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+  var place = autocomplete.getPlace();
+  var lat = place.geometry.location.lat();
+  var lng = place.geometry.location.lng();
+  map.setView([lat, lng], 15);
+  $('#google-search').val('');
 });
 
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
 $.ajax({
     type: 'GET',
-    url: '/projects',
+    url: '/projects/all',
     datatype: 'JSON',
     success: function(data) {
         console.log(data);
         if (data) {
           console.log(data);
             allProjects = data;
-            L.geoJson(data, {
+            geoJSON = L.geoJson(data, {
                 onEachFeature: function(feature, layer) {
                   onEachFeature(feature, layer);
                 },
@@ -58,45 +48,49 @@ $.ajax({
     }
 });
 
-//Commented out for now
 
-// function filterProjects() {
-//
-//   if($('#funded-checkbox').is(':checked')){
-//     funded.addTo(map);
-//   } else {
-//     map.removeLayer(funded);
-//   }
-//
-//   if($('#unfunded-checkbox').is(':checked')){
-//     unfunded.addTo(map);
-//   } else {
-//     map.removeLayer(unfunded);
-//   }
-//
-//   // if($('#bike-only-checkbox').is(':checked')){
-//   //   bikeOnly.addTo(map);
-//   // } else {
-//   //   map.removeLayer(bikeOnly);
-//   // }
-//
-//   //Get the types that are check and store them in an array
-//
-//   // options.types = $('.type input[type=checkbox]:checked').map(function(_, el) {
-//   //   return $(el).val();
-//   // }).get();
-// }
-//
-$('#map-filter input').change(function() {
+$('#filter').on('click', function() {
   filterProjects();
 });
-//
+
+//Commented out for now
+function filterProjects() {
+  var fundingTypes = $('.funding-types input[type="checkbox"]:checked').map(function(_, el) {
+    return $(el).val();
+  }).get();
+
+  for (var i = 0; i < fundingTypes.length; i++) {
+    fundingTypes[i] = fundingTypes[i].replace(' ', '%20');
+  }
+  var queryString = fundingTypes.join('&');
+  console.log(queryString);
+  $.ajax({
+      type: 'GET',
+      url: '/projects/' + queryString,
+      datatype: 'JSON',
+      success: function(data) {
+          console.log(data);
+          if (data) {
+            geoJSON.clearLayers();
+            geoJSON = L.geoJson(data, {
+                  onEachFeature: function(feature, layer) {
+                    onEachFeature(feature, layer);
+                  },
+              }).addTo(map);
+          }
+      }
+  });
+}
+
+
 
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
+    var fundStatus = feature.properties.Fund_St;
     $('#sidebar-fundedAndUnfunded').hide();
     $('#sidebar-funded-attributes').hide();
     $('#sidebar-unfunded-attributes').hide();
+    $('#sidebar-more-info').hide();
     $('#show-info').remove();
     $('#hide-info').remove();
 
@@ -105,10 +99,13 @@ function onEachFeature(feature, layer) {
       $('#hide-info').remove();
       var button = $('<button id="hide-info" class="btn btn-danger" type="button" name="button">Less Info</button>');
       $('#project-details').append(button);
+      $('#sidebar-more-info').show();
       if (fundStatus === 'Funded') {
         $('#sidebar-funded-attributes').show();
+        $('#sidebar-unfunded-attributes').hide();
       } else if(fundStatus === 'Unfunded') {
         $('#sidebar-unfunded-attributes').show();
+        $('#sidebar-funded-attributes').hide();
       }
     });
 
@@ -117,6 +114,7 @@ function onEachFeature(feature, layer) {
       $('#hide-info').remove();
       var button = $('<button id="show-info" class="btn btn-primary" type="button" name="button">More Info</button>');
       $('#project-details').append(button);
+      $('#sidebar-more-info').hide();
       if (fundStatus === 'Funded') {
         $('#sidebar-funded-attributes').hide();
       } else if(fundStatus === 'Unfunded') {
@@ -125,7 +123,6 @@ function onEachFeature(feature, layer) {
     });
 
     console.log(feature.properties);
-    var fundStatus = feature.properties.Fund_St;
     //Common attributes
     $('#Proj_Title').text(feature.properties.Proj_Title);
     $('#Proj_Desc').text(feature.properties.Proj_Desc);
@@ -142,6 +139,8 @@ function onEachFeature(feature, layer) {
       $('#Current_Status').text(feature.properties.Proj_Status);
       $('#More_info').text(feature.properties.More_info);
       $('#CD').text(feature.properties.CD);
+      $('#Primary_Street').text(feature.properties.Primary_Street);
+      $('#Cross_Streets').text(feature.properties.Cross_Streets.Intersections);
       $('#sidebar-fundedAndUnfunded').show();
       var button = $('<button id="show-info" class="btn btn-primary" type="button" name="button">More Info</button>');
       $('#project-details').append(button);
@@ -168,13 +167,14 @@ function onEachFeature(feature, layer) {
 
     } else if (fundStatus === 'Unfunded') {
       //Unfunded
+      $('#Unfunded-More_info').text(feature.properties.More_info);
+      $('#Unfunded-CD').text(feature.properties.CD);
       $('#Grant_Cat').text(feature.properties.Grant_Cat);
       $('#Grant_Cycle').text(feature.properties.Grant_Cycle);
       $('#Est_Cost').text('$' + feature.properties.Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('#Fund_Rq').text('$' + feature.properties.Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('#Lc_match').text('$' + feature.properties.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('#Match_Pt').text(feature.properties.Match_Pt + '%');
-      $('#sidebar-unfunded-attributes').show();
     }
   });
 }

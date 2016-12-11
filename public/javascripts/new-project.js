@@ -1,5 +1,5 @@
 //Global variable for creating new project
-var intersectionCounter = 1;
+var intersectionCounter = 2;
 
 //Show and hide attributes based on Funding Status
 $('#Fund_St').on('click', function() {
@@ -71,18 +71,23 @@ $('#delete-button').on('click', function(e) {
   $('#delete-button').hide();
 });
 
-// var defaultBounds = new google.maps.LatLngBounds(
-//   new google.maps.LatLng(34.0522, -118.2437)
-// );
-//
-// var googleOptions = {
-//   location: defaultBounds,
-//   types: ['address']
-// };
-//
-// var input = document.getElementById('intersection1');
-//
-// autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
+var defaultBounds = new google.maps.LatLngBounds(
+  new google.maps.LatLng(34.0522, -118.2437)
+);
+
+var googleOptions = {
+  location: defaultBounds,
+  types: ['address']
+};
+
+var primary = document.getElementById('Primary_Street');
+autocomplete = new google.maps.places.Autocomplete(primary, googleOptions);
+
+var cross1 = document.getElementById('cross-street1');
+autocomplete = new google.maps.places.Autocomplete(cross1, googleOptions);
+
+var cross2 = document.getElementById('cross-street2');
+autocomplete = new google.maps.places.Autocomplete(cross2, googleOptions);
 
 $('#submit-project').on('click', function(){
 
@@ -165,7 +170,7 @@ $('#submit-project').on('click', function(){
 
     $.ajax({
         method: "POST",
-        url: "/new",
+        url: "/projects/new",
         dataType: "json",
         data: newProject,
         success: function(data) {
@@ -175,7 +180,7 @@ $('#submit-project').on('click', function(){
 
     $.ajax({
       method: "GET",
-      url: "/projects",
+      url: "/projects/all",
       success: function(projects) {
 
         var possibleDuplicates = [];
@@ -217,18 +222,23 @@ $('#add-intersection').on('click', function() {
   intersectionCounter++;
   var input = $('<input class="form-control">');
   input.addClass('Intersections');
-  input.attr('placeholder', 'Street');
-  input.attr('id', 'intersection' + intersectionCounter);
+  input.attr('placeholder', 'Cross Street ' + intersectionCounter);
+  input.attr('id', 'cross-street' + intersectionCounter);
   $('#intersections').append(input);
-  var input = document.getElementById('intersection' + intersectionCounter);
+  var input = document.getElementById('cross-street' + intersectionCounter);
   autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
+  $('#undo-intersection').show();
+});
+
+$("#undo-intersection").on('click', function() {
+  $('#cross-street' + intersectionCounter).remove();
+  intersectionCounter--;
+  if (intersectionCounter === 2) {
+    $('#undo-intersection').hide();
+  }
 });
 
 //Hide the google dropdown when the page is scrolled
-$("#cancel-intersection").on('click', function() {
-  intersectionCounter--;
-});
-
 $('#sidebar').on('scroll', function() {
     $('.Intersections').blur();
 });
