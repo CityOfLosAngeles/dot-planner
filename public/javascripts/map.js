@@ -94,9 +94,11 @@ $('#map-filter input').change(function() {
 
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
+    var fundStatus = feature.properties.Fund_St;
     $('#sidebar-fundedAndUnfunded').hide();
     $('#sidebar-funded-attributes').hide();
     $('#sidebar-unfunded-attributes').hide();
+    $('#sidebar-more-info').hide();
     $('#show-info').remove();
     $('#hide-info').remove();
 
@@ -105,10 +107,13 @@ function onEachFeature(feature, layer) {
       $('#hide-info').remove();
       var button = $('<button id="hide-info" class="btn btn-danger" type="button" name="button">Less Info</button>');
       $('#project-details').append(button);
+      $('#sidebar-more-info').show();
       if (fundStatus === 'Funded') {
         $('#sidebar-funded-attributes').show();
+        $('#sidebar-unfunded-attributes').hide();
       } else if(fundStatus === 'Unfunded') {
         $('#sidebar-unfunded-attributes').show();
+        $('#sidebar-funded-attributes').hide();
       }
     });
 
@@ -117,6 +122,7 @@ function onEachFeature(feature, layer) {
       $('#hide-info').remove();
       var button = $('<button id="show-info" class="btn btn-primary" type="button" name="button">More Info</button>');
       $('#project-details').append(button);
+      $('#sidebar-more-info').hide();
       if (fundStatus === 'Funded') {
         $('#sidebar-funded-attributes').hide();
       } else if(fundStatus === 'Unfunded') {
@@ -125,7 +131,6 @@ function onEachFeature(feature, layer) {
     });
 
     console.log(feature.properties);
-    var fundStatus = feature.properties.Fund_St;
     //Common attributes
     $('#Proj_Title').text(feature.properties.Proj_Title);
     $('#Proj_Desc').text(feature.properties.Proj_Desc);
@@ -142,6 +147,8 @@ function onEachFeature(feature, layer) {
       $('#Current_Status').text(feature.properties.Proj_Status);
       $('#More_info').text(feature.properties.More_info);
       $('#CD').text(feature.properties.CD);
+      $('#Primary_Street').text(feature.properties.Primary_Street);
+      $('#Cross_Streets').text(feature.properties.Cross_Streets.Intersections);
       $('#sidebar-fundedAndUnfunded').show();
       var button = $('<button id="show-info" class="btn btn-primary" type="button" name="button">More Info</button>');
       $('#project-details').append(button);
@@ -168,13 +175,14 @@ function onEachFeature(feature, layer) {
 
     } else if (fundStatus === 'Unfunded') {
       //Unfunded
+      $('#Unfunded-More_info').text(feature.properties.More_info);
+      $('#Unfunded-CD').text(feature.properties.CD);
       $('#Grant_Cat').text(feature.properties.Grant_Cat);
       $('#Grant_Cycle').text(feature.properties.Grant_Cycle);
       $('#Est_Cost').text('$' + feature.properties.Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('#Fund_Rq').text('$' + feature.properties.Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('#Lc_match').text('$' + feature.properties.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('#Match_Pt').text(feature.properties.Match_Pt + '%');
-      $('#sidebar-unfunded-attributes').show();
     }
   });
 }
