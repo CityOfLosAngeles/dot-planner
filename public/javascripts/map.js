@@ -16,27 +16,23 @@ L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ub
 //Adding a feature group to the map
 var featureGroup = L.featureGroup().addTo(map);
 
-var input = document.getElementById("google-search");
+var defaultBounds = new google.maps.LatLngBounds(
+  new google.maps.LatLng(34.0522, -118.2437)
+);
 
-var searchBox = new google.maps.places.SearchBox(input);
-searchBox.addListener('places_changed', function() {
-    var places = searchBox.getPlaces();
-    if (places.length == 0) {
-        return;
-    }
-    var group = L.featureGroup();
-    places.forEach(function(place) {
-        // console.log("for each");
-        var lat = place.geometry.location.lat();
-        var long = place.geometry.location.lng();
-        var pairs = [lat, long]
-        map.setView([
-            lat, long
-        ], 15);
-        L.marker(pairs).addTo(map);
-        //Empty the search box afterwards (looks kind of weird right now so commented out.)
-        $('#google-search').val('');
-    });
+var googleOptions = {
+  location: defaultBounds,
+  types: ['address']
+};
+
+var input = document.getElementById("google-search");
+var autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+  var place = autocomplete.getPlace();
+  var lat = place.geometry.location.lat();
+  var lng = place.geometry.location.lng();
+  map.setView([lat, lng], 15);
+  $('#google-search').val('');
 });
 
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
