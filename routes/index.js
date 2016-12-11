@@ -89,6 +89,35 @@ router.get('/projects', function(req, res) {
   });
 });
 
+router.get('/projects/:status', function(req, res) {
+  var featureCollection = {
+      "type": "FeatureCollection",
+      features: []
+  };
+  var status = req.params.status;
+  status = status.split('&')
+  for (var i = 0; i < status.length; i++) {
+    status[i] = status[i].charAt(0).toUpperCase() + status[i].substr(1);
+  }
+  var searchArr = [ ];
+  for (var i = 0; i < status.length; i++) {
+    var searchObj = {
+      Fund_St: status
+    }
+    searchArr.push(searchObj);
+  }
+  models.Project.findAll({
+    where: {
+      $or: searchArr
+    }
+  }).then(function(projects) {
+    for (var i = 0; i < projects.length; i++) {
+      toGeoJSON(projects[i], featureCollection.features);
+    }
+    res.send(featureCollection);
+  });
+});
+
 //Saves a new project to the DB
 router.post('/new', function(req, res) {
     var newProject = req.body;
