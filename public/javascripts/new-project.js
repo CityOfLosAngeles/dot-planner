@@ -227,10 +227,15 @@ $('#add-intersection').on('click', function() {
   $('#intersections').append(input);
   var input = document.getElementById('cross-street' + intersectionCounter);
   autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
+  $('#undo-intersection').show();
 });
 
-$("#cancel-intersection").on('click', function() {
+$("#undo-intersection").on('click', function() {
+  $('#cross-street' + intersectionCounter).remove();
   intersectionCounter--;
+  if (intersectionCounter === 2) {
+    $('#undo-intersection').hide();
+  }
 });
 
 //Hide the google dropdown when the page is scrolled
