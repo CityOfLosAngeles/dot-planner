@@ -94,6 +94,36 @@ $('#map-filter input').change(function() {
 
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
+    $('#sidebar-fundedAndUnfunded').hide();
+    $('#sidebar-funded-attributes').hide();
+    $('#sidebar-unfunded-attributes').hide();
+    $('#show-info').remove();
+    $('#hide-info').remove();
+
+    $(document).on('click', '#show-info', function() {
+      $('#show-info').remove();
+      $('#hide-info').remove();
+      var button = $('<button id="hide-info" class="btn btn-danger" type="button" name="button">Less Info</button>');
+      $('#project-details').append(button);
+      if (fundStatus === 'Funded') {
+        $('#sidebar-funded-attributes').show();
+      } else if(fundStatus === 'Unfunded') {
+        $('#sidebar-unfunded-attributes').show();
+      }
+    });
+
+    $(document).on('click', '#hide-info', function() {
+      $('#show-info').remove();
+      $('#hide-info').remove();
+      var button = $('<button id="show-info" class="btn btn-primary" type="button" name="button">More Info</button>');
+      $('#project-details').append(button);
+      if (fundStatus === 'Funded') {
+        $('#sidebar-funded-attributes').hide();
+      } else if(fundStatus === 'Unfunded') {
+        $('#sidebar-unfunded-attributes').hide();
+      }
+    });
+
     console.log(feature.properties);
     var fundStatus = feature.properties.Fund_St;
     //Common attributes
@@ -104,17 +134,17 @@ function onEachFeature(feature, layer) {
     $('#Fund_St').text(feature.properties.Fund_St);
     $('#Proj_Ty').text(feature.properties.Proj_Ty);
     $('#Contact_info_name').text(feature.properties.Contact_info.Contact_info_name);
-    console.log(feature.properties.Contact_info.Contact_info_name);
     $('#Contact_info_phone').text(feature.properties.Contact_info.Contact_info_phone);
-    console.log(feature.properties.Contact_info.Contact_info_phone);
     $('#Contact_info_email').text(feature.properties.Contact_info.Contact_info_email);
-    console.log(feature.properties.Contact_info.Contact_info_email);
 
     if (fundStatus != 'Idea Project') {
       $('#Proj_Man').text(feature.properties.Proj_Man);
       $('#Current_Status').text(feature.properties.Proj_Status);
       $('#More_info').text(feature.properties.More_info);
       $('#CD').text(feature.properties.CD);
+      $('#sidebar-fundedAndUnfunded').show();
+      var button = $('<button id="show-info" class="btn btn-primary" type="button" name="button">More Info</button>');
+      $('#project-details').append(button);
     }
 
     //Separate section for funded attributes
@@ -135,6 +165,7 @@ function onEachFeature(feature, layer) {
       $('#Constr_by').text(feature.properties.Constr_by);
       $('#Info_source').text(feature.properties.Info_source);
       $('#Access').text(feature.properties.Access);
+
     } else if (fundStatus === 'Unfunded') {
       //Unfunded
       $('#Grant_Cat').text(feature.properties.Grant_Cat);
@@ -143,6 +174,7 @@ function onEachFeature(feature, layer) {
       $('#Fund_Rq').text('$' + feature.properties.Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('#Lc_match').text('$' + feature.properties.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('#Match_Pt').text(feature.properties.Match_Pt + '%');
+      $('#sidebar-unfunded-attributes').show();
     }
   });
 }
