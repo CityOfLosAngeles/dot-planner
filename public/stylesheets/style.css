@@ -37,7 +37,7 @@ body {
   padding: 25px;
 }
 
-#delete, #export {
+#delete {
     position: absolute;
     top: 60px;
     right: 26%;
@@ -52,8 +52,12 @@ body {
     text-decoration: none;
 }
 
-#export {
-    top: 90px;
+#fundedAttributes, #unfundedAttributes, #fundedAndUnfundedAttributes {
+  display: none;
+}
+
+#sidebar-funded-attributes, #sidebar-fundedAndUnfunded, #sidebar-unfunded-attributes {
+  display: none;
 }
 
 /*#google-search{
