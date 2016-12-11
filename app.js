@@ -24,8 +24,8 @@ app.use('/', routes);
 //sequelize sync
 var models  = require('./models');
 var sequelizeConnection = models.sequelize;
-// sequelizeConnection.sync({force:true});
-sequelizeConnection.sync();
+sequelizeConnection.sync({force:true});
+// sequelizeConnection.sync();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
