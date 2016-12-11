@@ -87,20 +87,44 @@ router.get('/all', function(req, res) {
 });
 
 //Takes funding status parameters and returns only projects of the requested funding status
-router.get('/:status', function(req, res) {
+router.get('/funding/:status', function(req, res) {
   var featureCollection = {
       "type": "FeatureCollection",
       features: []
   };
   var status = req.params.status;
-  status = status.split('&')
-  for (var i = 0; i < status.length; i++) {
-    status[i] = status[i].charAt(0).toUpperCase() + status[i].substr(1);
-  }
+  status = status.split('&');
   var searchArr = [ ];
   for (var i = 0; i < status.length; i++) {
     var searchObj = {
-      Fund_St: status
+      Fund_St: {ilike: status[i]}
+    }
+    searchArr.push(searchObj);
+  }
+  models.Project.findAll({
+    where: {
+      $or: searchArr
+    }
+  }).then(function(projects) {
+    for (var i = 0; i < projects.length; i++) {
+      toGeoJSON(projects[i], featureCollection.features);
+    }
+    res.send(featureCollection);
+  });
+});
+
+//Takes funding status parameters and returns only projects of the requested funding status
+router.get('/type/:type', function(req, res) {
+  var featureCollection = {
+      "type": "FeatureCollection",
+      features: []
+  };
+  var type = req.params.type;
+  type = type.split('&');
+  var searchArr = [ ];
+  for (var i = 0; i < type.length; i++) {
+    var searchObj = {
+      Proj_Ty: {ilike: type[i]}
     }
     searchArr.push(searchObj);
   }
