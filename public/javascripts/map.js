@@ -32,7 +32,7 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
 $.ajax({
     type: 'GET',
-    url: '/projects',
+    url: '/projects/all',
     datatype: 'JSON',
     success: function(data) {
         console.log(data);
