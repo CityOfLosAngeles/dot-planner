@@ -163,16 +163,44 @@ $('#submit-project').on('click', function(){
       newProject.Match_Pt = $('#Match_Pt').val();
     }
 
-    console.log(newProject);
-      $.ajax({
-          method: "POST",
-          url: "/new",
-          dataType: "json",
-          data: newProject,
-          success: function(data) {
-            window.location = '/'
+    $.ajax({
+        method: "POST",
+        url: "/new",
+        dataType: "json",
+        data: newProject,
+        success: function(data) {
+          window.location = '/'
+        }
+    });
+
+    $.ajax({
+      method: "GET",
+      url: "/projects",
+      success: function(projects) {
+
+        var possibleDuplicates = [];
+
+        // Check for duplicates
+        for(var i=0; i<projects.features.length; i++){
+          if(newProject.Proj_Title.toLowerCase() == projects.features[i].properties.Proj_Title.toLowerCase() || newProject.Proj_Desc.toLowerCase() == projects.features[i].properties.Proj_Desc.toLowerCase() || newProject.Intersections == projects.features[i].properties.Intersections || newProject.More_info.toLowerCase() == projects.features[i].properties.More_info.toLowerCase())
+            possibleDuplicates.push(projects.features[i]);
+        }
+
+        // If there are duplicates...
+        if (possibleDuplicates.length > 0){
+          for(var i=0; i<possibleDuplicates.length; i++){
+            $('#duplicateProjects').append('<div id="duplicate' + i + '">Project Title: ' + possibleDuplicates[i].properties.Proj_Title + '</div>');
+            $('#duplicateProjects').append('<br>');
           }
-      });
+          $('#myModal').modal();
+        }
+
+        // If there are no duplicates...
+        else{
+          addProject(newProject);
+        }
+      }
+    });
 
     return false;
 
@@ -197,23 +225,13 @@ $('#add-intersection').on('click', function() {
 });
 
 //Hide the google dropdown when the page is scrolled
+$("#cancel-intersection").on('click', function() {
+  intersectionCounter--;
+});
+
 $('#sidebar').on('scroll', function() {
     $('.Intersections').blur();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //
 // // Form validation
@@ -425,23 +443,47 @@ $('#sidebar').on('scroll', function() {
 //     checkForm();
 // });
 //
-// function checkForm(){
-//   if(uidComplete && proj_titleComplete && proj_descComplete && lead_agComplete && fund_stComplete && proj_manComplete && contact_info_nameComplete && contact_info_phoneComplete && contact_info_emailComplete && more_infoComplete && cdComplete && accessComplete)
-//     $("#submit-project").removeAttr("disabled");
-//   else
-//     $("#submit-project").attr("disabled",true);
-// }
-//
-// function hasSuccess(divID,spanID){
-//   $(divID).removeClass("has-error has-feedback");
-//   $(divID).addClass("has-success has-feedback");
-//   $(spanID).removeClass("glyphicon glyphicon-remove form-control-feedback");
-//   $(spanID).addClass("glyphicon glyphicon-ok form-control-feedback");
-// }
-//
-// function hasError(divID,spanID){
-//   $(divID).removeClass("has-success has-feedback");
-//   $(divID).addClass("has-error has-feedback");
-//   $(spanID).removeClass("glyphicon glyphicon-ok form-control-feedback");
-//   $(spanID).addClass("glyphicon glyphicon-remove form-control-feedback");
-// }
+
+
+// Modal onclicks
+$("#flag-button").on("click", function() {
+
+});
+
+$("#add-button").on("click", function() {
+  addProject(newProject);
+});
+
+
+function checkForm(){
+  if(uidComplete && proj_titleComplete && proj_descComplete && lead_agComplete && fund_stComplete && proj_manComplete && contact_info_nameComplete && contact_info_phoneComplete && contact_info_emailComplete && more_infoComplete && cdComplete && accessComplete)
+    $("#submit-project").removeAttr("disabled");
+  else
+    $("#submit-project").attr("disabled",true);
+}
+
+function hasSuccess(divID,spanID){
+  $(divID).removeClass("has-error has-feedback");
+  $(divID).addClass("has-success has-feedback");
+  $(spanID).removeClass("glyphicon glyphicon-remove form-control-feedback");
+  $(spanID).addClass("glyphicon glyphicon-ok form-control-feedback");
+}
+
+function hasError(divID,spanID){
+  $(divID).removeClass("has-success has-feedback");
+  $(divID).addClass("has-error has-feedback");
+  $(spanID).removeClass("glyphicon glyphicon-ok form-control-feedback");
+  $(spanID).addClass("glyphicon glyphicon-remove form-control-feedback");
+}
+
+function addProject(project){
+  $.ajax({
+    method: "POST",
+    url: "/new",
+    dataType: "json",
+    data: project,
+    success: function(data) {
+      window.location = '/'
+    }
+  });
+}
