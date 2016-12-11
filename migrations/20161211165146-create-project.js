@@ -41,7 +41,7 @@ module.exports = {
       Cross_Streets: {
         type: Sequelize.JSONB
       },
-      Project_Status: {
+      Proj_Status: {
         type: Sequelize.STRING
       },
       Proj_Man: {
@@ -76,6 +76,9 @@ module.exports = {
       },
       General_fund: {
         type: Sequelize.DECIMAL
+      },
+      Authorization: {
+        type: Sequelize.STRING
       },
       Issues: {
         type: Sequelize.STRING

@@ -170,7 +170,7 @@ $('#submit-project').on('click', function(){
 
     $.ajax({
         method: "POST",
-        url: "/new",
+        url: "/projects/new",
         dataType: "json",
         data: newProject,
         success: function(data) {
@@ -180,7 +180,7 @@ $('#submit-project').on('click', function(){
 
     $.ajax({
       method: "GET",
-      url: "/projects",
+      url: "/projects/all",
       success: function(projects) {
 
         var possibleDuplicates = [];
