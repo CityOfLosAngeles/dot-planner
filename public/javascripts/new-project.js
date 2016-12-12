@@ -60,9 +60,9 @@ var googleOptions = {
   types: ['address']
 };
 
-var input = document.getElementById('intersection1');
+var input1 = document.getElementById('intersection1');
 
-autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
+autocomplete = new google.maps.places.Autocomplete(input1, googleOptions);
 
 $('#submit-project').on('click', function(){
 
@@ -217,18 +217,23 @@ $('#submit-project').on('click', function(){
 //Add more intersections
 $('#add-intersection').on('click', function() {
   intersectionCounter++;
-  var input = $('<input class="form-control">');
+
+  var div = $('<div class="form-group" id="intersection'+intersectionCounter+'-group">');
+  var input = $('<input type="text" class="form-control" placeholder="Street" id="intersection'+intersectionCounter+'">');
   input.addClass('Intersections');
-  input.attr('placeholder', 'Street');
-  input.attr('id', 'intersection' + intersectionCounter);
-  $('#intersections').append(input);
-  var input = document.getElementById('intersection' + intersectionCounter);
-  autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
+  var span = $('<span id="intersection'+intersectionCounter+'-span" area-hidden="true">');
+
+  div.append(input);
+  div.append(span);
+
+  $('#intersections').append(div);
+
+  autocomplete = new google.maps.places.Autocomplete(document.getElementById('intersection'+intersectionCounter), googleOptions);
 });
 
+//  TODO :  finish this function and HTML
 $("#cancel-intersection").on('click', function() {
   intersectionCounter--;
-
 });
 
 $(document).ready(function() {
@@ -315,13 +320,27 @@ $("#Proj_Desc").keyup(function(){
   checkForm();
 });
 
+// Intersections
+// =============
+// Required
+// Valid location
+$("#intersections").on('keyup', '.Intersections', function(){
 
+  var address = $('#'+this.id).val();
 
+  console.log(location_valid("10824 lindbrook drive, los angeles"));
 
-//  TODO :  ADD INTERSECTION FORM VALIDATION AND MAKE REQUIRED
+  console.log(address);
+  console.log(location_valid(address));
 
-
-
+  if(location_valid(address)){
+    // console.log("Has success!");
+    hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
+  }
+  // else{
+  //   hasError("#"+this.id+"-group","#"+this.id+"-span");
+  // }
+});
 
 // Lead Agency
 // ===========
@@ -493,6 +512,7 @@ $("#add-button").on("click", function() {
 });
 
 
+
 function checkForm(){
   if(uidComplete && proj_titleComplete && proj_descComplete && lead_agComplete && fund_stComplete && proj_manComplete && contact_info_nameComplete && contact_info_phoneComplete && contact_info_emailComplete && more_infoComplete && cdComplete && accessComplete)
     $("#submit-project").removeAttr("disabled");
@@ -524,4 +544,17 @@ function addProject(project){
       window.location = '/'
     }
   });
+}
+
+function location_valid(stringAddress) {
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode( {"address": stringAddress}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK){
+            return true;
+        }
+        else{
+            return false;
+        }
+    });
 }
