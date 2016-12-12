@@ -115,7 +115,7 @@ router.get('/funding/:status', function(req, res) {
     });
 });
 
-//Takes funding status parameters and returns only projects of the requested funding status
+//Takes project type parameters and returns only projects of the requested types
 router.get('/type/:type', function(req, res) {
     var featureCollection = {
         "type": "FeatureCollection",
@@ -145,70 +145,46 @@ router.get('/type/:type', function(req, res) {
 });
 
 router.get('/funding/:status/type/:type', function(req, res) {
-    var featureCollection = {
-        "type": "FeatureCollection",
-        features: []
-    };
-    var status = req.params.status;
-    var type = req.params.type;
-    status = status.split('&');
-    type = type.split('&');
-    var statusArr = [ ];
-    var typeArr = [ ];
-    for (var i = 0; i < status.length; i++) {
-        var searchObj = {
-            Fund_St: {
-                ilike: status[i]
-            }
-        }
-        statusArr.push(searchObj);
-    }
-    for (var i = 0; i < type.length; i++) {
-        var searchObj = {
-            Proj_Ty: {
-                ilike: type[i]
-            }
-        }
-        statusArr.push(searchObj);
-    }
-    models.Project.findAll({
-        where: {
-            $or: statusArr
-        }
-    }).then(function(projects){
-      for (var i = 0; i < projects.length; i++) {
-        toGeoJSON(projects[i], featureCollection.features);
-      }
-      res.send(featureCollection);
-    });
-});
 
-//Saves a new project to the DB
-router.post('/new', function(req, res) {
-    var newProject = req.body;
-    var fundStatus = newProject.Fund_St;
-    var geometry = JSON.parse(newProject.Geometry);
-    var coordinates = JSON.parse(geometry.coordinates);
-    var parsedGeometry = {
-        type: geometry.type,
-        coordinates: coordinates
-    }
-    newProject.Geometry = parsedGeometry;
-    var contactInfo = JSON.parse(newProject.Contact_info);
-    newProject.Contact_info = contactInfo;
+  //Still working on figuring this out
 
-    if (fundStatus === 'Idea Project') {
-        models.Project.create(newProject).then(function() {
-            res.send({"success": "Yes!"});
-        });
-    } else {
-        var crossStreets = JSON.parse(newProject.Cross_Streets);
-        newProject.Cross_Streets = crossStreets;
-        models.Project.create(newProject).then(function() {
-            res.send({"success": "Yes!"});
-        });
-    }
-    console.log(newProject);
+
+//     var featureCollection = {
+//         "type": "FeatureCollection",
+//         features: []
+//     };
+//     var status = req.params.status;
+//     var type = req.params.type;
+//     status = status.split('&');
+//     type = type.split('&');
+// });
+//
+// //Saves a new project to the DB
+// router.post('/new', function(req, res) {
+//     var newProject = req.body;
+//     var fundStatus = newProject.Fund_St;
+//     var geometry = JSON.parse(newProject.Geometry);
+//     var coordinates = JSON.parse(geometry.coordinates);
+//     var parsedGeometry = {
+//         type: geometry.type,
+//         coordinates: coordinates
+//     }
+//     newProject.Geometry = parsedGeometry;
+//     var contactInfo = JSON.parse(newProject.Contact_info);
+//     newProject.Contact_info = contactInfo;
+//
+//     if (fundStatus === 'Idea Project') {
+//         models.Project.create(newProject).then(function() {
+//             res.send({"success": "Yes!"});
+//         });
+//     } else {
+//         var crossStreets = JSON.parse(newProject.Cross_Streets);
+//         newProject.Cross_Streets = crossStreets;
+//         models.Project.create(newProject).then(function() {
+//             res.send({"success": "Yes!"});
+//         });
+//     }
+//     console.log(newProject);
 });
 
 module.exports = router;
