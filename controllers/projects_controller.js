@@ -145,46 +145,67 @@ router.get('/type/:type', function(req, res) {
 });
 
 router.get('/funding/:status/type/:type', function(req, res) {
+    var featureCollection = {
+        "type": "FeatureCollection",
+        features: []
+    };
+    var status = req.params.status;
+    var type = req.params.type;
+    status = status.split('&');
+    type = type.split('&');
+    var searchArr = [ ];
+    for (var i = 0; i < status.length; i++) {
+      for (var j = 0; j < type.length; j++) {
+        var searchObj = {
+            Fund_St: {
+                ilike: status[i]
+            },
+            Proj_Ty: {
+              ilike: type[j]
+            }
+        };
+        searchArr.push(searchObj);
+      }
+    }
+    console.log(searchArr);
+    models.Project.findAll({
+        where: {
+            $or: searchArr
+        }
+    }).then(function(projects) {
+        for (var i = 0; i < projects.length; i++) {
+            toGeoJSON(projects[i], featureCollection.features);
+        }
+        res.send(featureCollection);
+    });
+});
 
-  //Still working on figuring this out
+//Saves a new project to the DB
+router.post('/new', function(req, res) {
+    var newProject = req.body;
+    var fundStatus = newProject.Fund_St;
+    var geometry = JSON.parse(newProject.Geometry);
+    var coordinates = JSON.parse(geometry.coordinates);
+    var parsedGeometry = {
+        type: geometry.type,
+        coordinates: coordinates
+    }
+    newProject.Geometry = parsedGeometry;
+    var contactInfo = JSON.parse(newProject.Contact_info);
+    newProject.Contact_info = contactInfo;
 
-
-//     var featureCollection = {
-//         "type": "FeatureCollection",
-//         features: []
-//     };
-//     var status = req.params.status;
-//     var type = req.params.type;
-//     status = status.split('&');
-//     type = type.split('&');
-// });
-//
-// //Saves a new project to the DB
-// router.post('/new', function(req, res) {
-//     var newProject = req.body;
-//     var fundStatus = newProject.Fund_St;
-//     var geometry = JSON.parse(newProject.Geometry);
-//     var coordinates = JSON.parse(geometry.coordinates);
-//     var parsedGeometry = {
-//         type: geometry.type,
-//         coordinates: coordinates
-//     }
-//     newProject.Geometry = parsedGeometry;
-//     var contactInfo = JSON.parse(newProject.Contact_info);
-//     newProject.Contact_info = contactInfo;
-//
-//     if (fundStatus === 'Idea Project') {
-//         models.Project.create(newProject).then(function() {
-//             res.send({"success": "Yes!"});
-//         });
-//     } else {
-//         var crossStreets = JSON.parse(newProject.Cross_Streets);
-//         newProject.Cross_Streets = crossStreets;
-//         models.Project.create(newProject).then(function() {
-//             res.send({"success": "Yes!"});
-//         });
-//     }
-//     console.log(newProject);
+    if (fundStatus === 'Idea Project') {
+        models.Project.create(newProject).then(function() {
+            res.send({"success": "Yes!"});
+        });
+    } else {
+        var crossStreets = JSON.parse(newProject.Cross_Streets);
+        newProject.Cross_Streets = crossStreets;
+        models.Project.create(newProject).then(function() {
+            res.send({"success": "Yes!"});
+        });
+    }
+    console.log(newProject);
 });
 
 module.exports = router;
