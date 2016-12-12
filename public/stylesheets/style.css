@@ -5,7 +5,6 @@ body {
   overflow-x: hidden;
 }
 
-
 .navbar {
   margin-bottom: 0;
 }
@@ -37,7 +36,7 @@ body {
   padding: 25px;
 }
 
-#delete, #export {
+#delete {
     position: absolute;
     top: 60px;
     right: 26%;
@@ -52,8 +51,16 @@ body {
     text-decoration: none;
 }
 
-#export {
-    top: 90px;
+#fundedAttributes, #unfundedAttributes, #fundedAndUnfundedAttributes {
+  display: none;
+}
+
+#sidebar-funded-attributes, #sidebar-fundedAndUnfunded, #sidebar-unfunded-attributes, #sidebar-more-info {
+  display: none;
+}
+
+#undo-intersection{
+  display: none;
 }
 
 /*#google-search{
@@ -102,6 +109,12 @@ body {
 }
 
 .Intersections{
+  margin-top: 10px;
+}
+
+#filter{
+  display: block;
+  width: 100%;
   margin-top: 10px;
 }
 
