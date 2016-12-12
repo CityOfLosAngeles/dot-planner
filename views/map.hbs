@@ -11,48 +11,54 @@
                     <h4 class="card-title text-center" id="Proj_Title">Project View</h4>
                     <p class="card-text text-center" id="Proj_Desc">Click on a project on the map to view it's details.</p>
                 </div>
-                <ul class="list-group list-group-flush" id="common-attributes">
-                    <li class="list-group-item">UID: <p style="display:inline" id="UID"></p></li>
+                <ul class="list-group list-group-flush" id="sidebar-always-shown-attributes">
+                    <li class="list-group-item">Legacy ID: <p style="display:inline" id="Legacy_ID"></p></li>
                     <li class="list-group-item">Lead Agency: <p style="display:inline" id="Lead_Ag"></p></li>
                     <li class="list-group-item">Funding Status: <p style="display:inline" id="Fund_St"></p></li>
-                    <li class="list-group-item">Project Manager: <p style="display:inline" id="Proj_Man"></p></li>
+                    <li class="list-group-item">Project Type: <p style="display:inline" id="Proj_Ty"></p></li>
                     <li class="list-group-item">Contact Name: <p style="display:inline" id="Contact_info_name"></p></li>
                     <li class="list-group-item">Contact Number: <p style="display:inline" id="Contact_info_phone"></p></li>
                     <li class="list-group-item">Contact Email: <p style="display:inline" id="Contact_info_email"></p></li>
-                    <li class="list-group-item">More Info: <p style="display:inline" id="More_info"></p></li>
-                    <li class="list-group-item">CD: <p style="display:inline" id="CD"></p></li>
+                    <div id="sidebar-fundedAndUnfunded">
+                      <li class="list-group-item">Project Manager: <p style="display:inline" id="Proj_Man"></p></li>
+                      <li class="list-group-item">Project Status: <p style="display:inline" id="Current_Status"></p></li>
+                    </div>
                 </ul>
 
-                <ul class="list-group list-group-flush" id="funded-attributes">
+                <ul class="list-group list-group-flush" id="sidebar-more-info">
+                  <li class="list-group-item">More Info/Comments: <p style="display:inline" id="More_info"></p></li>
+                  <li class="list-group-item">Council District: <p style="display:inline" id="CD"></p></li>
+                  <li class="list-group-item">Primary Street: <p style="display:inline" id="Primary_Street"></p></li>
+                  <li class="list-group-item">Cross Streets: <p style="display:inline" id="Cross_Streets"></p></li>
+                </ul>
+
+                <ul class="list-group list-group-flush" id="sidebar-funded-attributes">
                   <li class="list-group-item">Department Project ID: <p style="display:inline" id="Dept_Proj_ID"></p></li>
+                  <li class="list-group-item">Other Project ID: <p style="display:inline" id="Other_ID"></p></li>
                   <li class="list-group-item">Total Budget: <p style="display:inline" id="Total_bgt"></p></li>
                   <li class="list-group-item">Grant: <p style="display:inline" id="Grant"></p></li>
                   <li class="list-group-item">Other Funds: <p style="display:inline" id="Other_funds"></p></li>
                   <li class="list-group-item">Prop C: <p style="display:inline" id="Prop_c"></p></li>
                   <li class="list-group-item">Measure R: <p style="display:inline" id="Measure_r"></p></li>
+                  <li class="list-group-item">Gas Tax: <p style="display:inline" id="Gas_Tax"></p></li>
                   <li class="list-group-item">General Fund: <p style="display:inline" id="General_fund"></p></li>
-                  <li class="list-group-item">Current Status: <p style="display:inline" id="Current_Status"></p></li>
+                  <li class="list-group-item">Authorization: <p style="display:inline" id="Authorization"></p></li>
                   <li class="list-group-item">Issues: <p style="display:inline" id="Issues"></p></li>
                   <li class="list-group-item">At Risk of Deobligation: <p style="display:inline" id="Deobligation"></p></li>
                   <li class="list-group-item">Explanation: <p style="display:inline" id="Explanation"></p></li>
-                  <li class="list-group-item">Other Project ID: <p style="display:inline" id="Other_ID"></p></li>
                   <li class="list-group-item">Construction By: <p style="display:inline" id="Constr_by"></p></li>
                   <li class="list-group-item">Info Source: <p style="display:inline" id="Info_source"></p></li>
+                  <li class="list-group-item">Access: <p style="display:inline" id="Access"></p></li>
                 </ul>
 
-                <ul class="list-group list-group-flush" id="unfunded-attributes">
+                <ul class="list-group list-group-flush" id="sidebar-unfunded-attributes">
                   <li class="list-group-item">Grant Category: <p style="display:inline" id="Grant_Cat"></p></li>
-                  <li class="list-group-item">Project Type: <p style="display:inline" id="Proj_Ty"></p></li>
+                  <li class="list-group-item">Grant Cycle: <p style="display:inline" id="Grant_Cycle"></p></li>
                   <li class="list-group-item">Estimated Cost: <p style="display:inline" id="Est_Cost"></p></li>
                   <li class="list-group-item">Fund Request: <p style="display:inline" id="Fund_Rq"></p></li>
                   <li class="list-group-item">Local Match: <p style="display:inline" id="Lc_match"></p></li>
                   <li class="list-group-item">Match Percentage: <p style="display:inline" id="Match_Pt"></p></li>
-                  <li class="list-group-item">Comments: <p style="display:inline" id="Comments"></p></li>
                 </ul>
-                <!-- <div class="card-block">
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div> -->
             </div>
           </div>
         </div>
