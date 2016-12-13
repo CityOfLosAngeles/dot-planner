@@ -5,7 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser'); // for working with cookies
 var bodyParser = require('body-parser');
-var session = require('express-session'); 
+var session = require('express-session');
 var methodOverride = require('method-override'); // for deletes in express
 var hbs = require('hbs');
 
@@ -29,6 +29,7 @@ hbs.registerPartials(__dirname + '/views/partials');
 //spencer's 2 public folders just in case
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/projects', express.static(__dirname + '/public'));
+app.use('/projects/edit', express.static(__dirname + '/public'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
