@@ -132,6 +132,15 @@ function onEachFeature(feature, layer) {
     });
 
     console.log(feature.properties);
+
+    // Show edit button
+    $("#edit").attr("hidden",false);
+
+    // Edit button on click
+    $(document).on('click', '#edit', function() {
+      console.log(feature);
+    });
+
     //Common attributes
     $('#Proj_Title').text(feature.properties.Proj_Title);
     $('#Proj_Desc').text(feature.properties.Proj_Desc);
