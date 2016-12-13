@@ -267,6 +267,15 @@ var more_infoComplete = false;
 var cdComplete = false;
 var accessComplete = false;
 
+
+// Funding Status
+// ==============
+// Required
+$("#Fund_St").on("click", ".Fund_St-option", function() {
+    fund_stComplete = true;
+    checkForm();
+});
+
 // Legacy ID
 // =========
 // HTML type = number
@@ -280,6 +289,22 @@ $("#Legacy_ID").keyup(function(){
   else{
     uidComplete = false;
     hasError("#Legacy-ID-group","#Legacy-ID-span");
+  }
+  checkForm();
+});
+
+// Lead Agency
+// ===========
+// HTML type = text
+// Required
+$("#Lead_Ag").keyup(function(){
+  if($("#Lead_Ag").val() != ""){
+    lead_agComplete = true;
+    hasSuccess("#Lead_Ag-group","#Lead_Ag-span");
+  }
+  else{
+    lead_agComplete = false;
+    hasError("#Lead_Ag-group","#Lead_Ag-span");
   }
   checkForm();
 });
@@ -299,6 +324,7 @@ $("#Proj_Title").keyup(function(){
   }
   checkForm();
 });
+
 
 // Project Description
 // ===================
@@ -334,43 +360,6 @@ $("#intersections").on('keyup', '.Intersections', function(){
     hasError("#"+this.id+"-group","#"+this.id+"-span");
 });
 
-// Lead Agency
-// ===========
-// HTML type = text
-// Required
-$("#Lead_Ag").keyup(function(){
-  if($("#Lead_Ag").val() != ""){
-    lead_agComplete = true;
-    hasSuccess("#Lead_Ag-group","#Lead_Ag-span");
-  }
-  else{
-    lead_agComplete = false;
-    hasError("#Lead_Ag-group","#Lead_Ag-span");
-  }
-  checkForm();
-});
-
-// When click the "funded" radiobutton...
-$("#funded").on("click", function() {
-    // Show submit button and appropriate form
-    // $("#submit").show();
-    // $("#unfundedAttributes").hide();
-    $("#fundedAttributes").show();
-
-    fund_stComplete = true;
-    checkForm();
-});
-
-// When click the "unfunded" radiobutton...
-$("#unfunded").on("click", function() {
-    // Show submit button and appropriate form
-    // $("#submit").show();
-    $("#fundedAttributes").hide();
-    // $("#unfundedAttributes").show();
-
-    fund_stComplete = true;
-    checkForm();
-});
 
 // Project Manager
 // ===============
