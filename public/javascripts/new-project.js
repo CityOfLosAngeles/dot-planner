@@ -1,4 +1,4 @@
-//Global variable for creating new project
+//Global variable for countering number of cross streets
 var intersectionCounter = 2;
 
 //Show and hide attributes based on Funding Status

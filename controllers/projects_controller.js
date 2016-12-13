@@ -217,4 +217,20 @@ router.post('/new', function(req, res) {
     console.log(newProject);
 });
 
+router.get('/edit/', function(req, res) {
+  res.render('edit');
+});
+
+router.get('/edit/:id', function(req, res) {
+  var id = req.params.id;
+  console.log('ID: ' + id);
+  models.Project.findAll({
+    where: {
+      id: id
+    }
+  }).then(function(project) {
+    res.send(project);
+  });
+});
+
 module.exports = router;
