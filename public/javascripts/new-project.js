@@ -1,3 +1,5 @@
+var newProject;
+
 //Global variable for countering number of cross streets
 var intersectionCounter = 2;
 
@@ -29,7 +31,9 @@ var map = L.mapbox.map('map').setView([
 
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 
-L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ubnn/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q', {detectRetina: true}).addTo(map);
+L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ubnn/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q',
+  {detectRetina: true})
+.addTo(map);
 
 //Adding a feature group to the map
 var featureGroup = L.featureGroup().addTo(map);
@@ -111,7 +115,7 @@ $('#submit-project').on('click', function(){
     });
 
     //Create the newProject object and set common attributes
-    var newProject = {
+    newProject = {
       //Geometry
       Geometry: JSON.stringify({
         type: data.features[0].geometry.type,
@@ -187,16 +191,21 @@ $('#submit-project').on('click', function(){
         // Check for duplicates
         for(var i=0; i<projects.features.length; i++){
 
-          console.log(newProject.Proj_Title.toLowerCase());
-          console.log(projects.features[i].properties.Proj_Title.toLowerCase());
-          console.log(newProject.Proj_Desc.toLowerCase());
-          console.log(projects.features[i].properties.Proj_Desc.toLowerCase());
-          console.log(newProject.More_info.toLowerCase());
-          console.log(projects.features[i].properties.More_info.toLowerCase());
-          console.log("===================");
+          // console.log(newProject.Proj_Title.toLowerCase());
+          // console.log(projects.features[i].properties.Proj_Title.toLowerCase());
+          // console.log(newProject.Proj_Desc.toLowerCase());
+          // console.log(projects.features[i].properties.Proj_Desc.toLowerCase());
+          // console.log(newProject.More_info.toLowerCase());
+          // console.log(projects.features[i].properties.More_info.toLowerCase());
+          // console.log("===================");
 
-          if(newProject.Proj_Title.toLowerCase() == projects.features[i].properties.Proj_Title.toLowerCase() || newProject.Proj_Desc.toLowerCase() == projects.features[i].properties.Proj_Desc.toLowerCase() || newProject.More_info.toLowerCase() == projects.features[i].properties.More_info.toLowerCase())
+          if(newProject.Proj_Title.toLowerCase() == projects.features[i].properties.Proj_Title.toLowerCase() 
+            || newProject.Proj_Desc.toLowerCase() == projects.features[i].properties.Proj_Desc.toLowerCase() 
+            || newProject.More_info.toLowerCase() == projects.features[i].properties.More_info.toLowerCase())
+          {
+            console.log("DUPLICATE!");
             possibleDuplicates.push(projects.features[i]);
+          }
         }
 
         // If there are duplicates...
@@ -205,12 +214,14 @@ $('#submit-project').on('click', function(){
             $('#duplicateProjects').append('<div id="duplicate' + i + '">Project Title: ' + possibleDuplicates[i].properties.Proj_Title + '</div>');
             $('#duplicateProjects').append('<br>');
           }
+          console.log("duplicate! trigger modal");
           $('#myModal').modal();
           possibleDuplicates = [];
         }
 
         // If there are no duplicates...
         else{
+          console.log("No duplicates. Add project");
           addProject(newProject);
         }
       }
@@ -262,17 +273,53 @@ $("#undo-intersection").on('click', function() {
 // Form validation
 // ===============
 
-var legacy_idComplete = false;
-var proj_titleComplete = false;
-var proj_descComplete = false;
+
+// Required for all projects
 var lead_agComplete = false;
+var proj_titleComplete = false;
+var proj_tyComplete = false;
+var proj_descComplete = false;
 var fund_stComplete = false;
-var proj_manComplete = false;
 var contact_info_nameComplete = false;
 var contact_info_phoneComplete = false;
 var contact_info_emailComplete = false;
 var more_infoComplete = false;
+
+// Not required for Idea Project
+// Required for Funded and Unfunded
+var intersectionsComplete = false;
+var proj_statusComplete = false;
+var proj_manComplete = false;
 var cdComplete = false;
+
+// Not required for Unfunded and Idea Project
+// Required for Funded
+var accessComplete = false;
+var dept_proj_idComplete = false;
+var other_idComplete = false;
+var total_bgt = false;
+var grantComplete = false;
+var other_fundsComplete = false;
+var prop_cComplete = false;
+var measure_rComplete = false;
+var gas_taxComplete = false;
+var general_fundComplete = false;
+var authorizationComplete = false;
+var issuesComplete = false;
+var deobligationComplete = false;
+var constr_byComplete = false;
+var info_sourceComplete = false;
+
+// Only required if Risk of Deobligation = Yes
+var explanationComplete = false;
+
+// Not required for Funded and Idea Project
+// Required for Unfunded
+var grant_cat = false;
+var grant_cycle = false;
+var est_cost = false;
+var fund_rq = false;
+var lc_match = false;
 
 
 // Funding Status
@@ -286,19 +333,19 @@ $("#Fund_St").on("click", ".Fund_St-option", function() {
 // Legacy ID
 // =========
 // HTML type = number
-// Required
+// Not required
 // Is a number
-$("#Legacy_ID").keyup(function(){
-  if($("#Legacy_ID").val() != "" && $.isNumeric($("#Legacy_ID").val())){
-    legacy_idComplete = true;
-    hasSuccess("#Legacy-ID-group","#Legacy-ID-span");
-  }
-  else{
-    legacy_idComplete = false;
-    hasError("#Legacy-ID-group","#Legacy-ID-span");
-  }
-  checkForm();
-});
+// $("#Legacy_ID").keyup(function(){
+//   if($("#Legacy_ID").val() != "" && $.isNumeric($("#Legacy_ID").val())){
+//     legacy_idComplete = true;
+//     hasSuccess("#Legacy-ID-group","#Legacy-ID-span");
+//   }
+//   else{
+//     legacy_idComplete = false;
+//     hasError("#Legacy-ID-group","#Legacy-ID-span");
+//   }
+//   checkForm();
+// });
 
 // Lead Agency
 // ===========
@@ -426,7 +473,14 @@ $("#Contact_info_phone").keyup(function(){
 // Contains no spaces
 // Regex express
 $("#Contact_info_email").keyup(function(){
-  if($("#Contact_info_email").val() != "" && $("#Contact_info_email").val().includes("@") && $("#Contact_info_email").val().includes(".") && $("#Contact_info_email").val().length > 5 && $("#Contact_info_email").val().indexOf("@.") == -1 && $("#Contact_info_email").val().indexOf(" ")==-1 && $("#Contact_info_email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+  if($("#Contact_info_email").val()!= ""
+    && $("#Contact_info_email").val().includes("@") 
+    && $("#Contact_info_email").val().includes(".") 
+    && $("#Contact_info_email").val().length > 5 
+    && $("#Contact_info_email").val().indexOf("@.") == -1 
+    && $("#Contact_info_email").val().indexOf(" ")==-1 
+    && $("#Contact_info_email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
+  {
     contact_info_emailComplete = true;
     hasSuccess("#Contact_info_email-group","#Contact_info_email-span");
   }
@@ -439,13 +493,14 @@ $("#Contact_info_email").keyup(function(){
 
 // Link to More Project Info
 // =========================
-// HTML type = url
 // Required
-// Contains the symbol: .
-// Contains no spaces
-// Regex expression
+// url validation: $("#More_info").val().includes(".")
+// && $("#More_info").val().indexOf(" ")==-1
+// && $("#More_info").val().match(/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(
+// ?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?:
+// :\d{2,5}(?:[/?#]\S*)?$/i)
 $("#More_info").keyup(function(){
-  if($("#More_info").val() != "" && $("#More_info").val().includes(".") && $("#More_info").val().indexOf(" ")==-1 && $("#More_info").val().match(/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i)){
+  if($("#More_info").val() != ""){
     more_infoComplete = true;
     hasSuccess("#More_info-group","#More_info-span");
   }
@@ -461,9 +516,9 @@ $("#More_info").keyup(function(){
 // HTML type = number
 // Required
 // Is numeric
-// Is between [1, 14]
+// Is between [1, 15]
 $("#CD").keyup(function(){
-  if($("#CD").val() != "" && $.isNumeric($("#CD").val()) && $("#CD").val()>=1 && $("#CD").val()<=14){
+  if($("#CD").val() != "" && $.isNumeric($("#CD").val()) && $("#CD").val()>=1 && $("#CD").val()<=15){
     cdComplete = true;
     hasSuccess("#CD-group","#CD-span");
   }
@@ -489,10 +544,24 @@ $("#add-button").on("click", function() {
 
 function checkForm(){
 
-  if(legacy_idComplete && proj_titleComplete && proj_descComplete && lead_agComplete && fund_stComplete && proj_manComplete && contact_info_nameComplete && contact_info_phoneComplete && contact_info_emailComplete && more_infoComplete && cdComplete)
+  if(proj_titleComplete 
+    // && proj_descComplete 
+    // && proj_tyComplete
+    // && lead_agComplete 
+    // && fund_stComplete 
+    // && proj_manComplete 
+    // && contact_info_nameComplete 
+    // && contact_info_phoneComplete 
+    // && contact_info_emailComplete 
+    // && more_infoComplete 
+    && cdComplete)
+  {
     $("#submit-project").removeAttr("disabled");
+  }
   else
+  {
     $("#submit-project").attr("disabled",true);
+  }
 }
 
 function hasSuccess(divID,spanID){
