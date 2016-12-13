@@ -65,7 +65,7 @@ function filterProjects() {
   console.log(queryString);
   $.ajax({
       type: 'GET',
-      url: '/projects/' + queryString,
+      url: '/projects/funding/' + queryString,
       datatype: 'JSON',
       success: function(data) {
           console.log(data);
