@@ -1,0 +1,19 @@
+{{#if adminclearance}}
+<div class="container">
+<h1>Admin Add User Form</h1>
+<form class="create-update-form" action="/users/admincreateuser" method="POST">
+
+  <div class="form-group">
+    <label for="em">Email:</label>
+    <input type="text" id="em" name="email">
+  </div>
+
+  <div class="form-group">  
+    <input type="radio" name="admin" value="Admin">Admin<br>
+    <input type="radio" name="admin" value="Project Manager">Project Manager<br>
+  </div>
+
+  <button type="submit">Give Edit Access</button>
+</form>
+</div>
+{{/if}}
