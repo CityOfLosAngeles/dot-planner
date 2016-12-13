@@ -18,7 +18,24 @@ function parseGeometry(dbOutput){
 	var objGeometry = {};
 
 	objGeometry.type = dbOutput.substring(0, dbOutput.indexOf('('));
-
+	//Convert to Leaflet Types
+	switch(objGeometry.type){
+		case("LINESTRING"):
+			objGeometry.type = "LineString";
+			break;
+		case("MULTILINESTRING"):
+			objGeometry.type = "MultiLineString";
+			break;
+		case("POLYGON"): 
+			objGeometry.type = "Polygon";
+			break;
+		case("MULTIPOLYGON"):
+			objGeometry.type = "MultiPolygon";
+			break;
+		case("POINT"):
+			objGeometry.type = "Point";
+			break;
+	}
 	//Account for extra Parentheses in Polygon
 	var parenPos;
 	dbOutput.charAt(dbOutput.indexOf('(')+1) == '(' ? parenPos = 2: parenPos =1; 

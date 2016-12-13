@@ -27,13 +27,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       Proj_Desc: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Contact_info: {
         type: Sequelize.JSONB
       },
       More_info: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Primary_Street: {
         type: Sequelize.STRING
@@ -48,7 +48,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       CD: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       Access: {
         type: Sequelize.STRING
