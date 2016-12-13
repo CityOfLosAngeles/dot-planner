@@ -233,13 +233,4 @@ router.get('/edit/:id', function(req, res) {
   });
 });
 
-router.get('/upload', function(req, res) {
-  var upload = require('../db/funded-lines.json');
-  for (var i = 0; i < upload.length; i++) {
-    upload[i].Fund_St = 'Funded';
-    models.Project.create(upload[i]);
-  }
-  res.send('Putting a ton of shit in the DB.');
-});
-
 module.exports = router;
