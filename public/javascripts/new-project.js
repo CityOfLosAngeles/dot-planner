@@ -36,6 +36,9 @@ var featureGroup = L.featureGroup().addTo(map);
 
 //Add the drawing tool to the map passing in the above options as an argument
 var drawControlFull = new L.Control.Draw({
+  draw: {
+    circle: false
+  },
   edit: {
       featureGroup: featureGroup, //REQUIRED!!,
       edit: false,
