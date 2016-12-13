@@ -9,7 +9,7 @@ var client = new pg.Client(config);
 client.connect(function(err) {
 	if (err) console.log(err);
 
-	client.query('SELECT *, ST_AsText(shape) FROM sde.fpoints', function (err, result) {
+	client.query('SELECT *, ST_AsText(shape) FROM sde.uflines', function (err, result) {
 	    if (err) throw err;
 	    // console.log(result.rows[0]);
 	    for (let i = 0; i < result.rows.length; i++) {
@@ -24,7 +24,7 @@ client.connect(function(err) {
 	    	let newProject = {
 			    Geometry: parseGeometry(curElmnt['st_astext']),
 			    Fund_St: curElmnt['funding_status'],
-			    Legacy_ID: parseInt(curElmnt['uid_1']),
+			    Legacy_ID: parseInt(curElmnt['uid_12']),
 			    Lead_Ag: null,
 			    Proj_Title: curElmnt['project_ti'],
 			    Proj_Ty: null,
@@ -63,6 +63,10 @@ client.connect(function(err) {
 			    Lc_match: parseFloat(curElmnt['total_local_match']),
 			    Match_Pt: null
 			}
+
+			//Account for Black CD
+			i == 63 ? newProject.CD = 0: console.log("");
+			// curElmnt['cd'] == null? newProject.CD = 0: newProject.CD = parseInt(curElmnt['cd']);
 			// console.log(newProject);
 
 			models.Project.create(newProject).then(function(result) {
@@ -70,7 +74,7 @@ client.connect(function(err) {
 			})
 			.catch(function(err) {
 				// console.log(err);
-				fs.appendFile("./error_points_funded"+ newProject.Legacy_ID +".js", (err + "\r\n" + JSON.stringify(newProject) + "\r\n"), function(err) {
+				fs.appendFile("./error_lines_unfunded.js", (err + "\r\n" + JSON.stringify(newProject) + "\r\n"), function(err) {
 				    if(err) {
 				        return console.log(err);
 				    }

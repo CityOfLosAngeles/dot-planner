@@ -1,73 +1,82 @@
+var fs = require('fs');
 var models = require("../models");
 var config = require('./config.js');
 var parseGeometry = require('./geometry.js');
 var pg = require('pg');
 
+
 var client = new pg.Client(config);
 client.connect(function(err) {
 	if (err) console.log(err);
 
-	client.query('SELECT "project_ti", "scope__sum", ST_AsText(shape) FROM sde.fpolygons', function (err, result) {
+	client.query('SELECT *, ST_AsText(shape) FROM sde.fpolygons', function (err, result) {
 	    if (err) throw err;
 	    // console.log(result.rows[0]);
-	    for (var i = 0; i < 2; i++) {
+	    for (let i = 0; i < result.rows.length; i++) {
 	    	var curElmnt = result.rows[i];
-	    	var newProject = {};
+	    	// var newProject = {};
 
-	    	newProject.Proj_Title = curElmnt['project_ti'];
-	    	newProject.Proj_Desc = curElmnt['scope__sum'];
-	    	newProject.Geometry = parseGeometry(curElmnt['st_astext']);
-	    	/*
-	    	Sequelize Prep TODO: Finalize Fields
+	    	// newProject.Proj_Title = curElmnt['project_ti'];
+	    	// newProject.Proj_Desc = curElmnt['scope__sum'];
+	    	// newProject.Geometry = parseGeometry(curElmnt['st_astext']);
+	    	
+	    	// Sequelize Prep TODO: Finalize Fields
 	    	var newProject = {
-				Proj_Title: curElmnt['project_ti'],
-			    Proj_Desc: curElmnt['scope__sum'],
-			    Geometry: parseGeometry
-			    //Intersections:
-			    Primary_st: "------",
-			    Cross_streets: [],
-			    //End Intersections
-			    Lead_Ag: null,
+			    Geometry: parseGeometry(curElmnt['st_astext']),
 			    Fund_St: curElmnt['funding_status'],
-			    Proj_Man: curElmnt['project_ma'],
+			    Legacy_ID: parseInt(curElmnt['uid_1']),
+			    Lead_Ag: null,
+			    Proj_Title: curElmnt['project_ti'],
+			    Proj_Ty: null,
+			    Proj_Desc: curElmnt['scope__sum'],
 			    Contact_info: {
-			      Contact_info_name: "TBD",
-			      Contact_info_phone: "TBD",
-			      Contact_info_email: "TBD"
-			    },
-			    More_info:curElmnt['other_info'],
-			    CD: curElmnt['cd'],
+			          Contact_info_name: "TBD",
+			          Contact_info_phone: "TBD",
+			          Contact_info_email: "TBD"
+			        },
+			    More_info: curElmnt['other_info'],
+			    Primary_Street: curElmnt['primary_st'],
+			    Cross_Streets: [curElmnt['cross_stre'], curElmnt['cross_st_1']],
+			    Proj_Status: curElmnt['current_st'],
+			    Proj_Man: curElmnt['project_ma'],
+			    CD: parseInt(curElmnt['cd']),
 			    Access: curElmnt['accessibil'],
-
-			    //Funded Attributes
-			    Dept_Proj_ID: curElmnt['dept_proj_'],
-			    Total_bgt: curElmnt['bgt_total'],
-			    Grant: curElmnt['grant_'],
-			    Other_funds: curElmnt['other_fund'],
-			    Prop_c: curElmnt['prop_c'],
-			    Measure_r: curElmnt['measure_r'],
-			    General_fund: curElmnt['general_fu'],
-			    Current_Status: curElmnt['current_st'],
+			    Dept_Proj_ID: curElmnt[' dept_proj_'],
+			    Other_ID: curElmnt['other_proj'],
+			    Total_bgt: parseFloat(curElmnt['bgt_total']),
+			    Grant: parseFloat(curElmnt['grant_']),
+			    Other_funds: parseFloat(curElmnt['other_fund']),
+			    Prop_c:parseFloat( curElmnt['prop_c']),
+			    Measure_r: parseFloat(curElmnt['measure_r']),
+			    Gas_Tax: parseFloat(curElmnt['gas_tax']),
+			    General_fund: parseFloat(curElmnt['general_fu']),
+			    Authorization: curElmnt['authorizat'],
 			    Issues: curElmnt['issues'],
 			    Deobligation: curElmnt['at_risk_of'],
 			    Explanation: curElmnt['explain_if'],
-			    Other_ID: curElmnt['other_proj'],
 			    Constr_by: curElmnt['constructi'],
 			    Info_source: curElmnt['source'],
-			    //Unfunded attributes
 			    Grant_Cat: null,
-			    Proj_Ty: curElmnt['project_category'],
+			    Grant_Cycle: null,
 			    Est_Cost: null,
 			    Fund_Rq: null,
-			    Lc_match: curElmnt['total_local_match'],
-			    Match_Pt: null,
-			    Comments: null
-			}*/
+			    Lc_match: parseFloat(curElmnt['total_local_match']),
+			    Match_Pt: null
+			}
+			// console.log(newProject);
+
 			models.Project.create(newProject).then(function(result) {
-				console.log("success");
+				// console.log("success");
 			})
 			.catch(function(err) {
-				console.log(err);
+				// console.log(err);
+				fs.appendFile("./error_polygons_funded"+ newProject.Legacy_ID +".js", (err + "\r\n" + JSON.stringify(newProject)+ "\r\n"), function(err) {
+				    if(err) {
+				        return console.log(err);
+				    }
+
+				    console.log("The file was saved!");
+				});
 			});
 	    }
 	 	

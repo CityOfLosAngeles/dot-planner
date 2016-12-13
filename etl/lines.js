@@ -1,7 +1,9 @@
+var fs = require('fs');
 var models = require("../models");
 var config = require('./config.js');
 var parseGeometry = require('./geometry.js');
 var pg = require('pg');
+
 
 var client = new pg.Client(config);
 client.connect(function(err) {
@@ -10,7 +12,7 @@ client.connect(function(err) {
 	client.query('SELECT *, ST_AsText(shape) FROM sde.flines', function (err, result) {
 	    if (err) throw err;
 	    // console.log(result.rows[0]);
-	    for (var i = 0; i < 2; i++) {
+	    for (let i = 0; i < result.rows.length; i++) {
 	    	var curElmnt = result.rows[i];
 	    	// var newProject = {};
 
@@ -19,7 +21,7 @@ client.connect(function(err) {
 	    	// newProject.Geometry = parseGeometry(curElmnt['st_astext']);
 	    	
 	    	// Sequelize Prep TODO: Finalize Fields
-	    	var newProject = {
+	    	let newProject = {
 			    Geometry: parseGeometry(curElmnt['st_astext']),
 			    Fund_St: curElmnt['funding_status'],
 			    Legacy_ID: parseInt(curElmnt['uid_12']),
@@ -58,16 +60,28 @@ client.connect(function(err) {
 			    Grant_Cycle: null,
 			    Est_Cost: null,
 			    Fund_Rq: null,
-			    Lc_match: curElmnt['total_local_match'],
+			    Lc_match: parseFloat(curElmnt['total_local_match']),
 			    Match_Pt: null
 			}
-			console.log(newProject);
-			// models.Project.create(newProject).then(function(result) {
-			// 	console.log("success");
-			// })
-			// .catch(function(err) {
-			// 	console.log(err);
-			// });
+
+			//Account for Black CD
+			i == 63 ? newProject.CD = 0: console.log("");
+			// curElmnt['cd'] == null? newProject.CD = 0: newProject.CD = parseInt(curElmnt['cd']);
+			// console.log(newProject);
+
+			models.Project.create(newProject).then(function(result) {
+				// console.log("success");
+			})
+			.catch(function(err) {
+				// console.log(err);
+				fs.appendFile("./error_lines_funded.js", (err + "\r\n" + JSON.stringify(newProject) + "\r\n"), function(err) {
+				    if(err) {
+				        return console.log(err);
+				    }
+
+				    console.log("The file was saved!");
+				});
+			});
 	    }
 	 	
 	    // disconnect the client 
