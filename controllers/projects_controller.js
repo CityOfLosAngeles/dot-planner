@@ -68,7 +68,16 @@ function toGeoJSON(project, features) {
 
 //Renders the new project page where PM can add projects
 router.get('/new', function(req, res) {
-    res.render('new-project');
+    res.render('new-project', {
+      logged_in: req.session.logged_in,
+      adminclearance: req.session.adminclearance,
+      id: req.session.user_id,
+      email: req.session.email,
+      firstname: req.session.firstname,
+      lastname: req.session.lastname,
+      phonenumber: req.session.phonenumber,
+      admin: req.session.admin
+    });
 });
 
 //Returns ALL projects from the DB
