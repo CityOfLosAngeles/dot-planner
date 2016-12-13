@@ -170,25 +170,29 @@ $('#submit-project').on('click', function(){
     }
 
     $.ajax({
-        method: "POST",
-        url: "/projects/new",
-        dataType: "json",
-        data: newProject,
-        success: function(data) {
-          window.location = '/'
-        }
-    });
-
-    $.ajax({
       method: "GET",
       url: "/projects/all",
       success: function(projects) {
 
         var possibleDuplicates = [];
 
+
+
+        
+
+
         // Check for duplicates
         for(var i=0; i<projects.features.length; i++){
-          if(newProject.Proj_Title.toLowerCase() == projects.features[i].properties.Proj_Title.toLowerCase() || newProject.Proj_Desc.toLowerCase() == projects.features[i].properties.Proj_Desc.toLowerCase() || newProject.Intersections == projects.features[i].properties.Intersections || newProject.More_info.toLowerCase() == projects.features[i].properties.More_info.toLowerCase())
+
+          console.log(newProject.Proj_Title.toLowerCase());
+          console.log(projects.features[i].properties.Proj_Title.toLowerCase());
+          console.log(newProject.Proj_Desc.toLowerCase());
+          console.log(projects.features[i].properties.Proj_Desc.toLowerCase());
+          console.log(newProject.More_info.toLowerCase());
+          console.log(projects.features[i].properties.More_info.toLowerCase());
+          console.log("===================");
+
+          if(newProject.Proj_Title.toLowerCase() == projects.features[i].properties.Proj_Title.toLowerCase() || newProject.Proj_Desc.toLowerCase() == projects.features[i].properties.Proj_Desc.toLowerCase() || newProject.More_info.toLowerCase() == projects.features[i].properties.More_info.toLowerCase())
             possibleDuplicates.push(projects.features[i]);
         }
 
@@ -199,6 +203,7 @@ $('#submit-project').on('click', function(){
             $('#duplicateProjects').append('<br>');
           }
           $('#myModal').modal();
+          possibleDuplicates = [];
         }
 
         // If there are no duplicates...
@@ -254,7 +259,7 @@ $("#undo-intersection").on('click', function() {
 // Form validation
 // ===============
 
-var uidComplete = false;
+var legacy_idComplete = false;
 var proj_titleComplete = false;
 var proj_descComplete = false;
 var lead_agComplete = false;
@@ -265,7 +270,6 @@ var contact_info_phoneComplete = false;
 var contact_info_emailComplete = false;
 var more_infoComplete = false;
 var cdComplete = false;
-var accessComplete = false;
 
 
 // Funding Status
@@ -283,11 +287,11 @@ $("#Fund_St").on("click", ".Fund_St-option", function() {
 // Is a number
 $("#Legacy_ID").keyup(function(){
   if($("#Legacy_ID").val() != "" && $.isNumeric($("#Legacy_ID").val())){
-    uidComplete = true;
+    legacy_idComplete = true;
     hasSuccess("#Legacy-ID-group","#Legacy-ID-span");
   }
   else{
-    uidComplete = false;
+    legacy_idComplete = false;
     hasError("#Legacy-ID-group","#Legacy-ID-span");
   }
   checkForm();
@@ -467,21 +471,6 @@ $("#CD").keyup(function(){
   checkForm();
 });
 
-$("#internal").on("click", function() {
-    accessComplete = true;
-    checkForm();
-});
-
-$("#external").on("click", function() {
-    accessComplete = true;
-    checkForm();
-});
-
-$("#subject_to_change").on("click", function() {
-    accessComplete = true;
-    checkForm();
-});
-
 
 
 // Modal onclicks
@@ -496,7 +485,8 @@ $("#add-button").on("click", function() {
 
 
 function checkForm(){
-  if(uidComplete && proj_titleComplete && proj_descComplete && lead_agComplete && fund_stComplete && proj_manComplete && contact_info_nameComplete && contact_info_phoneComplete && contact_info_emailComplete && more_infoComplete && cdComplete && accessComplete)
+
+  if(legacy_idComplete && proj_titleComplete && proj_descComplete && lead_agComplete && fund_stComplete && proj_manComplete && contact_info_nameComplete && contact_info_phoneComplete && contact_info_emailComplete && more_infoComplete && cdComplete)
     $("#submit-project").removeAttr("disabled");
   else
     $("#submit-project").attr("disabled",true);
@@ -519,7 +509,7 @@ function hasError(divID,spanID){
 function addProject(project){
   $.ajax({
     method: "POST",
-    url: "/new",
+    url: "/projects/new",
     dataType: "json",
     data: project,
     success: function(data) {
@@ -533,15 +523,15 @@ function location_valid(stringAddress) {
 
     geocoder.geocode( {"address": stringAddress}, function(results, status) {
 
-        console.log(status);
-        console.log(google.maps.GeocoderStatus.OK);
+        // console.log(status);
+        // console.log(google.maps.GeocoderStatus.OK);
 
         if (status == google.maps.GeocoderStatus.OK){
-            console.log(true)
+            // console.log(true)
             return true;
         }
         else{
-          console.log(false);
+          // console.log(false);
             return false;
         }
     });
