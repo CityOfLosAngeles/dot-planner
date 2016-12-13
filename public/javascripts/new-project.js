@@ -6,19 +6,19 @@ $('#Fund_St').on('click', function() {
   var fundedStatus = $('#Fund_St input[type="radio"]:checked').val();
   switch(fundedStatus) {
     case 'Funded':
-    $('#fundedAndUnfundedAttributes').show();
-    $('#fundedAttributes').show();
-    $('#unfundedAttributes').hide();
-    break;
+      $('#fundedAndUnfundedAttributes').show();
+      $('#fundedAttributes').show();
+      $('#unfundedAttributes').hide();
+      break;
     case 'Unfunded':
       $('#fundedAndUnfundedAttributes').show();
       $('#fundedAttributes').hide();
       $('#unfundedAttributes').show();
-    break;
+      break;
     case 'Idea Project':
-    $('#fundedAndUnfundedAttributes').hide();
-    $('#fundedAttributes').hide();
-    $('#unfundedAttributes').hide();
+      $('#fundedAndUnfundedAttributes').hide();
+      $('#fundedAttributes').hide();
+      $('#unfundedAttributes').hide();
   }
 });
 
