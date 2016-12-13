@@ -17,7 +17,9 @@
                 <button type="submit" class="btn btn-default" id="addProject">Add Project</button>
             </form> -->
             <ul class="nav navbar-nav">
+                {{#if logged_in}}
                 <li><a href="/projects/new">Add a Project</a></li>
+                {{/if}}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map Filters <span class="caret"></span></a>
                     <ul class="dropdown-menu" id="map-filter">
@@ -47,7 +49,16 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Log Out</a></li>
+                {{#if logged_in}}
+                    {{#if adminclearance}}
+                        <li><a href="/users/adminadd">Add a New User</a></li>
+                    {{/if}}
+                    <li><a href="/users/finishsignup">Edit Profile</a></li>
+                    <li><a href="/signout">Sign Out</a></li>
+                {{/if}}
+                {{#unless logged_in}}
+                    <li><a href="/signin">Sign In</a></li>
+                {{/unless}}
             </ul>
         </div>
         <!-- /.navbar-collapse -->
