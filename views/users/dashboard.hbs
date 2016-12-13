@@ -1,0 +1,36 @@
+{{#if logged_in}}
+
+    {{#if adminclearance}}
+    <div class="container">
+  	<h2>LaDOT Users</h2>
+  	<table class="table-bordered">
+  	<thead> 
+        <th>First Name</th> 
+        <th>Last Name</th> 
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Role</th>
+        <th>Delete User</th>
+    </thead> 
+    <tbody> 
+        {{#each data}} 
+        <tr> 
+            <td>{{firstname}}</td> 
+            <td>{{lastname}}</td>
+            <td><a href="mailto:{{email}}">{{email}}</a></td>
+            <td>{{phonenumber}}</td>
+            <td>{{admin}}</td>
+            <td><form action="/users/admindestroyuser" method="POST">
+              <input type="checkbox" name="deleteemail" value={{email}}></input>
+            <button type="submit">Confirm</button>
+            </form>
+            </td> 
+            
+        </tr> 
+        {{/each}} 
+    </tbody>
+    </table>
+    </div>
+  {{/if}}
+
+{{/if}}

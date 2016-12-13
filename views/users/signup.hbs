@@ -1,0 +1,36 @@
+<div class="container">
+<h1>Sign Up Form</h1>
+<form class="create-update-form" action="/users/createuser" method="POST">
+  <div class="form-group">
+    <label for="un">First Name:</label>
+    <input type="text" id="un" name="firstname">
+  </div>
+
+  <div class="form-group">
+    <label for="un">Last Name:</label>
+    <input type="text" id="un" name="lastname">
+  </div>
+
+  <div class="form-group">  
+    <input type="radio" name="admin" value="Admin">Admin<br>
+    <input type="radio" name="admin" value="Project Manager">Project Manager<br>
+  </div>
+
+  <div class="form-group">
+    <label for="em">Email:</label>
+    <input type="text" id="em" name="email">
+  </div>
+
+  <div class="form-group">
+    <label for="em">Phone Number: </label>
+    <input type="text" id="em" name="phonenumber">
+  </div>
+
+  <div class="form-group">
+    <label for="pass">Password:</label>
+    <input type="password" id="pass" name="password">
+  </div>
+
+  <button type="submit">Sign Up!</button>
+</form>
+</div>
