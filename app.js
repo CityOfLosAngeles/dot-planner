@@ -27,13 +27,13 @@ hbs.registerPartials(__dirname + '/views/partials');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 //spencer's 2 public folders just in case
-//app.use(express.static(path.join(__dirname, 'public')));
-//app.use('/projects', express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/projects', express.static(__dirname + '/public'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/', routes);
 require('./routes/index')(app);
