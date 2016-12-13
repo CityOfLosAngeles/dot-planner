@@ -178,7 +178,7 @@ $('#submit-project').on('click', function(){
 
 
 
-        
+
 
 
         // Check for duplicates
