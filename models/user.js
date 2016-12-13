@@ -8,10 +8,6 @@ module.exports = function(sequelize, DataTypes) {
     email: DataTypes.STRING,
     admin: DataTypes.STRING,
     password_hash: DataTypes.STRING
-  }, {
-    underscored: true,
-    freezeTableName: true,
-    tableName: 'users'
   })
 
   return User;
