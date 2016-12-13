@@ -58,27 +58,39 @@ function filterProjects() {
     return $(el).val();
   }).get();
 
-  for (var i = 0; i < fundingTypes.length; i++) {
-    fundingTypes[i] = fundingTypes[i].replace(' ', '%20');
+  var projectTypes = $('.project-type input[type="checkbox"]:checked').map(function(_, el) {
+    return $(el).val();
+  }).get();
+
+  if (fundingTypes.length >= 1 && projectTypes.length >= 1) {
+    for (var i = 0; i < fundingTypes.length; i++) {
+      fundingTypes[i] = fundingTypes[i].split(' ').join('%20');
+    }
+    for (var i = 0; i < projectTypes.length; i++) {
+      projectTypes[i] = projectTypes[i].split(' ').join('%20');
+    }
+
+    var fundingQuery = fundingTypes.join('&');
+    var typeQuery = projectTypes.join('&');
+    $.ajax({
+        type: 'GET',
+        url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
+        datatype: 'JSON',
+        success: function(data) {
+            console.log(data);
+            if (data) {
+              geoJSON.clearLayers();
+              geoJSON = L.geoJson(data, {
+                    onEachFeature: function(feature, layer) {
+                      onEachFeature(feature, layer);
+                    },
+                }).addTo(map);
+            }
+        }
+    });
+  } else {
+    geoJSON.clearLayers();
   }
-  var queryString = fundingTypes.join('&');
-  console.log(queryString);
-  $.ajax({
-      type: 'GET',
-      url: '/projects/funding/' + queryString,
-      datatype: 'JSON',
-      success: function(data) {
-          console.log(data);
-          if (data) {
-            geoJSON.clearLayers();
-            geoJSON = L.geoJson(data, {
-                  onEachFeature: function(feature, layer) {
-                    onEachFeature(feature, layer);
-                  },
-              }).addTo(map);
-          }
-      }
-  });
 }
 
 function onEachFeature(feature, layer) {
