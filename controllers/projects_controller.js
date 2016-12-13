@@ -208,14 +208,4 @@ router.post('/new', function(req, res) {
     console.log(newProject);
 });
 
-router.get('/upload', function(req, res) {
-  var upload = require('../db/funded-lines.json');
-  console.log(upload.length);
-  for (var i = 0; i < upload.length; i++) {
-    console.log(upload[i]);
-    models.Project.create(upload[i]);
-  }
-  res.send('Adding a shit ton of rows to the DB. Hang tight!');
-});
-
 module.exports = router;
