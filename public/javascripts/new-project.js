@@ -80,33 +80,6 @@ var googleOptions = {
   types: ['address']
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var input1 = document.getElementById('intersection1');
-
-// autocomplete = new google.maps.places.Autocomplete(input1, googleOptions);
-
-
-
-
-
-
-
-
-
-
-
 var primary = document.getElementById('Primary_Street');
 autocomplete = new google.maps.places.Autocomplete(primary, googleOptions);
 
@@ -249,45 +222,19 @@ $('#submit-project').on('click', function(){
 $('#add-intersection').on('click', function() {
   intersectionCounter++;
 
-  var div = $('<div class="form-group" id="intersection'+intersectionCounter+'-group">');
-  var input = $('<input type="text" class="form-control" placeholder="Street" id="intersection'+intersectionCounter+'">');
-  input.addClass('Intersections');
+  var div = $('<div class="form-group" id="cross-street'+intersectionCounter+'-group">');
 
-
-
-
-
-
-
-
-
-//   var span = $('<span id="intersection'+intersectionCounter+'-span" area-hidden="true">');
-
-//   div.append(input);
-//   div.append(span);
-
-//   $('#intersections').append(div);
-
-//   autocomplete = new google.maps.places.Autocomplete(document.getElementById('intersection'+intersectionCounter), googleOptions);
-// });
-
-// //  TODO :  finish this function and HTML
-// $("#cancel-intersection").on('click', function() {
-//   intersectionCounter--;
-// });
-
-// $(document).ready(function() {
-
-
-//   // Automatically hide bottom half of form and submit button
-//   $("#fundedAttributes").hide();
-
-
-
-
+  var input = $('<input type="text" class="form-control Intersections" >');
   input.attr('placeholder', 'Cross Street ' + intersectionCounter);
   input.attr('id', 'cross-street' + intersectionCounter);
-  $('#intersections').append(input);
+
+  var span = $('<span id="cross-street'+intersectionCounter+'-span" area-hidden="true">');
+
+  div.append(input);
+  div.append(span);
+
+  $('#intersections').append(div);
+
   var input = document.getElementById('cross-street' + intersectionCounter);
   autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
   $('#undo-intersection').show();
@@ -308,490 +255,251 @@ $('#sidebar').on('scroll', function() {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
 // Form validation
 // ===============
 
-// var uidComplete = false;
-// var proj_titleComplete = false;
-// var proj_descComplete = false;
-// var lead_agComplete = false;
-// var fund_stComplete = false;
-// var proj_manComplete = false;
-// var contact_info_nameComplete = false;
-// var contact_info_phoneComplete = false;
-// var contact_info_emailComplete = false;
-// var more_infoComplete = false;
-// var cdComplete = false;
-// var accessComplete = false;
+var uidComplete = false;
+var proj_titleComplete = false;
+var proj_descComplete = false;
+var lead_agComplete = false;
+var fund_stComplete = false;
+var proj_manComplete = false;
+var contact_info_nameComplete = false;
+var contact_info_phoneComplete = false;
+var contact_info_emailComplete = false;
+var more_infoComplete = false;
+var cdComplete = false;
+var accessComplete = false;
 
-// // Unique ID
-// // =========
-// // HTML type = number
-// // Required
-// // Is a number
-// $("#UID").keyup(function(){
-//   if($("#UID").val() != "" && $.isNumeric($("#UID").val())){
-//     uidComplete = true;
-//     hasSuccess("#UID-group","#UID-span");
-//   }
-//   else{
-//     uidComplete = false;
-//     hasError("#UID-group","#UID-span");
-//   }
-//   checkForm();
-// });
+// Legacy ID
+// =========
+// HTML type = number
+// Required
+// Is a number
+$("#Legacy_ID").keyup(function(){
+  if($("#Legacy_ID").val() != "" && $.isNumeric($("#Legacy_ID").val())){
+    uidComplete = true;
+    hasSuccess("#Legacy-ID-group","#Legacy-ID-span");
+  }
+  else{
+    uidComplete = false;
+    hasError("#Legacy-ID-group","#Legacy-ID-span");
+  }
+  checkForm();
+});
 
-// // Project Title
-// // =============
-// // HTML type = text
-// // Required
-// $("#Proj_Title").keyup(function(){
-//   if($("#Proj_Title").val() != ""){
-//     proj_titleComplete = true;
-//     hasSuccess("#Proj_Title-group","#Proj_Title-span");
-//   }
-//   else{
-//     proj_titleComplete = false;
-//     hasError("#Proj_Title-group","#Proj_Title-span");
-//   }
-//   checkForm();
-// });
+// Project Title
+// =============
+// HTML type = text
+// Required
+$("#Proj_Title").keyup(function(){
+  if($("#Proj_Title").val() != ""){
+    proj_titleComplete = true;
+    hasSuccess("#Proj_Title-group","#Proj_Title-span");
+  }
+  else{
+    proj_titleComplete = false;
+    hasError("#Proj_Title-group","#Proj_Title-span");
+  }
+  checkForm();
+});
 
-// // Project Description
-// // ===================
-// // Required
-// $("#Proj_Desc").keyup(function(){
-//   if($("#Proj_Desc").val() != ""){
-//     proj_descComplete = true;
-//     hasSuccess("#Proj_Desc-group","#Proj_Desc-span");
-//   }
-//   else{
-//     proj_descComplete = false;
-//     hasError("#Proj_Desc-group","#Proj_Desc-span");
-//   }
-//   checkForm();
-// });
+// Project Description
+// ===================
+// Required
+$("#Proj_Desc").keyup(function(){
+  if($("#Proj_Desc").val() != ""){
+    proj_descComplete = true;
+    hasSuccess("#Proj_Desc-group","#Proj_Desc-span");
+  }
+  else{
+    proj_descComplete = false;
+    hasError("#Proj_Desc-group","#Proj_Desc-span");
+  }
+  checkForm();
+});
 
-// // Intersections
-// // =============
-// // Required
-// // Valid location
-// $("#intersections").on('keyup', '.Intersections', function(){
+// Intersections
+// =============
+// Required
+// Valid location
+$("#intersections").on('keyup', '.Intersections', function(){
 
-//   var address = $('#'+this.id).val();
+  var address = $('#'+this.id).val();
 
-//   console.log(location_valid("10824 lindbrook drive, los angeles"));
+  console.log(location_valid("10824 lindbrook drive, los angeles"));
 
-//   console.log(address);
-//   console.log(location_valid(address));
+  console.log(address);
+  console.log(location_valid(address));
 
-//   if(location_valid(address)){
-//     // console.log("Has success!");
-//     hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
-//   }
-//   // else{
-//   //   hasError("#"+this.id+"-group","#"+this.id+"-span");
-//   // }
-// });
+  if(location_valid(address)){
+    // console.log("Has success!");
+    hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
+  }
+  // else{
+  //   hasError("#"+this.id+"-group","#"+this.id+"-span");
+  // }
+});
 
-// // Lead Agency
-// // ===========
-// // HTML type = text
-// // Required
-// $("#Lead_Ag").keyup(function(){
-//   if($("#Lead_Ag").val() != ""){
-//     lead_agComplete = true;
-//     hasSuccess("#Lead_Ag-group","#Lead_Ag-span");
-//   }
-//   else{
-//     lead_agComplete = false;
-//     hasError("#Lead_Ag-group","#Lead_Ag-span");
-//   }
-//   checkForm();
-// });
+// Lead Agency
+// ===========
+// HTML type = text
+// Required
+$("#Lead_Ag").keyup(function(){
+  if($("#Lead_Ag").val() != ""){
+    lead_agComplete = true;
+    hasSuccess("#Lead_Ag-group","#Lead_Ag-span");
+  }
+  else{
+    lead_agComplete = false;
+    hasError("#Lead_Ag-group","#Lead_Ag-span");
+  }
+  checkForm();
+});
 
-// // When click the "funded" radiobutton...
-// $("#funded").on("click", function() {
-//     // Show submit button and appropriate form
-//     // $("#submit").show();
-//     // $("#unfundedAttributes").hide();
-//     $("#fundedAttributes").show();
+// When click the "funded" radiobutton...
+$("#funded").on("click", function() {
+    // Show submit button and appropriate form
+    // $("#submit").show();
+    // $("#unfundedAttributes").hide();
+    $("#fundedAttributes").show();
 
-//     fund_stComplete = true;
-//     checkForm();
-// });
+    fund_stComplete = true;
+    checkForm();
+});
 
-// // When click the "unfunded" radiobutton...
-// $("#unfunded").on("click", function() {
-//     // Show submit button and appropriate form
-//     // $("#submit").show();
-//     $("#fundedAttributes").hide();
-//     // $("#unfundedAttributes").show();
+// When click the "unfunded" radiobutton...
+$("#unfunded").on("click", function() {
+    // Show submit button and appropriate form
+    // $("#submit").show();
+    $("#fundedAttributes").hide();
+    // $("#unfundedAttributes").show();
 
-//     fund_stComplete = true;
-//     checkForm();
-// });
+    fund_stComplete = true;
+    checkForm();
+});
 
-// // Project Manager
-// // ===============
-// // HTML type = text
-// // Required
-// $("#Proj_Man").keyup(function(){
-//   if($("#Proj_Man").val() != ""){
-//     proj_manComplete = true;
-//     hasSuccess("#Proj_Man-group","#Proj_Man-span");
-//   }
-//   else{
-//     proj_manComplete = false;
-//     hasError("#Proj_Man-group","#Proj_Man-span");
-//   }
-//   checkForm();
-// });
+// Project Manager
+// ===============
+// HTML type = text
+// Required
+$("#Proj_Man").keyup(function(){
+  if($("#Proj_Man").val() != ""){
+    proj_manComplete = true;
+    hasSuccess("#Proj_Man-group","#Proj_Man-span");
+  }
+  else{
+    proj_manComplete = false;
+    hasError("#Proj_Man-group","#Proj_Man-span");
+  }
+  checkForm();
+});
 
-// // Project Contact Information: Name
-// // =================================
-// // HTML type = text
-// // Required
-// $("#Contact_info_name").keyup(function(){
-//   if($("#Contact_info_name").val() != ""){
-//     contact_info_nameComplete = true;
-//     hasSuccess("#Contact_info_name-group","#Contact_info_name-span");
-//   }
-//   else{
-//     contact_info_nameComplete = false;
-//     hasError("#Contact_info_name-group","#Contact_info_name-span");
-//   }
-//   checkForm();
-// });
+// Project Contact Information: Name
+// =================================
+// HTML type = text
+// Required
+$("#Contact_info_name").keyup(function(){
+  if($("#Contact_info_name").val() != ""){
+    contact_info_nameComplete = true;
+    hasSuccess("#Contact_info_name-group","#Contact_info_name-span");
+  }
+  else{
+    contact_info_nameComplete = false;
+    hasError("#Contact_info_name-group","#Contact_info_name-span");
+  }
+  checkForm();
+});
 
-// // Project Contact Information: Phone Number
-// // =========================================
-// // HTML type = tel
-// // Required
-// // Regex expression
-// $("#Contact_info_phone").keyup(function(){
-//   if($("#Contact_info_phone").val() != "" && $("#Contact_info_phone").val().match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)){
-//     contact_info_phoneComplete = true;
-//     hasSuccess("#Contact_info_phone-group","#Contact_info_phone-span");
-//   }
-//   else{
-//     contact_info_phoneComplete = false;
-//     hasError("#Contact_info_phone-group","#Contact_info_phone-span");
-//   }
-//   checkForm();
-// });
+// Project Contact Information: Phone Number
+// =========================================
+// HTML type = tel
+// Required
+// Regex expression
+$("#Contact_info_phone").keyup(function(){
+  if($("#Contact_info_phone").val() != "" && $("#Contact_info_phone").val().match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)){
+    contact_info_phoneComplete = true;
+    hasSuccess("#Contact_info_phone-group","#Contact_info_phone-span");
+  }
+  else{
+    contact_info_phoneComplete = false;
+    hasError("#Contact_info_phone-group","#Contact_info_phone-span");
+  }
+  checkForm();
+});
 
-// // Project Contact Information: Email
-// // ==================================
-// // HTML type = email
-// // Required
-// // Contains these symbols: @., but not in succession
-// // Greater than 5 characters
-// // Contains no spaces
-// // Regex express
-// $("#Contact_info_email").keyup(function(){
-//   if($("#Contact_info_email").val() != "" && $("#Contact_info_email").val().includes("@") && $("#Contact_info_email").val().includes(".") && $("#Contact_info_email").val().length > 5 && $("#Contact_info_email").val().indexOf("@.") == -1 && $("#Contact_info_email").val().indexOf(" ")==-1 && $("#Contact_info_email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
-//     contact_info_emailComplete = true;
-//     hasSuccess("#Contact_info_email-group","#Contact_info_email-span");
-//   }
-//   else{
-//     contact_info_emailComplete = false;
-//     hasError("#Contact_info_email-group","#Contact_info_email-span");
-//   }
-//   checkForm();
-// });
+// Project Contact Information: Email
+// ==================================
+// HTML type = email
+// Required
+// Contains these symbols: @., but not in succession
+// Greater than 5 characters
+// Contains no spaces
+// Regex express
+$("#Contact_info_email").keyup(function(){
+  if($("#Contact_info_email").val() != "" && $("#Contact_info_email").val().includes("@") && $("#Contact_info_email").val().includes(".") && $("#Contact_info_email").val().length > 5 && $("#Contact_info_email").val().indexOf("@.") == -1 && $("#Contact_info_email").val().indexOf(" ")==-1 && $("#Contact_info_email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+    contact_info_emailComplete = true;
+    hasSuccess("#Contact_info_email-group","#Contact_info_email-span");
+  }
+  else{
+    contact_info_emailComplete = false;
+    hasError("#Contact_info_email-group","#Contact_info_email-span");
+  }
+  checkForm();
+});
 
-// // Link to More Project Info
-// // =========================
-// // HTML type = url
-// // Required
-// // Contains the symbol: .
-// // Contains no spaces
-// // Regex expression
-// $("#More_info").keyup(function(){
-//   if($("#More_info").val() != "" && $("#More_info").val().includes(".") && $("#More_info").val().indexOf(" ")==-1 && $("#More_info").val().match(/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i)){
-//     more_infoComplete = true;
-//     hasSuccess("#More_info-group","#More_info-span");
-//   }
-//   else{
-//     more_infoComplete = false;
-//     hasError("#More_info-group","#More_info-span");
-//   }
-//   checkForm();
-// });
+// Link to More Project Info
+// =========================
+// HTML type = url
+// Required
+// Contains the symbol: .
+// Contains no spaces
+// Regex expression
+$("#More_info").keyup(function(){
+  if($("#More_info").val() != "" && $("#More_info").val().includes(".") && $("#More_info").val().indexOf(" ")==-1 && $("#More_info").val().match(/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i)){
+    more_infoComplete = true;
+    hasSuccess("#More_info-group","#More_info-span");
+  }
+  else{
+    more_infoComplete = false;
+    hasError("#More_info-group","#More_info-span");
+  }
+  checkForm();
+});
 
-// // Council District Number
-// // =======================
-// // HTML type = number
-// // Required
-// // Is numeric
-// // Is between [1, 14]
-// $("#CD").keyup(function(){
-//   if($("#CD").val() != "" && $.isNumeric($("#CD").val()) && $("#CD").val()>=1 && $("#CD").val()<=14){
-//     cdComplete = true;
-//     hasSuccess("#CD-group","#CD-span");
-//   }
-//   else{
-//     cdComplete = false;
-//     hasError("#CD-group","#CD-span");
-//   }
-//   checkForm();
-// });
+// Council District Number
+// =======================
+// HTML type = number
+// Required
+// Is numeric
+// Is between [1, 14]
+$("#CD").keyup(function(){
+  if($("#CD").val() != "" && $.isNumeric($("#CD").val()) && $("#CD").val()>=1 && $("#CD").val()<=14){
+    cdComplete = true;
+    hasSuccess("#CD-group","#CD-span");
+  }
+  else{
+    cdComplete = false;
+    hasError("#CD-group","#CD-span");
+  }
+  checkForm();
+});
 
-// $("#internal").on("click", function() {
-//     accessComplete = true;
-//     checkForm();
-// });
+$("#internal").on("click", function() {
+    accessComplete = true;
+    checkForm();
+});
 
-// $("#external").on("click", function() {
-//     accessComplete = true;
-//     checkForm();
-// });
+$("#external").on("click", function() {
+    accessComplete = true;
+    checkForm();
+});
 
-// $("#subject_to_change").on("click", function() {
-//     accessComplete = true;
-//     checkForm();
-// });
+$("#subject_to_change").on("click", function() {
+    accessComplete = true;
+    checkForm();
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// // Form validation
-// // ===============
-//
-// var uidComplete = false;
-// var proj_titleComplete = false;
-// var proj_descComplete = false;
-// var lead_agComplete = false;
-// var fund_stComplete = false;
-// var proj_manComplete = false;
-// var contact_info_nameComplete = false;
-// var contact_info_phoneComplete = false;
-// var contact_info_emailComplete = false;
-// var more_infoComplete = false;
-// var cdComplete = false;
-// var accessComplete = false;
-//
-// // Unique ID
-// // =========
-// // HTML type = number
-// // Required
-// // Is a number
-// $("#UID").keyup(function(){
-//   if($("#UID").val() != "" && $.isNumeric($("#UID").val())){
-//     uidComplete = true;
-//     hasSuccess("#UID-group","#UID-span");
-//   }
-//   else{
-//     uidComplete = false;
-//     hasError("#UID-group","#UID-span");
-//   }
-//   checkForm();
-// });
-//
-// // Project Title
-// // =============
-// // HTML type = text
-// // Required
-// $("#Proj_Title").keyup(function(){
-//   if($("#Proj_Title").val() != ""){
-//     proj_titleComplete = true;
-//     hasSuccess("#Proj_Title-group","#Proj_Title-span");
-//   }
-//   else{
-//     proj_titleComplete = false;
-//     hasError("#Proj_Title-group","#Proj_Title-span");
-//   }
-//   checkForm();
-// });
-//
-// // Project Description
-// // ===================
-// // Required
-// $("#Proj_Desc").keyup(function(){
-//   if($("#Proj_Desc").val() != ""){
-//     proj_descComplete = true;
-//     hasSuccess("#Proj_Desc-group","#Proj_Desc-span");
-//   }
-//   else{
-//     proj_descComplete = false;
-//     hasError("#Proj_Desc-group","#Proj_Desc-span");
-//   }
-//   checkForm();
-// });
-//
-//
-//
-//
-// //  TODO :  ADD INTERSECTION FORM VALIDATION AND MAKE REQUIRED
-//
-//
-//
-//
-// // Lead Agency
-// // ===========
-// // HTML type = text
-// // Required
-// $("#Lead_Ag").keyup(function(){
-//   if($("#Lead_Ag").val() != ""){
-//     lead_agComplete = true;
-//     hasSuccess("#Lead_Ag-group","#Lead_Ag-span");
-//   }
-//   else{
-//     lead_agComplete = false;
-//     hasError("#Lead_Ag-group","#Lead_Ag-span");
-//   }
-//   checkForm();
-// });
-//
-// // Project Manager
-// // ===============
-// // HTML type = text
-// // Required
-// $("#Proj_Man").keyup(function(){
-//   if($("#Proj_Man").val() != ""){
-//     proj_manComplete = true;
-//     hasSuccess("#Proj_Man-group","#Proj_Man-span");
-//   }
-//   else{
-//     proj_manComplete = false;
-//     hasError("#Proj_Man-group","#Proj_Man-span");
-//   }
-//   checkForm();
-// });
-//
-// // Project Contact Information: Name
-// // =================================
-// // HTML type = text
-// // Required
-// $("#Contact_info_name").keyup(function(){
-//   if($("#Contact_info_name").val() != ""){
-//     contact_info_nameComplete = true;
-//     hasSuccess("#Contact_info_name-group","#Contact_info_name-span");
-//   }
-//   else{
-//     contact_info_nameComplete = false;
-//     hasError("#Contact_info_name-group","#Contact_info_name-span");
-//   }
-//   checkForm();
-// });
-//
-// // Project Contact Information: Phone Number
-// // =========================================
-// // HTML type = tel
-// // Required
-// // Regex expression
-// $("#Contact_info_phone").keyup(function(){
-//   if($("#Contact_info_phone").val() != "" && $("#Contact_info_phone").val().match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)){
-//     contact_info_phoneComplete = true;
-//     hasSuccess("#Contact_info_phone-group","#Contact_info_phone-span");
-//   }
-//   else{
-//     contact_info_phoneComplete = false;
-//     hasError("#Contact_info_phone-group","#Contact_info_phone-span");
-//   }
-//   checkForm();
-// });
-//
-// // Project Contact Information: Email
-// // ==================================
-// // HTML type = email
-// // Required
-// // Contains these symbols: @., but not in succession
-// // Greater than 5 characters
-// // Contains no spaces
-// // Regex express
-// $("#Contact_info_email").keyup(function(){
-//   if($("#Contact_info_email").val() != "" && $("#Contact_info_email").val().includes("@") && $("#Contact_info_email").val().includes(".") && $("#Contact_info_email").val().length > 5 && $("#Contact_info_email").val().indexOf("@.") == -1 && $("#Contact_info_email").val().indexOf(" ")==-1 && $("#Contact_info_email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
-//     contact_info_emailComplete = true;
-//     hasSuccess("#Contact_info_email-group","#Contact_info_email-span");
-//   }
-//   else{
-//     contact_info_emailComplete = false;
-//     hasError("#Contact_info_email-group","#Contact_info_email-span");
-//   }
-//   checkForm();
-// });
-//
-// // Link to More Project Info
-// // =========================
-// // HTML type = url
-// // Required
-// // Contains the symbol: .
-// // Contains no spaces
-// // Regex expression
-// $("#More_info").keyup(function(){
-//   if($("#More_info").val() != "" && $("#More_info").val().includes(".") && $("#More_info").val().indexOf(" ")==-1 && $("#More_info").val().match(/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i)){
-//     more_infoComplete = true;
-//     hasSuccess("#More_info-group","#More_info-span");
-//   }
-//   else{
-//     more_infoComplete = false;
-//     hasError("#More_info-group","#More_info-span");
-//   }
-//   checkForm();
-// });
-//
-// // Council District Number
-// // =======================
-// // HTML type = number
-// // Required
-// // Is numeric
-// // Is between [1, 14]
-// $("#CD").keyup(function(){
-//   if($("#CD").val() != "" && $.isNumeric($("#CD").val()) && $("#CD").val()>=1 && $("#CD").val()<=14){
-//     cdComplete = true;
-//     hasSuccess("#CD-group","#CD-span");
-//   }
-//   else{
-//     cdComplete = false;
-//     hasError("#CD-group","#CD-span");
-//   }
-//   checkForm();
-// });
-//
-// $("#internal").on("click", function() {
-//     accessComplete = true;
-//     checkForm();
-// });
-//
-// $("#external").on("click", function() {
-//     accessComplete = true;
-//     checkForm();
-// });
-//
-// $("#subject_to_change").on("click", function() {
-//     accessComplete = true;
-//     checkForm();
-// });
-//
 
 
 // Modal onclicks

@@ -8,68 +8,7 @@
         <div>
           <form>
 
-
-
-
-
-
-
-
-
-
-
-
-              {{!-- <div class="form-group" id="UID-group">
-                  <label for="UID">Unique ID*</label>
-                  <input type="number" class="form-control" id="UID" placeholder="">
-                  <span id="UID-span" aria-hidden="true"></span>
-              </div>
-              <div class="form-group" id="Proj_Title-group">
-                  <label for="Proj_Title">Project Title*</label>
-                  <input type="text" class="form-control" id="Proj_Title" placeholder="">
-                  <span id="Proj_Title-span" aria-hidden="true"></span>
-              </div>
-              <div class="form-group" id="Proj_Desc-group">
-                  <label for="Proj_Desc">Project Description*</label>
-                  <textarea class="form-control" rows="3" id="Proj_Desc"></textarea>
-                  <p class="help-block">Brief statement of project purpose and scope</p>
-                  <span id="Proj_Desc-span" aria-hidden="true"></span>
-              </div>
-              <div id="intersections">
-                <label>Intersections*</label>
-                <div class="form-group" id="intersection1-group">
-                  <input type="text" class="form-control Intersections" placeholder="Street" id="intersection1">
-                  <span id="intersection1-span" aria-hidden="true"></span>
-                </div>
-              </div>
-              <div class="form-group">
-                <button type="button" class="btn btn-primary" id="add-intersection">Add Intersection</button>
-              </div>
-              <div class="form-group" id="Lead_Ag-group">
-                  <label for="Lead_Ag">Lead Agency*</label>
-                  <input type="text" class="form-control" id="Lead_Ag" placeholder="i.e. LADOT">
-                  <span id="Lead_Ag-span" aria-hidden="true"></span>
-              </div> --}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              <!-- Common Attributes -->
-
               <!-- Funding Status -->
-
               <div class="form-group" id="Fund_St">
                 <label for="Fund_St">Funding Status*</label>
                   <div class="radio">
@@ -196,10 +135,18 @@
               <div id="fundedAndUnfundedAttributes">
                 <div class="form-group" id="intersections">
                     <label>Intersections*</label>
-                    <input type="text" class="form-control" placeholder="Primary Street" id="Primary_Street">
-                    <input type="text" class="form-control Intersections" placeholder="Cross Street 1" id="cross-street1">
-                    <input type="text" class="form-control Intersections" placeholder="Cross Street 2" id="cross-street2">
-                    <span id="intersection_span" aria-hidden="true"></span>
+                    <div class="form-group" id="Primary_Street-group">
+                      <input type="text" class="form-control" placeholder="Primary Street" id="Primary_Street">
+                      <span id="Primary_Street-span" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group" id="cross-street1-group">
+                      <input type="text" class="form-control Intersections" placeholder="Cross Street 1" id="cross-street1">
+                      <span id="cross-street1-span" aria-hidden="true"></span>
+                    </div>
+                    </div class="form-group" id="cross-street2-group">
+                      <input type="text" class="form-control Intersections" placeholder="Cross Street 2" id="cross-street2">
+                      <span id="cross-street2-span" aria-hidden="true"></span>
+                    </div>
                 </div>
                 <div class="form-group">
                   <button type="button" class="btn btn-primary" id="add-intersection">Add Intersection</button>
