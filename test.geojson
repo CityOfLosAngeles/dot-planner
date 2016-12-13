@@ -1,0 +1,111 @@
+{
+    "type": "FeatureCollection",
+    "features": [{
+        "type": "Feature",
+        "geometry": {
+            "type": "LineString",
+            "coordinates": [
+                [-13168634.8981,
+                    4026429.6236
+                ],
+                [-13168632.6717,
+                    4026903.5277
+                ],
+                [-13168633.785,
+                    4027126.3901
+                ],
+                [-13168632.6717,
+                    4027342.5441
+                ],
+                [-13168633.785,
+                    4027527.8222
+                ],
+                [-13168633.785,
+                    4027768.1511
+                ],
+                [-13168633.785,
+                    4028013.8557
+                ],
+                [-13168637.1245,
+                    4028503.9382
+                ],
+                [-13168637.1245,
+                    4028748.316
+                ],
+                [-13168637.1245,
+                    4028759.0581
+                ],
+                [-13168629.3322,
+                    4028759.0581
+                ],
+                [-13168593.7099,
+                    4028806.0544
+                ],
+                [-13168593.7099,
+                    4028818.1392
+                ],
+                [-13168629.3322,
+                    4028874.5352
+                ],
+                [-13168629.3322,
+                    4028886.62
+                ],
+                [-13168638.2378,
+                    4028886.62
+                ],
+                [-13168638.2378,
+                    4029159.2047
+                ],
+                [-13168637.1245,
+                    4029540.5656
+                ],
+                [-13168640.4642,
+                    4029901.796
+                ],
+                [-13168640.4642,
+                    4030424.1904
+                ],
+                [-13168639.3509,
+                    4030872.7434
+                ],
+                [-13168639.3509,
+                    4030876.7723
+                ],
+                [-13168634.8981,
+                    4030883.4874
+                ],
+                [-13168633.785,
+                    4030947.9516
+                ],
+                [-13168633.785,
+                    4031067.4799
+                ],
+                [-13168631.5586,
+                    4031239.3882
+                ]
+            ]
+        },
+        "properties": {
+            "Fund_St": null,
+            "Legacy_ID": 1,
+            "Lead_A"g: null,
+            "Proj_Title": "Active Streets LA - Budlong Ave BFS",
+            "Proj_Ty": null,
+            "Proj_Desc": "The project will build upon outreach work done with a Healthy Eating and Active Living (HEAL) grant with the LACBC and Trust South LA for the 2010 Bicycle Plan Bicycle Friendly Street (BFS) projects in South Los Angeles. The project will include traffic calming treatments on Budlong Avenue from Gage to Exposition to discourage speeding automobiles and cut through traffic in the neighborhood and encourage safe walking and bicycling particularly near schools, libraries and parks.",
+            "Contact_info": {
+                "Contact_info_name": "TBD",
+                "Contact_info_email": "",
+                "Contact_info_phone": "TBD"
+            },
+            "More_info": "",
+            "Primary_Street": null,
+            "Cross_Streets": [
+                null,
+                null
+            ],
+            "CD": "8",
+            "Proj_Status": null,
+            "Proj_Man": null
+        }
+    }]
+}

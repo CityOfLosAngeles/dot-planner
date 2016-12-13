@@ -38,7 +38,6 @@ $.ajax({
         console.log(data);
         if (data) {
           console.log(data);
-            allProjects = data;
             geoJSON = L.geoJson(data, {
                 onEachFeature: function(feature, layer) {
                   onEachFeature(feature, layer);
@@ -81,8 +80,6 @@ function filterProjects() {
       }
   });
 }
-
-
 
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
