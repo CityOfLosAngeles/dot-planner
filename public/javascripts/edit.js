@@ -20,7 +20,6 @@ $('#Fund_St').on('click', function() {
       $('#fundedAndUnfundedAttributes').show();
       $('#fundedAttributes').hide();
       $('#unfundedAttributes').show();
-      populateUnfunded(project);
     break;
     case 'Idea Project':
     $('#fundedAndUnfundedAttributes').hide();
@@ -120,6 +119,6 @@ function populateUnfunded(project) {
   }
 }
 
-function populateFunded() {
+function populateFunded(project) {
 
 };
