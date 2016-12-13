@@ -323,18 +323,15 @@ $("#intersections").on('keyup', '.Intersections', function(){
 
   var address = $('#'+this.id).val();
 
-  console.log(location_valid("10824 lindbrook drive, los angeles"));
+  // console.log(location_valid("10824 lindbrook drive, los angeles"));
 
-  console.log(address);
-  console.log(location_valid(address));
+  // console.log(address);
+  // console.log(location_valid(address));
 
-  if(location_valid(address)){
-    // console.log("Has success!");
+  if(address != "")
     hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
-  }
-  // else{
-  //   hasError("#"+this.id+"-group","#"+this.id+"-span");
-  // }
+  else
+    hasError("#"+this.id+"-group","#"+this.id+"-span");
 });
 
 // Lead Agency
@@ -546,10 +543,16 @@ function location_valid(stringAddress) {
     var geocoder = new google.maps.Geocoder();
 
     geocoder.geocode( {"address": stringAddress}, function(results, status) {
+
+        console.log(status);
+        console.log(google.maps.GeocoderStatus.OK);
+
         if (status == google.maps.GeocoderStatus.OK){
+            console.log(true)
             return true;
         }
         else{
+          console.log(false);
             return false;
         }
     });
