@@ -32,7 +32,7 @@ router.get('/', function(req,res) {
 				console.log("________________________________________________")
 			}
 			console.log(keepresp);
-		}).then(function(){ 
+		}).then(function(){
 	    	res.render('users/dashboard', {
 	    		logged_in: req.session.logged_in,
 			    adminclearance: req.session.adminclearance,
@@ -119,7 +119,9 @@ router.get('/signin', function(req,res) {
 // login
 router.post('/login', function(req, res) {
 	models.User.findOne({
-		where: {email: req.body.email}
+		where: {
+			email: {ilike: req.body.email}
+		}
 	}).then(function(user) {
 		if (user == null){
 			res.redirect('/users/signin')
@@ -136,7 +138,7 @@ router.post('/login', function(req, res) {
 	            req.session.lastname = user.lastname;
 	            req.session.phonenumber = user.phonenumber;
 		        req.session.user_id = user.id;
-		        req.session.email = user.email;	
+		        req.session.email = user.email;
 		        req.session.admin = user.admin;
 
 		        if (user.admin == "Admin"){
@@ -147,7 +149,7 @@ router.post('/login', function(req, res) {
 		        else {
 		        	console.log(user.admin+" clearance; not an admin");
 		        	res.redirect('/');
-		        }	        
+		        }
         	}
         	else{
         		res.redirect('/users/signin')
