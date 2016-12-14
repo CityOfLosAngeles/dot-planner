@@ -1,12 +1,22 @@
 var express = require('express');
+var app = express();
 var path = require('path');
 var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser'); // for working with cookies
 var bodyParser = require('body-parser');
-var routes = require('./routes/index');
+var session = require('express-session'); 
+var methodOverride = require('method-override'); // for deletes in express
 var hbs = require('hbs');
-var app = express();
 
-// view engine setup
+// override POST to have DELETE and PUT
+app.use(methodOverride('_method'))
+
+//sessions
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
+app.use(cookieParser());
+
+// views and handlebars setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -15,10 +25,15 @@ hbs.registerPartials(__dirname + '/views/partials');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+
+//spencer's 2 public folders just in case
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/projects', express.static(__dirname + '/public'));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+//app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/', routes);
 require('./routes/index')(app);

@@ -38,7 +38,6 @@ $.ajax({
         console.log(data);
         if (data) {
           console.log(data);
-            allProjects = data;
             geoJSON = L.geoJson(data, {
                 onEachFeature: function(feature, layer) {
                   onEachFeature(feature, layer);
@@ -59,30 +58,40 @@ function filterProjects() {
     return $(el).val();
   }).get();
 
-  for (var i = 0; i < fundingTypes.length; i++) {
-    fundingTypes[i] = fundingTypes[i].replace(' ', '%20');
+  var projectTypes = $('.project-type input[type="checkbox"]:checked').map(function(_, el) {
+    return $(el).val();
+  }).get();
+
+  if (fundingTypes.length >= 1 && projectTypes.length >= 1) {
+    for (var i = 0; i < fundingTypes.length; i++) {
+      fundingTypes[i] = fundingTypes[i].split(' ').join('%20');
+    }
+    for (var i = 0; i < projectTypes.length; i++) {
+      projectTypes[i] = projectTypes[i].split(' ').join('%20');
+    }
+
+    var fundingQuery = fundingTypes.join('&');
+    var typeQuery = projectTypes.join('&');
+    $.ajax({
+        type: 'GET',
+        url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
+        datatype: 'JSON',
+        success: function(data) {
+            console.log(data);
+            if (data) {
+              geoJSON.clearLayers();
+              geoJSON = L.geoJson(data, {
+                    onEachFeature: function(feature, layer) {
+                      onEachFeature(feature, layer);
+                    },
+                }).addTo(map);
+            }
+        }
+    });
+  } else {
+    geoJSON.clearLayers();
   }
-  var queryString = fundingTypes.join('&');
-  console.log(queryString);
-  $.ajax({
-      type: 'GET',
-      url: '/projects/' + queryString,
-      datatype: 'JSON',
-      success: function(data) {
-          console.log(data);
-          if (data) {
-            geoJSON.clearLayers();
-            geoJSON = L.geoJson(data, {
-                  onEachFeature: function(feature, layer) {
-                    onEachFeature(feature, layer);
-                  },
-              }).addTo(map);
-          }
-      }
-  });
 }
-
-
 
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
@@ -123,6 +132,15 @@ function onEachFeature(feature, layer) {
     });
 
     console.log(feature.properties);
+
+    // Show edit button
+    $("#edit").attr("hidden",false);
+
+    // Edit button on click
+    $(document).on('click', '#edit', function() {
+      console.log(feature);
+    });
+
     //Common attributes
     $('#Proj_Title').text(feature.properties.Proj_Title);
     $('#Proj_Desc').text(feature.properties.Proj_Desc);

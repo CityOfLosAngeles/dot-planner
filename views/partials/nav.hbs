@@ -17,37 +17,62 @@
                 <button type="submit" class="btn btn-default" id="addProject">Add Project</button>
             </form> -->
             <ul class="nav navbar-nav">
+                {{#if logged_in}}
                 <li><a href="/projects/new">Add a Project</a></li>
+                {{/if}}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map Filters <span class="caret"></span></a>
                     <ul class="dropdown-menu" id="map-filter">
                         <li class="funding-types">
-                            <a><input type="checkbox" checked="checked" value="Funded" id="funded-checkbox"> Funded</a>
+                            <a><input type="checkbox" checked="checked" value="funded" id="funded-checkbox"> Funded</a>
                         </li>
                         <li class="funding-types">
-                            <a><input type="checkbox" checked="checked" value="Unfunded" id="unfunded-checkbox"> Unfunded</a>
+                            <a><input type="checkbox" checked="checked" value="unfunded" id="unfunded-checkbox"> Unfunded</a>
                         </li>
                         <li class="funding-types">
-                            <a><input type="checkbox" checked="checked" value="Idea Project" id="idea-project-checkbox"> Idea Project</a>
+                            <a><input type="checkbox" checked="checked" value="idea project" id="idea-project-checkbox"> Idea Project</a>
                         </li>
                         <li role="separator" class="divider"></li>
-                        <li class="type">
-                            <a><input type="checkbox" checked="checked" value="Bike Only" id="bike-only-checkbox"> Bike Only</a>
+                        <li class="project-type">
+                            <a><input type="checkbox" checked="checked" value="bike only" id="bike-only-checkbox"> Bike Only</a>
                         </li>
-                        <li class="type">
-                            <a><input type="checkbox" checked="checked" value="pedestrian"> Pedestrian</a>
+
+                        <li class="project-type">
+                            <a><input type="checkbox" checked="checked" value="ped only"> Pedestrian</a>
                         </li>
-                        <li class="type">
-                            <a><input type="checkbox" checked="checked" value="street"> Street</a>
+                        <li class="project-type">
+                            <a><input type="checkbox" checked="checked" value="safety"> Safety</a>
+                        </li>
+                        <li class="project-type">
+                            <a><input type="checkbox" checked="checked" value="people street"> People Street</a>
+                        </li>
+                        <li class="project-type">
+                            <a><input type="checkbox" checked="checked" value="srts"> SRTS</a>
+                        </li>
+                        <li class="project-type">
+                            <a><input type="checkbox" checked="checked" value="first mile and last mile"> First Mile And Last Mile</a>
+                        </li>
+                        <li class="project-type">
+                            <a><input type="checkbox" checked="checked" value="bikeped"> Bike/PED</a>
                         </li>
                         <li>
                             <a><button type="button" name="button" id="filter" class="btn btn-primary">Filter</button></a>
                         </li>
+
                     </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Log Out</a></li>
+                {{#if logged_in}}
+                    {{#if adminclearance}}
+                        <li><a href="/users/adminadd">Add a New User</a></li>
+                    {{/if}}
+                    <li><a href="/users/finishsignup">Edit Profile</a></li>
+                    <li><a href="/signout">Sign Out</a></li>
+                {{/if}}
+                {{#unless logged_in}}
+                    <li><a href="/signin">Sign In</a></li>
+                {{/unless}}
             </ul>
         </div>
         <!-- /.navbar-collapse -->

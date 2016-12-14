@@ -12,19 +12,19 @@ module.exports = {
         type: Sequelize.JSONB
       },
       Fund_St: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Legacy_ID: {
         type: Sequelize.INTEGER
       },
       Lead_Ag: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Proj_Title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Proj_Ty: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Proj_Desc: {
         type: Sequelize.STRING(1000)
@@ -36,22 +36,22 @@ module.exports = {
         type: Sequelize.STRING(1000)
       },
       Primary_Street: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Cross_Streets: {
         type: Sequelize.JSONB
       },
       Proj_Status: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Proj_Man: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       CD: {
         type: Sequelize.STRING
       },
       Access: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Dept_Proj_ID: {
         type: Sequelize.INTEGER
@@ -78,31 +78,31 @@ module.exports = {
         type: Sequelize.DECIMAL
       },
       Authorization: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Issues: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Deobligation: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Explanation: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Other_ID: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Constr_by: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Info_source: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Grant_Cat: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Grant_Cycle: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       Est_Cost: {
         type: Sequelize.DECIMAL
