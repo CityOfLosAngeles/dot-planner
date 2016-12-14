@@ -341,4 +341,30 @@ router.get('/table', function(req, res) {
   });
 });
 
+router.get('/flagged', function(req, res) {
+  var dupIDArr = [ ];
+  models.Project.findAll({
+    where: {
+      Flagged: true
+    }
+  }).then(function(flagged) {
+    for (var i = 0; i < flagged.length; i++) {
+      var obj = {
+        id: flagged[i].Dup_ID
+      }
+      dupIDArr.push(obj);
+    }
+    models.Project.findAll({
+      where: {
+          $or: dupIDArr
+      }
+    }).then(function(duplicates){
+      res.render('flagged', {
+        flagged: flagged,
+        duplicates: duplicates
+      });
+    });
+  });
+});
+
 module.exports = router;
