@@ -92,126 +92,141 @@ autocomplete = new google.maps.places.Autocomplete(cross1, googleOptions);
 var cross2 = document.getElementById('cross-street2');
 autocomplete = new google.maps.places.Autocomplete(cross2, googleOptions);
 
-$('#submit-project').on('click', function() {
+$('#submit-project').on('click', function(){
 
-    //Extract geoJSON from the featureGroup
-    var data = featureGroup.toGeoJSON();
+  //Extract geoJSON from the featureGroup
+  var data = featureGroup.toGeoJSON();
 
-    //Check to make sure a feature was drawn on the map
-    if (data.features.length >= 1) {
+  //Check to make sure a feature was drawn on the map
+  if (data.features.length >= 1) {
 
-        //Check the fund status of the new project
-        var fundStatus = $('#Fund_St input[type="radio"]:checked').val();
+    //Check the fund status of the new project
+    var fundStatus = $('#Fund_St input[type="radio"]:checked').val();
 
-        //Push all the intersections into an array
-        var interArr = [];
-        $('.Intersections').each(function() {
-            interArr.push($(this).val());
-        });
+    //Push all the intersections into an array
+    var interArr = [ ];
+    $('.Intersections').each(function() {
+      interArr.push($(this).val());
+    });
 
-        //Create the newProject object and set common attributes
-        newProject = {
-            //Geometry
-            Geometry: JSON.stringify({
-                type: data.features[0].geometry.type,
-                coordinates: JSON.stringify(data.features[0].geometry.coordinates)
-            }),
-            //Common Attributes
-            Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
-            Legacy_ID: $('#Legacy_ID').val(),
-            Lead_Ag: $('#Lead_Ag').val(),
-            Proj_Title: $('#Proj_Title').val(),
-            Proj_Ty: $('#Proj_Ty input[type="radio"]:checked').val(),
-            Proj_Desc: $('#Proj_Desc').val(),
-            More_info: $('#More_info').val(),
-            Contact_info: JSON.stringify({Contact_info_name: $('#Contact_info_name').val(), Contact_info_phone: $('#Contact_info_phone').val(), Contact_info_email: $('#Contact_info_email').val()})
-        }
-
-        //Funded and Unfunded but NOT Idea Attributes
-        if (fundStatus != 'Idea Project') {
-            newProject.Primary_Street = $('#Primary_Street').val();
-            newProject.Cross_Streets = JSON.stringify({Intersections: interArr});
-            newProject.CD = $('#CD').val();
-            newProject.Proj_Status = $('#Proj_Status').val();
-            newProject.Proj_Man = $('#Proj_Man').val();
-        }
-
-        if (fundStatus === 'Funded') {
-            newProject.Dept_Proj_ID = $('#Dept_Proj_ID').val();
-            newProject.Other_ID = $('#Other_ID').val();
-            newProject.Total_bgt = parseInt($('#Total_bgt').val()).toFixed(2);
-            newProject.Grant = parseInt($('#Grant').val()).toFixed(2);
-            newProject.Other_funds = parseInt($('#Other_funds').val()).toFixed(2);
-            newProject.Prop_c = parseInt($('#Prop_c').val()).toFixed(2);
-            newProject.Measure_r = parseInt($('#Measure_r').val()).toFixed(2);
-            newProject.Gas_Tax = parseInt($('#Gas_tax').val()).toFixed(2);
-            newProject.General_fund = parseInt($('#General_fund').val()).toFixed(2);
-            newProject.Authorization = $('#Authorization').val();
-            newProject.Issues = $('#Issues').val();
-            newProject.Deobligation = $('#Deobligation input[type="radio"]:checked').val();
-            newProject.Explanation = $('#Explanation').val();
-            newProject.Constr_by = $('#Constr_by').val();
-            newProject.Info_source = $('#Info_source').val();
-            newProject.Access = $('#Access input[type="radio"]:checked').val();
-        }
-
-        //Unfunded Attributes
-        if (fundStatus === 'Unfunded') {
-            newProject.Grant_Cat = $('#Grant_Cat').val();
-            newProject.Grant_Cycle = $('#Grant_Cycle').val();
-            newProject.Est_Cost = parseInt($('#Est_Cost').val()).toFixed(2);
-            newProject.Fund_Rq = parseInt($('#Fund_Rq').val()).toFixed(2);
-            newProject.Lc_match = parseInt($('#Lc_match').val()).toFixed(2);
-            newProject.Match_Pt = $('#Match_Pt').val();
-        }
-
-        $.ajax({
-            method: "GET",
-            url: "/projects/all",
-            success: function(projects) {
-                var possibleDuplicates = [];
-                // Check for duplicates
-                for (var i = 0; i < projects.features.length; i++) {
-
-                    // console.log(newProject.Proj_Title.toLowerCase());
-                    // console.log(projects.features[i].properties.Proj_Title.toLowerCase());
-                    // console.log(newProject.Proj_Desc.toLowerCase());
-                    // console.log(projects.features[i].properties.Proj_Desc.toLowerCase());
-                    // console.log(newProject.More_info.toLowerCase());
-                    // console.log(projects.features[i].properties.More_info.toLowerCase());
-                    // console.log("===================");
-
-                    if (newProject.Proj_Title.toLowerCase() == projects.features[i].properties.Proj_Title.toLowerCase() || newProject.Proj_Desc.toLowerCase() == projects.features[i].properties.Proj_Desc.toLowerCase() || newProject.More_info.toLowerCase() == projects.features[i].properties.More_info.toLowerCase()) {
-                        console.log("DUPLICATE!");
-                        possibleDuplicates.push(projects.features[i]);
-                    }
-                }
-
-                // If there are duplicates...
-                if (possibleDuplicates.length > 0) {
-                    for (var i = 0; i < possibleDuplicates.length; i++) {
-                        $('#duplicateProjects').append('<div id="duplicate' + i + '">Project Title: ' + possibleDuplicates[i].properties.Proj_Title + '</div>');
-                        $('#duplicateProjects').append('<br>');
-                    }
-                    console.log("duplicate! trigger modal");
-                    $('#myModal').modal();
-                    possibleDuplicates = [// If there are no duplicates...
-                    ];
-                } else {
-                    console.log("No duplicates. Add project");
-                    addProject(newProject);
-                }
-
-                return false;
-            }
-        });
-    } else {
-
-        // TODO: change this to a modal or something else nicer than an alert
-        alert('Oops it looks like you forgot to add geometry to the map.');
-        return false;
+    //Create the newProject object and set common attributes
+    newProject = {
+      //Geometry
+      Geometry: JSON.stringify({
+        type: data.features[0].geometry.type,
+        coordinates: JSON.stringify(data.features[0].geometry.coordinates)
+      }),
+      //Common Attributes
+      Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
+      Legacy_ID: $('#Legacy_ID').val(),
+      Lead_Ag: $('#Lead_Ag').val(),
+      Proj_Title: $('#Proj_Title').val(),
+      Proj_Ty: $('#Proj_Ty input[type="radio"]:checked').val(),
+      Proj_Desc: $('#Proj_Desc').val(),
+      More_info: $('#More_info').val(),
+      Contact_info: JSON.stringify({
+        Contact_info_name: $('#Contact_info_name').val(),
+        Contact_info_phone: $('#Contact_info_phone').val(),
+        Contact_info_email: $('#Contact_info_email').val()
+      })
     }
+
+    //Funded and Unfunded but NOT Idea Attributes
+    if (fundStatus != 'Idea Project') {
+      newProject.Primary_Street = $('#Primary_Street').val();
+      newProject.Cross_Streets =  JSON.stringify({
+        Intersections: interArr
+      });
+      newProject.CD = $('#CD').val();
+      newProject.Proj_Status = $('#Proj_Status').val();
+      newProject.Proj_Man = $('#Proj_Man').val();
+    }
+
+    if (fundStatus === 'Funded') {
+      newProject.Dept_Proj_ID = $('#Dept_Proj_ID').val();
+      newProject.Other_ID = $('#Other_ID').val();
+      newProject.Total_bgt = parseInt($('#Total_bgt').val()).toFixed(2);
+      newProject.Grant = parseInt($('#Grant').val()).toFixed(2);
+      newProject.Other_funds = parseInt($('#Other_funds').val()).toFixed(2);
+      newProject.Prop_c = parseInt($('#Prop_c').val()).toFixed(2);
+      newProject.Measure_r = parseInt($('#Measure_r').val()).toFixed(2);
+      newProject.Gas_Tax = parseInt($('#Gas_tax').val()).toFixed(2);
+      newProject.General_fund = parseInt($('#General_fund').val()).toFixed(2);
+      newProject.Authorization = $('#Authorization').val();
+      newProject.Issues = $('#Issues').val();
+      newProject.Deobligation = $('#Deobligation input[type="radio"]:checked').val();
+      newProject.Explanation = $('#Explanation').val();
+      newProject.Constr_by = $('#Constr_by').val();
+      newProject.Info_source = $('#Info_source').val();
+      newProject.Access = $('#Access input[type="radio"]:checked').val();
+    }
+
+    //Unfunded Attributes
+    if (fundStatus === 'Unfunded') {
+      newProject.Grant_Cat = $('#Grant_Cat').val();
+      newProject.Grant_Cycle = $('#Grant_Cycle').val();
+      newProject.Est_Cost = parseInt($('#Est_Cost').val()).toFixed(2);
+      newProject.Fund_Rq = parseInt($('#Fund_Rq').val()).toFixed(2);
+      newProject.Lc_match = parseInt($('#Lc_match').val()).toFixed(2);
+      newProject.Match_Pt = $('#Match_Pt').val();
+    }
+
+    $.ajax({
+      method: "GET",
+      url: "/projects/all",
+      success: function(projects) {
+
+        var possibleDuplicates = [];
+        // Check for duplicates
+        for(var i=0; i<projects.features.length; i++){
+
+          // console.log(newProject.Proj_Title.toLowerCase());
+          // console.log(projects.features[i].properties.Proj_Title.toLowerCase());
+          // console.log(newProject.Proj_Desc.toLowerCase());
+          // console.log(projects.features[i].properties.Proj_Desc.toLowerCase());
+          // console.log(newProject.More_info.toLowerCase());
+          // console.log(projects.features[i].properties.More_info.toLowerCase());
+          // console.log("===================");
+
+          if(newProject.Proj_Title.toLowerCase() == projects.features[i].properties.Proj_Title.toLowerCase()
+            || newProject.Proj_Desc.toLowerCase() == projects.features[i].properties.Proj_Desc.toLowerCase()
+            || newProject.More_info.toLowerCase() == projects.features[i].properties.More_info.toLowerCase())
+          {
+            console.log("DUPLICATE!");
+            possibleDuplicates.push(projects.features[i]);
+          }
+        }
+
+        // If there are duplicates...
+        if (possibleDuplicates.length > 0){
+          for(var i=0; i<possibleDuplicates.length; i++){
+            $('#duplicateProjects').append('<div id="duplicate' + i + '">Project Title: ' + possibleDuplicates[i].properties.Proj_Title + '</div>');
+            $('#duplicateProjects').append('<br>');
+          }
+          console.log("duplicate! trigger modal");
+          $('#myModal').modal();
+          possibleDuplicates = [];
+        }
+
+        // If there are no duplicates...
+        else{
+          console.log("No duplicates. Add project");
+          addProject(newProject);
+        }
+      }
+    });
+
+    return false;
+
+  } else {
+
+    // TODO: change this to a modal or something else nicer than an alert
+    alert('Oops it looks like you forgot to add geometry to the map.');
+    return false;
+  }
 });
+
+
 
 // Add more intersections
 $('#add-intersection').on('click', function() {
