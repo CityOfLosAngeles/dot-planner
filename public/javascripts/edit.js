@@ -234,7 +234,7 @@ function populateData(project) {
   if (project.Primary_Street != undefined) {
     $('#Primary_Street').val(project.Primary_Street);
   }
-  if (project.Cross_Streets != undefined && project.Cross_Streets[0] != undefined) {
+  if (project.Cross_Streets.Intersections && project.Cross_Streets.Intersections[0] != undefined) {
     var cross = project.Cross_Streets.Intersections;
     if (cross.length <=2) {
       for (var i = 0; i < cross.length; i++) {
