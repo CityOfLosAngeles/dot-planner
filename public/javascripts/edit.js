@@ -101,6 +101,7 @@ $('#Fund_St').on('click', function() {
 
 
 function showHide(project){
+
   switch(project.Fund_St){
     case 'Funded':
     $('#funded').prop('checked', true);
@@ -197,7 +198,7 @@ function populateData(project) {
     $('#Measure_r').val(project.Measure_r);
   }
   if (project.Gas_Tax != undefined) {
-    $('#Gas_Tax').val(project.Gas_Tax);
+    $('#Gas_tax').val(project.Gas_Tax);
   }
   if (project.General_fund != undefined) {
     $('#General_fund').val(project.General_fund);
@@ -234,9 +235,6 @@ function populateData(project) {
   }
   if (project.Lc_match != undefined) {
     $('#Lc_match').val(project.Lc_match);
-  }
-  if (project.Lc_match != undefined) {
-    $('#Match_Pt').val(project.Match_Pt);
   }
   if (project.Primary_Street != undefined) {
     $('#Primary_Street').val(project.Primary_Street);
