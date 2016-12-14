@@ -133,6 +133,14 @@
 
               <!-- Intersections -->
               <div id="fundedAndUnfundedAttributes">
+                
+                <!-- Council District Number -->
+                <label for="CD">Council District Number*</label>
+                <div class="form-group" id="CD-group">
+                    <input type="number" min="1" max="15" class="form-control" id="CD" placeholder="1-15">
+                    <span id="CD-span" aria-hidden="true"></span>
+                </div>
+
                 <div class="form-group" id="intersections">
                     <label>Intersections*</label>
                     <div class="form-group" id="Primary_Street-group">
@@ -167,15 +175,10 @@
                 </div>
               </div>
 
-              <!-- Council District Number -->
-              <label for="CD">Council District Number*</label>
-              <div class="form-group" id="CD-group">
-                  <input type="number" min="1" max="15" class="form-control" id="CD" placeholder="1-15">
-                  <span id="CD-span" aria-hidden="true"></span>
-              </div>
 
               <!-- Funded Attributes -->
               <div id="fundedAttributes">
+
                 <!-- Accessibility -->
                 <div class="form-group" id="Access">
                     <label for="Access">Accessibility*</label>
@@ -353,15 +356,6 @@
                       <input type="number" step="0.01" class="form-control" id="Lc_match" placeholder="">
                     </div>
                     <p class="help-block">Amount of fund provided by lead agency</p>
-                </div>
-
-                <!-- Match Percentage -->
-                <label for="Match_Pt">Match Percentage*</label>
-                <div class="form-group">
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="Match_Pt" placeholder="">
-                      <span class="input-group-addon">%</span>
-                    </div>
                 </div>
               </div>
 
