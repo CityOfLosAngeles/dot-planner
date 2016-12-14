@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-//Register the partials with HBS
+//Register the partials and helpers with HBS
 hbs.registerPartials(__dirname + '/views/partials');
 hbs.registerHelper('equal', function(lvalue, rvalue, options) {
     if (arguments.length < 3)
