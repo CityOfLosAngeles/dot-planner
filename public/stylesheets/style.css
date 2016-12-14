@@ -117,6 +117,9 @@ body {
   width: 100%;
   margin-top: 10px;
 }
+.table-section{
+  margin-top: 80px;
+}
 
 /*#funded-attributes, #unfunded-attributes {
   display: none;

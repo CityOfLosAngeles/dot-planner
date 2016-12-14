@@ -177,7 +177,6 @@ router.get('/funding/:status/type/:type', function(req, res) {
             searchArr.push(searchObj);
         }
     }
-    console.log(searchArr);
     models.Project.findAll({
         where: {
             $or: searchArr
@@ -233,12 +232,12 @@ router.post('/new', function(req, res) {
         }
       }
     ]
-    models.Project.findAll({
+    models.Project.findOne({
         where: {
             $or: searchArr
         }
     }).then(function(projects) {
-      if (projects.length >= 1) {
+      if (projects && projects.length >= 1) {
         res.send({'status': 'duplicate', 'id': projects[0].id});
       } else {
         if (fundStatus === 'Idea Project') {
@@ -289,10 +288,20 @@ router.get('/id/:id', function(req, res) {
     });
 });
 
+router.delete('/id/:id', function(req, res) {
+  var id = req.params.id;
+  models.Project.destroy({
+    where: {
+      id: id
+    }
+  }).then(function() {
+    res.redirect('/projects/table');
+  });
+});
+
 router.put('/edit/:id', function(req, res) {
     var id = req.params.id;
     var newProject = req.body;
-    console.log(newProject);
     var fundStatus = newProject.Fund_St;
     var geometry = JSON.parse(newProject.Geometry);
     var coordinates = JSON.parse(geometry.coordinates);
@@ -314,6 +323,12 @@ router.put('/edit/:id', function(req, res) {
     }).then(function() {
         res.send({"success": 200});
     });
+});
+
+router.get('/table', function(req, res) {
+  models.Project.findAll().then(function(projects) {
+    res.render('table', {projects: projects});
+  });
 });
 
 module.exports = router;
