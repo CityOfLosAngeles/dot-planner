@@ -1,5 +1,8 @@
-// Form validation
-// ===============
+// Automatically hide this div
+$("#explainRiskDiv").hide();
+
+var fundStatus = "";
+var riskOfDeobligation;
 
 // Required for all projects
 var lead_agComplete = false;
@@ -14,7 +17,7 @@ var more_infoComplete = false;
 
 // Not required for Idea Project
 // Required for Funded and Unfunded
-var intersectionsComplete = false;
+// var intersectionsComplete = false;
 var proj_statusComplete = false;
 var proj_manComplete = false;
 var cdComplete = false;
@@ -54,6 +57,8 @@ var lc_match = false;
 $("#Fund_St").on("click", ".Fund_St-option", function() {
     fund_stComplete = true;
     checkForm();
+
+    fundStatus = $(this).val();
 });
 
 // Lead Agency
@@ -194,20 +199,25 @@ $("#CD").keyup(function() {
 // =============
 // Required
 // Valid location
-$("#intersections").on('keyup', '.Intersections', function(){
-  var address = $('#'+this.id).val();
-  if(address != "")
-    hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
-  else
-    hasError("#"+this.id+"-group","#"+this.id+"-span");
-});
+// $("#Primary_Street").on('keyup', function(){
+//     if($("#Primary_Street").val() != ""){
+//         hasSuccess("#CD-group", "#CD-span");
+//     }
+// });
+// $("#intersections").on('keyup', '.Intersections', function(){
+//   var address = $('#'+this.id).val();
+//   if(address != "")
+//     hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
+//   else
+//     hasError("#"+this.id+"-group","#"+this.id+"-span");
+// });
 
 // Project Status
 // ===============
 // HTML type = text
 // Required
 $("#Proj_Status").keyup(function(){
-  if($("#Proj_Man").val() != ""){
+  if($("#Proj_Status").val() != ""){
     proj_statusComplete = true;
     hasSuccess("#Proj_Status-group","#Proj_Status-span");
   }
@@ -234,28 +244,326 @@ $("#Proj_Man").keyup(function(){
   checkForm();
 });
 
-// Modal onclicks
-$("#flag-button").on("click", function() {});
-
-$("#add-button").on("click", function() {
-    addProject(newProject);
+// Accessibility
+// ===============
+// Required
+$('#internal').change(function() {
+    if ($(this).is(':checked') || $('#public').is(':checked'))
+        accessComplete = true;
+    else
+        accessComplete = false;
 });
+$('#public').change(function() {
+    if ($(this).is(':checked') || $('#internal').is(':checked'))
+        accessComplete = true;
+    else
+        accessComplete = false;
+});
+
+// Department Project ID
+// =====================
+// Required
+$("#Dept_Proj_ID").keyup(function(){
+  if($("#Dept_Proj_ID").val() != ""){
+    dept_proj_idComplete = true;
+    hasSuccess("#Dept_Proj_ID-group","#Dept_Proj_ID-span");
+  }
+  else{
+    dept_proj_idComplete = false;
+    hasError("#Dept_Proj_ID-group","#Dept_Proj_ID-span");
+  }
+  checkForm();
+});
+
+// Other Project ID
+// ================
+// Required
+$("#Other_ID").keyup(function(){
+  if($("#Other_ID").val() != ""){
+    other_idComplete = true;
+    hasSuccess("#Other_ID-group","#Other_ID-span");
+  }
+  else{
+    other_idComplete = false;
+    hasError("#Other_ID-group","#Other_ID-span");
+  }
+  checkForm();
+});
+
+// Total Budget
+// ============
+// HTML type = number
+// Required
+// Is numeric
+$("#Total_bgt").keyup(function() {
+    if ($("#Total_bgt").val() != "" && $.isNumeric($("#Total_bgt").val())) {
+        grant = true;
+        hasSuccess("#Total_bgt-group", "#Total_bgt-span");
+    } else {
+        grant = false;
+        hasError("#Total_bgt-group", "#Total_bgt-span");
+    }
+    checkForm();
+});
+
+// Grant
+// ============
+// HTML type = number
+// Required
+// Is numeric
+$("#Grant").keyup(function() {
+    if ($("#Grant").val() != "" && $.isNumeric($("#Grant").val())) {
+        grant = true;
+        hasSuccess("#Grant-group", "#Grant-span");
+    } else {
+        grant = false;
+        hasError("#Grant-group", "#Grant-span");
+    }
+    checkForm();
+});
+
+// Other Funds
+// ===========
+// HTML type = number
+// Required
+// Is numeric
+$("#Other_funds").keyup(function() {
+    if ($("#Other_funds").val() != "" && $.isNumeric($("#Other_funds").val())) {
+        other_fundsComplete = true;
+        hasSuccess("#Other_funds-group", "#Other_funds-span");
+    } else {
+        other_fundsComplete = false;
+        hasError("#Other_funds-group", "#Other_funds-span");
+    }
+    checkForm();
+});
+
+// Prop C
+// ======
+// HTML type = number
+// Required
+// Is numeric
+$("#Prop_c").keyup(function() {
+    if ($("#Prop_c").val() != "" && $.isNumeric($("#Prop_c").val())) {
+        prop_cComplete = true;
+        hasSuccess("#Prop_c-group", "#Prop_c-span");
+    } else {
+        prop_cComplete = false;
+        hasError("#Prop_c-group", "#Prop_c-span");
+    }
+    checkForm();
+});
+
+// Measure R
+// =========
+// HTML type = number
+// Required
+// Is numeric
+$("#Measure_r").keyup(function() {
+    if ($("#Measure_r").val() != "" && $.isNumeric($("#Measure_r").val())) {
+        measure_rComplete = true;
+        hasSuccess("#Measure_r-group", "#Measure_r-span");
+    } else {
+        measure_rComplete = false;
+        hasError("#Measure_r-group", "#Measure_r-span");
+    }
+    checkForm();
+});
+
+// Gas Tax
+// =========
+// HTML type = number
+// Required
+// Is numeric
+$("#Gas_tax").keyup(function() {
+    if ($("#Gas_tax").val() != "" && $.isNumeric($("#Gas_tax").val())) {
+        gas_taxComplete = true;
+        hasSuccess("#Gas_tax-group", "#Gas_tax-span");
+    } else {
+        gas_taxComplete = false;
+        hasError("#Gas_tax-group", "#Gas_tax-span");
+    }
+    checkForm();
+});
+
+// General Fund
+// ============
+// HTML type = number
+// Required
+// Is numeric
+$("#General_fund").keyup(function() {
+    if ($("#General_fund").val() != "" && $.isNumeric($("#General_fund").val())) {
+        general_fundComplete = true;
+        hasSuccess("#General_fund-group", "#General_fund-span");
+    } else {
+        general_fundComplete = false;
+        hasError("#General_fund-group", "#General_fund-span");
+    }
+    checkForm();
+});
+
+// Authorization
+// =============
+// Required
+$("#Authorization").keyup(function() {
+    if ($("#Authorization").val() != "") {
+        authorizationComplete = true;
+        hasSuccess("#Authorization-group", "#Authorization-span");
+    } else {
+        authorizationComplete = false;
+        hasError("#Authorization-group", "#Authorization-span");
+    }
+    checkForm();
+});
+
+// Issues
+// ======
+// Required
+$("#Issues").keyup(function() {
+    if ($("#Issues").val() != "") {
+        issuesComplete = true;
+        hasSuccess("#Issues-group", "#Issues-span");
+    } else {
+        issuesComplete = false;
+        hasError("#Issues-group", "#Issues-span");
+    }
+    checkForm();
+});
+
+// At Risk of Deobligation?
+// ========================
+// Required
+$("#Deobligation").on("click", ".Deobligation-option", function() {
+    deobligationComplete = true;
+    checkForm();
+
+    if($(this).val() == "Yes"){
+        $("#explainRiskDiv").show();
+        riskOfDeobligation = true;
+    }
+    else{
+        $("#explainRiskDiv").hide();
+        riskOfDeobligation = false;
+    }
+});
+
+// Explain Risk of Deobligation
+// ========================
+// Required
+$("#Explanation").keyup(function() {
+    if ($("#Explanation").val() != "") {
+        explanationComplete = true;
+        hasSuccess("#Explanation-group", "#Explanation-span");
+    } else {
+        explanationComplete = false;
+        hasError("#Explanation-group", "#Explanation-span");
+    }
+    checkForm();
+});
+
+// Construction By
+// ===============
+// Required
+$("#Constr_by").keyup(function() {
+    if ($("#Constr_by").val() != "") {
+        constr_byComplete = true;
+        hasSuccess("#Constr_by-group", "#Constr_by-span");
+    } else {
+        constr_byComplete = false;
+        hasError("#Constr_by-group", "#Constr_by-span");
+    }
+    checkForm();
+});
+
+// Source
+// ======
+// Required
+$("#Info_source").keyup(function() {
+    if ($("#Info_source").val() != "") {
+        info_sourceComplete = true;
+        hasSuccess("#Info_source-group", "#Info_source-span");
+    } else {
+        info_sourceComplete = false;
+        hasError("#Info_source-group", "#Info_source-span");
+    }
+    checkForm();
+});
+
+
+
+
+
+
+
+
+
 
 function checkForm() {
 
+    // Check common attributes first
     if (
-      proj_titleComplete
-    // && proj_descComplete
-    // && proj_tyComplete
-    // && lead_agComplete
-    // && fund_stComplete
-    // && proj_manComplete
-    // && contact_info_nameComplete
-    // && contact_info_phoneComplete
-    // && contact_info_emailComplete
-    // && more_infoComplete && cdComplete
+      lead_agComplete
+      && proj_titleComplete
+      && proj_tyComplete
+      && proj_descComplete
+      && fund_stComplete
+      && contact_info_nameComplete
+      && contact_info_phoneComplete
+      && contact_info_emailComplete
+      && more_infoComplete
     ) {
-        $("#submit-project").removeAttr("disabled");
+        // Next check attributes specific to particular funding status
+        if (
+          fundStatus == 'Funded'
+          // && intersectionsComplete
+          && proj_statusComplete
+          && proj_manComplete
+          && cdComplete
+          && accessComplete
+          && dept_proj_idComplete
+          && other_idComplete
+          && total_bgt
+          && grantComplete
+          && other_fundsComplete
+          && prop_cComplete
+          && measure_rComplete
+          && gas_taxComplete
+          && general_fundComplete
+          && authorizationComplete
+          && issuesComplete
+          && deobligationComplete
+          && constr_byComplete
+          && info_sourceComplete
+          && explanationComplete
+        ) {
+            // If at risk for deobligation checked...
+          if(riskOfDeobligation){
+            if(explanationComplete)
+              $("#submit-project").removeAttr("disabled");
+            else
+              $("#submit-project").attr("disabled", true);
+          }
+          else{
+            $("#submit-project").removeAttr("disabled");
+          }
+        } else if(
+          fundStatus == 'Unfunded'
+          // && intersectionsComplete
+          && proj_statusComplete
+          && proj_manComplete
+          && cdComplete
+          && grant_cat
+          && grant_cycle
+          && est_cost
+          && fund_rq
+          && lc_match
+        ) {
+          ("#submit-project").removeAttr("disabled");
+        } else if(fundStatus == 'Idea Project'){
+          ("#submit-project").removeAttr("disabled");
+        } else {
+          $("#submit-project").attr("disabled", true);
+        }
     } else {
         $("#submit-project").attr("disabled", true);
     }
