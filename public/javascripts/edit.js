@@ -1,5 +1,3 @@
-console.log('HERE');
-
 var intersectionCounter = 2;
 
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
@@ -90,9 +88,7 @@ $.ajax({
   success: function(data) {
     if (data) {
       showHide(data[0]);
-      var coordinates = data[0].Geometry.coordinates[0].reverse();
-      console.log(coordinates);
-      map.setView(coordinates, 13);
+      //Maybe set the map view here
     }
   }
 });
@@ -238,11 +234,10 @@ function populateData(project) {
   if (project.Primary_Street != undefined) {
     $('#Primary_Street').val(project.Primary_Street);
   }
-  if (project.Cross_Streets.Intersections != undefined) {
+  if (project.Cross_Streets != undefined && project.Cross_Streets[0] != undefined) {
     var cross = project.Cross_Streets.Intersections;
     if (cross.length <=2) {
       for (var i = 0; i < cross.length; i++) {
-        console.log(cross[i]);
         $('#cross-street' + (i + 1)).val(cross[i]);
       }
     } else {
@@ -267,7 +262,6 @@ function populateData(project) {
         autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
       }
       for (var i = 0; i < cross.length; i++) {
-        console.log(cross[i]);
         $('#cross-street' + (i + 1)).val(cross[i]);
       }
     }
@@ -343,7 +337,6 @@ $('#update-project').on('click', function() {
             More_info: $('#More_info').val(),
             Contact_info: JSON.stringify({Contact_info_name: $('#Contact_info_name').val(), Contact_info_phone: $('#Contact_info_phone').val(), Contact_info_email: $('#Contact_info_email').val()})
         }
-        console.log(newProject);
         //Funded and Unfunded but NOT Idea Attributes
         if (fundStatus != 'Idea Project') {
             newProject.Primary_Street = $('#Primary_Street').val();
