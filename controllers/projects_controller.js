@@ -237,7 +237,7 @@ router.post('/new', function(req, res) {
             $or: searchArr
         }
     }).then(function(projects) {
-      if (projects.length >= 1) {
+      if (projects && projects.length >= 1) {
         res.send({'status': 'duplicate', 'id': projects[0].id});
       } else {
         if (fundStatus === 'Idea Project') {
@@ -312,6 +312,12 @@ router.put('/edit/:id', function(req, res) {
     }).then(function() {
         res.send({"success": 200});
     });
+});
+
+router.get('/table', function(req, res) {
+  models.Project.findAll(function(projects) {
+    res.render('table', {projects: projects});
+  });
 });
 
 module.exports = router;
