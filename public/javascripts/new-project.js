@@ -184,17 +184,24 @@ function addProject(project) {
         dataType: "json",
         data: project,
         success: function(data) {
-            window.location = '/'
+          if (data.status === 'duplicate') {
+            project.Dup_ID = data.id;
+            $('#myModal').modal();
+            $("#flag-button").on("click", function() {
+              project.Flagged = true;
+              addProject(project);
+            });
+
+            $("#add-button").on("click", function() {
+                project.Flagged = false;
+                addProject(project);
+            });
+          } else {
+            window.location = '/';
+          }
         }
     });
 }
-
-// Modal onclicks
-$("#flag-button").on("click", function() {});
-
-$("#add-button").on("click", function() {
-    addProject(newProject);
-});
 
 
 
