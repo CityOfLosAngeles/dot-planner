@@ -471,7 +471,6 @@ $("#add-button").on("click", function() {
     addProject(newProject);
 });
 
->>>>>>> master
 function checkForm() {
 
     if (
