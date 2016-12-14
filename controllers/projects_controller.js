@@ -133,6 +133,11 @@ router.get('/type/:type', function(req, res) {
     };
     var type = req.params.type;
     type = type.split('&');
+    for (var i = 0; i < type.length; i++) {
+      if (type[i] === 'pedbike') {
+        type[i] = 'ped/bike'
+      }
+    }
     var searchArr = [];
     for (var i = 0; i < type.length; i++) {
         var searchObj = {
@@ -164,6 +169,11 @@ router.get('/funding/:status/type/:type', function(req, res) {
     status = status.split('&');
     type = type.split('&');
     var searchArr = [];
+    for (var i = 0; i < type.length; i++) {
+      if (type[i] === 'pedbike') {
+        type[i] = 'ped/bike'
+      }
+    }
     for (var i = 0; i < status.length; i++) {
         for (var j = 0; j < type.length; j++) {
             var searchObj = {
@@ -232,7 +242,7 @@ router.post('/new', function(req, res) {
         }
       }
     ]
-    models.Project.findOne({
+    models.Project.findAll({
         where: {
             $or: searchArr
         }
@@ -328,6 +338,32 @@ router.put('/edit/:id', function(req, res) {
 router.get('/table', function(req, res) {
   models.Project.findAll().then(function(projects) {
     res.render('table', {projects: projects});
+  });
+});
+
+router.get('/flagged', function(req, res) {
+  var dupIDArr = [ ];
+  models.Project.findAll({
+    where: {
+      Flagged: true
+    }
+  }).then(function(flagged) {
+    for (var i = 0; i < flagged.length; i++) {
+      var obj = {
+        id: flagged[i].Dup_ID
+      }
+      dupIDArr.push(obj);
+    }
+    models.Project.findAll({
+      where: {
+          $or: dupIDArr
+      }
+    }).then(function(duplicates){
+      res.render('flagged', {
+        flagged: flagged,
+        duplicates: duplicates
+      });
+    });
   });
 });
 

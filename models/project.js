@@ -3,7 +3,7 @@ module.exports = function(sequelize, DataTypes) {
   var Project = sequelize.define('Project', {
     Geometry: DataTypes.JSONB,
     Fund_St: DataTypes.STRING(1000),
-    Legacy_ID: DataTypes.INTEGER,
+    Legacy_ID: DataTypes.STRING,
     Lead_Ag: DataTypes.STRING(1000),
     Proj_Title: DataTypes.STRING(1000),
     Proj_Ty: DataTypes.STRING(1000),
