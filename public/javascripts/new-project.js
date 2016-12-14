@@ -92,6 +92,7 @@ autocomplete = new google.maps.places.Autocomplete(cross1, googleOptions);
 var cross2 = document.getElementById('cross-street2');
 autocomplete = new google.maps.places.Autocomplete(cross2, googleOptions);
 
+
 $('#submit-project').on('click', function() {
 
     //Extract geoJSON from the featureGroup
@@ -195,9 +196,10 @@ $('#submit-project').on('click', function() {
                     }
                     console.log("duplicate! trigger modal");
                     $('#myModal').modal();
-                    possibleDuplicates = [// If there are no duplicates...
-                    ];
-                } else {
+                    possibleDuplicates = [];
+                }
+                // If there are no duplicates...
+                else {
                     console.log("No duplicates. Add project");
                     addProject(newProject);
                 }
@@ -301,23 +303,6 @@ $("#Fund_St").on("click", ".Fund_St-option", function() {
     checkForm();
 });
 
-// Legacy ID
-// =========
-// HTML type = number
-// Not required
-// Is a number
-
-$("#Legacy_ID").keyup(function() {
-    if ($("#Legacy_ID").val() != "" && $.isNumeric($("#Legacy_ID").val())) {
-        legacy_idComplete = true;
-        hasSuccess("#Legacy-ID-group", "#Legacy-ID-span");
-    } else {
-        legacy_idComplete = false;
-        hasError("#Legacy-ID-group", "#Legacy-ID-span");
-    }
-    checkForm();
-});
-
 // Lead Agency
 // ===========
 // HTML type = text
@@ -348,6 +333,14 @@ $("#Proj_Title").keyup(function() {
     checkForm();
 });
 
+// Project Type
+// ============
+// Required
+$("#Proj_Ty").on("click", ".Proj_Ty-option", function() {
+    fund_stComplete = true;
+    checkForm();
+});
+
 // Project Description
 // ===================
 // Required
@@ -358,41 +351,6 @@ $("#Proj_Desc").keyup(function() {
     } else {
         proj_descComplete = false;
         hasError("#Proj_Desc-group", "#Proj_Desc-span");
-    }
-    checkForm();
-});
-
-// Intersections
-// =============
-// Required
-// Valid location
-$("#intersections").on('keyup', '.Intersections', function() {
-
-    var address = $('#' + this.id).val();
-
-    // console.log(location_valid("10824 lindbrook drive, los angeles"));
-
-    // console.log(address);
-    // console.log(location_valid(address));
-
-    if (address != "")
-        hasSuccess("#" + this.id + "-group", "#" + this.id + "-span");
-    else
-        hasError("#" + this.id + "-group", "#" + this.id + "-span");
-    }
-);
-
-// Project Manager
-// ===============
-// HTML type = text
-// Required
-$("#Proj_Man").keyup(function() {
-    if ($("#Proj_Man").val() != "") {
-        proj_manComplete = true;
-        hasSuccess("#Proj_Man-group", "#Proj_Man-span");
-    } else {
-        proj_manComplete = false;
-        hasError("#Proj_Man-group", "#Proj_Man-span");
     }
     checkForm();
 });
@@ -448,7 +406,7 @@ $("#Contact_info_email").keyup(function() {
     checkForm();
 });
 
-// Link to More Project Info
+// More Info / Comments
 // =========================
 // Required
 $("#More_info").keyup(function() {
@@ -479,6 +437,50 @@ $("#CD").keyup(function() {
     checkForm();
 });
 
+// Intersections
+// =============
+// Required
+// Valid location
+$("#intersections").on('keyup', '.Intersections', function(){
+  var address = $('#'+this.id).val();
+  if(address != "")
+    hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
+  else
+    hasError("#"+this.id+"-group","#"+this.id+"-span");
+});
+
+// Project Status
+// ===============
+// HTML type = text
+// Required
+$("#Proj_Status").keyup(function(){
+  if($("#Proj_Man").val() != ""){
+    proj_statusComplete = true;
+    hasSuccess("#Proj_Status-group","#Proj_Status-span");
+  }
+  else{
+    proj_statusComplete = false;
+    hasError("#Proj_Status-group","#Proj_Status-span");
+  }
+  checkForm();
+});
+
+// Project Manager
+// ===============
+// HTML type = text
+// Required
+$("#Proj_Man").keyup(function(){
+  if($("#Proj_Man").val() != ""){
+    proj_manComplete = true;
+    hasSuccess("#Proj_Man-group","#Proj_Man-span");
+  }
+  else{
+    proj_manComplete = false;
+    hasError("#Proj_Man-group","#Proj_Man-span");
+  }
+  checkForm();
+});
+
 // Modal onclicks
 $("#flag-button").on("click", function() {});
 
@@ -497,7 +499,8 @@ function checkForm() {
     // && contact_info_nameComplete
     // && contact_info_phoneComplete
     // && contact_info_emailComplete
-    // && more_infoComplete && cdComplete) {
+    && more_infoComplete)
+    {
         $("#submit-project").removeAttr("disabled");
     } else {
         $("#submit-project").attr("disabled", true);
