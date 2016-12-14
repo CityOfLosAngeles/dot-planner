@@ -93,7 +93,7 @@ var cross2 = document.getElementById('cross-street2');
 autocomplete = new google.maps.places.Autocomplete(cross2, googleOptions);
 
 $('#submit-project').on('click', function(){
-
+  console.log('HIT');
   //Extract geoJSON from the featureGroup
   var data = featureGroup.toGeoJSON();
 
@@ -170,52 +170,7 @@ $('#submit-project').on('click', function(){
       newProject.Lc_match = parseInt($('#Lc_match').val()).toFixed(2);
       newProject.Match_Pt = $('#Match_Pt').val();
     }
-
-    $.ajax({
-      method: "GET",
-      url: "/projects/all",
-      success: function(projects) {
-
-        var possibleDuplicates = [];
-        // Check for duplicates
-        for(var i=0; i<projects.features.length; i++){
-
-          // console.log(newProject.Proj_Title.toLowerCase());
-          // console.log(projects.features[i].properties.Proj_Title.toLowerCase());
-          // console.log(newProject.Proj_Desc.toLowerCase());
-          // console.log(projects.features[i].properties.Proj_Desc.toLowerCase());
-          // console.log(newProject.More_info.toLowerCase());
-          // console.log(projects.features[i].properties.More_info.toLowerCase());
-          // console.log("===================");
-
-          if(newProject.Proj_Title.toLowerCase() == projects.features[i].properties.Proj_Title.toLowerCase()
-            || newProject.Proj_Desc.toLowerCase() == projects.features[i].properties.Proj_Desc.toLowerCase()
-            || newProject.More_info.toLowerCase() == projects.features[i].properties.More_info.toLowerCase())
-          {
-            console.log("DUPLICATE!");
-            possibleDuplicates.push(projects.features[i]);
-          }
-        }
-
-        // If there are duplicates...
-        if (possibleDuplicates.length > 0){
-          for(var i=0; i<possibleDuplicates.length; i++){
-            $('#duplicateProjects').append('<div id="duplicate' + i + '">Project Title: ' + possibleDuplicates[i].properties.Proj_Title + '</div>');
-            $('#duplicateProjects').append('<br>');
-          }
-          console.log("duplicate! trigger modal");
-          $('#myModal').modal();
-          possibleDuplicates = [];
-        }
-
-        // If there are no duplicates...
-        else{
-          console.log("No duplicates. Add project");
-          addProject(newProject);
-        }
-      }
-    });
-
+    addProject(newProject);
     return false;
 
   } else {
@@ -224,6 +179,25 @@ $('#submit-project').on('click', function(){
     alert('Oops it looks like you forgot to add geometry to the map.');
     return false;
   }
+});
+
+function addProject(project) {
+    $.ajax({
+        method: "POST",
+        url: "/projects/new",
+        dataType: "json",
+        data: project,
+        success: function(data) {
+            window.location = '/'
+        }
+    });
+}
+
+// Modal onclicks
+$("#flag-button").on("click", function() {});
+
+$("#add-button").on("click", function() {
+    addProject(newProject);
 });
 
 
@@ -494,13 +468,6 @@ $("#CD").keyup(function() {
     checkForm();
 });
 
-// Modal onclicks
-$("#flag-button").on("click", function() {});
-
-$("#add-button").on("click", function() {
-    addProject(newProject);
-});
-
 function checkForm() {
 
     if (
@@ -533,18 +500,6 @@ function hasError(divID, spanID) {
     $(divID).addClass("has-error has-feedback");
     $(spanID).removeClass("glyphicon glyphicon-ok form-control-feedback");
     $(spanID).addClass("glyphicon glyphicon-remove form-control-feedback");
-}
-
-function addProject(project) {
-    $.ajax({
-        method: "POST",
-        url: "/projects/new",
-        dataType: "json",
-        data: project,
-        success: function(data) {
-            window.location = '/'
-        }
-    });
 }
 
 function location_valid(stringAddress) {
