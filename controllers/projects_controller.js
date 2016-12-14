@@ -14,6 +14,7 @@ function toGeoJSON(project, features) {
 
         properties: {
             //Common Attributes
+            id: project.id,
             Fund_St: project.Fund_St,
             Legacy_ID: project.Legacy_ID,
             Lead_Ag: project.Lead_Ag,
@@ -69,14 +70,14 @@ function toGeoJSON(project, features) {
 //Renders the new project page where PM can add projects
 router.get('/new', function(req, res) {
     res.render('new-project', {
-      logged_in: req.session.logged_in,
-      adminclearance: req.session.adminclearance,
-      id: req.session.user_id,
-      email: req.session.email,
-      firstname: req.session.firstname,
-      lastname: req.session.lastname,
-      phonenumber: req.session.phonenumber,
-      admin: req.session.admin
+        logged_in: req.session.logged_in,
+        adminclearance: req.session.adminclearance,
+        id: req.session.user_id,
+        email: req.session.email,
+        firstname: req.session.firstname,
+        lastname: req.session.lastname,
+        phonenumber: req.session.phonenumber,
+        admin: req.session.admin
     });
 });
 
@@ -162,19 +163,19 @@ router.get('/funding/:status/type/:type', function(req, res) {
     var type = req.params.type;
     status = status.split('&');
     type = type.split('&');
-    var searchArr = [ ];
+    var searchArr = [];
     for (var i = 0; i < status.length; i++) {
-      for (var j = 0; j < type.length; j++) {
-        var searchObj = {
-            Fund_St: {
-                ilike: status[i]
-            },
-            Proj_Ty: {
-              ilike: type[j]
-            }
-        };
-        searchArr.push(searchObj);
-      }
+        for (var j = 0; j < type.length; j++) {
+            var searchObj = {
+                Fund_St: {
+                    ilike: status[i]
+                },
+                Proj_Ty: {
+                    ilike: type[j]
+                }
+            };
+            searchArr.push(searchObj);
+        }
     }
     console.log(searchArr);
     models.Project.findAll({
@@ -217,20 +218,63 @@ router.post('/new', function(req, res) {
     console.log(newProject);
 });
 
-router.get('/edit/', function(req, res) {
-  res.render('edit');
+router.get('/edit/:id', function(req, res) {
+    var id = req.params.id;
+    models.Project.findAll({
+        where: {
+            id: id
+        }
+    }).then(function(project) {
+        if (project.length === 1) {
+            res.render('edit', {"id": id});
+        } else {
+            res.render('error', {
+                "message": "404",
+                "error": {
+                    "status": "Not Found",
+                    "stack": "It looks like the project you are looking for does not exist."
+                }
+            });
+        }
+    });
 });
 
-router.get('/edit/:id', function(req, res) {
-  var id = req.params.id;
-  console.log('ID: ' + id);
-  models.Project.findAll({
-    where: {
-      id: id
+router.get('/id/:id', function(req, res) {
+    var id = req.params.id;
+    models.Project.findAll({
+        where: {
+            id: id
+        }
+    }).then(function(project) {
+        res.send(project);
+    });
+});
+
+router.put('/edit/:id', function(req, res) {
+    var id = req.params.id;
+    var newProject = req.body;
+    console.log(newProject);
+    var fundStatus = newProject.Fund_St;
+    var geometry = JSON.parse(newProject.Geometry);
+    var coordinates = JSON.parse(geometry.coordinates);
+    var parsedGeometry = {
+        type: geometry.type,
+        coordinates: coordinates
     }
-  }).then(function(project) {
-    res.send(project);
-  });
+    newProject.Geometry = parsedGeometry;
+    var contactInfo = JSON.parse(newProject.Contact_info);
+    newProject.Contact_info = contactInfo;
+    if(fundStatus != 'Idea Project') {
+        var crossStreets = JSON.parse(newProject.Cross_Streets);
+        newProject.Cross_Streets = crossStreets;
+    }
+    models.Project.update(newProject, {
+        where: {
+            id: id
+        }
+    }).then(function() {
+        res.send({"success": 200});
+    });
 });
 
 module.exports = router;
