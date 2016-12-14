@@ -499,7 +499,8 @@ function checkForm() {
     // && contact_info_nameComplete
     // && contact_info_phoneComplete
     // && contact_info_emailComplete
-    // && more_infoComplete && cdComplete) {
+    && more_infoComplete)
+    {
         $("#submit-project").removeAttr("disabled");
     } else {
         $("#submit-project").attr("disabled", true);
