@@ -113,7 +113,10 @@ module.exports = {
       Lc_match: {
         type: Sequelize.DECIMAL
       },
-      Match_Pt: {
+      Flagged: {
+        type: Sequelize.BOOLEAN
+      },
+      Dup_ID: {
         type: Sequelize.INTEGER
       },
       createdAt: {
