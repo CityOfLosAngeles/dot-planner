@@ -92,93 +92,89 @@ autocomplete = new google.maps.places.Autocomplete(cross1, googleOptions);
 var cross2 = document.getElementById('cross-street2');
 autocomplete = new google.maps.places.Autocomplete(cross2, googleOptions);
 
+
 $('#submit-project').on('click', function(){
-  console.log('HIT');
   //Extract geoJSON from the featureGroup
   var data = featureGroup.toGeoJSON();
 
-  //Check to make sure a feature was drawn on the map
-  if (data.features.length >= 1) {
+    //Check to make sure a feature was drawn on the map
+    if (data.features.length >= 1) {
 
-    //Check the fund status of the new project
-    var fundStatus = $('#Fund_St input[type="radio"]:checked').val();
+        //Check the fund status of the new project
+        var fundStatus = $('#Fund_St input[type="radio"]:checked').val();
 
-    //Push all the intersections into an array
-    var interArr = [ ];
-    $('.Intersections').each(function() {
-      interArr.push($(this).val());
-    });
+        //Push all the intersections into an array
+        var interArr = [];
+        $('.Intersections').each(function() {
+            interArr.push($(this).val());
+        });
 
-    //Create the newProject object and set common attributes
-    newProject = {
-      //Geometry
-      Geometry: JSON.stringify({
-        type: data.features[0].geometry.type,
-        coordinates: JSON.stringify(data.features[0].geometry.coordinates)
-      }),
-      //Common Attributes
-      Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
-      Legacy_ID: $('#Legacy_ID').val(),
-      Lead_Ag: $('#Lead_Ag').val(),
-      Proj_Title: $('#Proj_Title').val(),
-      Proj_Ty: $('#Proj_Ty input[type="radio"]:checked').val(),
-      Proj_Desc: $('#Proj_Desc').val(),
-      More_info: $('#More_info').val(),
-      Contact_info: JSON.stringify({
-        Contact_info_name: $('#Contact_info_name').val(),
-        Contact_info_phone: $('#Contact_info_phone').val(),
-        Contact_info_email: $('#Contact_info_email').val()
-      })
+        //Create the newProject object and set common attributes
+        newProject = {
+            //Geometry
+            Geometry: JSON.stringify({
+                type: data.features[0].geometry.type,
+                coordinates: JSON.stringify(data.features[0].geometry.coordinates)
+            }),
+            //Common Attributes
+            Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
+            Legacy_ID: $('#Legacy_ID').val(),
+            Lead_Ag: $('#Lead_Ag').val(),
+            Proj_Title: $('#Proj_Title').val(),
+            Proj_Ty: $('#Proj_Ty input[type="radio"]:checked').val(),
+            Proj_Desc: $('#Proj_Desc').val(),
+            More_info: $('#More_info').val(),
+            Contact_info: JSON.stringify({Contact_info_name: $('#Contact_info_name').val(), Contact_info_phone: $('#Contact_info_phone').val(), Contact_info_email: $('#Contact_info_email').val()})
+        }
+
+      //Funded and Unfunded but NOT Idea Attributes
+      if (fundStatus != 'Idea Project') {
+        newProject.Primary_Street = $('#Primary_Street').val();
+        newProject.Cross_Streets =  JSON.stringify({
+          Intersections: interArr
+        });
+        newProject.CD = $('#CD').val();
+        newProject.Proj_Status = $('#Proj_Status').val();
+        newProject.Proj_Man = $('#Proj_Man').val();
+      }
+
+      if (fundStatus === 'Funded') {
+        newProject.Dept_Proj_ID = $('#Dept_Proj_ID').val();
+        newProject.Other_ID = $('#Other_ID').val();
+        newProject.Total_bgt = parseInt($('#Total_bgt').val()).toFixed(2);
+        newProject.Grant = parseInt($('#Grant').val()).toFixed(2);
+        newProject.Other_funds = parseInt($('#Other_funds').val()).toFixed(2);
+        newProject.Prop_c = parseInt($('#Prop_c').val()).toFixed(2);
+        newProject.Measure_r = parseInt($('#Measure_r').val()).toFixed(2);
+        newProject.Gas_Tax = parseInt($('#Gas_tax').val()).toFixed(2);
+        newProject.General_fund = parseInt($('#General_fund').val()).toFixed(2);
+        newProject.Authorization = $('#Authorization').val();
+        newProject.Issues = $('#Issues').val();
+        newProject.Deobligation = $('#Deobligation input[type="radio"]:checked').val();
+        newProject.Explanation = $('#Explanation').val();
+        newProject.Constr_by = $('#Constr_by').val();
+        newProject.Info_source = $('#Info_source').val();
+        newProject.Access = $('#Access input[type="radio"]:checked').val();
+      }
+
+      //Unfunded Attributes
+      if (fundStatus === 'Unfunded') {
+        newProject.Grant_Cat = $('#Grant_Cat').val();
+        newProject.Grant_Cycle = $('#Grant_Cycle').val();
+        newProject.Est_Cost = parseInt($('#Est_Cost').val()).toFixed(2);
+        newProject.Fund_Rq = parseInt($('#Fund_Rq').val()).toFixed(2);
+        newProject.Lc_match = parseInt($('#Lc_match').val()).toFixed(2);
+        newProject.Match_Pt = $('#Match_Pt').val();
+      }
+      addProject(newProject);
+      return false;
+
+    } else {
+
+      // TODO: change this to a modal or something else nicer than an alert
+      alert('Oops it looks like you forgot to add geometry to the map.');
+      return false;
     }
-
-    //Funded and Unfunded but NOT Idea Attributes
-    if (fundStatus != 'Idea Project') {
-      newProject.Primary_Street = $('#Primary_Street').val();
-      newProject.Cross_Streets =  JSON.stringify({
-        Intersections: interArr
-      });
-      newProject.CD = $('#CD').val();
-      newProject.Proj_Status = $('#Proj_Status').val();
-      newProject.Proj_Man = $('#Proj_Man').val();
-    }
-
-    if (fundStatus === 'Funded') {
-      newProject.Dept_Proj_ID = $('#Dept_Proj_ID').val();
-      newProject.Other_ID = $('#Other_ID').val();
-      newProject.Total_bgt = parseInt($('#Total_bgt').val()).toFixed(2);
-      newProject.Grant = parseInt($('#Grant').val()).toFixed(2);
-      newProject.Other_funds = parseInt($('#Other_funds').val()).toFixed(2);
-      newProject.Prop_c = parseInt($('#Prop_c').val()).toFixed(2);
-      newProject.Measure_r = parseInt($('#Measure_r').val()).toFixed(2);
-      newProject.Gas_Tax = parseInt($('#Gas_tax').val()).toFixed(2);
-      newProject.General_fund = parseInt($('#General_fund').val()).toFixed(2);
-      newProject.Authorization = $('#Authorization').val();
-      newProject.Issues = $('#Issues').val();
-      newProject.Deobligation = $('#Deobligation input[type="radio"]:checked').val();
-      newProject.Explanation = $('#Explanation').val();
-      newProject.Constr_by = $('#Constr_by').val();
-      newProject.Info_source = $('#Info_source').val();
-      newProject.Access = $('#Access input[type="radio"]:checked').val();
-    }
-
-    //Unfunded Attributes
-    if (fundStatus === 'Unfunded') {
-      newProject.Grant_Cat = $('#Grant_Cat').val();
-      newProject.Grant_Cycle = $('#Grant_Cycle').val();
-      newProject.Est_Cost = parseInt($('#Est_Cost').val()).toFixed(2);
-      newProject.Fund_Rq = parseInt($('#Fund_Rq').val()).toFixed(2);
-      newProject.Lc_match = parseInt($('#Lc_match').val()).toFixed(2);
-      newProject.Match_Pt = $('#Match_Pt').val();
-    }
-    addProject(newProject);
-    return false;
-
-  } else {
-
-    // TODO: change this to a modal or something else nicer than an alert
-    alert('Oops it looks like you forgot to add geometry to the map.');
-    return false;
-  }
 });
 
 function addProject(project) {
@@ -290,23 +286,6 @@ $("#Fund_St").on("click", ".Fund_St-option", function() {
     checkForm();
 });
 
-// Legacy ID
-// =========
-// HTML type = number
-// Not required
-// Is a number
-
-$("#Legacy_ID").keyup(function() {
-    if ($("#Legacy_ID").val() != "" && $.isNumeric($("#Legacy_ID").val())) {
-        legacy_idComplete = true;
-        hasSuccess("#Legacy-ID-group", "#Legacy-ID-span");
-    } else {
-        legacy_idComplete = false;
-        hasError("#Legacy-ID-group", "#Legacy-ID-span");
-    }
-    checkForm();
-});
-
 // Lead Agency
 // ===========
 // HTML type = text
@@ -337,6 +316,14 @@ $("#Proj_Title").keyup(function() {
     checkForm();
 });
 
+// Project Type
+// ============
+// Required
+$("#Proj_Ty").on("click", ".Proj_Ty-option", function() {
+    fund_stComplete = true;
+    checkForm();
+});
+
 // Project Description
 // ===================
 // Required
@@ -347,41 +334,6 @@ $("#Proj_Desc").keyup(function() {
     } else {
         proj_descComplete = false;
         hasError("#Proj_Desc-group", "#Proj_Desc-span");
-    }
-    checkForm();
-});
-
-// Intersections
-// =============
-// Required
-// Valid location
-$("#intersections").on('keyup', '.Intersections', function() {
-
-    var address = $('#' + this.id).val();
-
-    // console.log(location_valid("10824 lindbrook drive, los angeles"));
-
-    // console.log(address);
-    // console.log(location_valid(address));
-
-    if (address != "")
-        hasSuccess("#" + this.id + "-group", "#" + this.id + "-span");
-    else
-        hasError("#" + this.id + "-group", "#" + this.id + "-span");
-    }
-);
-
-// Project Manager
-// ===============
-// HTML type = text
-// Required
-$("#Proj_Man").keyup(function() {
-    if ($("#Proj_Man").val() != "") {
-        proj_manComplete = true;
-        hasSuccess("#Proj_Man-group", "#Proj_Man-span");
-    } else {
-        proj_manComplete = false;
-        hasError("#Proj_Man-group", "#Proj_Man-span");
     }
     checkForm();
 });
@@ -437,7 +389,7 @@ $("#Contact_info_email").keyup(function() {
     checkForm();
 });
 
-// Link to More Project Info
+// More Info / Comments
 // =========================
 // Required
 $("#More_info").keyup(function() {
@@ -468,6 +420,58 @@ $("#CD").keyup(function() {
     checkForm();
 });
 
+// Intersections
+// =============
+// Required
+// Valid location
+$("#intersections").on('keyup', '.Intersections', function(){
+  var address = $('#'+this.id).val();
+  if(address != "")
+    hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
+  else
+    hasError("#"+this.id+"-group","#"+this.id+"-span");
+});
+
+// Project Status
+// ===============
+// HTML type = text
+// Required
+$("#Proj_Status").keyup(function(){
+  if($("#Proj_Man").val() != ""){
+    proj_statusComplete = true;
+    hasSuccess("#Proj_Status-group","#Proj_Status-span");
+  }
+  else{
+    proj_statusComplete = false;
+    hasError("#Proj_Status-group","#Proj_Status-span");
+  }
+  checkForm();
+});
+
+// Project Manager
+// ===============
+// HTML type = text
+// Required
+$("#Proj_Man").keyup(function(){
+  if($("#Proj_Man").val() != ""){
+    proj_manComplete = true;
+    hasSuccess("#Proj_Man-group","#Proj_Man-span");
+  }
+  else{
+    proj_manComplete = false;
+    hasError("#Proj_Man-group","#Proj_Man-span");
+  }
+  checkForm();
+});
+
+// Modal onclicks
+$("#flag-button").on("click", function() {});
+
+$("#add-button").on("click", function() {
+    addProject(newProject);
+});
+
+>>>>>>> master
 function checkForm() {
 
     if (
