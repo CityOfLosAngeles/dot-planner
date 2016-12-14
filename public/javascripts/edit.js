@@ -191,7 +191,7 @@ function populateData(project) {
     $('#Measure_r').val(project.Measure_r);
   }
   if (project.Gas_Tax != undefined) {
-    $('#Gas_Tax').val(project.Gas_Tax);
+    $('#Gas_tax').val(project.Gas_Tax);
   }
   if (project.General_fund != undefined) {
     $('#General_fund').val(project.General_fund);

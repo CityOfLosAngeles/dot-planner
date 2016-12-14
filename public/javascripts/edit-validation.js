@@ -1,6 +1,3 @@
-// Automatically hide this div
-$("#explainRiskDiv").hide();
-
 var riskOfDeobligation;
 var fundStatus = "";
 
@@ -90,6 +87,7 @@ $.ajax({
         else if(data[0].Deobglication == 'No'){
           deobligationComplete = true;
           riskOfDeobligation = false;
+          $("#explainRiskDiv").hide();
         }
       } else if (fundStatus == 'Unfunded') {
         // intersectionsComplete = false;
