@@ -119,7 +119,15 @@ body {
 }
 .table-section{
   margin-top: 80px;
+  overflow-x: scroll;
 }
+
+/*.table {
+    border-radius: 5px;
+    width: 100%;
+    margin: 0px auto;
+    float: none;
+}*/
 
 /*#funded-attributes, #unfunded-attributes {
   display: none;
