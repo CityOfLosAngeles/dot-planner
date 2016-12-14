@@ -27,7 +27,7 @@ var cdComplete = false;
 var accessComplete = false;
 var dept_proj_idComplete = false;
 var other_idComplete = false;
-var total_bgt = false;
+var total_bgtComplete = false;
 var grantComplete = false;
 var other_fundsComplete = false;
 var prop_cComplete = false;
@@ -45,20 +45,20 @@ var explanationComplete = false;
 
 // Not required for Funded and Idea Project
 // Required for Unfunded
-var grant_cat = false;
-var grant_cycle = false;
-var est_cost = false;
-var fund_rq = false;
-var lc_match = false;
+var grant_catComplete = false;
+var grant_cycleComplete = false;
+var est_costComplete = false;
+var fund_rqComplete = false;
+var lc_matchComplete = false;
 
 // Funding Status
 // ==============
 // Required
 $("#Fund_St").on("click", ".Fund_St-option", function() {
+    fundStatus = $(this).val();
+
     fund_stComplete = true;
     checkForm();
-
-    fundStatus = $(this).val();
 });
 
 // Lead Agency
@@ -95,7 +95,7 @@ $("#Proj_Title").keyup(function() {
 // ============
 // Required
 $("#Proj_Ty").on("click", ".Proj_Ty-option", function() {
-    fund_stComplete = true;
+    proj_tyComplete = true;
     checkForm();
 });
 
@@ -297,10 +297,10 @@ $("#Other_ID").keyup(function(){
 // Is numeric
 $("#Total_bgt").keyup(function() {
     if ($("#Total_bgt").val() != "" && $.isNumeric($("#Total_bgt").val())) {
-        grant = true;
+        total_bgtComplete = true;
         hasSuccess("#Total_bgt-group", "#Total_bgt-span");
     } else {
-        grant = false;
+        total_bgtComplete = false;
         hasError("#Total_bgt-group", "#Total_bgt-span");
     }
     checkForm();
@@ -313,10 +313,10 @@ $("#Total_bgt").keyup(function() {
 // Is numeric
 $("#Grant").keyup(function() {
     if ($("#Grant").val() != "" && $.isNumeric($("#Grant").val())) {
-        grant = true;
+        grantComplete = true;
         hasSuccess("#Grant-group", "#Grant-span");
     } else {
-        grant = false;
+        grantComplete = false;
         hasError("#Grant-group", "#Grant-span");
     }
     checkForm();
@@ -434,9 +434,6 @@ $("#Issues").keyup(function() {
 // ========================
 // Required
 $("#Deobligation").on("click", ".Deobligation-option", function() {
-    deobligationComplete = true;
-    checkForm();
-
     if($(this).val() == "Yes"){
         $("#explainRiskDiv").show();
         riskOfDeobligation = true;
@@ -445,6 +442,9 @@ $("#Deobligation").on("click", ".Deobligation-option", function() {
         $("#explainRiskDiv").hide();
         riskOfDeobligation = false;
     }
+
+    deobligationComplete = true;
+    checkForm();
 });
 
 // Explain Risk of Deobligation
@@ -489,13 +489,95 @@ $("#Info_source").keyup(function() {
     checkForm();
 });
 
+// Source
+// ======
+// Required
+$("#Info_source").keyup(function() {
+    if ($("#Info_source").val() != "") {
+        info_sourceComplete = true;
+        hasSuccess("#Info_source-group", "#Info_source-span");
+    } else {
+        info_sourceComplete = false;
+        hasError("#Info_source-group", "#Info_source-span");
+    }
+    checkForm();
+});
 
+// Grant Category
+// ==============
+// Required
+$("#Grant_Cat").keyup(function() {
+    if ($("#Grant_Cat").val() != "") {
+        grant_catComplete = true;
+        hasSuccess("#Grant_Cat-group", "#Grant_Cat-span");
+    } else {
+        grant_catComplete = false;
+        hasError("#Grant_Cat-group", "#Grant_Cat-span");
+    }
+    checkForm();
+});
 
+// Grant Cycle
+// ===========
+// Required
+$("#Grant_Cycle").keyup(function() {
+    if ($("#Grant_Cycle").val() != "") {
+        grant_cycleComplete = true;
+        hasSuccess("#Grant_Cycle-group", "#Grant_Cycle-span");
+    } else {
+        grant_cycleComplete = false;
+        hasError("#Grant_Cycle-group", "#Grant_Cycle-span");
+    }
+    checkForm();
+});
 
+// Estimated Cost
+// ==============
+// HTML type = number
+// Required
+// Is numeric
+$("#Est_Cost").keyup(function() {
+    if ($("#Est_Cost").val() != "" && $.isNumeric($("#Est_Cost").val())) {
+        est_costComplete = true;
+        hasSuccess("#Est_Cost-group", "#Est_Cost-span");
+    } else {
+        est_costComplete = false;
+        hasError("#Est_Cost-group", "#Est_Cost-span");
+    }
+    checkForm();
+});
 
+// Fund Request
+// ============
+// HTML type = number
+// Required
+// Is numeric
+$("#Fund_Rq").keyup(function() {
+    if ($("#Fund_Rq").val() != "" && $.isNumeric($("#Fund_Rq").val())) {
+        fund_rqComplete = true;
+        hasSuccess("#Fund_Rq-group", "#Fund_Rq-span");
+    } else {
+        fund_rqComplete = false;
+        hasError("#Fund_Rq-group", "#Fund_Rq-span");
+    }
+    checkForm();
+});
 
-
-
+// Local Match
+// ===========
+// HTML type = number
+// Required
+// Is numeric
+$("#Lc_match").keyup(function() {
+    if ($("#Lc_match").val() != "" && $.isNumeric($("#Lc_match").val())) {
+        lc_matchComplete = true;
+        hasSuccess("#Lc_match-group", "#Lc_match-span");
+    } else {
+        lc_matchComplete = false;
+        hasError("#Lc_match-group", "#Lc_match-span");
+    }
+    checkForm();
+});
 
 
 function checkForm() {
@@ -512,6 +594,8 @@ function checkForm() {
       && contact_info_emailComplete
       && more_infoComplete
     ) {
+
+        console.log("first step");
         // Next check attributes specific to particular funding status
         if (
           fundStatus == 'Funded'
@@ -522,7 +606,7 @@ function checkForm() {
           && accessComplete
           && dept_proj_idComplete
           && other_idComplete
-          && total_bgt
+          && total_bgtComplete
           && grantComplete
           && other_fundsComplete
           && prop_cComplete
@@ -534,16 +618,18 @@ function checkForm() {
           && deobligationComplete
           && constr_byComplete
           && info_sourceComplete
-          && explanationComplete
         ) {
+            console.log("Funded and all complete");
             // If at risk for deobligation checked...
           if(riskOfDeobligation){
+            console.log("riskOfDeobligation true");
             if(explanationComplete)
               $("#submit-project").removeAttr("disabled");
             else
               $("#submit-project").attr("disabled", true);
           }
           else{
+            console.log("riskOfDeobligation false");
             $("#submit-project").removeAttr("disabled");
           }
         } else if(
@@ -552,15 +638,15 @@ function checkForm() {
           && proj_statusComplete
           && proj_manComplete
           && cdComplete
-          && grant_cat
-          && grant_cycle
-          && est_cost
-          && fund_rq
-          && lc_match
+          && grant_catComplete
+          && grant_cycleComplete
+          && est_costComplete
+          && fund_rqComplete
+          && lc_matchComplete
         ) {
-          ("#submit-project").removeAttr("disabled");
+          $("#submit-project").removeAttr("disabled");
         } else if(fundStatus == 'Idea Project'){
-          ("#submit-project").removeAttr("disabled");
+          $("#submit-project").removeAttr("disabled");
         } else {
           $("#submit-project").attr("disabled", true);
         }
