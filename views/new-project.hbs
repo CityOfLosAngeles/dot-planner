@@ -32,7 +32,7 @@
               </div>
 
               <!-- Legacy ID -->
-              <label for="Legacy_ID">Legacy ID*</label>
+              <label for="Legacy_ID">Legacy ID</label>
               <div class="form-group" id="Legacy-ID-group">
                   <input type="number" class="form-control" id="Legacy_ID" placeholder="">
                   <span id="Legacy-ID-span" aria-hidden="true"></span>
@@ -170,7 +170,7 @@
               <!-- Council District Number -->
               <label for="CD">Council District Number*</label>
               <div class="form-group" id="CD-group">
-                  <input type="number" min="1" max="14" class="form-control" id="CD" placeholder="1-14">
+                  <input type="number" min="1" max="15" class="form-control" id="CD" placeholder="1-15">
                   <span id="CD-span" aria-hidden="true"></span>
               </div>
 
@@ -179,18 +179,12 @@
                 <!-- Accessibility -->
                 <div class="form-group" id="Access">
                     <label for="Access">Accessibility*</label>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="Access" value="Internal" id="internal">
-                        Internal
-                      </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                          <input type="radio" name="Access" value="Public" id="public">
-                          Public
-                        </label>
-                    </div>
+                    <fieldset id="checkArray">
+                      <input type="checkbox" name="chk[]" id="chk[]" value="Internal" />
+                      Internal<br>
+                      <input type="checkbox" name="chk[]" id="chk[]" value="Public" />
+                      Public
+                    </fieldset>
                     <p class="help-block">Define project’s accessibility to different users.</p>
                 </div>
 
@@ -312,7 +306,7 @@
                 </div>
 
                 <!-- Info Source -->
-                <label for="Info_source">Info Source*</label>
+                <label for="Info_source">Source*</label>
                 <div class="form-group">
                     <input class="form-control" id="Info_source" placeholder="">
                 </div>
