@@ -14,6 +14,7 @@ function toGeoJSON(project, features) {
 
         properties: {
             //Common Attributes
+            id: project.id,
             Fund_St: project.Fund_St,
             Legacy_ID: project.Legacy_ID,
             Lead_Ag: project.Lead_Ag,
