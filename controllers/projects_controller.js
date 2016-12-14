@@ -177,7 +177,6 @@ router.get('/funding/:status/type/:type', function(req, res) {
             searchArr.push(searchObj);
         }
     }
-    console.log(searchArr);
     models.Project.findAll({
         where: {
             $or: searchArr
@@ -233,7 +232,7 @@ router.post('/new', function(req, res) {
         }
       }
     ]
-    models.Project.findAll({
+    models.Project.findOne({
         where: {
             $or: searchArr
         }
@@ -292,7 +291,6 @@ router.get('/id/:id', function(req, res) {
 router.put('/edit/:id', function(req, res) {
     var id = req.params.id;
     var newProject = req.body;
-    console.log(newProject);
     var fundStatus = newProject.Fund_St;
     var geometry = JSON.parse(newProject.Geometry);
     var coordinates = JSON.parse(geometry.coordinates);
