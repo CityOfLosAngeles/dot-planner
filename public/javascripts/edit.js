@@ -94,6 +94,7 @@ $.ajax({
 });
 
 function showHide(project){
+
   switch(project.Fund_St){
     case 'Funded':
     $('#funded').prop('checked', true);
@@ -227,9 +228,6 @@ function populateData(project) {
   }
   if (project.Lc_match != undefined) {
     $('#Lc_match').val(project.Lc_match);
-  }
-  if (project.Lc_match != undefined) {
-    $('#Match_Pt').val(project.Match_Pt);
   }
   if (project.Primary_Street != undefined) {
     $('#Primary_Street').val(project.Primary_Street);

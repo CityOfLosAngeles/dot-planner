@@ -1,10 +1,11 @@
 // Automatically hide this div
 $("#explainRiskDiv").hide();
 
-var fundStatus = "";
 var riskOfDeobligation;
+var fundStatus = "";
 
-// Required for all projects
+
+// Required for all projects, so mark all as true (since all projects will have these characteristics already)
 var lead_agComplete = true;
 var proj_titleComplete = true;
 var proj_tyComplete = true;
@@ -18,38 +19,93 @@ var more_infoComplete = true;
 // Not required for Idea Project
 // Required for Funded and Unfunded
 // var intersectionsComplete = false;
-var proj_statusComplete = true;
-var proj_manComplete = true;
-var cdComplete = true;
+var proj_statusComplete = false;
+var proj_manComplete = false;
+var cdComplete = false;
 
 // Not required for Unfunded and Idea Project
 // Required for Funded
-var accessComplete = true;
-var dept_proj_idComplete = true;
-var other_idComplete = true;
-var total_bgtComplete = true;
-var grantComplete = true;
-var other_fundsComplete = true;
-var prop_cComplete = true;
-var measure_rComplete = true;
-var gas_taxComplete = true;
-var general_fundComplete = true;
-var authorizationComplete = true;
-var issuesComplete = true;
-var deobligationComplete = true;
-var constr_byComplete = true;
-var info_sourceComplete = true;
+var accessComplete = false;
+var dept_proj_idComplete = false;
+var other_idComplete = false;
+var total_bgtComplete = false;
+var grantComplete = false;
+var other_fundsComplete = false;
+var prop_cComplete = false;
+var measure_rComplete = false;
+var gas_taxComplete = false;
+var general_fundComplete = false;
+var authorizationComplete = false;
+var issuesComplete = false;
+var deobligationComplete = false;
+var constr_byComplete = false;
+var info_sourceComplete = false;
 
 // Only required if Risk of Deobligation = Yes
-var explanationComplete = true;
+var explanationComplete = false;
 
 // Not required for Funded and Idea Project
 // Required for Unfunded
-var grant_catComplete = true;
-var grant_cycleComplete = true;
-var est_costComplete = true;
-var fund_rqComplete = true;
-var lc_matchComplete = true;
+var grant_catComplete = false;
+var grant_cycleComplete = false;
+var est_costComplete = false;
+var fund_rqComplete = false;
+var lc_matchComplete = false;
+
+
+$.ajax({
+  method: "GET",
+  url: "/projects/id/" + id,
+  dataType: "json",
+  success: function(data) {
+    if (data) {
+      fundStatus = data[0].Fund_St;
+
+      if(fundStatus == 'Funded'){
+        // intersectionsComplete = false;
+        proj_statusComplete = true;
+        proj_manComplete = true;
+        cdComplete = true;
+
+        accessComplete = true;
+        dept_proj_idComplete = true;
+        other_idComplete = true;
+        total_bgtComplete = true;
+        grantComplete = true;
+        other_fundsComplete = true;
+        prop_cComplete = true;
+        measure_rComplete = true;
+        gas_taxComplete = true;
+        general_fundComplete = true;
+        authorizationComplete = true;
+        issuesComplete = true;
+        constr_byComplete = true;
+        info_sourceComplete = true;
+
+        if(data[0].Deobligation == 'Yes'){
+          deobligationComplete = true;
+          explanationComplete = true;
+          riskOfDeobligation = true;
+        }
+        else if(data[0].Deobglication == 'No'){
+          deobligationComplete = true;
+          riskOfDeobligation = false;
+        }
+      } else if (fundStatus == 'Unfunded') {
+        // intersectionsComplete = false;
+        proj_statusComplete = true;
+        proj_manComplete = true;
+        cdComplete = true;
+
+        grant_catComplete = true;
+        grant_cycleComplete = true;
+        est_costComplete = true;
+        fund_rqComplete = true;
+        lc_matchComplete = true;
+      }
+    }
+  }
+});
 
 // Funding Status
 // ==============
@@ -154,7 +210,13 @@ $("#Contact_info_phone").keyup(function() {
 // Regex express
 
 $("#Contact_info_email").keyup(function() {
-    if ($("#Contact_info_email").val() != "" && $("#Contact_info_email").val().includes("@") && $("#Contact_info_email").val().includes(".") && $("#Contact_info_email").val().length > 5 && $("#Contact_info_email").val().indexOf("@.") == -1 && $("#Contact_info_email").val().indexOf(" ") == -1 && $("#Contact_info_email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+    if ($("#Contact_info_email").val() != "" 
+        && $("#Contact_info_email").val().includes("@") 
+        && $("#Contact_info_email").val().includes(".") 
+        && $("#Contact_info_email").val().length > 5 
+        && $("#Contact_info_email").val().indexOf("@.") == -1 
+        && $("#Contact_info_email").val().indexOf(" ") == -1 
+        && $("#Contact_info_email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
         contact_info_emailComplete = true;
         hasSuccess("#Contact_info_email-group", "#Contact_info_email-span");
     } else {
@@ -582,6 +644,53 @@ $("#Lc_match").keyup(function() {
 
 function checkForm() {
 
+console.log(lead_agComplete);
+console.log(proj_titleComplete);
+console.log(proj_tyComplete);
+console.log(proj_descComplete);
+console.log(fund_stComplete);
+console.log(contact_info_nameComplete);
+console.log(contact_info_phoneComplete);
+console.log(contact_info_emailComplete);
+console.log(more_infoComplete);
+
+// Not required for Idea Project
+// Required for Funded and Unfunded
+// var intersectionsComplete = false;
+console.log(proj_statusComplete);
+console.log(proj_manComplete);
+console.log(cdComplete);
+
+// Not required for Unfunded and Idea Project
+// Required for Funded
+console.log(accessComplete);
+console.log(dept_proj_idComplete);
+console.log(other_idComplete);
+console.log(total_bgtComplete);
+console.log(grantComplete);
+console.log(other_fundsComplete);
+console.log(prop_cComplete);
+console.log(measure_rComplete);
+console.log(gas_taxComplete);
+console.log(general_fundComplete);
+console.log(authorizationComplete);
+console.log(issuesComplete);
+console.log(deobligationComplete);
+console.log(constr_byComplete);
+console.log(info_sourceComplete);
+
+// Only required if Risk of Deobligation = Yes
+console.log(explanationComplete);
+
+// Not required for Funded and Idea Project
+// Required for Unfunded
+console.log(grant_catComplete);
+console.log(grant_cycleComplete);
+console.log(est_costComplete);
+console.log(fund_rqComplete);
+console.log(lc_matchComplete);
+    console.log('======');
+
     // Check common attributes first
     if (
       lead_agComplete
@@ -619,6 +728,8 @@ function checkForm() {
           && constr_byComplete
           && info_sourceComplete
         ) {
+
+          console.log(1);
 
           // If at risk for deobligation checked...
           if(riskOfDeobligation){
