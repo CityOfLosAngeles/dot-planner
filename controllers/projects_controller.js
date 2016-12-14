@@ -288,6 +288,17 @@ router.get('/id/:id', function(req, res) {
     });
 });
 
+router.delete('/id/:id', function(req, res) {
+  var id = req.params.id;
+  models.Project.destroy({
+    where: {
+      id: id
+    }
+  }).then(function() {
+    res.redirect('/projects/table');
+  });
+});
+
 router.put('/edit/:id', function(req, res) {
     var id = req.params.id;
     var newProject = req.body;
