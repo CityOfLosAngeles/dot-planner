@@ -1,9 +1,31 @@
 var intersectionCounter = 2;
 
-//Creating the map with mapbox (view coordinates are downtown Los Angeles)
-var map = L.mapbox.map('map').setView([
-    34.0522, -118.2437
-], 14);
+//Creating the map
+var map = L.mapbox.map('map');
+
+var url = window.location.href;
+url = url.split('/');
+var id = url[url.length - 1];
+
+$.ajax({
+  method: "GET",
+  url: "/projects/id/" + id,
+  dataType: "json",
+  success: function(data) {
+    if (data) {
+      var project = data[0];
+      if (project.Geometry.type === 'Polygon' || project.Geometry.type === 'MultiLineString') {
+        map.setView(project.Geometry.coordinates[0][0].reverse(), 14);
+        console.log(project.Geometry.coordinates[0][0].reverse());
+      } else {
+        map.setView(project.Geometry.coordinates[0].reverse(), 14);
+        console.log(project.Geometry.coordinates[0].reverse());
+      }
+      showHide(data[0]);
+    }
+  }
+});
+
 
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 
@@ -77,21 +99,6 @@ $('#Fund_St').on('click', function() {
   }
 });
 
-var url = window.location.href;
-url = url.split('/');
-var id = url[url.length - 1];
-
-$.ajax({
-  method: "GET",
-  url: "/projects/id/" + id,
-  dataType: "json",
-  success: function(data) {
-    if (data) {
-      showHide(data[0]);
-      //Maybe set the map view here
-    }
-  }
-});
 
 function showHide(project){
   switch(project.Fund_St){
@@ -234,7 +241,7 @@ function populateData(project) {
   if (project.Primary_Street != undefined) {
     $('#Primary_Street').val(project.Primary_Street);
   }
-  if (project.Cross_Streets.Intersections && project.Cross_Streets.Intersections[0] != undefined) {
+  if (project.Cross_Streets && project.Cross_Streets.Intersections && project.Cross_Streets.Intersections[0] != undefined) {
     var cross = project.Cross_Streets.Intersections;
     if (cross.length <=2) {
       for (var i = 0; i < cross.length; i++) {

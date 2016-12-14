@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING(1000)
       },
       Legacy_ID: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       Lead_Ag: {
         type: Sequelize.STRING(1000)

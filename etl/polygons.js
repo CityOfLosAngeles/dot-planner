@@ -23,7 +23,7 @@ client.connect(function(err) {
 	    	// Sequelize Prep TODO: Finalize Fields
 	    	let newProject = {
 			    Fund_St: curElmnt['funding_status'],
-			    Legacy_ID: parseInt(curElmnt['uid']),
+			    Legacy_ID: curElmnt['uid'],
 			    Lead_Ag: null,
 			    Proj_Title: curElmnt['project_title'],
 			    Proj_Ty: curElmnt['project_category'],
