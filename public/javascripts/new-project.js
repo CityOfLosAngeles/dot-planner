@@ -488,7 +488,8 @@ $("#add-button").on("click", function() {
 
 function checkForm() {
 
-    if (proj_titleComplete
+    if (
+      proj_titleComplete
     // && proj_descComplete
     // && proj_tyComplete
     // && lead_agComplete
@@ -497,7 +498,8 @@ function checkForm() {
     // && contact_info_nameComplete
     // && contact_info_phoneComplete
     // && contact_info_emailComplete
-    // && more_infoComplete && cdComplete) {
+    // && more_infoComplete && cdComplete
+    ) {
         $("#submit-project").removeAttr("disabled");
     } else {
         $("#submit-project").attr("disabled", true);
