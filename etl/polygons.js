@@ -31,7 +31,7 @@ client.connect(function(err) {
 			    Contact_info: {
 			          Contact_info_name: curElmnt['field1'],
 			          Contact_info_phone: "TBD",
-			          Contact_info_email: curElmnt['field']
+			          Contact_info_email: curElmnt['contact_info']
 			        },
 			    More_info: curElmnt['other_info'],
 			    Primary_Street: curElmnt[' primary_street'],

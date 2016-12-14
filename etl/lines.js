@@ -1,5 +1,5 @@
 var fs = require('fs');
-// var models = require("../models");
+var models = require("../models");
 var config = require('./config.js');
 var parseGeometry = require('./geometry.js');
 var pg = require('pg');
@@ -73,30 +73,32 @@ client.connect(function(err) {
 		    //Account for null values in general_fund
 		    curElmnt['general_fund'] == null? newProject.General_fund = 0 : newProject.General_fund = parseInt(curElmnt['general_fund']);
 
-			fs.appendFile("./export_funded_lines.js", JSON.stringify(newProject) + ",\r\n", function(err){
-				if (err) {
-					return console.log(err);
-				}
-			});
+		    //Write results to file
+			// fs.appendFile("./export_funded_lines.js", JSON.stringify(newProject) + ",\r\n", function(err){
+			// 	if (err) {
+			// 		return console.log(err);
+			// 	}
+			// });
 
 			//Account for Blank CD
 			// i == 63 ? newProject.CD = 0: console.log("");
 			// curElmnt['cd'] == null? newProject.CD = 0: newProject.CD = parseInt(curElmnt['cd']);
 			// console.log(newProject);
 
-			// models.Project.create(newProject).then(function(result) {
-			// 	// console.log("success");
-			// })
-			// .catch(function(err) {
-			// 	// console.log(err);
-			// 	fs.appendFile("./error_lines_funded.js", (err + "\r\n" + JSON.stringify(newProject) + "\r\n"), function(err) {
-			// 	    if(err) {
-			// 	        return console.log(err);
-			// 	    }
+			//Insert projects into Target DB
+			models.Project.create(newProject).then(function(result) {
+				// console.log("success");
+			})
+			.catch(function(err) {
+				// console.log(err);
+				fs.appendFile("./error_lines_funded.js", (err + "\r\n" + JSON.stringify(newProject) + "\r\n"), function(err) {
+				    if(err) {
+				        return console.log(err);
+				    }
 
-			// 	    console.log("The file was saved!");
-			// 	});
-			// });
+				    console.log("The file was saved!");
+				});
+			});
 	    }
 	 	
 	    // disconnect the client 
