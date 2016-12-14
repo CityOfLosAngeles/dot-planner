@@ -102,6 +102,7 @@ function onEachFeature(feature, layer) {
     $('#sidebar-more-info').hide();
     $('#show-info').remove();
     $('#hide-info').remove();
+    $('#edit-button').remove();
 
     $(document).on('click', '#show-info', function() {
       $('#show-info').remove();
@@ -129,16 +130,6 @@ function onEachFeature(feature, layer) {
       } else if(fundStatus === 'Unfunded') {
         $('#sidebar-unfunded-attributes').hide();
       }
-    });
-
-    console.log(feature.properties);
-
-    // Show edit button
-    $("#edit").attr("hidden",false);
-
-    // Edit button on click
-    $(document).on('click', '#edit', function() {
-      console.log(feature);
     });
 
     //Common attributes
@@ -194,5 +185,12 @@ function onEachFeature(feature, layer) {
       $('#Lc_match').text('$' + feature.properties.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('#Match_Pt').text(feature.properties.Match_Pt + '%');
     }
+    var editButton = $('<button class="btn btn-danger" id="edit-button" data-href="/projects/edit/' + feature.properties.id + '">Edit Project</button>');
+    $('#project-details').prepend(editButton);
+
   });
 }
+
+$(document).on('click', '#edit-button', function() {
+  window.location = $('#edit-button').attr('data-href');
+});

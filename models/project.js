@@ -12,10 +12,10 @@ module.exports = function(sequelize, DataTypes) {
     More_info: DataTypes.STRING(1000),
     Primary_Street: DataTypes.STRING,
     Cross_Streets: DataTypes.JSONB,
-    Proj_Status: DataTypes.STRING,
-    Proj_Man: DataTypes.STRING,
-    CD: DataTypes.STRING,
-    Access: DataTypes.STRING,
+    Proj_Status: DataTypes.STRING(1000),
+    Proj_Man: DataTypes.STRING(1000),
+    CD: DataTypes.STRING(1000),
+    Access: DataTypes.STRING(1000),
     Dept_Proj_ID: DataTypes.STRING,
     Other_ID: DataTypes.STRING,
     Total_bgt: DataTypes.DECIMAL,
@@ -36,7 +36,11 @@ module.exports = function(sequelize, DataTypes) {
     Est_Cost: DataTypes.DECIMAL,
     Fund_Rq: DataTypes.DECIMAL,
     Lc_match: DataTypes.DECIMAL,
-    Match_Pt: DataTypes.INTEGER,
+    Flagged: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    Dup_ID: DataTypes.INTEGER
   }, {
     classMethods: {
       associate: function(models) {

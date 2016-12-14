@@ -2,6 +2,7 @@
     <div class="row">
         <div id="map-column" class="col-xs-8">
             <div id='map'></div>
+            <button type="button" name="button" id="delete-button"><i class="fa fa-trash" aria-hidden="true"></i>
             <input id="google-search" type="text" class="form-control input-block-level" placeholder="Search For An Address Or Cross Street">
         </div>
         <div id="project-view-sidebar" class="col-xs-4">
@@ -76,7 +77,7 @@
                           </div>
                           <div class="radio">
                           <label>
-                            <input type="radio" value="People Street" name="Proj_Ty" class="Proj_Ty-option">
+                            <input type="radio" value="People St" name="Proj_Ty" class="Proj_Ty-option">
                             People St
                           </label>
                           </div>
@@ -94,7 +95,7 @@
                           </div>
                           <div class="radio">
                               <label>
-                            <input type="radio" value="Bike/PED" name="Proj_Ty" class="Proj_Ty-option">
+                            <input type="radio" value="PED/Bike" name="Proj_Ty" class="Proj_Ty-option">
                             Bike/PED
                           </label>
                           </div>
@@ -137,7 +138,7 @@
                         <div class="form-group" id="intersections">
                             <label>Intersections*</label>
                             <div class="form-group" id="Primary_Street-group">
-                              <input type="text" class="form-control Intersections" placeholder="Primary Street" id="Primary_Street">
+                              <input type="text" class="form-control" placeholder="Primary Street" id="Primary_Street">
                               <span id="Primary_Street-span" aria-hidden="true"></span>
                             </div>
                             <div class="form-group" id="cross-street1-group">
@@ -361,18 +362,9 @@
                             </div>
                             <p class="help-block">Amount of fund provided by lead agency</p>
                         </div>
-
-                        <!-- Match Percentage -->
-                        <label for="Match_Pt">Match Percentage*</label>
-                        <div class="form-group">
-                            <div class="input-group">
-                              <input type="number" class="form-control" id="Match_Pt" placeholder="">
-                              <span class="input-group-addon">%</span>
-                            </div>
-                        </div>
                       </div>
 
-                      <button type="submit" id="submit-project" class="btn btn-primary" disabled="true">Submit</button>
+                      <button type="submit" id="update-project" class="btn btn-primary" data-id="{{this.id}}">Update</button>
                     </form>
                 </div>
             </div>

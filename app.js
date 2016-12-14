@@ -5,7 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser'); // for working with cookies
 var bodyParser = require('body-parser');
-var session = require('express-session'); 
+var session = require('express-session');
 var methodOverride = require('method-override'); // for deletes in express
 var hbs = require('hbs');
 
@@ -20,8 +20,17 @@ app.use(cookieParser());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-//Register the partials with HBS
+//Register the partials and helpers with HBS
 hbs.registerPartials(__dirname + '/views/partials');
+hbs.registerHelper('equal', function(lvalue, rvalue, options) {
+    if (arguments.length < 3)
+        throw new Error("Handlebars Helper equal needs 2 parameters");
+    if( lvalue!=rvalue ) {
+        return options.inverse(this);
+    } else {
+        return options.fn(this);
+    }
+});
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -29,6 +38,7 @@ hbs.registerPartials(__dirname + '/views/partials');
 //spencer's 2 public folders just in case
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/projects', express.static(__dirname + '/public'));
+app.use('/projects/edit', express.static(__dirname + '/public'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

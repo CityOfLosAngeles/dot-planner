@@ -54,7 +54,7 @@ module.exports = {
         type: Sequelize.STRING(1000)
       },
       Dept_Proj_ID: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       Total_bgt: {
         type: Sequelize.DECIMAL
@@ -90,7 +90,7 @@ module.exports = {
         type: Sequelize.STRING(1000)
       },
       Other_ID: {
-        type: Sequelize.STRING(1000)
+        type: Sequelize.STRING
       },
       Constr_by: {
         type: Sequelize.STRING(1000)
@@ -113,7 +113,10 @@ module.exports = {
       Lc_match: {
         type: Sequelize.DECIMAL
       },
-      Match_Pt: {
+      Flagged: {
+        type: Sequelize.BOOLEAN
+      },
+      Dup_ID: {
         type: Sequelize.INTEGER
       },
       createdAt: {
