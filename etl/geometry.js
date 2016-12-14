@@ -13,7 +13,8 @@
 // 		[xN, yN]
 // 	]
 // }
-var proj4 = require('proj4');
+
+var proj4 = require('proj4'); //Library to convert between coordinates systems
 function parseGeometry(dbOutput){
 	var objGeometry = {};
 
