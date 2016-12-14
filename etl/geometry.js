@@ -13,7 +13,7 @@
 // 		[xN, yN]
 // 	]
 // }
-
+var proj4 = require('proj4');
 function parseGeometry(dbOutput){
 	var objGeometry = {};
 
@@ -24,7 +24,7 @@ function parseGeometry(dbOutput){
 			objGeometry.type = "LineString";
 			break;
 		case("MULTILINESTRING"):
-			objGeometry.type = "MultiLineString";
+			objGeometry.type = "LineString";
 			break;
 		case("POLYGON"): 
 			objGeometry.type = "Polygon";
@@ -52,8 +52,10 @@ function parseGeometry(dbOutput){
 		var myArr = [];
 		makePairs[i].split(" ").forEach(function(el){
 			myArr.push(parseFloat(el));
-		})
-		finalArray.push(myArr);
+		});
+		
+		//Convert meter coordinates to decimal degrees coordinates (for Lealet)
+		finalArray.push(proj4('EPSG:3857','EPSG:4326', myArr));
 	}
 
 	objGeometry.coordinates = finalArray;

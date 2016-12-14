@@ -1,5 +1,5 @@
 var fs = require('fs');
-var models = require("../models");
+// var models = require("../models");
 var config = require('./config.js');
 var parseGeometry = require('./geometry.js');
 var pg = require('pg');
@@ -12,7 +12,7 @@ client.connect(function(err) {
 	client.query('SELECT sde.sa_flines.*, ST_AsText(sde.flines.shape)  FROM sde.sa_flines LEFT JOIN sde.flines ON sde.sa_flines.uid=sde.flines.uid_12;', function (err, result) {
 	    if (err) throw err;
 	    // console.log(result.rows[0]);
-	    for (let i = 0; i < 2; i++) {
+	    for (let i = 0; i < result.rows.length; i++) {
 	    	var curElmnt = result.rows[i];
 	    	// var newProject = {};
 
@@ -26,7 +26,7 @@ client.connect(function(err) {
 			    Legacy_ID: parseInt(curElmnt['uid']),
 			    Lead_Ag: null,
 			    Proj_Title: curElmnt['project_title'],
-			    Proj_Ty: null,
+			    Proj_Ty: curElmnt['project_category'],
 			    Proj_Desc: curElmnt['scope__summary_'],
 			    Contact_info: {
 			          Contact_info_name: "TBD",
@@ -48,17 +48,17 @@ client.connect(function(err) {
 			    Prop_c:parseInt( curElmnt['prop_c']),
 			    General_fund: parseInt(curElmnt['general_fund']),
 			    Authorization: curElmnt[' authorization_'],
-			    // Issues: curElmnt['issues'],
-			    // Deobligation: curElmnt[' at_risk_of_deobligation__y_n'],
-			    // Explanation: curElmnt[' explain_if_at_risk'],
-			    // Constr_by: curElmnt['construction_by'],
-			    // Info_source: curElmnt['source'],
-			    // Grant_Cat: null,
-			    // Grant_Cycle: null,
-			    // Est_Cost: null,
-			    // Fund_Rq: null,
-			    // Lc_match: parseInt(curElmnt['total_local_match']),
-			    // Match_Pt: null
+			    Issues: curElmnt['issues'],
+			    Deobligation: curElmnt[' at_risk_of_deobligation__y_n'],
+			    Explanation: curElmnt[' explain_if_at_risk'],
+			    Constr_by: curElmnt['construction_by'],
+			    Info_source: curElmnt['source'],
+			    Grant_Cat: null,
+			    Grant_Cycle: null,
+			    Est_Cost: null,
+			    Fund_Rq: null,
+			    Lc_match: parseInt(curElmnt['total_local_match']),
+			    Match_Pt: null
 			}
 
 			//Account for absence of shapefile
@@ -73,30 +73,30 @@ client.connect(function(err) {
 		    //Account for null values in general_fund
 		    curElmnt['general_fund'] == null? newProject.General_fund = 0 : newProject.General_fund = parseInt(curElmnt['general_fund']);
 
-			// fs.appendFile("./export_funded_lines.js", JSON.stringify(newProject) + ",\r\n", function(err){
-			// 	if (err) {
-			// 		return console.log(err);
-			// 	}
-			// });
+			fs.appendFile("./export_funded_lines.js", JSON.stringify(newProject) + ",\r\n", function(err){
+				if (err) {
+					return console.log(err);
+				}
+			});
 
 			//Account for Blank CD
 			// i == 63 ? newProject.CD = 0: console.log("");
 			// curElmnt['cd'] == null? newProject.CD = 0: newProject.CD = parseInt(curElmnt['cd']);
 			// console.log(newProject);
 
-			models.Project.create(newProject).then(function(result) {
-				// console.log("success");
-			})
-			.catch(function(err) {
-				// console.log(err);
-				fs.appendFile("./error_lines_funded.js", (err + "\r\n" + JSON.stringify(newProject) + "\r\n"), function(err) {
-				    if(err) {
-				        return console.log(err);
-				    }
+			// models.Project.create(newProject).then(function(result) {
+			// 	// console.log("success");
+			// })
+			// .catch(function(err) {
+			// 	// console.log(err);
+			// 	fs.appendFile("./error_lines_funded.js", (err + "\r\n" + JSON.stringify(newProject) + "\r\n"), function(err) {
+			// 	    if(err) {
+			// 	        return console.log(err);
+			// 	    }
 
-				    console.log("The file was saved!");
-				});
-			});
+			// 	    console.log("The file was saved!");
+			// 	});
+			// });
 	    }
 	 	
 	    // disconnect the client 
