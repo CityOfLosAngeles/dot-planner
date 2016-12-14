@@ -1,2 +1,139 @@
-{{each projects}}
-  <h1>{{this.Proj_Title}}</h1>
+<div class="container">
+  <div id="funded-table" class="table-section">
+    <h1>Funded</h1>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Project Title</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Project Type</th>
+                <th class="text-center">Contact Name</th>
+                <th class="text-center">Contact Number</th>
+                <th class="text-center">Contact Email</th>
+                <th class="text-center">Edit/Delete/View</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each projects}}
+              {{#equal this.Fund_St 'Funded'}}
+                <tr>
+                    <th scope="row">{{this.id}}</th>
+                    <td class="text-center">{{this.Proj_Title}}</td>
+                    <td class="text-center">{{this.Proj_Desc}}</td>
+                    <td class="text-center">{{this.Proj_Ty}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                </tr>
+              {{/equal}}
+            {{/each}}
+        </tbody>
+    </table>
+  </div>
+  <div id="unfunded-table" class="table-section">
+    <h1>Unfunded</h1>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Project Title</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Project Type</th>
+                <th class="text-center">Contact Name</th>
+                <th class="text-center">Contact Number</th>
+                <th class="text-center">Contact Email</th>
+                <th class="text-center">Edit/Delete/View</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each projects}}
+              {{#equal this.Fund_St 'Unfunded'}}
+                <tr>
+                    <th scope="row">{{this.id}}</th>
+                    <td class="text-center">{{this.Proj_Title}}</td>
+                    <td class="text-center">{{this.Proj_Desc}}</td>
+                    <td class="text-center">{{this.Proj_Ty}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                    <td class="text-center">
+                      <button type="button" name="button" id="table-delete" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                      <button type="button" name="button" id="table-edit" class="btn btn-primary btn-sm">Edit</button>
+                      <button type="button" name="button" id="table-view" class="btn btn-success btn-sm">View</button>
+                    </td>
+                </tr>
+              {{/equal}}
+            {{/each}}
+        </tbody>
+    </table>
+  </div>
+  <div id="idea-table" class="table-section">
+    <h1>Idea Projects</h1>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Project Title</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Project Type</th>
+                <th class="text-center">Contact Name</th>
+                <th class="text-center">Contact Number</th>
+                <th class="text-center">Contact Email</th>
+                <th class="text-center">Edit/Delete/View</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each projects}}
+              {{#equal this.Fund_St 'Idea Project'}}
+                <tr>
+                    <th scope="row">{{this.id}}</th>
+                    <td class="text-center">{{this.Proj_Title}}</td>
+                    <td class="text-center">{{this.Proj_Desc}}</td>
+                    <td class="text-center">{{this.Proj_Ty}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                </tr>
+              {{/equal}}
+            {{/each}}
+        </tbody>
+    </table>
+  </div>
+
+  <!-- Probably move this to a separate page -->
+
+  <!-- <div id="flagged-table" class="table-section">
+    <h1>Flagged as Potential Duplicate</h1>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Duplicate ID</th>
+                <th class="text-center">Project Title</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Project Type</th>
+                <th class="text-center">Contact Name</th>
+                <th class="text-center">Contact Number</th>
+                <th class="text-center">Contact Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each projects}}
+              {{#if this.Flagged}}
+                <tr>
+                    <th scope="row">{{this.id}}</th>
+                    <td class="text-center">{{this.Dup_ID}}</td>
+                    <td class="text-center">{{this.Proj_Title}}</td>
+                    <td class="text-center">{{this.Proj_Desc}}</td>
+                    <td class="text-center">{{this.Proj_Ty}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                </tr>
+              {{/if}}
+            {{/each}}
+        </tbody>
+    </table>
+  </div> -->
+</div>

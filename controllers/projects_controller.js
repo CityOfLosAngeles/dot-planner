@@ -315,7 +315,7 @@ router.put('/edit/:id', function(req, res) {
 });
 
 router.get('/table', function(req, res) {
-  models.Project.findAll(function(projects) {
+  models.Project.findAll().then(function(projects) {
     res.render('table', {projects: projects});
   });
 });
