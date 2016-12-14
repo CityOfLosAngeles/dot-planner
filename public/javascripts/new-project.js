@@ -264,7 +264,8 @@ $('#submit-project').on('click', function(){
                     possibleDuplicates = [];
                 }
 
-                If there are no duplicates ...else {
+                // If there are no duplicates ...
+                else {
                     addProject(newProject);
                 }
             }
