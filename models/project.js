@@ -36,7 +36,11 @@ module.exports = function(sequelize, DataTypes) {
     Est_Cost: DataTypes.DECIMAL,
     Fund_Rq: DataTypes.DECIMAL,
     Lc_match: DataTypes.DECIMAL,
-    Match_Pt: DataTypes.INTEGER,
+    Flagged: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    Dup_ID: DataTypes.INTEGER
   }, {
     classMethods: {
       associate: function(models) {

@@ -192,30 +192,69 @@ router.get('/funding/:status/type/:type', function(req, res) {
 
 //Saves a new project to the DB
 router.post('/new', function(req, res) {
-    var newProject = req.body;
-    var fundStatus = newProject.Fund_St;
-    var geometry = JSON.parse(newProject.Geometry);
-    var coordinates = JSON.parse(geometry.coordinates);
-    var parsedGeometry = {
-        type: geometry.type,
-        coordinates: coordinates
-    }
-    newProject.Geometry = parsedGeometry;
-    var contactInfo = JSON.parse(newProject.Contact_info);
-    newProject.Contact_info = contactInfo;
-
+  var newProject = req.body;
+  var fundStatus = newProject.Fund_St;
+  var geometry = JSON.parse(newProject.Geometry);
+  var coordinates = JSON.parse(geometry.coordinates);
+  var parsedGeometry = {
+      type: geometry.type,
+      coordinates: coordinates
+  }
+  newProject.Geometry = parsedGeometry;
+  var contactInfo = JSON.parse(newProject.Contact_info);
+  newProject.Contact_info = contactInfo;
+  if (newProject.hasOwnProperty('Flagged')) {
     if (fundStatus === 'Idea Project') {
         models.Project.create(newProject).then(function() {
-            res.send({"success": "Yes!"});
+            res.send({"status": "saved"});
         });
     } else {
         var crossStreets = JSON.parse(newProject.Cross_Streets);
         newProject.Cross_Streets = crossStreets;
         models.Project.create(newProject).then(function() {
-            res.send({"success": "Yes!"});
+            res.send({"status": "saved"});
         });
     }
-    console.log(newProject);
+  } else {
+    var searchArr = [
+      {
+        "Proj_Title": {
+          ilike: newProject.Proj_Title
+        }
+      },
+      {
+        "Proj_Desc": {
+          ilike: newProject.Proj_Desc
+        }
+      },
+      {
+        "More_info": {
+          ilike: newProject.More_info
+        }
+      }
+    ]
+    models.Project.findAll({
+        where: {
+            $or: searchArr
+        }
+    }).then(function(projects) {
+      if (projects.length >= 1) {
+        res.send({'status': 'duplicate', 'id': projects[0].id});
+      } else {
+        if (fundStatus === 'Idea Project') {
+            models.Project.create(newProject).then(function() {
+                res.send({"status": "saved"});
+            });
+        } else {
+            var crossStreets = JSON.parse(newProject.Cross_Streets);
+            newProject.Cross_Streets = crossStreets;
+            models.Project.create(newProject).then(function() {
+                res.send({"status": "saved"});
+            });
+        }
+      }
+    });
+  }
 });
 
 router.get('/edit/:id', function(req, res) {
