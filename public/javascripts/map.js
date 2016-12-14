@@ -1,7 +1,29 @@
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
-var map = L.mapbox.map('map').setView([
-    34.0522, -118.2437
-], 14);
+var map = L.mapbox.map('map');
+var url = window.location.href;
+if (url.includes('?id=')) {
+  url = url.split('?id=');
+  var id = url[url.length - 1];
+  $.ajax({
+    method: "GET",
+    url: "/projects/id/" + id,
+    dataType: "json",
+    success: function(data) {
+      if (data) {
+        var project = data[0];
+        if (project.Geometry.type === 'Polygon' || project.Geometry.type === 'MultiLineString') {
+          map.setView(project.Geometry.coordinates[0][0].reverse(), 14);
+        } else {
+          map.setView(project.Geometry.coordinates[0].reverse(), 14);
+        }
+      }
+    }
+  });
+} else {
+  map.setView([
+      34.0522, -118.2437
+  ], 14);
+}
 
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 

@@ -133,6 +133,11 @@ router.get('/type/:type', function(req, res) {
     };
     var type = req.params.type;
     type = type.split('&');
+    for (var i = 0; i < type.length; i++) {
+      if (type[i] === 'pedbike') {
+        type[i] = 'ped/bike'
+      }
+    }
     var searchArr = [];
     for (var i = 0; i < type.length; i++) {
         var searchObj = {
@@ -164,6 +169,11 @@ router.get('/funding/:status/type/:type', function(req, res) {
     status = status.split('&');
     type = type.split('&');
     var searchArr = [];
+    for (var i = 0; i < type.length; i++) {
+      if (type[i] === 'pedbike') {
+        type[i] = 'ped/bike'
+      }
+    }
     for (var i = 0; i < status.length; i++) {
         for (var j = 0; j < type.length; j++) {
             var searchObj = {
@@ -232,7 +242,7 @@ router.post('/new', function(req, res) {
         }
       }
     ]
-    models.Project.findOne({
+    models.Project.findAll({
         where: {
             $or: searchArr
         }
