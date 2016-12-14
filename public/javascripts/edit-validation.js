@@ -5,51 +5,51 @@ var fundStatus = "";
 var riskOfDeobligation;
 
 // Required for all projects
-var lead_agComplete = false;
-var proj_titleComplete = false;
-var proj_tyComplete = false;
-var proj_descComplete = false;
-var fund_stComplete = false;
-var contact_info_nameComplete = false;
-var contact_info_phoneComplete = false;
-var contact_info_emailComplete = false;
-var more_infoComplete = false;
+var lead_agComplete = true;
+var proj_titleComplete = true;
+var proj_tyComplete = true;
+var proj_descComplete = true;
+var fund_stComplete = true;
+var contact_info_nameComplete = true;
+var contact_info_phoneComplete = true;
+var contact_info_emailComplete = true;
+var more_infoComplete = true;
 
 // Not required for Idea Project
 // Required for Funded and Unfunded
 // var intersectionsComplete = false;
-var proj_statusComplete = false;
-var proj_manComplete = false;
-var cdComplete = false;
+var proj_statusComplete = true;
+var proj_manComplete = true;
+var cdComplete = true;
 
 // Not required for Unfunded and Idea Project
 // Required for Funded
-var accessComplete = false;
-var dept_proj_idComplete = false;
-var other_idComplete = false;
-var total_bgtComplete = false;
-var grantComplete = false;
-var other_fundsComplete = false;
-var prop_cComplete = false;
-var measure_rComplete = false;
-var gas_taxComplete = false;
-var general_fundComplete = false;
-var authorizationComplete = false;
-var issuesComplete = false;
-var deobligationComplete = false;
-var constr_byComplete = false;
-var info_sourceComplete = false;
+var accessComplete = true;
+var dept_proj_idComplete = true;
+var other_idComplete = true;
+var total_bgtComplete = true;
+var grantComplete = true;
+var other_fundsComplete = true;
+var prop_cComplete = true;
+var measure_rComplete = true;
+var gas_taxComplete = true;
+var general_fundComplete = true;
+var authorizationComplete = true;
+var issuesComplete = true;
+var deobligationComplete = true;
+var constr_byComplete = true;
+var info_sourceComplete = true;
 
 // Only required if Risk of Deobligation = Yes
-var explanationComplete = false;
+var explanationComplete = true;
 
 // Not required for Funded and Idea Project
 // Required for Unfunded
-var grant_catComplete = false;
-var grant_cycleComplete = false;
-var est_costComplete = false;
-var fund_rqComplete = false;
-var lc_matchComplete = false;
+var grant_catComplete = true;
+var grant_cycleComplete = true;
+var est_costComplete = true;
+var fund_rqComplete = true;
+var lc_matchComplete = true;
 
 // Funding Status
 // ==============
@@ -623,12 +623,12 @@ function checkForm() {
           // If at risk for deobligation checked...
           if(riskOfDeobligation){
             if(explanationComplete)
-              $("#submit-project").removeAttr("disabled");
+              $("#update-project").removeAttr("disabled");
             else
-              $("#submit-project").attr("disabled", true);
+              $("#update-project").attr("disabled", true);
           }
           else{
-            $("#submit-project").removeAttr("disabled");
+            $("#update-project").removeAttr("disabled");
           }
         } else if(
           fundStatus == 'Unfunded'
@@ -642,14 +642,14 @@ function checkForm() {
           && fund_rqComplete
           && lc_matchComplete
         ) {
-          $("#submit-project").removeAttr("disabled");
+          $("#update-project").removeAttr("disabled");
         } else if(fundStatus == 'Idea Project'){
-          $("#submit-project").removeAttr("disabled");
+          $("#update-project").removeAttr("disabled");
         } else {
-          $("#submit-project").attr("disabled", true);
+          $("#update-project").attr("disabled", true);
         }
     } else {
-        $("#submit-project").attr("disabled", true);
+        $("#update-project").attr("disabled", true);
     }
 }
 
