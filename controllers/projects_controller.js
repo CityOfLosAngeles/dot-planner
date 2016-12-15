@@ -309,6 +309,34 @@ router.delete('/id/:id', function(req, res) {
   });
 });
 
+router.get('/ids/:id', function(req, res) {
+  var featureCollection = {
+      "type": "FeatureCollection",
+      features: []
+  };
+  var id = req.params.id;
+  var searchArr = [ ];
+  id = id.split('&');
+  console.log(id);
+  for (var i = 0; i < id.length; i++) {
+    var searchObj = {
+      id: id[i]
+    }
+    searchArr.push(searchObj);
+  }
+  models.Project.findAll({
+      where: {
+          $or: searchArr
+      }
+  }).then(function(projects) {
+    for (var i = 0; i < projects.length; i++) {
+      toGeoJSON(projects[i], featureCollection.features);
+    }
+  }).then(function() {
+    res.send(featureCollection);
+  });
+});
+
 router.put('/edit/:id', function(req, res) {
     var id = req.params.id;
     var newProject = req.body;
@@ -366,5 +394,6 @@ router.get('/flagged', function(req, res) {
     });
   });
 });
+
 
 module.exports = router;
