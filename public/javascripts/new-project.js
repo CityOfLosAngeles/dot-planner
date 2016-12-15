@@ -109,13 +109,6 @@ $('#submit-project').on('click', function(){
             interArr.push($(this).val());
         });
 
-        // Remove any empty intersections at the end of the array before saving to database
-        // We don't need to worry that there will be empty intersections in the middle of the array because data validation will take care of this
-        for(var i=interArr.length-1; i>=0; i--){
-            if(interArr[i] == "")
-                interArr.pop();
-        }
-
         //Create the newProject object and set common attributes
         newProject = {
             //Geometry
@@ -230,18 +223,29 @@ $('#add-intersection').on('click', function() {
     var input = document.getElementById('cross-street' + intersectionCounter);
     autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
     $('#undo-intersection').show();
+
+    checkForm();
 });
 
 $("#undo-intersection").on('click', function() {
 
     // Remove the element from the intersection validation counter
-    intersectionsValidated.pop();
+    // if last intersection is not validated
+    if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
+        intersectionsValidated.pop();
+    // else{
+    //     for(var i=intersectionsValidated.length-1; i>=0; i--){
+            
+    //     }
+    // }
 
     $('#cross-street' + intersectionCounter + '-group').remove();
     intersectionCounter--;
     if (intersectionCounter === 2) {
         $('#undo-intersection').hide();
     }
+
+    checkForm();
 });
 
 // Modal onclicks
