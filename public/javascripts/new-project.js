@@ -1,6 +1,6 @@
+// Gloabl variables
 var newProject;
-
-//Global variable for countering number of cross streets
+var intersectionsValidated = [];
 var intersectionCounter = 2;
 
 //Show and hide attributes based on Funding Status
@@ -108,6 +108,13 @@ $('#submit-project').on('click', function(){
         $('.Intersections').each(function() {
             interArr.push($(this).val());
         });
+
+        // Remove any empty intersections at the end of the array before saving to database
+        // We don't need to worry that there will be empty intersections in the middle of the array because data validation will take care of this
+        for(var i=interArr.length-1; i>=0; i--){
+            if(interArr[i] == "")
+                interArr.pop();
+        }
 
         //Create the newProject object and set common attributes
         newProject = {
@@ -218,7 +225,7 @@ $('#add-intersection').on('click', function() {
 
     div.append(input);
     div.append(span);
-    $('#intersections').append(input);
+    $('#intersections').append(div);
 
     var input = document.getElementById('cross-street' + intersectionCounter);
     autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
@@ -226,7 +233,11 @@ $('#add-intersection').on('click', function() {
 });
 
 $("#undo-intersection").on('click', function() {
-    $('#cross-street' + intersectionCounter).remove();
+
+    // Remove the element from the intersection validation counter
+    intersectionsValidated.pop();
+
+    $('#cross-street' + intersectionCounter + '-group').remove();
     intersectionCounter--;
     if (intersectionCounter === 2) {
         $('#undo-intersection').hide();
