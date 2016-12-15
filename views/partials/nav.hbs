@@ -1,6 +1,5 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
@@ -11,11 +10,7 @@
             <a class="navbar-brand" href="/">LADOT</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <!-- <form class="navbar-form navbar-left">
-                <button type="submit" class="btn btn-default" id="addProject">Add Project</button>
-            </form> -->
             <ul class="nav navbar-nav">
                 {{#if logged_in}}
                 <li><a href="/projects/new">Add a Project</a></li>
@@ -63,6 +58,16 @@
                     </ul>
                 </li>
             </ul>
+            <div class="col-sm-3 col-md-3">
+              <form class="navbar-form" role="search" method="get" action="/projects/search">
+                <div class="input-group">
+                    <input for="search" type="text" class="form-control" placeholder="Search Projects" name="search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" id="search-button"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+              </form>
+            </div>
             <ul class="nav navbar-nav navbar-right">
                 {{#if logged_in}}
                     {{#if adminclearance}}
@@ -76,7 +81,5 @@
                 {{/unless}}
             </ul>
         </div>
-        <!-- /.navbar-collapse -->
     </div>
-    <!-- /.container-fluid -->
 </nav>
