@@ -1,9 +1,10 @@
-<div class="container-fluid">
+<div class="container-fluid" id="tables">
   <div id="funded-table" class="table-section">
     <h1>Funded</h1>
     <table class="table">
         <thead class="thead-inverse">
             <tr>
+                <th class="text-center">Select</th>
                 <th class="text-center">Project Title</th>
                 <th class="text-center">Description</th>
                 <th class="text-center">Project Type</th>
@@ -17,6 +18,7 @@
             {{#each projects}}
               {{#equal this.Fund_St 'Funded'}}
                 <tr>
+                    <td class="text-center"><input type="checkbox" value="{{this.id}}" />
                     <td class="text-center">{{this.Proj_Title}}</td>
                     <td class="text-center">{{this.Proj_Desc}}</td>
                     <td class="text-center">{{this.Proj_Ty}}</td>
@@ -74,6 +76,7 @@
     <table class="table">
         <thead class="thead-inverse">
             <tr>
+                <th class="text-center">Select</th>
                 <th class="text-center">Project Title</th>
                 <th class="text-center">Description</th>
                 <th class="text-center">Project Type</th>
@@ -87,6 +90,7 @@
             {{#each projects}}
               {{#equal this.Fund_St 'Idea Project'}}
                 <tr>
+                    <td class="text-center"><input type="checkbox" value="{{this.id}}" />
                     <td class="text-center">{{this.Proj_Title}}</td>
                     <td class="text-center">{{this.Proj_Desc}}</td>
                     <td class="text-center">{{this.Proj_Ty}}</td>
@@ -104,6 +108,7 @@
         </tbody>
     </table>
   </div>
+  <button type="submit" name="button" class="btn btn-primary btn-lg" id="export">Export</button>
 </div>
 
 <div class="modal fade" id="delete-modal">
@@ -133,5 +138,31 @@
     var id = $(this).attr('data-id');
     $('#delete-form').attr('action', '/projects/id/' + id + '?_method=DELETE');
     $('#delete-modal').modal()
+  });
+
+  $('#export').on('click', function() {
+    var searchIDs = $('#tables input:checked').map(function(){
+     return $(this).val();
+    }).toArray();
+
+    var queryString = searchIDs.join('&')
+
+    $.ajax({
+        method: "GET",
+        url: "/projects/ids/" + queryString,
+        dataType: "json",
+        success: function(data) {
+          var projectsString = JSON.stringify(data);
+          $.post('http://ogre.adc4gis.com/convertJson', { json: projectsString, format : "csv"},
+          function(csv){
+            a = document.createElement('a');
+            a.download="myFileName.csv";
+            a.href='data:text/csv;charset=utf-8,'+escape(csv);
+            document.body.appendChild(a);
+            a.click()
+          });
+        }
+    });
+
   });
 </script>
