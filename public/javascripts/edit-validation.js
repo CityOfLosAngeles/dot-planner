@@ -83,7 +83,7 @@ $.ajax({
 
         explanationComplete = true;
         riskOfDeobligation = true;
-      } else if(data[0].Deobglication == 'No'){
+      } else if(data[0].Deobligation == 'No'){
         // intersectionsComplete = false;
         proj_statusComplete = true;
         proj_manComplete = true;
@@ -328,17 +328,9 @@ $("#Proj_Man").keyup(function(){
 // Accessibility
 // ===============
 // Required
-$('#internal').change(function() {
-    if ($(this).is(':checked') || $('#public').is(':checked'))
-        accessComplete = true;
-    else
-        accessComplete = false;
-});
-$('#public').change(function() {
-    if ($(this).is(':checked') || $('#internal').is(':checked'))
-        accessComplete = true;
-    else
-        accessComplete = false;
+$("#Access").on("click", ".Access-option", function() {
+    accessComplete = true;
+    checkForm();
 });
 
 // Department Project ID
