@@ -9,11 +9,8 @@ function toGeoJSON(project, features) {
     var feature = {
 
         type: "Feature",
-        //Geometry
         geometry: project.Geometry,
-
         properties: {
-            //Common Attributes
             id: project.id,
             Fund_St: project.Fund_St,
             Legacy_ID: project.Legacy_ID,
@@ -305,7 +302,16 @@ router.delete('/id/:id', function(req, res) {
       id: id
     }
   }).then(function() {
-    res.redirect('/projects/table');
+    res.redirect('/projects/table', {
+        logged_in: req.session.logged_in,
+        adminclearance: req.session.adminclearance,
+        id: req.session.user_id,
+        email: req.session.email,
+        firstname: req.session.firstname,
+        lastname: req.session.lastname,
+        phonenumber: req.session.phonenumber,
+        admin: req.session.admin
+    });
   });
 });
 
@@ -365,7 +371,17 @@ router.put('/edit/:id', function(req, res) {
 
 router.get('/table', function(req, res) {
   models.Project.findAll().then(function(projects) {
-    res.render('projects/table', {projects: projects});
+    res.render('table',
+        {projects: projects,
+        logged_in: req.session.logged_in,
+        adminclearance: req.session.adminclearance,
+        id: req.session.user_id,
+        email: req.session.email,
+        firstname: req.session.firstname,
+        lastname: req.session.lastname,
+        phonenumber: req.session.phonenumber,
+        admin: req.session.admin
+        });
   });
 });
 
@@ -389,7 +405,15 @@ router.get('/flagged', function(req, res) {
     }).then(function(duplicates){
       res.render('projects/flagged', {
         flagged: flagged,
-        duplicates: duplicates
+        duplicates: duplicates,
+        logged_in: req.session.logged_in,
+        adminclearance: req.session.adminclearance,
+        id: req.session.user_id,
+        email: req.session.email,
+        firstname: req.session.firstname,
+        lastname: req.session.lastname,
+        phonenumber: req.session.phonenumber,
+        admin: req.session.admin
       });
     });
   });
