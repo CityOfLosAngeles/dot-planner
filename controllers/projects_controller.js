@@ -344,7 +344,6 @@ router.get('/ids/:id', function(req, res) {
   var id = req.params.id;
   var searchArr = [ ];
   id = id.split('&');
-  console.log(id);
   for (var i = 0; i < id.length; i++) {
     var searchObj = {
       id: id[i]
@@ -437,6 +436,54 @@ router.get('/flagged', function(req, res) {
         phonenumber: req.session.phonenumber,
         admin: req.session.admin
       });
+    });
+  });
+});
+
+router.get('/search', function(req, res) {
+  var search = req.query.search;
+  models.Project.findAll({
+    where: {
+      $or: [
+        {
+          Proj_Title: {
+            ilike: '%' + search + '%'
+          }
+        },
+        {
+          Proj_Desc: {
+            ilike: '%' + search + '%'
+          }
+        },
+        {
+          More_info: {
+            ilike: '%' + search + '%'
+          }
+        },
+        {
+          Issues: {
+            ilike: '%' + search + '%'
+          }
+        },
+        {
+          Info_source: {
+            ilike: '%' + search + '%'
+          }
+        }
+      ]
+    }
+  }).then(function(projects) {
+    res.render('projects/search',
+    {
+      projects: projects,
+      logged_in: req.session.logged_in,
+      adminclearance: req.session.adminclearance,
+      id: req.session.user_id,
+      email: req.session.email,
+      firstname: req.session.firstname,
+      lastname: req.session.lastname,
+      phonenumber: req.session.phonenumber,
+      admin: req.session.admin
     });
   });
 });
