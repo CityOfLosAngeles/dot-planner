@@ -1,6 +1,9 @@
 // Automatically hide this div
 $("#explainRiskDiv").hide();
 
+
+// Global variables
+
 var fundStatus = "";
 var riskOfDeobligation;
 
@@ -17,7 +20,8 @@ var more_infoComplete = false;
 
 // Not required for Idea Project
 // Required for Funded and Unfunded
-// var intersectionsComplete = false;
+
+var primary_streetComplete = false;
 var proj_statusComplete = false;
 var proj_manComplete = false;
 var cdComplete = false;
@@ -204,18 +208,49 @@ $("#CD").keyup(function() {
 // =============
 // Required
 // Valid location
-// $("#Primary_Street").on('keyup', function(){
-//     if($("#Primary_Street").val() != ""){
-//         hasSuccess("#CD-group", "#CD-span");
-//     }
-// });
-// $("#intersections").on('keyup', '.Intersections', function(){
-//   var address = $('#'+this.id).val();
-//   if(address != "")
-//     hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
-//   else
-//     hasError("#"+this.id+"-group","#"+this.id+"-span");
-// });
+$("#Primary_Street").on('keyup', function(){
+    if($("#Primary_Street").val() != ""){
+        primary_streetComplete = true;
+        hasSuccess("#Primary_Street-group", "#Primary_Street-span");
+    }
+    else{
+        primary_streetComplete = false;
+        hasError("#Primary_Street-group", "#Primary_Street-span");
+    }
+    checkForm();
+});
+$("#intersections").on('keyup', '.Intersections', function(){
+  var address = $('#'+this.id).val();
+
+  if(address != ""){
+    hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
+
+    // If this intersection is a newly validated intersection...
+    if(intersectionsValidated.indexOf(this.id) == -1){
+      if(intersectionsValidated.length == 0 || intersectionsValidated[intersectionsValidated.length-1].substring(12) < this.id.substring(12))
+        intersectionsValidated.push(this.id);
+      else{
+        for(var i=0; i<intersectionsValidated.length; i++){
+
+          // Check number of cross-street and put into array in order
+          if(intersectionsValidated[i].substring(12) > this.id.substring(12)){
+            intersectionsValidated.splice(i, 0, this.id);
+
+            // stop loop
+            i = intersectionsValidated.length
+          }
+        }
+      }
+    }
+  }
+  else{
+    hasError("#"+this.id+"-group","#"+this.id+"-span");
+    if(intersectionsValidated.indexOf(this.id) != -1)
+      intersectionsValidated.splice(intersectionsValidated.indexOf(this.id), 1);
+  }
+  checkForm();
+  console.log(intersectionsValidated);
+});
 
 // Project Status
 // ===============
@@ -596,7 +631,8 @@ function checkForm() {
         if (
           fundStatus == 'Funded'
 
-          // && intersectionsComplete
+          && intersectionsValidated.length == intersectionCounter
+          && primary_streetComplete
           && proj_statusComplete
           && proj_manComplete
           && cdComplete
@@ -629,7 +665,8 @@ function checkForm() {
           }
         } else if(
           fundStatus == 'Unfunded'
-          // && intersectionsComplete
+          && intersectionsValidated.length == intersectionCounter
+          && primary_streetComplete
           && proj_statusComplete
           && proj_manComplete
           && cdComplete
