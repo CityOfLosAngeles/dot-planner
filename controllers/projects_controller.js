@@ -69,7 +69,7 @@ function toGeoJSON(project, features) {
 
 //Renders the new project page where PM can add projects
 router.get('/new', function(req, res) {
-    res.render('new-project', {
+    res.render('projects/new-project', {
         logged_in: req.session.logged_in,
         adminclearance: req.session.adminclearance,
         id: req.session.user_id,
@@ -274,7 +274,7 @@ router.get('/edit/:id', function(req, res) {
         }
     }).then(function(project) {
         if (project.length === 1) {
-            res.render('edit', {"id": id});
+            res.render('projects/edit', {"id": id});
         } else {
             res.render('error', {
                 "message": "404",
@@ -337,7 +337,7 @@ router.put('/edit/:id', function(req, res) {
 
 router.get('/table', function(req, res) {
   models.Project.findAll().then(function(projects) {
-    res.render('table', {projects: projects});
+    res.render('projects/table', {projects: projects});
   });
 });
 
@@ -359,7 +359,7 @@ router.get('/flagged', function(req, res) {
           $or: dupIDArr
       }
     }).then(function(duplicates){
-      res.render('flagged', {
+      res.render('projects/flagged', {
         flagged: flagged,
         duplicates: duplicates
       });
