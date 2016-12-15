@@ -4,7 +4,7 @@ var router = express.Router();
 
 // map homepage
 router.get('/', function(req, res) {
-  	res.render('map', {
+  	res.render('projects/map', {
 	    logged_in: req.session.logged_in,
 	    adminclearance: req.session.adminclearance,
 	    id: req.session.user_id,
