@@ -9,31 +9,44 @@ router.get('/', function(req,res) {
 	models.User.findOne({
         where: {email: req.session.email}
     }).then(function(response) {
-    	models.User.findAll().then(function(response) {
-			keepresp = [];
-			for (i=0; i<response.length; i++){
-				var id = response[i].dataValues.id;
-				var firstname = response[i].dataValues.firstname;
-				var lastname = response[i].dataValues.lastname;
-				var phonenumber = response[i].dataValues.phonenumber;
-				var email = response[i].dataValues.email;
-				var admin = response[i].dataValues.admin;
-				keepresp.push(
-				{
-					id: id,
-					firstname: firstname,
-					lastname: lastname,
-					phonenumber: phonenumber,
-					email: email,
-					admin: admin
+    	if (req.session.adminclearance == true) {
+	    	models.User.findAll().then(function(response) {
+				keepresp = [];
+				for (i=0; i<response.length; i++){
+					var id = response[i].dataValues.id;
+					var firstname = response[i].dataValues.firstname;
+					var lastname = response[i].dataValues.lastname;
+					var phonenumber = response[i].dataValues.phonenumber;
+					var email = response[i].dataValues.email;
+					var admin = response[i].dataValues.admin;
+					keepresp.push(
+					{
+						id: id,
+						firstname: firstname,
+						lastname: lastname,
+						phonenumber: phonenumber,
+						email: email,
+						admin: admin
 
-				});
-				console.log(id+". "+firstname+" "+lastname+" | "+email+" | "+phonenumber);
-				console.log("________________________________________________")
-			}
-			console.log(keepresp);
-		}).then(function(){
-	    	res.render('users/dashboard', {
+					});
+				}
+			}).then(function(){
+		    	res.render('users/dashboard', {
+		    		logged_in: req.session.logged_in,
+				    adminclearance: req.session.adminclearance,
+
+		    		id: req.session.user_id,
+				    email: req.session.email,
+				    firstname: req.session.firstname,
+				    lastname: req.session.lastname,
+				    phonenumber: req.session.phonenumber,
+				    admin: req.session.admin,
+				    data: keepresp
+		    	});
+		    });
+		}
+		else {
+			res.render('users/dashboard', {
 	    		logged_in: req.session.logged_in,
 			    adminclearance: req.session.adminclearance,
 
@@ -45,7 +58,7 @@ router.get('/', function(req,res) {
 			    admin: req.session.admin,
 			    data: keepresp
 	    	});
-	    });
+		}
 	});
 });
 
