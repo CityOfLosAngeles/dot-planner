@@ -9,7 +9,7 @@ var client = new pg.Client(config);
 client.connect(function(err) {
 	if (err) console.log(err);
 
-	client.query('SELECT sde.sa_flines.*, ST_AsText(sde.flines.shape)  FROM sde.sa_flines LEFT JOIN sde.flines ON sde.sa_flines.uid=sde.flines.uid_12;', function (err, result) {
+	client.query('SELECT public.f_points.*, ST_AsText(public.points_2.wkb_geometry)  FROM public.f_points LEFT JOIN public.points_2 ON public.f_points.uid=public.points_2.uid;', function (err, result) {
 	    if (err) throw err;
 	    // console.log(result.rows[0]);
 	    for (let i = 0; i < result.rows.length; i++) {
@@ -31,7 +31,7 @@ client.connect(function(err) {
 			    Contact_info: {
 			          Contact_info_name: "TBD",
 			          Contact_info_phone: "TBD",
-			          Contact_info_email: curElmnt['field']
+			          Contact_info_email: "TBD"
 			        },
 			    More_info: curElmnt['other_info'],
 			    Primary_Street: curElmnt['primary_street'],
@@ -74,7 +74,7 @@ client.connect(function(err) {
 		    curElmnt['general_fund'] == null? newProject.General_fund = 0 : newProject.General_fund = parseInt(curElmnt['general_fund']);
 
 		    //Write results to file
-			fs.appendFile("./export_funded_lines.js", JSON.stringify(newProject) + ",\r\n", function(err){
+			fs.appendFile("./export_funded_points.js", JSON.stringify(newProject) + ",\r\n", function(err){
 				if (err) {
 					return console.log(err);
 				}

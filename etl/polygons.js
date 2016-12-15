@@ -1,5 +1,5 @@
 var fs = require('fs');
-// var models = require("../models");
+var models = require("../models");
 var config = require('./config.js');
 var parseGeometry = require('./geometry.js');
 var pg = require('pg');
@@ -9,7 +9,7 @@ var client = new pg.Client(config);
 client.connect(function(err) {
 	if (err) console.log(err);
 
-	client.query('SELECT sde.sa_fpolygons.*, ST_AsText(sde.fpolygons.shape)  FROM sde.sa_fpolygons LEFT JOIN sde.fpolygons ON sde.sa_fpolygons.uid=sde.fpolygons.uid;', function (err, result) {
+	client.query('SELECT public.f_polygon.*, ST_AsText(public.polygon_2.wkb_geometry)  FROM public.f_polygon LEFT JOIN public.polygon_2 ON public.f_polygon.uid=public.polygon_2.uid_1;', function (err, result) {
 	    if (err) throw err;
 	    // console.log(result.rows[0]);
 	    for (let i = 0; i < result.rows.length; i++) {
@@ -57,7 +57,7 @@ client.connect(function(err) {
 			    Grant_Cycle: null,
 			    Est_Cost: null,
 			    Fund_Rq: null,
-			    Lc_match: parseInt(curElmnt['total_local_match']),
+			    Lc_match: 0, //missing from Funded Lines standalone table
 			    Match_Pt: null
 			}
 
@@ -73,7 +73,7 @@ client.connect(function(err) {
 		    //Account for null values in general_fund
 		    curElmnt['general_fund'] == null? newProject.General_fund = 0 : newProject.General_fund = parseInt(curElmnt['general_fund']);
 
-			fs.appendFile("./export_funded_lines.js", JSON.stringify(newProject) + ",\r\n", function(err){
+			fs.appendFile("./export_funded_polygons.js", JSON.stringify(newProject) + ",\r\n", function(err){
 				if (err) {
 					return console.log(err);
 				}
@@ -89,7 +89,7 @@ client.connect(function(err) {
 			// })
 			// .catch(function(err) {
 			// 	// console.log(err);
-			// 	fs.appendFile("./error_lines_funded.js", (err + "\r\n" + JSON.stringify(newProject) + "\r\n"), function(err) {
+			// 	fs.appendFile("./error_polygons_funded.js", (err + "\r\n" + JSON.stringify(newProject) + "\r\n"), function(err) {
 			// 	    if(err) {
 			// 	        return console.log(err);
 			// 	    }
