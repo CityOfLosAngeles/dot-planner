@@ -1,0 +1,266 @@
+<div class="container-fluid">
+  {{#if logged_in}}
+    <div id="funded-table" class="table-section">
+      <h1>Funded</h1>
+      <table class="table">
+          <thead class="thead-inverse">
+              <tr>
+                  <th class="text-center">Select</th>
+                  <th class="text-center">Project Title</th>
+                  <th class="text-center">Description</th>
+                  <th class="text-center">Project Type</th>
+                  <th class="text-center">Contact Name</th>
+                  <th class="text-center">Contact Number</th>
+                  <th class="text-center">Contact Email</th>
+                  <th class="text-center">Edit/Delete/View</th>
+              </tr>
+          </thead>
+          <tbody>
+              {{#each projects}}
+                {{#equal this.Fund_St 'Funded'}}
+                  <tr>
+                      <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
+                      <td class="text-center">{{this.Proj_Title}}</td>
+                      <td class="text-center">{{this.Proj_Desc}}</td>
+                      <td class="text-center">{{this.Proj_Ty}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                      <td class="text-center">
+                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary btn-sm">Edit</button></a>
+                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success btn-sm">View</button>
+                      </td>
+                  </tr>
+                  {{/equal}}
+                {{/each}}
+          </tbody>
+      </table>
+    </div>
+    <div id="unfunded-table" class="table-section">
+      <h1>Unfunded</h1>
+      <table class="table">
+          <thead class="thead-inverse">
+              <tr>
+                  <th class="text-center">Select</th>
+                  <th class="text-center">Project Title</th>
+                  <th class="text-center">Description</th>
+                  <th class="text-center">Project Type</th>
+                  <th class="text-center">Contact Name</th>
+                  <th class="text-center">Contact Number</th>
+                  <th class="text-center">Contact Email</th>
+                  <th class="text-center">Edit/Delete/View</th>
+              </tr>
+          </thead>
+          <tbody>
+              {{#each projects}}
+                {{#equal this.Fund_St 'Unfunded'}}
+                  <tr>
+                      <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
+                      <td class="text-center">{{this.Proj_Title}}</td>
+                      <td class="text-center">{{this.Proj_Desc}}</td>
+                      <td class="text-center">{{this.Proj_Ty}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                      <td class="text-center">
+                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary btn-sm">Edit</button></a>
+                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success btn-sm">View</button>
+                      </td>
+                  </tr>
+                {{/equal}}
+              {{/each}}
+          </tbody>
+      </table>
+    </div>
+    <div id="idea-table" class="table-section">
+      <h1>Idea Projects</h1>
+      <table class="table">
+          <thead class="thead-inverse">
+              <tr>
+                  <th class="text-center">Select</th>
+                  <th class="text-center">Project Title</th>
+                  <th class="text-center">Description</th>
+                  <th class="text-center">Project Type</th>
+                  <th class="text-center">Contact Name</th>
+                  <th class="text-center">Contact Number</th>
+                  <th class="text-center">Contact Email</th>
+                  <th class="text-center">Edit/Delete/View</th>
+              </tr>
+          </thead>
+          <tbody>
+              {{#each projects}}
+                {{#equal this.Fund_St 'Idea Project'}}
+                  <tr>
+                      <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
+                      <td class="text-center">{{this.Proj_Title}}</td>
+                      <td class="text-center">{{this.Proj_Desc}}</td>
+                      <td class="text-center">{{this.Proj_Ty}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                      <td class="text-center">
+                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary btn-sm">Edit</button></a>
+                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success btn-sm">View</button>
+                      </td>
+                  </tr>
+                {{/equal}}
+              {{/each}}
+          </tbody>
+      </table>
+    </div>
+  {{/if}}
+  {{#unless logged_in}}
+  <div id="funded-table" class="table-section">
+    <h1>Funded</h1>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="text-center">Select</th>
+                <th class="text-center">Project Title</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Project Type</th>
+                <th class="text-center">Contact Name</th>
+                <th class="text-center">Contact Number</th>
+                <th class="text-center">Contact Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each projects}}
+              {{#equal this.Fund_St 'Funded'}}
+                <tr>
+                    <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
+                    <td class="text-center">{{this.Proj_Title}}</td>
+                    <td class="text-center">{{this.Proj_Desc}}</td>
+                    <td class="text-center">{{this.Proj_Ty}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                </tr>
+              {{/equal}}
+          {{/each}}
+        </tbody>
+    </table>
+  </div>
+  <div id="unfunded-table" class="table-section">
+    <h1>Unfunded</h1>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="text-center">Select</th>
+                <th class="text-center">Project Title</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Project Type</th>
+                <th class="text-center">Contact Name</th>
+                <th class="text-center">Contact Number</th>
+                <th class="text-center">Contact Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each projects}}
+              {{#equal this.Fund_St 'Unfunded'}}
+                <tr>
+                    <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
+                    <td class="text-center">{{this.Proj_Title}}</td>
+                    <td class="text-center">{{this.Proj_Desc}}</td>
+                    <td class="text-center">{{this.Proj_Ty}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                </tr>
+              {{/equal}}
+            {{/each}}
+        </tbody>
+    </table>
+  </div>
+  <div id="idea-table" class="table-section">
+    <h1>Idea Projects</h1>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="text-center">Select</th>
+                <th class="text-center">Project Title</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Project Type</th>
+                <th class="text-center">Contact Name</th>
+                <th class="text-center">Contact Number</th>
+                <th class="text-center">Contact Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each projects}}
+              {{#equal this.Fund_St 'Idea Project'}}
+                <tr>
+                    <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
+                    <td class="text-center">{{this.Proj_Title}}</td>
+                    <td class="text-center">{{this.Proj_Desc}}</td>
+                    <td class="text-center">{{this.Proj_Ty}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                </tr>
+              {{/equal}}
+            {{/each}}
+        </tbody>
+    </table>
+  </div>
+  <button type="submit" name="button" class="btn btn-primary btn-lg" id="export">Export</button>
+  {{/unless}}
+</div>
+
+<div class="modal fade" id="delete-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Delete</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you would like to delete this project?</p>
+      </div>
+      <div class="modal-footer">
+        <form method="POST" id="delete-form">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger" id="delete-project-button">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).on('click', '.delete', function() {
+    var id = $(this).attr('data-id');
+    $('#delete-form').attr('action', '/projects/id/' + id + '?_method=DELETE');
+    $('#delete-modal').modal()
+  });
+
+  $('#export').on('click', function() {
+    var searchIDs = $('#tables input:checked').map(function(){
+     return $(this).val();
+    }).toArray();
+
+    var queryString = searchIDs.join('&')
+
+    $.ajax({
+        method: "GET",
+        url: "/projects/ids/" + queryString,
+        dataType: "json",
+        success: function(data) {
+          var projectsString = JSON.stringify(data);
+          $.post('http://ogre.adc4gis.com/convertJson', { json: projectsString, format : "csv"},
+          function(csv){
+            a = document.createElement('a');
+            a.download="myFileName.csv";
+            a.href='data:text/csv;charset=utf-8,'+escape(csv);
+            document.body.appendChild(a);
+            a.click()
+          });
+        }
+    });
+});
+</script>

@@ -1,0 +1,70 @@
+<div class="container-fluid">
+  {{#if logged_in}}
+    <div id="search-results" class="table-section">
+      <h1>Search Results</h1>
+      <table class="table">
+          <thead class="thead-inverse">
+              <tr>
+                  <th class="text-center">Select</th>
+                  <th class="text-center">Project Title</th>
+                  <th class="text-center">Description</th>
+                  <th class="text-center">Project Type</th>
+                  <th class="text-center">Contact Name</th>
+                  <th class="text-center">Contact Number</th>
+                  <th class="text-center">Contact Email</th>
+                  <th class="text-center">Edit/Delete/View</th>
+              </tr>
+          </thead>
+          <tbody>
+              {{#each projects}}
+                  <tr>
+                      <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
+                      <td class="text-center">{{this.Proj_Title}}</td>
+                      <td class="text-center">{{this.Proj_Desc}}</td>
+                      <td class="text-center">{{this.Proj_Ty}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                      <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                      <td class="text-center">
+                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary btn-sm">Edit</button></a>
+                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success btn-sm">View</button>
+                      </td>
+                  </tr>
+                {{/each}}
+          </tbody>
+      </table>
+    </div>
+  {{/if}}
+  {{#unless logged_in}}
+  <div id="search-results" class="table-section">
+    <h1>Search Results</h1>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="text-center">Select</th>
+                <th class="text-center">Project Title</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Project Type</th>
+                <th class="text-center">Contact Name</th>
+                <th class="text-center">Contact Number</th>
+                <th class="text-center">Contact Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each projects}}
+                <tr>
+                    <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
+                    <td class="text-center">{{this.Proj_Title}}</td>
+                    <td class="text-center">{{this.Proj_Desc}}</td>
+                    <td class="text-center">{{this.Proj_Ty}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
+                    <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
+                </tr>
+              {{/each}}
+        </tbody>
+    </table>
+  </div>
+  {{/unless}}
+</div>

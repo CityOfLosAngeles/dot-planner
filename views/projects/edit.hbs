@@ -1,0 +1,400 @@
+<div class="container-fluid">
+    <div class="row">
+        <div id="map-column" class="col-xs-8">
+            <div id='map'></div>
+            <button type="button" name="button" id="delete-button"><i class="fa fa-trash" aria-hidden="true"></i>
+            <input id="google-search" type="text" class="form-control input-block-level" placeholder="Search For An Address Or Cross Street">
+        </div>
+        <div id="project-view-sidebar" class="col-xs-4">
+            <div class="container-fluid">
+                <div>
+                  <form>
+
+                    <!-- Funding Status -->
+                    <div class="form-group" id="Fund_St">
+                      <label for="Fund_St">Funding Status*</label>
+                        <div class="radio">
+                            <label>
+                              <input type="radio" name="Fund_St" id="funded" value="Funded" class="Fund_St-option">
+                              Funded
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                              <input type="radio" name="Fund_St" id="unfunded" value="Unfunded" class="Fund_St-option">
+                              Unfunded
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                              <input type="radio" name="Fund_St" id="idea" value="Idea Project" class="Fund_St-option">
+                              Idea Project
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Legacy ID -->
+                    <label for="Legacy_ID">Legacy ID</label>
+                    <div class="form-group" id="Legacy-ID-group">
+                        <input type="number" class="form-control" id="Legacy_ID" placeholder="">
+                        <span id="Legacy-ID-span" aria-hidden="true"></span>
+                    </div>
+
+                    <!-- Lead Agency -->
+                    <label for="Lead_Ag">Lead Agency*</label>
+                    <div class="form-group" id="Lead_Ag-group">
+                        <input type="text" class="form-control" id="Lead_Ag" placeholder="i.e. LADOT">
+                        <span id="Lead_Ag-span" aria-hidden="true"></span>
+                    </div>
+
+                    <!-- Project Title -->
+                    <label for="Proj_Title">Project Title*</label>
+                    <div class="form-group" id="Proj_Title-group">
+                        <input type="text" class="form-control" id="Proj_Title" placeholder="">
+                        <span id="Proj_Title-span" aria-hidden="true"></span>
+                    </div>
+
+                    <!-- Project Type -->
+                    <div class="form-group" id="Proj_Ty">
+                        <label for="Proj_Ty">Project Type*</label>
+                        <div class="radio">
+                            <label>
+                          <input type="radio" value="Bike Only" name="Proj_Ty" class="Proj_Ty-option">
+                          Bike Only
+                        </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                          <input type="radio" value="Ped Only" name="Proj_Ty" class="Proj_Ty-option">
+                          Ped Only
+                        </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                          <input type="radio" value="Safety" name="Proj_Ty" class="Proj_Ty-option">
+                          Safety
+                        </label>
+                        </div>
+                        <div class="radio">
+                        <label>
+                          <input type="radio" value="People St" name="Proj_Ty" class="Proj_Ty-option">
+                          People St
+                        </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                          <input type="radio" value="SRTS" name="Proj_Ty" class="Proj_Ty-option">
+                          SRTS
+                        </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                          <input type="radio" value="First Mile and Last Mile" name="Proj_Ty" class="Proj_Ty-option">
+                          First Mile And Last Mile
+                        </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                          <input type="radio" value="PED/Bike" name="Proj_Ty" class="Proj_Ty-option">
+                          Ped/Bike
+                        </label>
+                        </div>
+                    </div>
+
+                    <!-- Project Description -->
+                    <label for="Proj_Desc">Project Description*</label>
+                    <div class="form-group" id="Proj_Desc-group">
+                        <textarea class="form-control" rows="3" id="Proj_Desc"></textarea>
+                        <p class="help-block">Brief statement of project purpose and scope</p>
+                        <span id="Proj_Desc-span" aria-hidden="true"></span>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <label for="Contact_info">Project Contact Information*</label>
+                    <div class="form-group" id="Contact_info_name-group">
+                        <input type="text" class="form-control" id="Contact_info_name" placeholder="Contact Name">
+                        <span id="Contact_info_name-span" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group" id="Contact_info_phone-group">
+                        <input type="tel" class="form-control" id="Contact_info_phone" placeholder="Contact Phone">
+                        <span id="Contact_info_phone-span" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group" id="Contact_info_email-group">
+                        <input type="email" class="form-control" id="Contact_info_email" placeholder="Contact Email">
+                        <span id="Contact_info_email-span" aria-hidden="true"></span>
+                    </div>
+
+                    <!-- More Info -->
+                    <label for="More_info">Link to More Project Info or Comments*</label>
+                    <div class="form-group" id="More_info-group">
+                        <textarea class="form-control" rows="3" id="More_info"></textarea>
+                        <span id="More_info-span" aria-hidden="true"></span>
+                    </div>
+
+                    <!-- Funded and Unfunded but NOT Idea -->
+                    <div id="fundedAndUnfundedAttributes">
+
+                      <!-- Council District Number -->
+                      <label for="CD">Council District Number*</label>
+                      <div class="form-group" id="CD-group">
+                          <input type="number" min="1" max="15" class="form-control" id="CD" placeholder="1-15">
+                          <span id="CD-span" aria-hidden="true"></span>
+                      </div>
+
+                      <!-- Intersections -->
+                      <div class="form-group" id="intersections">
+                          <label>Intersections*</label>
+                          <div class="form-group" id="Primary_Street-group">
+                            <input type="text" class="form-control" placeholder="Primary Street" id="Primary_Street">
+                            <span id="Primary_Street-span" aria-hidden="true"></span>
+                          </div>
+                          <div class="form-group" id="cross-street1-group">
+                            <input type="text" class="form-control Intersections" placeholder="Cross Street 1" id="cross-street1">
+                            <span id="cross-street1-span" aria-hidden="true"></span>
+                          </div>
+                          <div class="form-group" id="cross-street2-group">
+                            <input type="text" class="form-control Intersections" placeholder="Cross Street 2" id="cross-street2">
+                            <span id="cross-street2-span" aria-hidden="true"></span>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="add-intersection">Add Intersection</button>
+                        <button type="button" class="btn btn-danger" id="undo-intersection">Undo Intersection</button>
+                      </div>
+
+                      <!-- Project Status -->
+                      <label for="Current_Status">Project Status*</label>
+                      <div class="form-group" id="Proj_Status-group">
+                          <input type="text" class="form-control" id="Proj_Status" placeholder="Project’s current construction stage">
+                          <span id="Proj_Status-span" aria-hidden="true"></span>
+                      </div>
+
+                      <!-- Project Manager -->
+                      <label for="Proj_Man">Project Manager*</label>
+                      <div class="form-group" id="Proj_Man-group">
+                          <input type="text" class="form-control" id="Proj_Man" placeholder="Manager Name">
+                          <span id="Proj_Man-span" aria-hidden="true"></span>
+                      </div>
+                    </div>
+
+
+                    <!-- Funded Attributes -->
+                    <div id="fundedAttributes">
+
+                      <!-- Accessibility -->
+                      <div class="form-group" id="Access">
+                          <label for="Access">Accessibility*</label>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="Access" value="Internal" id="internal" class="Access-option">
+                              Internal
+                            </label>
+                          </div>
+                          <div class="radio">
+                              <label>
+                                <input type="radio" name="Access" value="Public" id="public" class="Access-option">
+                                Public
+                              </label>
+                          </div>
+                          <p class="help-block">Define project’s accessibility to different users.</p>
+                      </div>
+
+                      <!-- Deparment Project ID -->
+                      <label for="Dept_Proj_ID">Department Project ID*</label>
+                      <div class="form-group" id="Dept_Proj_ID-group">
+                          <input class="form-control" id="Dept_Proj_ID" placeholder="Any ID assigned to projects by departments">
+                          <span id="Dept_Proj_ID-span" aria-hidden="true"></span>
+                      </div>
+
+                      <!-- Other Project ID -->
+                      <label for="Other_ID">Other Project ID*</label>
+                      <div class="form-group" id="Other_ID-group">
+                          <input class="form-control" id="Other_ID" placeholder="i.e. grant application ID, etc.">
+                          <span id="Other_ID-span" aria-hidden="true"></span>
+                      </div>
+
+                      {{!-- Total Budget --}}
+                      <label for="Total_bgt">Total Budget*</label>
+                      <div class="form-group" id="Total_bgt-group">
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" step="0.01" class="form-control" id="Total_bgt" placeholder="Estimated budget of the project">
+                            <span id="Total_bgt-span" aria-hidden="true"></span>
+                          </div>
+                      </div>
+
+                      <!-- Grant -->
+                      <label for="Grant">Grant*</label>
+                      <div class="form-group" id="Grant-group">
+                        <div class="input-group">
+                          <span class="input-group-addon">$</span>
+                          <input type="number" step="0.01" class="form-control" id="Grant" placeholder="">
+                          <span id="Grant-span" aria-hidden="true"></span>
+                        </div>
+                      </div>
+
+                      <!-- Other Funds -->
+                      <label for="Other_funds">Other Funds*</label>
+                      <div class="form-group" id="Other_funds-group">
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" step="0.01" class="form-control" id="Other_funds" placeholder="">
+                            <span id="Other_funds-span" aria-hidden="true"></span>
+                          </div>
+                      </div>
+
+                      <!-- Prop C -->
+                      <label for="Prop_c">Prop C*</label>
+                      <div class="form-group" id="Prop_c-group">
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" step="0.01" class="form-control" id="Prop_c" placeholder="">
+                            <span id="Prop_c-span" aria-hidden="true"></span>
+                          </div>
+                      </div>
+
+                      <!-- Measure R -->
+                      <label for="Measure_r">Measure R*</label>
+                      <div class="form-group" id="Measure_r-group">
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" step="0.01" class="form-control" id="Measure_r" placeholder="">
+                            <span id="Measure_r-span" aria-hidden="true"></span>
+                          </div>
+                      </div>
+
+                      <!-- Gas Tax -->
+                      <label for="Gas_tax">Gas Tax*</label>
+                      <div class="form-group" id="Gas_tax-group">
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" step="0.01" class="form-control" id="Gas_tax" placeholder="">
+                             <span id="Gas_tax-span" aria-hidden="true"></span>
+                          </div>
+                      </div>
+
+                      <!-- General Fund -->
+                      <label for="General_fund">General Fund*</label>
+                      <div class="form-group" id="General_fund-group">
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" step="0.01" class="form-control" id="General_fund" placeholder="">
+                            <span id="General_fund-span" aria-hidden="true"></span>
+                          </div>
+                      </div>
+
+                      <!-- Authorization -->
+                      <label for="Authorization">Authorization*</label>
+                      <div class="form-group" id="Authorization-group">
+                          <input class="form-control" id="Authorization" placeholder="">
+                          <span id="Authorization-span" aria-hidden="true"></span>
+                      </div>
+
+                      <!-- Issues -->
+                      <label for="Issues">Issues*</label>
+                      <div class="form-group" id="Issues-group">
+                          <input class="form-control" id="Issues" placeholder="Obstacles that may jeopardize the project">
+                          <span id="Issues-span" aria-hidden="true"></span>
+                      </div>
+
+                      <!-- Deobligation -->
+                      <div class="form-group" id="Deobligation">
+                          <label for="Deobligation">At Risk of Deobligation?*</label>
+                          <div class="radio">
+                              <label>
+                            <input type="radio" name="Deobligation" value="Yes" class="Deobligation-option">
+                            Yes
+                          </label>
+                          </div>
+                          <div class="radio">
+                              <label>
+                            <input type="radio" name="Deobligation" value="No" class="Deobligation-option">
+                            No
+                          </label>
+                          </div>
+                      </div>
+
+                      <!-- Explanation -->
+                      <div id="explainRiskDiv">
+                        <label for="Explanation">Explain Risk of Deobligation*</label>
+                        <div class="form-group" id="Explanation-group">
+                            <textarea class="form-control" rows="3" id="Explanation"></textarea>
+                            <span id="Explanation-span" aria-hidden="true"></span>
+                            <p class="help-block">Reasons why the project is/is not at risk.</p>
+                        </div>
+                      </div>
+
+                      <!-- Construction By -->
+                      <label for="Constr_by">Construction By*</label>
+                      <div class="form-group" id="Constr_by-group">
+                          <input class="form-control" id="Constr_by" placeholder="i.e. contractor, city force">
+                          <span id="Constr_by-span" aria-hidden="true"></span>
+                      </div>
+
+                      <!-- Info Source -->
+                      <label for="Info_source">Source*</label>
+                      <div class="form-group" id="Info_source-group">
+                          <input class="form-control" id="Info_source" placeholder="">
+                          <span id="Info_source-span" aria-hidden="true"></span>
+                      </div>
+                    </div>
+
+                    <!-- Unfunded Attributes -->
+                    <div id="unfundedAttributes">
+
+                      <!-- Grant Category -->
+                      <label for="Grant_Cat">Grant Category*</label>
+                      <div class="form-group" id="Grant_Cat-group">
+                          <input class="form-control" id="Grant_Cat" placeholder="CFP,Pl,Bl, etc.">
+                          <span id="Grant_Cat-span" aria-hidden="true"></span>
+                      </div>
+
+                      <!-- Grant Cycle -->
+                      <label for="Grant_Cycle">Grant Cycle*</label>
+                      <div class="form-group" id="Grant_Cycle-group">
+                          <input class="form-control" id="Grant_Cycle" placeholder="">
+                          <span id="Grant_Cycle-span" aria-hidden="true"></span>
+                      </div>
+
+                      <!-- Estimated Cost -->
+                      <label for="Est_Cost">Estimated City Cost*</label>
+                      <div class="form-group" id="Est_Cost-group">
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" step="0.01" class="form-control" id="Est_Cost" placeholder="">
+                            <span id="Est_Cost-span" aria-hidden="true"></span>
+                          </div>
+                      </div>
+
+                      <!-- Fund Request -->
+                      <label for="Fund_Rq">Fund Request*</label>
+                      <div class="form-group" id="Fund_Rq-group">
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" step="0.01" class="form-control" id="Fund_Rq" placeholder="">
+                            <span id="Fund_Rq-span" aria-hidden="true"></span>
+                          </div>
+                      </div>
+
+                      <!-- Local Match -->
+                      <label for="Lc_match">Local Match*</label>
+                      <div class="form-group" id="Lc_match-group">
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" step="0.01" class="form-control" id="Lc_match" placeholder="">
+                            <span id="Lc_match-span" aria-hidden="true"></span>
+                          </div>
+                          <p class="help-block">Amount of fund provided by lead agency</p>
+                      </div>
+                    </div>
+
+                    <button type="submit" id="update-project" class="btn btn-primary" data-id="{{this.id}}">Update</button>
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src='/javascripts/edit.js'></script>
+<script type="text/javascript" src="/javascripts/edit-validation.js"></script>

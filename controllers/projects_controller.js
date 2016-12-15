@@ -9,11 +9,8 @@ function toGeoJSON(project, features) {
     var feature = {
 
         type: "Feature",
-        //Geometry
         geometry: project.Geometry,
-
         properties: {
-            //Common Attributes
             id: project.id,
             Fund_St: project.Fund_St,
             Legacy_ID: project.Legacy_ID,
@@ -67,18 +64,23 @@ function toGeoJSON(project, features) {
     features.push(feature);
 }
 
-//Renders the new project page where PM can add projects
+//Renders the new project page where logged in users can add projects
 router.get('/new', function(req, res) {
-    res.render('new-project', {
-        logged_in: req.session.logged_in,
-        adminclearance: req.session.adminclearance,
-        id: req.session.user_id,
-        email: req.session.email,
-        firstname: req.session.firstname,
-        lastname: req.session.lastname,
-        phonenumber: req.session.phonenumber,
-        admin: req.session.admin
-    });
+    if (req.session.logged_in){
+        res.render('projects/new-project', {
+            logged_in: req.session.logged_in,
+            adminclearance: req.session.adminclearance,
+            id: req.session.user_id,
+            email: req.session.email,
+            firstname: req.session.firstname,
+            lastname: req.session.lastname,
+            phonenumber: req.session.phonenumber,
+            admin: req.session.admin
+        });
+    }
+    else {
+        res.redirect("/");
+    }
 });
 
 //Returns ALL projects from the DB
@@ -199,57 +201,21 @@ router.get('/funding/:status/type/:type', function(req, res) {
     });
 });
 
-//Saves a new project to the DB
+//Saves a new project to the DB only if user is logged in
 router.post('/new', function(req, res) {
-  var newProject = req.body;
-  var fundStatus = newProject.Fund_St;
-  var geometry = JSON.parse(newProject.Geometry);
-  var coordinates = JSON.parse(geometry.coordinates);
-  var parsedGeometry = {
-      type: geometry.type,
-      coordinates: coordinates
-  }
-  newProject.Geometry = parsedGeometry;
-  var contactInfo = JSON.parse(newProject.Contact_info);
-  newProject.Contact_info = contactInfo;
-  if (newProject.hasOwnProperty('Flagged')) {
-    if (fundStatus === 'Idea Project') {
-        models.Project.create(newProject).then(function() {
-            res.send({"status": "saved"});
-        });
-    } else {
-        var crossStreets = JSON.parse(newProject.Cross_Streets);
-        newProject.Cross_Streets = crossStreets;
-        models.Project.create(newProject).then(function() {
-            res.send({"status": "saved"});
-        });
-    }
-  } else {
-    var searchArr = [
-      {
-        "Proj_Title": {
-          ilike: newProject.Proj_Title
-        }
-      },
-      {
-        "Proj_Desc": {
-          ilike: newProject.Proj_Desc
-        }
-      },
-      {
-        "More_info": {
-          ilike: newProject.More_info
-        }
+    if (req.session.logged_in) {
+      var newProject = req.body;
+      var fundStatus = newProject.Fund_St;
+      var geometry = JSON.parse(newProject.Geometry);
+      var coordinates = JSON.parse(geometry.coordinates);
+      var parsedGeometry = {
+          type: geometry.type,
+          coordinates: coordinates
       }
-    ]
-    models.Project.findAll({
-        where: {
-            $or: searchArr
-        }
-    }).then(function(projects) {
-      if (projects && projects.length >= 1) {
-        res.send({'status': 'duplicate', 'id': projects[0].id});
-      } else {
+      newProject.Geometry = parsedGeometry;
+      var contactInfo = JSON.parse(newProject.Contact_info);
+      newProject.Contact_info = contactInfo;
+      if (newProject.hasOwnProperty('Flagged')) {
         if (fundStatus === 'Idea Project') {
             models.Project.create(newProject).then(function() {
                 res.send({"status": "saved"});
@@ -261,30 +227,77 @@ router.post('/new', function(req, res) {
                 res.send({"status": "saved"});
             });
         }
+      } else {
+        var searchArr = [
+          {
+            "Proj_Title": {
+              ilike: newProject.Proj_Title
+            }
+          },
+          {
+            "Proj_Desc": {
+              ilike: newProject.Proj_Desc
+            }
+          },
+          {
+            "More_info": {
+              ilike: newProject.More_info
+            }
+          }
+        ]
+        models.Project.findAll({
+            where: {
+                $or: searchArr
+            }
+        }).then(function(projects) {
+          if (projects && projects.length >= 1) {
+            res.send({'status': 'duplicate', 'id': projects[0].id});
+          } else {
+            if (fundStatus === 'Idea Project') {
+                models.Project.create(newProject).then(function() {
+                    res.send({"status": "saved"});
+                });
+            } else {
+                var crossStreets = JSON.parse(newProject.Cross_Streets);
+                newProject.Cross_Streets = crossStreets;
+                models.Project.create(newProject).then(function() {
+                    res.send({"status": "saved"});
+                });
+            }
+          }
+        });
       }
-    });
-  }
+    }
+    else {
+        res.redirect("/");
+    }
 });
 
+//only logged in users can edit existing projects
 router.get('/edit/:id', function(req, res) {
-    var id = req.params.id;
-    models.Project.findAll({
-        where: {
-            id: id
-        }
-    }).then(function(project) {
-        if (project.length === 1) {
-            res.render('edit', {"id": id});
-        } else {
-            res.render('error', {
-                "message": "404",
-                "error": {
-                    "status": "Not Found",
-                    "stack": "It looks like the project you are looking for does not exist."
-                }
-            });
-        }
-    });
+    if (req.session.logged_in) {
+        var id = req.params.id;
+        models.Project.findAll({
+            where: {
+                id: id
+            }
+        }).then(function(project) {
+            if (project.length === 1) {
+                res.render('edit', {"id": id});
+            } else {
+                res.render('error', {
+                    "message": "404",
+                    "error": {
+                        "status": "Not Found",
+                        "stack": "It looks like the project you are looking for does not exist."
+                    }
+                });
+            }
+        });
+    }
+    else {
+        res.redirect("/");
+    }
 });
 
 router.get('/id/:id', function(req, res) {
@@ -299,13 +312,54 @@ router.get('/id/:id', function(req, res) {
 });
 
 router.delete('/id/:id', function(req, res) {
+    if (req.session.logged_in) {
+      var id = req.params.id;
+      models.Project.destroy({
+        where: {
+          id: id
+        }
+      }).then(function() {
+        res.redirect('/projects/table', {
+            logged_in: req.session.logged_in,
+            adminclearance: req.session.adminclearance,
+            id: req.session.user_id,
+            email: req.session.email,
+            firstname: req.session.firstname,
+            lastname: req.session.lastname,
+            phonenumber: req.session.phonenumber,
+            admin: req.session.admin
+        });
+      });
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
+router.get('/ids/:id', function(req, res) {
+  var featureCollection = {
+      "type": "FeatureCollection",
+      features: []
+  };
   var id = req.params.id;
-  models.Project.destroy({
-    where: {
-      id: id
+  var searchArr = [ ];
+  id = id.split('&');
+  for (var i = 0; i < id.length; i++) {
+    var searchObj = {
+      id: id[i]
+    }
+    searchArr.push(searchObj);
+  }
+  models.Project.findAll({
+      where: {
+          $or: searchArr
+      }
+  }).then(function(projects) {
+    for (var i = 0; i < projects.length; i++) {
+      toGeoJSON(projects[i], featureCollection.features);
     }
   }).then(function() {
-    res.redirect('/projects/table');
+    res.send(featureCollection);
   });
 });
 
@@ -337,7 +391,18 @@ router.put('/edit/:id', function(req, res) {
 
 router.get('/table', function(req, res) {
   models.Project.findAll().then(function(projects) {
-    res.render('table', {projects: projects});
+    res.render('projects/table',
+        {projects: projects,
+        logged_in: req.session.logged_in,
+        adminclearance: req.session.adminclearance,
+        id: req.session.user_id,
+        email: req.session.email,
+        firstname: req.session.firstname,
+        lastname: req.session.lastname,
+        phonenumber: req.session.phonenumber,
+        admin: req.session.admin,
+        projects: projects
+    });
   });
 });
 
@@ -359,12 +424,69 @@ router.get('/flagged', function(req, res) {
           $or: dupIDArr
       }
     }).then(function(duplicates){
-      res.render('flagged', {
+      res.render('projects/flagged', {
         flagged: flagged,
-        duplicates: duplicates
+        duplicates: duplicates,
+        logged_in: req.session.logged_in,
+        adminclearance: req.session.adminclearance,
+        id: req.session.user_id,
+        email: req.session.email,
+        firstname: req.session.firstname,
+        lastname: req.session.lastname,
+        phonenumber: req.session.phonenumber,
+        admin: req.session.admin
       });
     });
   });
 });
+
+router.get('/search', function(req, res) {
+  var search = req.query.search;
+  models.Project.findAll({
+    where: {
+      $or: [
+        {
+          Proj_Title: {
+            ilike: '%' + search + '%'
+          }
+        },
+        {
+          Proj_Desc: {
+            ilike: '%' + search + '%'
+          }
+        },
+        {
+          More_info: {
+            ilike: '%' + search + '%'
+          }
+        },
+        {
+          Issues: {
+            ilike: '%' + search + '%'
+          }
+        },
+        {
+          Info_source: {
+            ilike: '%' + search + '%'
+          }
+        }
+      ]
+    }
+  }).then(function(projects) {
+    res.render('projects/search',
+    {
+      projects: projects,
+      logged_in: req.session.logged_in,
+      adminclearance: req.session.adminclearance,
+      id: req.session.user_id,
+      email: req.session.email,
+      firstname: req.session.firstname,
+      lastname: req.session.lastname,
+      phonenumber: req.session.phonenumber,
+      admin: req.session.admin
+    });
+  });
+});
+
 
 module.exports = router;

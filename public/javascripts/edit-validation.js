@@ -1,19 +1,17 @@
-// Automatically hide this div
-$("#explainRiskDiv").hide();
-
-var fundStatus = "";
 var riskOfDeobligation;
+var fundStatus = "";
 
-// Required for all projects
-var lead_agComplete = false;
-var proj_titleComplete = false;
-var proj_tyComplete = false;
-var proj_descComplete = false;
-var fund_stComplete = false;
-var contact_info_nameComplete = false;
-var contact_info_phoneComplete = false;
-var contact_info_emailComplete = false;
-var more_infoComplete = false;
+
+// Required for all projects, so mark all as true (since all projects will have these characteristics already)
+var lead_agComplete = true;
+var proj_titleComplete = true;
+var proj_tyComplete = true;
+var proj_descComplete = true;
+var fund_stComplete = true;
+var contact_info_nameComplete = true;
+var contact_info_phoneComplete = true;
+var contact_info_emailComplete = true;
+var more_infoComplete = true;
 
 // Not required for Idea Project
 // Required for Funded and Unfunded
@@ -50,6 +48,83 @@ var grant_cycleComplete = false;
 var est_costComplete = false;
 var fund_rqComplete = false;
 var lc_matchComplete = false;
+
+
+$.ajax({
+  method: "GET",
+  url: "/projects/id/" + id,
+  dataType: "json",
+  success: function(data) {
+    if (data) {
+      fundStatus = data[0].Fund_St;
+      
+      // If project has Deobligation defined in database, means all of the Funded information is in database and may be displayed (although the project may not be currently funded)
+      if(data[0].Deobligation == 'Yes'){
+        // intersectionsComplete = true;
+        proj_statusComplete = true;
+        proj_manComplete = true;
+        cdComplete = true;
+
+        accessComplete = true;
+        dept_proj_idComplete = true;
+        other_idComplete = true;
+        total_bgtComplete = true;
+        grantComplete = true;
+        other_fundsComplete = true;
+        prop_cComplete = true;
+        measure_rComplete = true;
+        gas_taxComplete = true;
+        general_fundComplete = true;
+        authorizationComplete = true;
+        issuesComplete = true;
+        constr_byComplete = true;
+        info_sourceComplete = true;
+        deobligationComplete = true;
+
+        explanationComplete = true;
+        riskOfDeobligation = true;
+      } else if(data[0].Deobligation == 'No'){
+        // intersectionsComplete = false;
+        proj_statusComplete = true;
+        proj_manComplete = true;
+        cdComplete = true;
+
+        accessComplete = true;
+        dept_proj_idComplete = true;
+        other_idComplete = true;
+        total_bgtComplete = true;
+        grantComplete = true;
+        other_fundsComplete = true;
+        prop_cComplete = true;
+        measure_rComplete = true;
+        gas_taxComplete = true;
+        general_fundComplete = true;
+        authorizationComplete = true;
+        issuesComplete = true;
+        constr_byComplete = true;
+        info_sourceComplete = true;
+        deobligationComplete = true;
+
+        riskOfDeobligation = false;
+        $("#explainRiskDiv").hide();
+      }
+
+      // If project has Grant_Cat defined in database, means all of the Unfunded information is in database and may be displayed (although the project may not be currently funded)
+      if (data[0].Grant_Cat != undefined) {
+        // intersectionsComplete = false;
+        proj_statusComplete = true;
+        proj_manComplete = true;
+        cdComplete = true;
+
+        grant_catComplete = true;
+        grant_cycleComplete = true;
+        est_costComplete = true;
+        fund_rqComplete = true;
+        lc_matchComplete = true;
+      }
+    }
+  }
+});
 
 // Funding Status
 // ==============
@@ -152,6 +227,7 @@ $("#Contact_info_phone").keyup(function() {
 // Greater than 5 characters
 // Contains no spaces
 // Regex express
+
 $("#Contact_info_email").keyup(function() {
     if ($("#Contact_info_email").val() != "" 
         && $("#Contact_info_email").val().includes("@") 
@@ -579,6 +655,53 @@ $("#Lc_match").keyup(function() {
 
 function checkForm() {
 
+console.log(lead_agComplete);
+console.log(proj_titleComplete);
+console.log(proj_tyComplete);
+console.log(proj_descComplete);
+console.log(fund_stComplete);
+console.log(contact_info_nameComplete);
+console.log(contact_info_phoneComplete);
+console.log(contact_info_emailComplete);
+console.log(more_infoComplete);
+
+// Not required for Idea Project
+// Required for Funded and Unfunded
+// var intersectionsComplete = false;
+console.log(proj_statusComplete);
+console.log(proj_manComplete);
+console.log(cdComplete);
+
+// Not required for Unfunded and Idea Project
+// Required for Funded
+console.log(accessComplete);
+console.log(dept_proj_idComplete);
+console.log(other_idComplete);
+console.log(total_bgtComplete);
+console.log(grantComplete);
+console.log(other_fundsComplete);
+console.log(prop_cComplete);
+console.log(measure_rComplete);
+console.log(gas_taxComplete);
+console.log(general_fundComplete);
+console.log(authorizationComplete);
+console.log(issuesComplete);
+console.log(deobligationComplete);
+console.log(constr_byComplete);
+console.log(info_sourceComplete);
+
+// Only required if Risk of Deobligation = Yes
+console.log(explanationComplete);
+
+// Not required for Funded and Idea Project
+// Required for Unfunded
+console.log(grant_catComplete);
+console.log(grant_cycleComplete);
+console.log(est_costComplete);
+console.log(fund_rqComplete);
+console.log(lc_matchComplete);
+    console.log('======');
+
     // Check common attributes first
     if (
       lead_agComplete
@@ -617,15 +740,17 @@ function checkForm() {
           && info_sourceComplete
         ) {
 
+          console.log(1);
+
           // If at risk for deobligation checked...
           if(riskOfDeobligation){
             if(explanationComplete)
-              $("#submit-project").removeAttr("disabled");
+              $("#update-project").removeAttr("disabled");
             else
-              $("#submit-project").attr("disabled", true);
+              $("#update-project").attr("disabled", true);
           }
           else{
-            $("#submit-project").removeAttr("disabled");
+            $("#update-project").removeAttr("disabled");
           }
         } else if(
           fundStatus == 'Unfunded'
@@ -639,14 +764,14 @@ function checkForm() {
           && fund_rqComplete
           && lc_matchComplete
         ) {
-          $("#submit-project").removeAttr("disabled");
+          $("#update-project").removeAttr("disabled");
         } else if(fundStatus == 'Idea Project'){
-          $("#submit-project").removeAttr("disabled");
+          $("#update-project").removeAttr("disabled");
         } else {
-          $("#submit-project").attr("disabled", true);
+          $("#update-project").attr("disabled", true);
         }
     } else {
-        $("#submit-project").attr("disabled", true);
+        $("#update-project").attr("disabled", true);
     }
 }
 

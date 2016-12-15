@@ -94,7 +94,7 @@
                   <div class="radio">
                       <label>
                     <input type="radio" value="PED/Bike" name="Proj_Ty" class="Proj_Ty-option">
-                    PED/Bike
+                    Ped/Bike
                   </label>
                   </div>
               </div>
@@ -182,12 +182,18 @@
                 <!-- Accessibility -->
                 <div class="form-group" id="Access">
                     <label for="Access">Accessibility*</label>
-                    <fieldset id="checkArray">
-                      <input type="checkbox" id="internal" value="Internal" />
-                      Internal<br>
-                      <input type="checkbox" id="public" value="Public" />
-                      Public
-                    </fieldset>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="Access" value="Internal" id="internal" class="Access-option">
+                        Internal
+                      </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                          <input type="radio" name="Access" value="Public" id="public" class="Access-option">
+                          Public
+                        </label>
+                    </div>
                     <p class="help-block">Define project’s accessibility to different users.</p>
                 </div>
 
