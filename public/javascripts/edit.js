@@ -16,13 +16,24 @@ $.ajax({
       var project = data[0];
       if (project.Geometry.type === 'Polygon' || project.Geometry.type === 'MultiLineString') {
         map.setView(project.Geometry.coordinates[0][0].reverse(), 14);
-        console.log(project.Geometry.coordinates[0][0].reverse());
       } else {
         map.setView(project.Geometry.coordinates[0].reverse(), 14);
-        console.log(project.Geometry.coordinates[0].reverse());
       }
-      showHide(data[0]);
     }
+
+  }
+});
+
+$.ajax({
+  method: "GET",
+  url: "/projects/id/" + id,
+  dataType: "json",
+  success: function(data) {
+    if (data) {
+      var project = data[0];
+      showHide(project);
+    }
+
   }
 });
 
