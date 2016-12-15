@@ -57,8 +57,33 @@ $.ajax({
   success: function(data) {
     if (data) {
       fundStatus = data[0].Fund_St;
+      
+      // If project has Deobligation defined in database, means all of the Funded information is in database and may be displayed (although the project may not be currently funded)
+      if(data[0].Deobligation == 'Yes'){
+        // intersectionsComplete = true;
+        proj_statusComplete = true;
+        proj_manComplete = true;
+        cdComplete = true;
 
-      if(fundStatus == 'Funded'){
+        accessComplete = true;
+        dept_proj_idComplete = true;
+        other_idComplete = true;
+        total_bgtComplete = true;
+        grantComplete = true;
+        other_fundsComplete = true;
+        prop_cComplete = true;
+        measure_rComplete = true;
+        gas_taxComplete = true;
+        general_fundComplete = true;
+        authorizationComplete = true;
+        issuesComplete = true;
+        constr_byComplete = true;
+        info_sourceComplete = true;
+        deobligationComplete = true;
+
+        explanationComplete = true;
+        riskOfDeobligation = true;
+      } else if(data[0].Deobligation == 'No'){
         // intersectionsComplete = false;
         proj_statusComplete = true;
         proj_manComplete = true;
@@ -78,18 +103,14 @@ $.ajax({
         issuesComplete = true;
         constr_byComplete = true;
         info_sourceComplete = true;
+        deobligationComplete = true;
 
-        if(data[0].Deobligation == 'Yes'){
-          deobligationComplete = true;
-          explanationComplete = true;
-          riskOfDeobligation = true;
-        }
-        else if(data[0].Deobglication == 'No'){
-          deobligationComplete = true;
-          riskOfDeobligation = false;
-          $("#explainRiskDiv").hide();
-        }
-      } else if (fundStatus == 'Unfunded') {
+        riskOfDeobligation = false;
+        $("#explainRiskDiv").hide();
+      }
+
+      // If project has Grant_Cat defined in database, means all of the Unfunded information is in database and may be displayed (although the project may not be currently funded)
+      if (data[0].Grant_Cat != undefined) {
         // intersectionsComplete = false;
         proj_statusComplete = true;
         proj_manComplete = true;
@@ -307,17 +328,9 @@ $("#Proj_Man").keyup(function(){
 // Accessibility
 // ===============
 // Required
-$('#internal').change(function() {
-    if ($(this).is(':checked') || $('#public').is(':checked'))
-        accessComplete = true;
-    else
-        accessComplete = false;
-});
-$('#public').change(function() {
-    if ($(this).is(':checked') || $('#internal').is(':checked'))
-        accessComplete = true;
-    else
-        accessComplete = false;
+$("#Access").on("click", ".Access-option", function() {
+    accessComplete = true;
+    checkForm();
 });
 
 // Department Project ID
