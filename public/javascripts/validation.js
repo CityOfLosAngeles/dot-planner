@@ -249,7 +249,7 @@ $("#intersections").on('keyup', '.Intersections', function(){
       intersectionsValidated.splice(intersectionsValidated.indexOf(this.id), 1);
   }
   checkForm();
-  console.log(intersectionsValidated);
+  // console.log(intersectionsValidated);
 });
 
 // Project Status
@@ -626,7 +626,9 @@ function checkForm() {
       && contact_info_emailComplete
       && more_infoComplete
     ) {
-
+        console.log(intersectionCounter);
+        console.log(intersectionsValidated.length);
+        console.log("======");
         // Next check attributes specific to particular funding status
         if (
           fundStatus == 'Funded'
