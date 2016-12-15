@@ -1,29 +1,11 @@
+var geoJSON;
+
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map');
-var url = window.location.href;
-if (url.includes('?id=')) {
-  url = url.split('?id=');
-  var id = url[url.length - 1];
-  $.ajax({
-    method: "GET",
-    url: "/projects/id/" + id,
-    dataType: "json",
-    success: function(data) {
-      if (data) {
-        var project = data[0];
-        if (project.Geometry.type === 'Polygon' || project.Geometry.type === 'MultiLineString') {
-          map.setView(project.Geometry.coordinates[0][0].reverse(), 14);
-        } else {
-          map.setView(project.Geometry.coordinates[0].reverse(), 14);
-        }
-      }
-    }
-  });
-} else {
-  map.setView([
-      34.0522, -118.2437
-  ], 14);
-}
+
+map.setView([
+    34.0522, -118.2437
+], 14);
 
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 
@@ -57,14 +39,34 @@ $.ajax({
     url: '/projects/all',
     datatype: 'JSON',
     success: function(data) {
-        console.log(data);
         if (data) {
-          console.log(data);
-            geoJSON = L.geoJson(data, {
+          geoJSON = L.geoJson(data, {
+                style: {
+                  color: 'blue'
+                },
                 onEachFeature: function(feature, layer) {
                   onEachFeature(feature, layer);
                 },
             }).addTo(map);
+        }
+        var url = window.location.href;
+        if (url.includes('?id=')) {
+          url = url.split('?id=');
+          var id = url[url.length - 1];
+          $.ajax({
+            method: "GET",
+            url: "/projects/id/" + id,
+            dataType: "json",
+            success: function(data) {
+              if (data) {
+                geoJSON.eachLayer(function(l) {
+                  if (l.feature.properties.id === data[0].id) {
+                    l.fireEvent('click');
+                  }
+                });
+              }
+            }
+          });
         }
     }
 });
@@ -103,6 +105,9 @@ function filterProjects() {
             if (data) {
               geoJSON.clearLayers();
               geoJSON = L.geoJson(data, {
+                    style: {
+                      color: 'blue'
+                    },
                     onEachFeature: function(feature, layer) {
                       onEachFeature(feature, layer);
                     },
@@ -115,8 +120,15 @@ function filterProjects() {
   }
 }
 
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
+    zoomToFeature(e)
+    geoJSON.eachLayer(function(l){geoJSON.resetStyle(l);});
+    layer.setStyle({color: 'yellow'});
     var fundStatus = feature.properties.Fund_St;
     $('#sidebar-fundedAndUnfunded').hide();
     $('#sidebar-funded-attributes').hide();
@@ -209,7 +221,6 @@ function onEachFeature(feature, layer) {
     }
     var editButton = $('<button class="btn btn-danger" id="edit-button" data-href="/projects/edit/' + feature.properties.id + '">Edit Project</button>');
     $('#project-details').prepend(editButton);
-
   });
 }
 
