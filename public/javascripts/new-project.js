@@ -1,6 +1,6 @@
+// Gloabl variables
 var newProject;
-
-//Global variable for countering number of cross streets
+var intersectionsValidated = [];
 var intersectionCounter = 2;
 
 //Show and hide attributes based on Funding Status
@@ -218,19 +218,34 @@ $('#add-intersection').on('click', function() {
 
     div.append(input);
     div.append(span);
-    $('#intersections').append(input);
+    $('#intersections').append(div);
 
     var input = document.getElementById('cross-street' + intersectionCounter);
     autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
     $('#undo-intersection').show();
+
+    checkForm();
 });
 
 $("#undo-intersection").on('click', function() {
-    $('#cross-street' + intersectionCounter).remove();
+
+    // Remove the element from the intersection validation counter
+    // if last intersection is not validated
+    if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
+        intersectionsValidated.pop();
+    // else{
+    //     for(var i=intersectionsValidated.length-1; i>=0; i--){
+            
+    //     }
+    // }
+
+    $('#cross-street' + intersectionCounter + '-group').remove();
     intersectionCounter--;
     if (intersectionCounter === 2) {
         $('#undo-intersection').hide();
     }
+
+    checkForm();
 });
 
 // Modal onclicks
