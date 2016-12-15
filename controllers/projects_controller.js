@@ -67,7 +67,7 @@ function toGeoJSON(project, features) {
 //Renders the new project page where logged in users can add projects
 router.get('/new', function(req, res) {
     if (req.session.logged_in){
-        res.render('new-project', {
+        res.render('projects/new-project', {
             logged_in: req.session.logged_in,
             adminclearance: req.session.adminclearance,
             id: req.session.user_id,
@@ -392,7 +392,7 @@ router.put('/edit/:id', function(req, res) {
 
 router.get('/table', function(req, res) {
   models.Project.findAll().then(function(projects) {
-    res.render('table',
+    res.render('projects/table',
         {projects: projects,
         logged_in: req.session.logged_in,
         adminclearance: req.session.adminclearance,
