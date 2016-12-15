@@ -67,7 +67,7 @@ function toGeoJSON(project, features) {
 //Renders the new project page where logged in users can add projects
 router.get('/new', function(req, res) {
     if (req.session.logged_in){
-        res.render('new-project', {
+        res.render('projects/new-project', {
             logged_in: req.session.logged_in,
             adminclearance: req.session.adminclearance,
             id: req.session.user_id,
@@ -336,6 +336,34 @@ router.delete('/id/:id', function(req, res) {
     }
 });
 
+router.get('/ids/:id', function(req, res) {
+  var featureCollection = {
+      "type": "FeatureCollection",
+      features: []
+  };
+  var id = req.params.id;
+  var searchArr = [ ];
+  id = id.split('&');
+  console.log(id);
+  for (var i = 0; i < id.length; i++) {
+    var searchObj = {
+      id: id[i]
+    }
+    searchArr.push(searchObj);
+  }
+  models.Project.findAll({
+      where: {
+          $or: searchArr
+      }
+  }).then(function(projects) {
+    for (var i = 0; i < projects.length; i++) {
+      toGeoJSON(projects[i], featureCollection.features);
+    }
+  }).then(function() {
+    res.send(featureCollection);
+  });
+});
+
 router.put('/edit/:id', function(req, res) {
     var id = req.params.id;
     var newProject = req.body;
@@ -363,12 +391,9 @@ router.put('/edit/:id', function(req, res) {
 });
 
 router.get('/table', function(req, res) {
-    console.log("Login 1 "+req.session.logged_in);
-    models.Project.findAll().then(function(projects) {
-    console.log(req.session.logged_in);
-    console.log("Admin "+req.session.admin);
-    res.render('table', 
-        {
+  models.Project.findAll().then(function(projects) {
+    res.render('projects/table',
+        {projects: projects,
         logged_in: req.session.logged_in,
         adminclearance: req.session.adminclearance,
         id: req.session.user_id,
@@ -400,7 +425,7 @@ router.get('/flagged', function(req, res) {
           $or: dupIDArr
       }
     }).then(function(duplicates){
-      res.render('flagged', {
+      res.render('projects/flagged', {
         flagged: flagged,
         duplicates: duplicates,
         logged_in: req.session.logged_in,
@@ -415,5 +440,6 @@ router.get('/flagged', function(req, res) {
     });
   });
 });
+
 
 module.exports = router;
