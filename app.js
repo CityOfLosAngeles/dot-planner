@@ -13,7 +13,7 @@ var hbs = require('hbs');
 app.use(methodOverride('_method'))
 
 //sessions
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 3600000 }}));
 app.use(cookieParser());
 
 // views and handlebars setup
