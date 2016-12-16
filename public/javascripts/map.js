@@ -157,7 +157,7 @@ function onEachFeature(feature, layer) {
     $(document).on('click', '#show-info', function() {
       $('#show-info').remove();
       $('#hide-info').remove();
-      var button = $('<button id="hide-info" class="btn btn-danger" type="button" name="button">Less Info</button>');
+      var button = $('<button id="hide-info" class="btn btn-primary" type="button" name="button">Less Info</button>');
       $('#project-details').append(button);
       $('#sidebar-more-info').show();
       if (fundStatus === 'Funded') {
