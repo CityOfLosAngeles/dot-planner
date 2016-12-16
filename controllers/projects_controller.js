@@ -329,7 +329,7 @@ router.get('/ids/:id', function(req, res) {
   };
 
   var searchArr = [ ];
-  
+
   //Get the IDs and split them into an array
   var id = req.params.id;
   id = id.split('&');
@@ -562,6 +562,5 @@ router.get('/search', function(req, res) {
     });
   });
 });
-
 
 module.exports = router;
