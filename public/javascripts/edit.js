@@ -1,4 +1,6 @@
+// Global variables
 var intersectionCounter = 2;
+var intersectionsValidated = [];
 
 //Creating the map
 var map = L.mapbox.map('map');
@@ -252,11 +254,19 @@ function populateData(project) {
   }
   if (project.Cross_Streets && project.Cross_Streets.Intersections && project.Cross_Streets.Intersections[0] != undefined) {
     var cross = project.Cross_Streets.Intersections;
+
+    for(var i=1; i<=cross.length; i++)
+      intersectionsValidated.push("cross-street"+i);
+    console.log(intersectionsValidated);
+
     if (cross.length <=2) {
       for (var i = 0; i < cross.length; i++) {
         $('#cross-street' + (i + 1)).val(cross[i]);
       }
     } else {
+      
+      $('#undo-intersection').show();
+
       var intersections = cross.length - 2;
       for (var i = 0; i < intersections; i++) {
         intersectionCounter++;
@@ -272,7 +282,7 @@ function populateData(project) {
 
         div.append(input);
         div.append(span);
-        $('#intersections').append(input);
+        $('#intersections').append(div);
 
         var input = document.getElementById('cross-street' + intersectionCounter);
         autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
@@ -304,19 +314,28 @@ $('#add-intersection').on('click', function() {
 
   div.append(input);
   div.append(span);
-  $('#intersections').append(input);
+  $('#intersections').append(div);
 
   var input = document.getElementById('cross-street' + intersectionCounter);
   autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
   $('#undo-intersection').show();
+
+  checkForm();
 });
 
 $("#undo-intersection").on('click', function() {
-  $('#cross-street' + intersectionCounter).remove();
+  
+  // If last intersection in validated, remove from intersection validation counter
+  if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
+      intersectionsValidated.pop();
+
+  $('#cross-street' + intersectionCounter + '-group').remove();
   intersectionCounter--;
   if (intersectionCounter === 2) {
     $('#undo-intersection').hide();
   }
+
+  checkForm();
 });
 
 $('#update-project').on('click', function() {
