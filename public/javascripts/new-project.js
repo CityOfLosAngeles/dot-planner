@@ -232,11 +232,6 @@ $("#undo-intersection").on('click', function() {
     // if last intersection is not validated
     if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
         intersectionsValidated.pop();
-    // else{
-    //     for(var i=intersectionsValidated.length-1; i>=0; i--){
-            
-    //     }
-    // }
 
     $('#cross-street' + intersectionCounter + '-group').remove();
     intersectionCounter--;
