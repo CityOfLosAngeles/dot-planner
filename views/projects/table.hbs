@@ -111,6 +111,7 @@
           </tbody>
       </table>
     </div>
+    <button type="submit" name="button" class="btn btn-primary btn-lg" id="export">Export</button>
   {{/if}}
   {{#unless logged_in}}
   <div id="funded-table" class="table-section">
@@ -240,7 +241,7 @@
   });
 
   $('#export').on('click', function() {
-    var searchIDs = $('#tables input:checked').map(function(){
+    var searchIDs = $('table input:checked').map(function(){
      return $(this).val();
     }).toArray();
 
