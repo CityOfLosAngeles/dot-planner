@@ -329,7 +329,7 @@ router.get('/ids/:id', function(req, res) {
   };
 
   var searchArr = [ ];
-  
+
   //Get the IDs and split them into an array
   var id = req.params.id;
   id = id.split('&');
@@ -563,5 +563,23 @@ router.get('/search', function(req, res) {
   });
 });
 
+router.get('/upload', function(req, res) {
+  var lines = require('../db/funded-lines.json');
+  var points = require('../db/funded-points.json');
+  var polygons = require('../db/funded-polygons.json');
+
+  for (var i = 0; i < lines.length; i++) {
+    lines[i].Fund_St = 'Funded';
+    models.Project.create(lines[i]);
+  }
+  for (var i = 0; i < points.length; i++) {
+    points[i].Fund_St = 'Funded';
+    models.Project.create(points[i]);
+  }
+  for (var i = 0; i < polygons.length; i++) {
+    polygons[i].Fund_St = 'Funded';
+    models.Project.create(polygons[i]);
+  }
+});
 
 module.exports = router;
