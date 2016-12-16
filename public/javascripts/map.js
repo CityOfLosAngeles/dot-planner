@@ -143,9 +143,9 @@ function zoomToFeature(e) {
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
     zoomToFeature(e)
-    layer.bringToFront();
     geoJSON.eachLayer(function(l){geoJSON.resetStyle(l);});
     if (e.target.feature.geometry.type != 'Point'){
+      layer.bringToFront();
       layer.setStyle({color: 'yellow'});
     }
     var fundStatus = feature.properties.Fund_St;
