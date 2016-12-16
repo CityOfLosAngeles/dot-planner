@@ -20,7 +20,7 @@
             <td><a href="mailto:{{email}}">{{email}}</a></td>
             <td>{{phonenumber}}</td>
             <td>{{admin}}</td>
-            <td><form action="/users/admindestroyuser" method="POST">
+            <td id="userdeletebtn"><form action="/users/admindestroyuser" method="POST">
               <input type="checkbox" name="deleteemail" value={{email}}></input>
             <button type="submit">Confirm</button>
             </form>
