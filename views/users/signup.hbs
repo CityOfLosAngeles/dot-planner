@@ -1,35 +1,25 @@
-<div class="container">
-<h1>Sign Up Form</h1>
+<div class="userForm">
+
 <form class="create-update-form" action="/users/createuser" method="POST">
-  <div class="form-group">
-    <label for="un">First Name:</label>
-    <input type="text" id="un" name="firstname">
-  </div>
+  <h2>Sign Up Form</h2>
+    <input type="text" name="firstname" id="firstname" placeholder="First Name" required>
 
-  <div class="form-group">
-    <label for="un">Last Name:</label>
-    <input type="text" id="un" name="lastname">
-  </div>
+    <input type="text" name="lastname" id="lastname" placeholder="Last Name" required>
 
-  <div class="form-group">  
-    <input type="radio" name="admin" value="Admin">Admin<br>
-    <input type="radio" name="admin" value="Project Manager">Project Manager<br>
-  </div>
+    <div class="row">
+      <div class="col-md-6">
+        <input type="radio" name="admin" id="radio1" value="Project Manager" required><label for="radio1"><h4>Project Manager</h4></label>
+      </div>
+      <div class="col-md-6">
+        <input type="radio" name="admin" id="radio2" value="Admin"><label for="radio2"><h4>Admin</h4></label>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label for="em">Email:</label>
-    <input type="text" id="em" name="email">
-  </div>
+    <input type="email" name="email" id="email" placeholder="Email Address" required>
 
-  <div class="form-group">
-    <label for="em">Phone Number: </label>
-    <input type="text" id="em" name="phonenumber">
-  </div>
+    <input type="number" name="phonenumber" id="phonenumber" placeholder="Phone Number" required>
 
-  <div class="form-group">
-    <label for="pass">Password:</label>
-    <input type="password" id="pass" name="password">
-  </div>
+    <input type="password" name="password" id="password" placeholder="Password" required>
 
   <button type="submit">Sign Up!</button>
 </form>
