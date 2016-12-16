@@ -1,9 +1,8 @@
+//Global variable which will become the geoJSON layer
 var geoJSON;
 
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
-var map = L.mapbox.map('map');
-
-map.setView([
+var map = L.mapbox.map('map').setView([
     34.0522, -118.2437
 ], 14);
 
@@ -14,17 +13,23 @@ L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ub
 //Adding a feature group to the map
 var featureGroup = L.featureGroup().addTo(map);
 
+//Defining the bounds for all Google autocomplete inputs
+//This means autocomplete search will start here and expand outwards
 var defaultBounds = new google.maps.LatLngBounds(
   new google.maps.LatLng(34.0522, -118.2437)
 );
 
+//Options for the google autocomplete inputs
 var googleOptions = {
   location: defaultBounds,
   types: ['address']
 };
 
+//Create the autocomplete input
 var input = document.getElementById("google-search");
 var autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
+
+//Add an event listener that changes the map view when an autocomplete address is selected
 google.maps.event.addListener(autocomplete, 'place_changed', function() {
   var place = autocomplete.getPlace();
   var lat = place.geometry.location.lat();
@@ -48,35 +53,39 @@ $.ajax({
                   onEachFeature(feature, layer);
                 },
             }).addTo(map);
+            checkZoom();
         }
-        var url = window.location.href;
-        if (url.includes('?id=')) {
-          url = url.split('?id=');
-          var id = url[url.length - 1];
-          $.ajax({
-            method: "GET",
-            url: "/projects/id/" + id,
-            dataType: "json",
-            success: function(data) {
-              if (data) {
-                geoJSON.eachLayer(function(l) {
-                  if (l.feature.properties.id === data[0].id) {
-                    l.fireEvent('click');
-                  }
-                });
-              }
+      }
+});
+
+//Function to check if a project should be zoomed in on
+function checkZoom() {
+  var url = window.location.href;
+  if (url.includes('?id=')) {
+    url = url.split('?id=');
+    var id = url[url.length - 1];
+    $.ajax({
+      method: "GET",
+      url: "/projects/id/" + id,
+      dataType: "json",
+      success: function(data) {
+        if (data) {
+          geoJSON.eachLayer(function(l) {
+            if (l.feature.properties.id === data[0].id) {
+              l.fireEvent('click');
             }
           });
         }
-    }
-});
+      }
+    });
+  }
+}  
 
-
+//Run the filter function when the filter button is clicked
 $('#filter').on('click', function() {
   filterProjects();
 });
 
-//Commented out for now
 function filterProjects() {
   var fundingTypes = $('.funding-types input[type="checkbox"]:checked').map(function(_, el) {
     return $(el).val();
@@ -101,7 +110,6 @@ function filterProjects() {
         url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
         datatype: 'JSON',
         success: function(data) {
-            console.log(data);
             if (data) {
               geoJSON.clearLayers();
               geoJSON = L.geoJson(data, {
@@ -120,6 +128,8 @@ function filterProjects() {
   }
 }
 
+//Function that sets the map bounds to a project
+//This essentially "zooms in" on a project
 function zoomToFeature(e) {
     map.fitBounds(e.target.getBounds());
 }
@@ -224,6 +234,7 @@ function onEachFeature(feature, layer) {
   });
 }
 
+//When the edit button is clicked redirect to the edit page which is defined in data-href
 $(document).on('click', '#edit-button', function() {
   window.location = $('#edit-button').attr('data-href');
 });
