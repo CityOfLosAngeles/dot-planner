@@ -146,21 +146,19 @@ router.post('/login', function(req, res) {
 		else {
 		bcrypt.compare(req.body.password, user.password_hash, function(err, result) {
         	if (result == true){
-				req.session.logged_in = true;
+							req.session.logged_in = true;
 	            req.session.firstname = user.firstname;
 	            req.session.lastname = user.lastname;
 	            req.session.phonenumber = user.phonenumber;
-		        req.session.user_id = user.id;
-		        req.session.email = user.email;
-		        req.session.admin = user.admin;
+			        req.session.user_id = user.id;
+			        req.session.email = user.email;
+			        req.session.admin = user.admin;
 
 		        if (user.admin == "Admin"){
 		        	req.session.adminclearance = true;
-		        	console.log(user.admin+" : give admin clearance");
-		        	res.redirect('/users');
+		        	res.redirect('/');
 		        }
 		        else {
-		        	console.log(user.admin+" clearance; not an admin");
 		        	res.redirect('/');
 		        }
         	}
@@ -178,7 +176,6 @@ router.post('/createuser', function(req,res) {
     where: {email: req.body.email}
   }).then(function(users) {
 		if (users.length > 0){
-			console.log(users)
 			res.send('we already have an email for this account')
 		}else{
 			bcrypt.genSalt(10, function(err, salt) {
@@ -207,7 +204,6 @@ router.post('/admincreateuser', function(req,res) {
     where: {email: req.body.email}
   }).then(function(users) {
 		if (users.length > 0){
-			console.log(users)
 			res.send('we already have an email for this account')
 		}else{
 			var newUser = {
@@ -248,7 +244,6 @@ router.post('/finishuser', function(req,res) {
 });
 
 router.post('/admindestroyuser', function(req, res) {
-	console.log("will delete");
 	models.User.destroy({
 	    where: {email: req.body.deleteemail}
 	})
