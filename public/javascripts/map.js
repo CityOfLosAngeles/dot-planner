@@ -2,9 +2,7 @@
 var geoJSON;
 
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
-var map = L.mapbox.map('map').setView([
-    34.0522, -118.2437
-], 10);
+var map = L.mapbox.map('map');
 
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 
@@ -78,6 +76,10 @@ function checkZoom() {
         }
       }
     });
+  } else {
+    map.setView([
+        34.0522, -118.2437
+    ], 10);
   }
 }
 
