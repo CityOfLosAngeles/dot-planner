@@ -143,6 +143,7 @@ function zoomToFeature(e) {
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
     zoomToFeature(e)
+    layer.bringToFront();
     geoJSON.eachLayer(function(l){geoJSON.resetStyle(l);});
     if (e.target.feature.geometry.type != 'Point'){
       layer.setStyle({color: 'yellow'});
