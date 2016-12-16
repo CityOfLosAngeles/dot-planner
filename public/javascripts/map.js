@@ -81,8 +81,7 @@ function checkZoom() {
   }
 }
 
-//Run the filter function when the filter button is clicked
-$('#filter').on('click', function() {
+$('.funding-types input[type="checkbox"]').change(function() {
   filterProjects();
 });
 
@@ -237,7 +236,7 @@ function onEachFeature(feature, layer) {
       $('#Match_Pt').text(feature.properties.Match_Pt + '%');
     }
     var editButton = $('<button class="btn btn-danger" id="edit-button" data-href="/projects/edit/' + feature.properties.id + '">Edit Project</button>');
-    $('#project-details').prepend(editButton);
+    $('#project-details').append(editButton);
   });
 }
 
