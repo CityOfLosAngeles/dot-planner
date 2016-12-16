@@ -3,7 +3,7 @@ var intersectionCounter = 2;
 var intersectionsValidated = [];
 
 //Creating the map
-var map = L.mapbox.map('map');
+var map = L.mapbox.map('map')
 
 var url = window.location.href;
 url = url.split('/');
@@ -16,29 +16,10 @@ $.ajax({
   success: function(data) {
     if (data) {
       var project = data[0];
-      if (project.Geometry.type === 'Polygon' || project.Geometry.type === 'MultiLineString') {
-        map.setView(project.Geometry.coordinates[0][0].reverse(), 14);
-      } else {
-        map.setView(project.Geometry.coordinates[0].reverse(), 14);
-      }
-    }
-
-  }
-});
-
-$.ajax({
-  method: "GET",
-  url: "/projects/id/" + id,
-  dataType: "json",
-  success: function(data) {
-    if (data) {
-      var project = data[0];
       showHide(project);
     }
-
   }
 });
-
 
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 
@@ -264,7 +245,7 @@ function populateData(project) {
         $('#cross-street' + (i + 1)).val(cross[i]);
       }
     } else {
-      
+
       $('#undo-intersection').show();
 
       var intersections = cross.length - 2;
@@ -293,10 +274,30 @@ function populateData(project) {
     }
   }
   if (project.Geometry !=undefined) {
-    geoJSON = L.geoJson(project.Geometry);
+    geoJSON = L.geoJson(project.Geometry, {
+      onEachFeature: function(feature, layer) {
+        layer.on('click', function(e) {
+          zoomToFeature(e);
+        });
+      }
+    });
     featureGroup.addLayer(geoJSON);
+    geoJSON.eachLayer(function(l) {
+      l.fireEvent('click');
+    });
     $("#delete-button").show();
   }
+}
+
+//Function that sets the map bounds to a project
+//This essentially "zooms in" on a project
+function zoomToFeature(e) {
+    if (e.target.feature.geometry.type === 'Point') {
+      var coordinates = e.target.feature.geometry.coordinates.slice().reverse();
+      map.setView(coordinates, 18)
+    } else {
+      map.fitBounds(e.target.getBounds());
+    }
 }
 
 // Add more intersections
@@ -324,7 +325,7 @@ $('#add-intersection').on('click', function() {
 });
 
 $("#undo-intersection").on('click', function() {
-  
+
   // If last intersection in validated, remove from intersection validation counter
   if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
       intersectionsValidated.pop();
@@ -352,7 +353,11 @@ $('#update-project').on('click', function() {
         //Push all the intersections into an array
         var interArr = [];
         $('.Intersections').each(function() {
-            interArr.push($(this).val());
+
+            // Take out "United States" from at the end of intersections
+            var tempAddress = $(this).val().replace(", United States", "");
+
+            interArr.push(tempAddress);
         });
 
         //Create the newProject object and set common attributes
@@ -374,7 +379,10 @@ $('#update-project').on('click', function() {
         }
         //Funded and Unfunded but NOT Idea Attributes
         if (fundStatus != 'Idea Project') {
-            newProject.Primary_Street = $('#Primary_Street').val();
+            // Take out "United States" primary
+            var tempAddress = $('#Primary_Street').val().replace(", United States", "");
+
+            newProject.Primary_Street = tempAddress;
             newProject.Cross_Streets = JSON.stringify({Intersections: interArr});
             newProject.CD = $('#CD').val();
             newProject.Proj_Status = $('#Proj_Status').val();

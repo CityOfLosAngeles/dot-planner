@@ -69,20 +69,6 @@ body {
   display: none;
 }
 
-/*#google-search{
-  height: 60px;
-  border-radius: 0 !important;
-  margin: 0;
-  outline: none;
-  border-top: none !important;
-  border-right: none !important;
-  border-left: none !important;
-  border-bottom: #e7e7e7 2px solid;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
-}*/
-
 #google-search{
   position: absolute;
   top: 10px;
@@ -154,7 +140,7 @@ body {
 .userForm input[type="number"],
 .userForm input[type="password"],
 .userForm textarea,
-.userForm select 
+.userForm select
 {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -286,12 +272,25 @@ td{
 }
 ::-webkit-scrollbar {
     width: 6px;
-} 
+}
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-} 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
 ::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+.table-button {
+  margin-top: 5px;
+  width: 40px;
+}
+.select-all {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+#edit-button {
+  float: right;
 }
 /*/////////////////////////*/
 
@@ -390,4 +389,5 @@ td{
     color:#fff;
 }
 /*/////////////////////////*/
+
 
