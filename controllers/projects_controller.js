@@ -328,6 +328,8 @@ router.get('/ids/:id', function(req, res) {
       features: []
   };
 
+  var searchArr = [ ];
+  
   //Get the IDs and split them into an array
   var id = req.params.id;
   id = id.split('&');
