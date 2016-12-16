@@ -96,7 +96,6 @@ autocomplete = new google.maps.places.Autocomplete(cross2, googleOptions);
 $('#submit-project').on('click', function(){
   //Extract geoJSON from the featureGroup
   var data = featureGroup.toGeoJSON();
-
     //Check to make sure a feature was drawn on the map
     if (data.features.length >= 1) {
 
@@ -249,4 +248,3 @@ $("#flag-button").on("click", function() {});
 $("#add-button").on("click", function() {
     addProject(newProject);
 });
-

@@ -16,6 +16,7 @@
                 <li><a href="/projects/new">Add a Project</a></li>
                 {{/if}}
                 <li><a href="/projects/table">Table View</a></li>
+                {{#if mapview}}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map Filters <span class="caret"></span></a>
                     <ul class="dropdown-menu" id="map-filter">
@@ -49,7 +50,7 @@
                             <a><input type="checkbox" checked="checked" value="first mile and last mile"> First Mile And Last Mile</a>
                         </li>
                         <li class="project-type">
-                            <a><input type="checkbox" checked="checked" value="pedbike"> PED/Bike</a>
+                            <a><input type="checkbox" checked="checked" value="ped and bike"> PED/Bike</a>
                         </li>
                         <li>
                             <a><button type="button" name="button" id="filter" class="btn btn-primary">Filter</button></a>
@@ -57,6 +58,7 @@
 
                     </ul>
                 </li>
+              {{/if}}
             </ul>
             <div class="col-sm-3 col-md-3">
               <form class="navbar-form" role="search" method="get" action="/projects/search">
@@ -72,6 +74,7 @@
                 {{#if logged_in}}
                     {{#if adminclearance}}
                         <li><a href="/users/adminadd">Add a New User</a></li>
+                        <li><a href="/projects/flagged">Review Potential Duplicates</a></li>
                     {{/if}}
                     <li><a href="/users/finishsignup">Edit Profile</a></li>
                     <li><a href="/signout">Sign Out</a></li>

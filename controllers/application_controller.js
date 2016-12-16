@@ -12,7 +12,8 @@ router.get('/', function(req, res) {
 	    firstname: req.session.firstname,
 	    lastname: req.session.lastname,
 	    phonenumber: req.session.phonenumber,
-	    admin: req.session.admin
+	    admin: req.session.admin,
+      mapview: true
     });
 });
 
