@@ -1,32 +1,37 @@
-<div class="container-fluid">
+<div class="container">
   {{#if logged_in}}
     <div id="funded-table" class="table-section">
-      <h1>Funded</h1>
-      <table class="table">
+      <h1>Funded Projects</h1>
+      <div class="tbl-header">
+        <table class="table-bordered">
           <thead class="thead-inverse">
               <tr>
-                  <th class="text-center">Select</th>
-                  <th class="text-center">Project Title</th>
-                  <th class="text-center">Description</th>
-                  <th class="text-center">Project Type</th>
-                  <th class="text-center">Contact Name</th>
-                  <th class="text-center">Contact Number</th>
-                  <th class="text-center">Contact Email</th>
-                  <th class="text-center">Edit/Delete/View</th>
+                  <th>Select</th>
+                  <th>Project Title</th>
+                  <th>Description</th>
+                  <th>Project Type</th>
+                  <th>Contact Name</th>
+                  <th>Contact Number</th>
+                  <th>Contact Email</th>
+                  <th>Edit/Delete/View</th>
               </tr>
           </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        <table class="table-bordered">
           <tbody>
               {{#each projects}}
                 {{#equal this.Fund_St 'Funded'}}
                   <tr>
-                      <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
-                      <td class="text-center">{{this.Proj_Title}}</td>
-                      <td class="text-center">{{this.Proj_Desc}}</td>
-                      <td class="text-center">{{this.Proj_Ty}}</td>
-                      <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
-                      <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
-                      <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
-                      <td class="text-center">
+                      <td><input type="checkbox" value="{{this.id}}"></td>
+                      <td>{{this.Proj_Title}}</td>
+                      <td>{{this.Proj_Desc}}</td>
+                      <td>{{this.Proj_Ty}}</td>
+                      <td>{{this.Contact_info.Contact_info_name}}</td>
+                      <td>{{this.Contact_info.Contact_info_phone}}</td>
+                      <td>{{this.Contact_info.Contact_info_email}}</td>
+                      <td>
                         <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
                         <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary btn-sm">Edit</button></a>
                         <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success btn-sm">View</button>
@@ -35,180 +40,225 @@
                   {{/equal}}
                 {{/each}}
           </tbody>
-      </table>
+        </table>
+      </div>
     </div>
+
     <div id="unfunded-table" class="table-section">
-      <h1>Unfunded</h1>
-      <table class="table">
+      <h1>Unfunded Projects</h1>
+      <div class="tbl-header">
+        <table class="table-bordered">
           <thead class="thead-inverse">
               <tr>
-                  <th class="text-center">Select</th>
-                  <th class="text-center">Project Title</th>
-                  <th class="text-center">Description</th>
-                  <th class="text-center">Project Type</th>
-                  <th class="text-center">Contact Name</th>
-                  <th class="text-center">Contact Number</th>
-                  <th class="text-center">Contact Email</th>
-                  <th class="text-center">Edit/Delete/View</th>
+                  <th>Select</th>
+                  <th>Project Title</th>
+                  <th>Description</th>
+                  <th>Project Type</th>
+                  <th>Contact Name</th>
+                  <th>Contact Number</th>
+                  <th>Contact Email</th>
+                  <th>Edit/Delete/View</th>
               </tr>
           </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        <table class="table-bordered">
           <tbody>
               {{#each projects}}
                 {{#equal this.Fund_St 'Unfunded'}}
                   <tr>
-                      <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
-                      <td class="text-center">{{this.Proj_Title}}</td>
-                      <td class="text-center">{{this.Proj_Desc}}</td>
-                      <td class="text-center">{{this.Proj_Ty}}</td>
-                      <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
-                      <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
-                      <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
-                      <td class="text-center">
+                      <td><input type="checkbox" value="{{this.id}}"></td>
+                      <td>{{this.Proj_Title}}</td>
+                      <td>{{this.Proj_Desc}}</td>
+                      <td>{{this.Proj_Ty}}</td>
+                      <td>{{this.Contact_info.Contact_info_name}}</td>
+                      <td>{{this.Contact_info.Contact_info_phone}}</td>
+                      <td>{{this.Contact_info.Contact_info_email}}</td>
+                      <td>
                         <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
                         <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary btn-sm">Edit</button></a>
                         <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success btn-sm">View</button>
                       </td>
                   </tr>
-                {{/equal}}
-              {{/each}}
+                  {{/equal}}
+                {{/each}}
           </tbody>
-      </table>
+        </table>
+      </div>
     </div>
+
     <div id="idea-table" class="table-section">
       <h1>Idea Projects</h1>
-      <table class="table">
+      <div class="tbl-header">
+        <table class="table-bordered">
           <thead class="thead-inverse">
               <tr>
-                  <th class="text-center">Select</th>
-                  <th class="text-center">Project Title</th>
-                  <th class="text-center">Description</th>
-                  <th class="text-center">Project Type</th>
-                  <th class="text-center">Contact Name</th>
-                  <th class="text-center">Contact Number</th>
-                  <th class="text-center">Contact Email</th>
-                  <th class="text-center">Edit/Delete/View</th>
+                  <th>Select</th>
+                  <th>Project Title</th>
+                  <th>Description</th>
+                  <th>Project Type</th>
+                  <th>Contact Name</th>
+                  <th>Contact Number</th>
+                  <th>Contact Email</th>
+                  <th>Edit/Delete/View</th>
               </tr>
           </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        <table class="table-bordered">
           <tbody>
               {{#each projects}}
                 {{#equal this.Fund_St 'Idea Project'}}
                   <tr>
-                      <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
-                      <td class="text-center">{{this.Proj_Title}}</td>
-                      <td class="text-center">{{this.Proj_Desc}}</td>
-                      <td class="text-center">{{this.Proj_Ty}}</td>
-                      <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
-                      <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
-                      <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
-                      <td class="text-center">
+                      <td><input type="checkbox" value="{{this.id}}"></td>
+                      <td>{{this.Proj_Title}}</td>
+                      <td>{{this.Proj_Desc}}</td>
+                      <td>{{this.Proj_Ty}}</td>
+                      <td>{{this.Contact_info.Contact_info_name}}</td>
+                      <td>{{this.Contact_info.Contact_info_phone}}</td>
+                      <td>{{this.Contact_info.Contact_info_email}}</td>
+                      <td>
                         <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
                         <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary btn-sm">Edit</button></a>
                         <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success btn-sm">View</button>
                       </td>
                   </tr>
-                {{/equal}}
-              {{/each}}
+                  {{/equal}}
+                {{/each}}
           </tbody>
-      </table>
+        </table>
+      </div>
     </div>
-    <button type="submit" name="button" class="btn btn-primary btn-lg" id="export">Export</button>
+  
+    <button type="submit" name="button" class="btn btn-primary btn-lg" id="export">Export Projects</button>
   {{/if}}
+
   {{#unless logged_in}}
-  <div id="funded-table" class="table-section">
-    <h1>Funded</h1>
-    <table class="table">
-        <thead class="thead-inverse">
-            <tr>
-                <th class="text-center">Select</th>
-                <th class="text-center">Project Title</th>
-                <th class="text-center">Description</th>
-                <th class="text-center">Project Type</th>
-                <th class="text-center">Contact Name</th>
-                <th class="text-center">Contact Number</th>
-                <th class="text-center">Contact Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each projects}}
-              {{#equal this.Fund_St 'Funded'}}
-                <tr>
-                    <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
-                    <td class="text-center">{{this.Proj_Title}}</td>
-                    <td class="text-center">{{this.Proj_Desc}}</td>
-                    <td class="text-center">{{this.Proj_Ty}}</td>
-                    <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
-                    <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
-                    <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
-                </tr>
-              {{/equal}}
-          {{/each}}
-        </tbody>
-    </table>
+    <div id="funded-table" class="table-section">
+      <h1>Funded Projects</h1>
+      <div class="tbl-header">
+        <table class="table-bordered">
+          <thead class="thead-inverse">
+              <tr>
+                  <th>Select</th>
+                  <th>Project Title</th>
+                  <th>Description</th>
+                  <th>Project Type</th>
+                  <th>Contact Name</th>
+                  <th>Contact Number</th>
+                  <th>Contact Email</th>
+                
+              </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        <table class="table-bordered">
+          <tbody>
+              {{#each projects}}
+                {{#equal this.Fund_St 'Funded'}}
+                  <tr>
+                      <td><input type="checkbox" value="{{this.id}}"></td>
+                      <td>{{this.Proj_Title}}</td>
+                      <td>{{this.Proj_Desc}}</td>
+                      <td>{{this.Proj_Ty}}</td>
+                      <td>{{this.Contact_info.Contact_info_name}}</td>
+                      <td>{{this.Contact_info.Contact_info_phone}}</td>
+                      <td>{{this.Contact_info.Contact_info_email}}</td>
+                      
+                  </tr>
+                  {{/equal}}
+                {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="unfunded-table" class="table-section">
+      <h1>Unfunded Projects</h1>
+      <div class="tbl-header">
+        <table class="table-bordered">
+          <thead class="thead-inverse">
+              <tr>
+                  <th>Select</th>
+                  <th>Project Title</th>
+                  <th>Description</th>
+                  <th>Project Type</th>
+                  <th>Contact Name</th>
+                  <th>Contact Number</th>
+                  <th>Contact Email</th>
+                  
+              </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        <table class="table-bordered">
+          <tbody>
+              {{#each projects}}
+                {{#equal this.Fund_St 'Unfunded'}}
+                  <tr>
+                      <td><input type="checkbox" value="{{this.id}}"></td>
+                      <td>{{this.Proj_Title}}</td>
+                      <td>{{this.Proj_Desc}}</td>
+                      <td>{{this.Proj_Ty}}</td>
+                      <td>{{this.Contact_info.Contact_info_name}}</td>
+                      <td>{{this.Contact_info.Contact_info_phone}}</td>
+                      <td>{{this.Contact_info.Contact_info_email}}</td>
+                      
+                  </tr>
+                  {{/equal}}
+                {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="idea-table" class="table-section">
+      <h1>Idea Projects</h1>
+      <div class="tbl-header">
+        <table class="table-bordered">
+          <thead class="thead-inverse">
+              <tr>
+                  <th>Select</th>
+                  <th>Project Title</th>
+                  <th>Description</th>
+                  <th>Project Type</th>
+                  <th>Contact Name</th>
+                  <th>Contact Number</th>
+                  <th>Contact Email</th>
+                  
+              </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        <table class="table-bordered">
+          <tbody>
+              {{#each projects}}
+                {{#equal this.Fund_St 'Idea Project'}}
+                  <tr>
+                      <td><input type="checkbox" value="{{this.id}}"></td>
+                      <td>{{this.Proj_Title}}</td>
+                      <td>{{this.Proj_Desc}}</td>
+                      <td>{{this.Proj_Ty}}</td>
+                      <td>{{this.Contact_info.Contact_info_name}}</td>
+                      <td>{{this.Contact_info.Contact_info_phone}}</td>
+                      <td>{{this.Contact_info.Contact_info_email}}</td>
+                      
+                  </tr>
+                  {{/equal}}
+                {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <button type="submit" name="button" class="btn btn-primary btn-lg" id="export">Export Projects</button>
+    {{/unless}}
   </div>
-  <div id="unfunded-table" class="table-section">
-    <h1>Unfunded</h1>
-    <table class="table">
-        <thead class="thead-inverse">
-            <tr>
-                <th class="text-center">Select</th>
-                <th class="text-center">Project Title</th>
-                <th class="text-center">Description</th>
-                <th class="text-center">Project Type</th>
-                <th class="text-center">Contact Name</th>
-                <th class="text-center">Contact Number</th>
-                <th class="text-center">Contact Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each projects}}
-              {{#equal this.Fund_St 'Unfunded'}}
-                <tr>
-                    <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
-                    <td class="text-center">{{this.Proj_Title}}</td>
-                    <td class="text-center">{{this.Proj_Desc}}</td>
-                    <td class="text-center">{{this.Proj_Ty}}</td>
-                    <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
-                    <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
-                    <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
-                </tr>
-              {{/equal}}
-            {{/each}}
-        </tbody>
-    </table>
-  </div>
-  <div id="idea-table" class="table-section">
-    <h1>Idea Projects</h1>
-    <table class="table">
-        <thead class="thead-inverse">
-            <tr>
-                <th class="text-center">Select</th>
-                <th class="text-center">Project Title</th>
-                <th class="text-center">Description</th>
-                <th class="text-center">Project Type</th>
-                <th class="text-center">Contact Name</th>
-                <th class="text-center">Contact Number</th>
-                <th class="text-center">Contact Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each projects}}
-              {{#equal this.Fund_St 'Idea Project'}}
-                <tr>
-                    <td class="text-center"><input type="checkbox" value="{{this.id}}"></td>
-                    <td class="text-center">{{this.Proj_Title}}</td>
-                    <td class="text-center">{{this.Proj_Desc}}</td>
-                    <td class="text-center">{{this.Proj_Ty}}</td>
-                    <td class="text-center">{{this.Contact_info.Contact_info_name}}</td>
-                    <td class="text-center">{{this.Contact_info.Contact_info_phone}}</td>
-                    <td class="text-center">{{this.Contact_info.Contact_info_email}}</td>
-                </tr>
-              {{/equal}}
-            {{/each}}
-        </tbody>
-    </table>
-  </div>
-  <button type="submit" name="button" class="btn btn-primary btn-lg" id="export">Export</button>
-  {{/unless}}
 </div>
 
 <div class="modal fade" id="delete-modal">

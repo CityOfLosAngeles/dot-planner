@@ -1,40 +1,22 @@
 {{#if logged_in}}
-<div class="container">
-<h1>Update User Profile</h1>
-<form class="create-update-form" action="/users/finishuser" method="POST">
+<div class="userForm" id="updateForm">
+  <form class="create-update-form" action="/users/finishuser" method="POST">
+    <h2>Update User Profile</h2>
 
-  <div class="form-group">
-    <label for="un">First Name:</label>
-    <input type="text" id="un" name="firstname" value="{{firstname}}">
-  </div>
+    <input type="text" name="firstname" id="firstname" value="{{firstname}}" placeholder="First Name" required>
 
-  <div class="form-group">
-    <label for="un">Last Name:</label>
-    <input type="text" id="un" name="lastname" value="{{lastname}}">
-  </div>
+    <input type="text" name="lastname" id="lastname" value="{{lastname}}" placeholder="Last Name" required>
 
-  <div class="form-group">
-    <label for="un">Email:</label>
-    {{!-- <input type="text" name="email" value={{email}}> --}}
-    <input type="text" id="un" name="email" value="{{email}}">
-  </div>
+    <input type="email" name="email" id="email" value="{{email}}" placeholder="Email Address" required>
 
-  <div class="form-group">
-    <label for="un">Phone Number:</label>
-    <input type="text" id="un" name="phonenumber" value="{{phonenumber}}">
-  </div>
+    <input type="number" name="phonenumber" id="phonenumber" value="{{phonenumber}}" placeholder="Phone Number" required>
 
-  <div class="form-group">
-    <label for="pass">Password:</label>
-    <input type="password" id="pass" name="password">
-  </div>
+    <input type="password" name="password" id="password" placeholder="Password" required>
 
-  <div class="form-group">
-    <label for="pass">Retype Password:</label>
-    <input type="password" id="repass" name="repassword">
-  </div>
+    <input type="password" name="repassword" id="repassword" placeholder="Retype Password" required>
 
-  <button type="submit">Complete Profile</button>
-</form>
+    <button type="submit">Save Profile</button>
+
+  </form>
 </div>
 {{/if}}
