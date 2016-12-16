@@ -264,6 +264,9 @@ function populateData(project) {
         $('#cross-street' + (i + 1)).val(cross[i]);
       }
     } else {
+      
+      $('#undo-intersection').show();
+
       var intersections = cross.length - 2;
       for (var i = 0; i < intersections; i++) {
         intersectionCounter++;
@@ -279,7 +282,7 @@ function populateData(project) {
 
         div.append(input);
         div.append(span);
-        $('#intersections').append(input);
+        $('#intersections').append(div);
 
         var input = document.getElementById('cross-street' + intersectionCounter);
         autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
@@ -326,7 +329,7 @@ $("#undo-intersection").on('click', function() {
   if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
       intersectionsValidated.pop();
 
-  $('#cross-street' + intersectionCounter).remove();
+  $('#cross-street' + intersectionCounter + '-group').remove();
   intersectionCounter--;
   if (intersectionCounter === 2) {
     $('#undo-intersection').hide();
