@@ -84,14 +84,6 @@ router.get('/funding/:status/type/:type', function(req, res) {
     //create the search array that sequelize while use as the $or parameter
     var searchArr = [];
 
-    // TODO: Chane this to PED and bike
-
-    for (var i = 0; i < type.length; i++) {
-      if (type[i] === 'pedbike') {
-        type[i] = 'ped/bike'
-      }
-    }
-
     //If the user is logged in
     if (req.session.logged_in) {
       for (var i = 0; i < status.length; i++) {
