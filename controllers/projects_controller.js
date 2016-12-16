@@ -283,7 +283,7 @@ router.get('/edit/:id', function(req, res) {
             }
         }).then(function(project) {
             if (project.length === 1) {
-                res.render('edit', {"id": id});
+                res.render('projects/edit', {"id": id});
             } else {
                 res.render('error', {
                     "message": "404",

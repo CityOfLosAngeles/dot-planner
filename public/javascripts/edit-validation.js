@@ -15,7 +15,8 @@ var more_infoComplete = true;
 
 // Not required for Idea Project
 // Required for Funded and Unfunded
-// var intersectionsComplete = false;
+
+var primary_streetComplete = false;
 var proj_statusComplete = false;
 var proj_manComplete = false;
 var cdComplete = false;
@@ -60,7 +61,8 @@ $.ajax({
       
       // If project has Deobligation defined in database, means all of the Funded information is in database and may be displayed (although the project may not be currently funded)
       if(data[0].Deobligation == 'Yes'){
-        // intersectionsComplete = true;
+        
+        primary_streetComplete = true;
         proj_statusComplete = true;
         proj_manComplete = true;
         cdComplete = true;
@@ -84,7 +86,8 @@ $.ajax({
         explanationComplete = true;
         riskOfDeobligation = true;
       } else if(data[0].Deobligation == 'No'){
-        // intersectionsComplete = false;
+        
+        primary_streetComplete = true;
         proj_statusComplete = true;
         proj_manComplete = true;
         cdComplete = true;
@@ -111,7 +114,8 @@ $.ajax({
 
       // If project has Grant_Cat defined in database, means all of the Unfunded information is in database and may be displayed (although the project may not be currently funded)
       if (data[0].Grant_Cat != undefined) {
-        // intersectionsComplete = false;
+        
+        primary_streetComplete = true;
         proj_statusComplete = true;
         proj_manComplete = true;
         cdComplete = true;
@@ -280,18 +284,49 @@ $("#CD").keyup(function() {
 // =============
 // Required
 // Valid location
-// $("#Primary_Street").on('keyup', function(){
-//     if($("#Primary_Street").val() != ""){
-//         hasSuccess("#CD-group", "#CD-span");
-//     }
-// });
-// $("#intersections").on('keyup', '.Intersections', function(){
-//   var address = $('#'+this.id).val();
-//   if(address != "")
-//     hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
-//   else
-//     hasError("#"+this.id+"-group","#"+this.id+"-span");
-// });
+$("#Primary_Street").on('keyup', function(){
+    if($("#Primary_Street").val() != ""){
+        primary_streetComplete = true;
+        hasSuccess("#Primary_Street-group", "#Primary_Street-span");
+    }
+    else{
+        primary_streetComplete = false;
+        hasError("#Primary_Street-group", "#Primary_Street-span");
+    }
+    checkForm();
+});
+$("#intersections").on('keyup', '.Intersections', function(){
+  var address = $('#'+this.id).val();
+
+  if(address != ""){
+    hasSuccess("#"+this.id+"-group","#"+this.id+"-span");
+
+    // If this intersection is a newly validated intersection...
+    if(intersectionsValidated.indexOf(this.id) == -1){
+      if(intersectionsValidated.length == 0 || intersectionsValidated[intersectionsValidated.length-1].substring(12) < this.id.substring(12))
+        intersectionsValidated.push(this.id);
+      else{
+        for(var i=0; i<intersectionsValidated.length; i++){
+
+          // Check number of cross-street and put into array in order
+          if(intersectionsValidated[i].substring(12) > this.id.substring(12)){
+            intersectionsValidated.splice(i, 0, this.id);
+
+            // stop loop
+            i = intersectionsValidated.length
+          }
+        }
+      }
+    }
+  }
+  else{
+    hasError("#"+this.id+"-group","#"+this.id+"-span");
+    if(intersectionsValidated.indexOf(this.id) != -1)
+      intersectionsValidated.splice(intersectionsValidated.indexOf(this.id), 1);
+  }
+  checkForm();
+  // console.log(intersectionsValidated);
+});
 
 // Project Status
 // ===============
@@ -655,53 +690,6 @@ $("#Lc_match").keyup(function() {
 
 function checkForm() {
 
-console.log(lead_agComplete);
-console.log(proj_titleComplete);
-console.log(proj_tyComplete);
-console.log(proj_descComplete);
-console.log(fund_stComplete);
-console.log(contact_info_nameComplete);
-console.log(contact_info_phoneComplete);
-console.log(contact_info_emailComplete);
-console.log(more_infoComplete);
-
-// Not required for Idea Project
-// Required for Funded and Unfunded
-// var intersectionsComplete = false;
-console.log(proj_statusComplete);
-console.log(proj_manComplete);
-console.log(cdComplete);
-
-// Not required for Unfunded and Idea Project
-// Required for Funded
-console.log(accessComplete);
-console.log(dept_proj_idComplete);
-console.log(other_idComplete);
-console.log(total_bgtComplete);
-console.log(grantComplete);
-console.log(other_fundsComplete);
-console.log(prop_cComplete);
-console.log(measure_rComplete);
-console.log(gas_taxComplete);
-console.log(general_fundComplete);
-console.log(authorizationComplete);
-console.log(issuesComplete);
-console.log(deobligationComplete);
-console.log(constr_byComplete);
-console.log(info_sourceComplete);
-
-// Only required if Risk of Deobligation = Yes
-console.log(explanationComplete);
-
-// Not required for Funded and Idea Project
-// Required for Unfunded
-console.log(grant_catComplete);
-console.log(grant_cycleComplete);
-console.log(est_costComplete);
-console.log(fund_rqComplete);
-console.log(lc_matchComplete);
-    console.log('======');
-
     // Check common attributes first
     if (
       lead_agComplete
@@ -719,7 +707,8 @@ console.log(lc_matchComplete);
         if (
           fundStatus == 'Funded'
 
-          // && intersectionsComplete
+          && intersectionsValidated.length == intersectionCounter
+          && primary_streetComplete
           && proj_statusComplete
           && proj_manComplete
           && cdComplete
@@ -754,7 +743,8 @@ console.log(lc_matchComplete);
           }
         } else if(
           fundStatus == 'Unfunded'
-          // && intersectionsComplete
+          && intersectionsValidated.length == intersectionCounter
+          && primary_streetComplete
           && proj_statusComplete
           && proj_manComplete
           && cdComplete
