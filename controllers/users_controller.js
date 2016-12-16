@@ -146,13 +146,13 @@ router.post('/login', function(req, res) {
 		else {
 		bcrypt.compare(req.body.password, user.password_hash, function(err, result) {
         	if (result == true){
-							req.session.logged_in = true;
+				req.session.logged_in = true;
 	            req.session.firstname = user.firstname;
 	            req.session.lastname = user.lastname;
 	            req.session.phonenumber = user.phonenumber;
-			        req.session.user_id = user.id;
-			        req.session.email = user.email;
-			        req.session.admin = user.admin;
+			    req.session.user_id = user.id;
+			    req.session.email = user.email;
+			    req.session.admin = user.admin;
 
 		        if (user.admin == "Admin"){
 		        	req.session.adminclearance = true;
@@ -236,8 +236,8 @@ router.post('/finishuser', function(req,res) {
 				where: {email: req.body.email}
 			})
 			.then(function(){
-				req.session.logged_in = false;
-				res.redirect('/signin');
+				// req.session.logged_in = false;
+				res.redirect('/');
 			});
 		});
 	});
