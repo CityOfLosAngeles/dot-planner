@@ -52,6 +52,11 @@ body {
     text-decoration: none;
 }
 
+#export {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 #fundedAttributes, #unfundedAttributes, #fundedAndUnfundedAttributes {
   display: none;
 }
@@ -119,7 +124,7 @@ body {
   margin-top: 10px;
 }
 .table-section{
-  margin-top: 80px;
+  margin-top: 10px;
   overflow-x: scroll;
 }
 
@@ -265,5 +270,42 @@ body {
 }
 .userForm h3, h4 {
   font-size: 16px;
+}
+/*/////////////////////////*/
+
+/*table.hbs css*/
+table{
+  width:100%;
+  table-layout: fixed;
+  border: 1px #f0eeee solid;
+}
+.tbl-content{
+  height: 400px;
+  overflow-x:auto;
+  margin-top: 0px;
+}
+th{
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  background-color: #f0eeee;
+}
+td{
+  padding: 15px;
+  text-align: left;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  border-bottom: solid 1px rgba(255,255,255,0.1);
+}
+::-webkit-scrollbar {
+    width: 6px;
+} 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+} 
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
 }
 /*/////////////////////////*/
