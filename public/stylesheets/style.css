@@ -294,16 +294,17 @@ td{
 }
 /*/////////////////////////*/
 
-/*new project form style*/
+/*project form style*/
 
-#newprojectform{
+#newprojectform, .list-group-flush{
     max-width:500px;
     margin:10px auto;
     background:#fff;
     border-radius:2px;
     padding:20px;
+    color: #B9B9B9;
 }
-#newprojectform h1{
+#newprojectform h1, .list-group-flush h1{
     display: block;
     text-align: center;
     padding: 0;
@@ -312,20 +313,18 @@ td{
     font-size:x-large;
 }
 
-#newprojectform .form-group{
+#newprojectform .form-group, .list-group-flush li{
     display: block;
     padding: 9px;
     border:1px solid #DDDDDD;
     margin-bottom: 30px;
     border-radius: 3px;
 }
-#newprojectform .form-group:last-child{
-    border:none;
-    margin-bottom: 0px;
-    text-align: center;
+#budgetdiv .form-group, #unfundedAttributes .form-group {
+  margin-bottom: 15px;
 }
 
-#newprojectform .form-group > label{
+#newprojectform .form-group > label, .list-group-flush li > label{
     display: block;
     float: left;
     margin-top: -21px;
@@ -335,12 +334,21 @@ td{
     color: #B9B9B9;
     font-size: 14px;
 }
+
 #newprojectform input[type="text"],
+#newprojectform input[type="tel"],
 #newprojectform input[type="email"],
 #newprojectform input[type="number"],
 #newprojectform input[type="password"],
 #newprojectform textarea,
-#newprojectform select 
+#newprojectform select,
+.list-group-flush input[type="text"],
+.list-group-flush input[type="tel"],
+.list-group-flush input[type="email"],
+.list-group-flush input[type="number"],
+.list-group-flush input[type="password"],
+.list-group-flush textarea,
+.list-group-flush select 
 {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -353,15 +361,10 @@ td{
     line-height: 25px;
     font-size: 16px;
     padding: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
-#newprojectform input[type="text"]:focus,
-#newprojectform input[type="email"]:focus,
-#newprojectform input[type="number"]:focus,
-#newprojectform input[type="password"]:focus,
-#newprojectform textarea:focus,
-#newprojectform select:focus 
-{
-}
+
 #newprojectform .form-group > span{
     background: #F3F3F3;
     display: block;
@@ -370,6 +373,7 @@ td{
     text-align: center;
     color: #C0C0C0;
     font-size: 11px;
+    border-radius: 3px;
 }
 #newprojectform textarea{
     resize:none;
@@ -388,6 +392,12 @@ td{
     background: #6B9FFF;
     color:#fff;
 }
+
+#newprojinfo {
+  color: #666666;
+}
+
+.list-group-flush p {
+  display: inline;
+}
 /*/////////////////////////*/
-
-
