@@ -6,7 +6,9 @@
       </div>
       <div id="sidebar" class="col-xs-4">
         <div>
-          <form>
+          <center><h1>Add a New Project</h1></center>
+          <p>Use the draw tools on the map to add a new shape. Then fill out the form below and submit the new project.</p>
+          <form id="newprojectform">
 
               <!-- Funding Status -->
               <div class="form-group" id="Fund_St">
@@ -29,25 +31,30 @@
                         Idea Project
                       </label>
                   </div>
+                <span>funding status describes whether the project has gotten funding</span>
               </div>
 
               <!-- Legacy ID -->
-              <label for="Legacy_ID">Legacy ID</label>
+              
               <div class="form-group" id="Legacy-ID-group">
+                  <label for="Legacy_ID">Legacy ID</label>
                   <input type="number" class="form-control" id="Legacy_ID" placeholder="">
+                  <span>If the project is older it could have a legacy Id</span>
                   <span id="Legacy-ID-span" aria-hidden="true"></span>
               </div>
 
               <!-- Lead Agency -->
-              <label for="Lead_Ag">Lead Agency*</label>
+              
               <div class="form-group" id="Lead_Ag-group">
+                  <label for="Lead_Ag">Lead Agency*</label>
                   <input type="text" class="form-control" id="Lead_Ag" placeholder="i.e. LADOT">
                   <span id="Lead_Ag-span" aria-hidden="true"></span>
               </div>
 
               <!-- Project Title -->
-              <label for="Proj_Title">Project Title*</label>
+              
               <div class="form-group" id="Proj_Title-group">
+                  <label for="Proj_Title">Project Title*</label>
                   <input type="text" class="form-control" id="Proj_Title" placeholder="">
                   <span id="Proj_Title-span" aria-hidden="true"></span>
               </div>
@@ -100,8 +107,8 @@
               </div>
 
               <!-- Project Description -->
-              <label for="Proj_Desc">Project Description*</label>
               <div class="form-group" id="Proj_Desc-group">
+                  <label for="Proj_Desc">Project Description*</label>
                   <textarea class="form-control" rows="3" id="Proj_Desc"></textarea>
                   <p class="help-block">Brief statement of project purpose and scope</p>
                   <span id="Proj_Desc-span" aria-hidden="true"></span>
