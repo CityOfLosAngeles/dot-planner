@@ -13,7 +13,7 @@ var hbs = require('hbs');
 app.use(methodOverride('_method'))
 
 //sessions
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 3600000 }}));
 app.use(cookieParser());
 
 // views and handlebars setup
@@ -39,6 +39,7 @@ hbs.registerHelper('equal', function(lvalue, rvalue, options) {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/projects', express.static(__dirname + '/public'));
 app.use('/projects/edit', express.static(__dirname + '/public'));
+app.use('/users', express.static(__dirname + '/public'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
