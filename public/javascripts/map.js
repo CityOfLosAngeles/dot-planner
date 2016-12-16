@@ -79,7 +79,7 @@ function checkZoom() {
       }
     });
   }
-}  
+}
 
 //Run the filter function when the filter button is clicked
 $('#filter').on('click', function() {
@@ -131,14 +131,21 @@ function filterProjects() {
 //Function that sets the map bounds to a project
 //This essentially "zooms in" on a project
 function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
+    if (e.target.feature.geometry.type === 'Point') {
+      var coordinates = e.target.feature.geometry.coordinates.slice().reverse();
+      map.setView(coordinates, 18)
+    } else {
+      map.fitBounds(e.target.getBounds());
+    }
 }
 
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
     zoomToFeature(e)
-    geoJSON.eachLayer(function(l){geoJSON.resetStyle(l);});
-    layer.setStyle({color: 'yellow'});
+    if (e.target.feature.geometry.type != 'Point'){
+      geoJSON.eachLayer(function(l){geoJSON.resetStyle(l);});
+      layer.setStyle({color: 'yellow'});
+    }
     var fundStatus = feature.properties.Fund_St;
     $('#sidebar-fundedAndUnfunded').hide();
     $('#sidebar-funded-attributes').hide();
