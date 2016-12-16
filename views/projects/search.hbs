@@ -2,6 +2,7 @@
   {{#if logged_in}}
     <div id="search-results" class="table-section">
       <h1>Search Results</h1>
+      <input type="checkbox" class="select-all-box" id="search-select-all"><h4 class="select-all">Select All</h4>
       <div class="tbl-header">
         <table class="table-bordered">
           <thead class="thead-inverse">
@@ -13,7 +14,7 @@
               <th>Contact Name</th>
               <th>Contact Number</th>
               <th>Contact Email</th>
-              <th>Edit/Delete/View</th>
+              <th>View/Edit/Delete</th>
             </tr>
           </thead>
         </table>
@@ -31,10 +32,10 @@
                     <td>{{this.Contact_info.Contact_info_name}}</td>
                     <td>{{this.Contact_info.Contact_info_phone}}</td>
                     <td>{{this.Contact_info.Contact_info_email}}</td>
-                    <td>
-                      <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                      <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary btn-sm">Edit</button></a>
-                      <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success btn-sm">View</button>
+                    <td class="text-center">
+                      <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
+                      <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary table-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a><br>
+                      <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger table-button"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
                     </td>
                 </tr>
               {{/each}}
@@ -42,6 +43,7 @@
         </table>
       </div>
     </div>
+    <button type="submit" name="button" class="btn btn-primary" id="export">Export As Spreadsheet</button>
   {{/if}}
   {{#unless logged_in}}
   <div id="search-results" class="table-section">
@@ -80,5 +82,71 @@
         </table>
       </div>
     </div>
+    <button type="submit" name="button" class="btn btn-primary" id="export">Export As Spreadsheet</button>
   {{/unless}}
 </div>
+
+<div class="modal fade" id="delete-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Delete</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you would like to delete this project?</p>
+      </div>
+      <div class="modal-footer">
+        <form method="POST" id="delete-form">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger" id="delete-project-button">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  $('#search-select-all').change(function() {
+    if ($('#search-select-all').is(':checked')) {
+      $('#search-results input').prop('checked', true);
+    } else {
+      $('#search-results input').prop('checked', false);
+    }
+  });
+
+  $(document).on('click', '.delete', function() {
+    var id = $(this).attr('data-id');
+    $('#delete-form').attr('action', '/projects/id/' + id + '?_method=DELETE');
+    $('#delete-modal').modal()
+  });
+
+  $('#export').on('click', function() {
+    var searchIDs = $('table input:checked').map(function(){
+     return $(this).val();
+    }).toArray();
+
+    var queryString = searchIDs.join('&')
+
+    $.ajax({
+        method: "GET",
+        url: "/projects/ids/" + queryString,
+        dataType: "json",
+        success: function(data) {
+          var projectsString = JSON.stringify(data);
+          $.post('http://ogre.adc4gis.com/convertJson', { json: projectsString, format : "csv"},
+          function(csv){
+            a = document.createElement('a');
+            a.download="myFileName.csv";
+            a.href='data:text/csv;charset=utf-8,'+escape(csv);
+            document.body.appendChild(a);
+            a.click()
+          });
+        }
+    });
+    $('#search-results input').prop('checked', false);
+});
+</script>

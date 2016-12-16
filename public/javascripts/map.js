@@ -4,7 +4,7 @@ var geoJSON;
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map').setView([
     34.0522, -118.2437
-], 14);
+], 10);
 
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 
@@ -79,10 +79,9 @@ function checkZoom() {
       }
     });
   }
-}  
+}
 
-//Run the filter function when the filter button is clicked
-$('#filter').on('click', function() {
+$('.filter input[type="checkbox"]').change(function() {
   filterProjects();
 });
 
@@ -131,14 +130,21 @@ function filterProjects() {
 //Function that sets the map bounds to a project
 //This essentially "zooms in" on a project
 function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
+    if (e.target.feature.geometry.type === 'Point') {
+      var coordinates = e.target.feature.geometry.coordinates.slice().reverse();
+      map.setView(coordinates, 18)
+    } else {
+      map.fitBounds(e.target.getBounds());
+    }
 }
 
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
     zoomToFeature(e)
     geoJSON.eachLayer(function(l){geoJSON.resetStyle(l);});
-    layer.setStyle({color: 'yellow'});
+    if (e.target.feature.geometry.type != 'Point'){
+      layer.setStyle({color: 'yellow'});
+    }
     var fundStatus = feature.properties.Fund_St;
     $('#sidebar-fundedAndUnfunded').hide();
     $('#sidebar-funded-attributes').hide();
@@ -151,7 +157,7 @@ function onEachFeature(feature, layer) {
     $(document).on('click', '#show-info', function() {
       $('#show-info').remove();
       $('#hide-info').remove();
-      var button = $('<button id="hide-info" class="btn btn-danger" type="button" name="button">Less Info</button>');
+      var button = $('<button id="hide-info" class="btn btn-primary" type="button" name="button">Less Info</button>');
       $('#project-details').append(button);
       $('#sidebar-more-info').show();
       if (fundStatus === 'Funded') {
@@ -203,13 +209,27 @@ function onEachFeature(feature, layer) {
     if (fundStatus === 'Funded') {
       $('#Dept_Proj_ID').text(feature.properties.Dept_Proj_ID);
       $('#Other_ID').text(feature.properties.Other_ID);
-      $('#Total_bgt').text('$' + feature.properties.Total_bgt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('#Grant').text('$' + feature.properties.Grant.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('#Other_funds').text('$' + feature.properties.Other_funds.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('#Prop_c').text('$' + feature.properties.Prop_c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('#Measure_r').text('$' + feature.properties.Measure_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('#Gas_Tax').text('$' + feature.properties.Gas_Tax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('#General_fund').text('$' + feature.properties.General_fund.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      if (feature.properties.Total_bgt) {
+        $('#Total_bgt').text('$' + feature.properties.Total_bgt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      }
+      if (feature.properties.Grant) {
+        $('#Grant').text('$' + feature.properties.Grant.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      }
+      if (feature.properties.Other_funds) {
+        $('#Other_funds').text('$' + feature.properties.Other_funds.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      }
+      if (feature.properties.Prop_c) {
+        $('#Prop_c').text('$' + feature.properties.Prop_c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      }
+      if (feature.properties.Measure_r) {
+        $('#Measure_r').text('$' + feature.properties.Measure_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      }
+      if (feature.properties.Gas_Tax) {
+        $('#Gas_Tax').text('$' + feature.properties.Gas_Tax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      }
+      if (feature.properties.General_fund) {
+        $('#General_fund').text('$' + feature.properties.General_fund.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      }
       $('#Authorization').text(feature.properties.Authorization);
       $('#Issues').text(feature.properties.Issues);
       $('#Deobligation').text(feature.properties.Issues);
@@ -224,13 +244,19 @@ function onEachFeature(feature, layer) {
       $('#Unfunded-CD').text(feature.properties.CD);
       $('#Grant_Cat').text(feature.properties.Grant_Cat);
       $('#Grant_Cycle').text(feature.properties.Grant_Cycle);
-      $('#Est_Cost').text('$' + feature.properties.Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('#Fund_Rq').text('$' + feature.properties.Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('#Lc_match').text('$' + feature.properties.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      if (feature.properties.Est_Cost) {
+        $('#Est_Cost').text('$' + feature.properties.Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      }
+      if (feature.properties.Fund_Rq) {
+        $('#Fund_Rq').text('$' + feature.properties.Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      }
+      if (feature.properties.Lc_match) {
+        $('#Lc_match').text('$' + feature.properties.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      }
       $('#Match_Pt').text(feature.properties.Match_Pt + '%');
     }
     var editButton = $('<button class="btn btn-danger" id="edit-button" data-href="/projects/edit/' + feature.properties.id + '">Edit Project</button>');
-    $('#project-details').prepend(editButton);
+    $('#project-details').append(editButton);
   });
 }
 
