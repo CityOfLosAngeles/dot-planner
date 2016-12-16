@@ -1,19 +1,18 @@
 {{#if adminclearance}}
-<div class="container">
-<h1>Admin Add User Form</h1>
+<div class="userForm" id="adminAddForm">
 <form class="create-update-form" action="/users/admincreateuser" method="POST">
-
-  <div class="form-group">
-    <label for="em">Email:</label>
-    <input type="text" id="em" name="email">
-  </div>
-
-  <div class="form-group">  
-    <input type="radio" name="admin" value="Admin">Admin<br>
-    <input type="radio" name="admin" value="Project Manager">Project Manager<br>
-  </div>
-
-  <button type="submit">Give Edit Access</button>
+	<h2>Add a New User</h2>
+	<input type="text" name="email" id="email" placeholder="Email Address" required>
+	<div class="row">
+		<div class="col-md-6">
+			<input type="radio" name="admin" id="radio1" value="Project Manager" required><label for="radio1"><h4>Project Manager</h4></label>
+		</div>
+		<div class="col-md-6">
+			<input type="radio" name="admin" id="radio2" value="Admin"><label for="radio2"><h4>Admin</h4></label>
+		</div>
+	</div>
+	
+	<button type="submit">Give Edit Access</button>
 </form>
 </div>
 {{/if}}

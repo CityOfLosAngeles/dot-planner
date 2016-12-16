@@ -39,6 +39,7 @@ hbs.registerHelper('equal', function(lvalue, rvalue, options) {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/projects', express.static(__dirname + '/public'));
 app.use('/projects/edit', express.static(__dirname + '/public'));
+app.use('/users', express.static(__dirname + '/public'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
