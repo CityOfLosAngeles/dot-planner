@@ -331,7 +331,7 @@
         dataType: "json",
         success: function(data) {
           var projectsString = JSON.stringify(data);
-          $.post('http://ogre.adc4gis.com/convertJson', { json: projectsString, format : "csv"},
+          $.post('https://ogre.adc4gis.com/convertJson', { json: projectsString, format : "csv"},
           function(csv){
             a = document.createElement('a');
             a.download="myFileName.csv";
