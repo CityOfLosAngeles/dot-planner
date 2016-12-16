@@ -2,6 +2,7 @@
   {{#if logged_in}}
     <div id="funded-table" class="table-section">
       <h1>Funded Projects</h1>
+      <input type="checkbox" id="funded-select-all" class="select-all-box"><h4 class="select-all">Select All Funded</h4>
       <div class="tbl-header">
         <table class="table-bordered">
           <thead class="thead-inverse">
@@ -13,7 +14,7 @@
                   <th>Contact Name</th>
                   <th>Contact Number</th>
                   <th>Contact Email</th>
-                  <th>Edit/Delete/View</th>
+                  <th>View/Edit/Delete</th>
               </tr>
           </thead>
         </table>
@@ -31,10 +32,10 @@
                       <td>{{this.Contact_info.Contact_info_name}}</td>
                       <td>{{this.Contact_info.Contact_info_phone}}</td>
                       <td>{{this.Contact_info.Contact_info_email}}</td>
-                      <td>
-                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary btn-sm">Edit</button></a>
-                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success btn-sm">View</button>
+                      <td class="text-center">
+                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
+                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary table-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a><br>
+                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger table-button"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
                       </td>
                   </tr>
                   {{/equal}}
@@ -46,6 +47,7 @@
 
     <div id="unfunded-table" class="table-section">
       <h1>Unfunded Projects</h1>
+      <input type="checkbox" id="unfunded-select-all" class="select-all-box"><h4 class="select-all">Select All Unfunded</h4>
       <div class="tbl-header">
         <table class="table-bordered">
           <thead class="thead-inverse">
@@ -57,7 +59,7 @@
                   <th>Contact Name</th>
                   <th>Contact Number</th>
                   <th>Contact Email</th>
-                  <th>Edit/Delete/View</th>
+                  <th>View/Edit/Delete</th>
               </tr>
           </thead>
         </table>
@@ -75,10 +77,10 @@
                       <td>{{this.Contact_info.Contact_info_name}}</td>
                       <td>{{this.Contact_info.Contact_info_phone}}</td>
                       <td>{{this.Contact_info.Contact_info_email}}</td>
-                      <td>
-                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary btn-sm">Edit</button></a>
-                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success btn-sm">View</button>
+                      <td class="text-center">
+                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
+                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary table-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a><br>
+                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger table-button"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
                       </td>
                   </tr>
                   {{/equal}}
@@ -90,6 +92,7 @@
 
     <div id="idea-table" class="table-section">
       <h1>Idea Projects</h1>
+      <input type="checkbox" id="idea-select-all" class="select-all-box"><h4 class="select-all">Select All Idea Projects</h4>
       <div class="tbl-header">
         <table class="table-bordered">
           <thead class="thead-inverse">
@@ -101,7 +104,7 @@
                   <th>Contact Name</th>
                   <th>Contact Number</th>
                   <th>Contact Email</th>
-                  <th>Edit/Delete/View</th>
+                  <th>View/Edit/Delete</th>
               </tr>
           </thead>
         </table>
@@ -119,10 +122,10 @@
                       <td>{{this.Contact_info.Contact_info_name}}</td>
                       <td>{{this.Contact_info.Contact_info_phone}}</td>
                       <td>{{this.Contact_info.Contact_info_email}}</td>
-                      <td>
-                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary btn-sm">Edit</button></a>
-                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success btn-sm">View</button>
+                      <td class="text-center">
+                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
+                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary table-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a><br>
+                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger table-button"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
                       </td>
                   </tr>
                   {{/equal}}
@@ -131,13 +134,14 @@
         </table>
       </div>
     </div>
-  
+
     <button type="submit" name="button" class="btn btn-primary btn-lg" id="export">Export Projects</button>
   {{/if}}
 
   {{#unless logged_in}}
     <div id="funded-table" class="table-section">
       <h1>Funded Projects</h1>
+      <input type="checkbox" id="funded-select-all" class="select-all-box"><h4 class="select-all">Select All Funded</h4>
       <div class="tbl-header">
         <table class="table-bordered">
           <thead class="thead-inverse">
@@ -149,7 +153,7 @@
                   <th>Contact Name</th>
                   <th>Contact Number</th>
                   <th>Contact Email</th>
-                
+
               </tr>
           </thead>
         </table>
@@ -167,7 +171,6 @@
                       <td>{{this.Contact_info.Contact_info_name}}</td>
                       <td>{{this.Contact_info.Contact_info_phone}}</td>
                       <td>{{this.Contact_info.Contact_info_email}}</td>
-                      
                   </tr>
                   {{/equal}}
                 {{/each}}
@@ -178,6 +181,7 @@
 
     <div id="unfunded-table" class="table-section">
       <h1>Unfunded Projects</h1>
+      <input type="checkbox" id="unfunded-select-all" class="select-all-box"><h4 class="select-all">Select All Unfunded</h4>
       <div class="tbl-header">
         <table class="table-bordered">
           <thead class="thead-inverse">
@@ -189,7 +193,7 @@
                   <th>Contact Name</th>
                   <th>Contact Number</th>
                   <th>Contact Email</th>
-                  
+
               </tr>
           </thead>
         </table>
@@ -207,7 +211,7 @@
                       <td>{{this.Contact_info.Contact_info_name}}</td>
                       <td>{{this.Contact_info.Contact_info_phone}}</td>
                       <td>{{this.Contact_info.Contact_info_email}}</td>
-                      
+
                   </tr>
                   {{/equal}}
                 {{/each}}
@@ -218,6 +222,7 @@
 
     <div id="idea-table" class="table-section">
       <h1>Idea Projects</h1>
+      <input type="checkbox" id="funded-select-all" class="select-all-box"><h4 class="select-all">Select All Idea Projects</h4>
       <div class="tbl-header">
         <table class="table-bordered">
           <thead class="thead-inverse">
@@ -229,7 +234,7 @@
                   <th>Contact Name</th>
                   <th>Contact Number</th>
                   <th>Contact Email</th>
-                  
+
               </tr>
           </thead>
         </table>
@@ -247,7 +252,7 @@
                       <td>{{this.Contact_info.Contact_info_name}}</td>
                       <td>{{this.Contact_info.Contact_info_phone}}</td>
                       <td>{{this.Contact_info.Contact_info_email}}</td>
-                      
+
                   </tr>
                   {{/equal}}
                 {{/each}}
@@ -255,8 +260,8 @@
         </table>
       </div>
     </div>
-  
-    <button type="submit" name="button" class="btn btn-primary btn-lg" id="export">Export Projects</button>
+
+    <button type="submit" name="button" class="btn btn-primary" id="export">Export As Spreadsheet</button>
     {{/unless}}
   </div>
 </div>
@@ -284,6 +289,29 @@
 </div>
 
 <script type="text/javascript">
+
+  function selectAll() {
+    if ($('#funded-select-all').is(":checked")) {
+      $('#funded-table input').prop('checked', true);
+    } else {
+      $('#funded-table input').prop('checked', false);
+    }
+    if ($('#unfunded-select-all').is(":checked")) {
+      $('#unfunded-table input').prop('checked', true);
+    } else {
+      $('#unfunded-table input').prop('checked', false);
+    }
+    if ($('#idea-select-all').is(":checked")) {
+      $('#idea-table input').prop('checked', true);
+    } else {
+      $('#idea-table input').prop('checked', false);
+    }
+  }
+
+  $('.select-all-box').change(function() {
+    selectAll();
+  });
+
   $(document).on('click', '.delete', function() {
     var id = $(this).attr('data-id');
     $('#delete-form').attr('action', '/projects/id/' + id + '?_method=DELETE');
@@ -313,5 +341,10 @@
           });
         }
     });
+
+    //Uncheck all the selectors on export
+    $('#funded-table input').prop('checked', false);
+    $('#unfunded-table input').prop('checked', false);
+    $('#idea-table input').prop('checked', false);
 });
 </script>
