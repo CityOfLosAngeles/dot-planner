@@ -352,7 +352,11 @@ $('#update-project').on('click', function() {
         //Push all the intersections into an array
         var interArr = [];
         $('.Intersections').each(function() {
-            interArr.push($(this).val());
+
+            // Take out "United States" from at the end of intersections
+            var tempAddress = $(this).val().replace(", United States", "");
+
+            interArr.push(tempAddress);
         });
 
         //Create the newProject object and set common attributes
@@ -374,7 +378,10 @@ $('#update-project').on('click', function() {
         }
         //Funded and Unfunded but NOT Idea Attributes
         if (fundStatus != 'Idea Project') {
-            newProject.Primary_Street = $('#Primary_Street').val();
+            // Take out "United States" primary
+            var tempAddress = $('#Primary_Street').val().replace(", United States", "");
+
+            newProject.Primary_Street = tempAddress;
             newProject.Cross_Streets = JSON.stringify({Intersections: interArr});
             newProject.CD = $('#CD').val();
             newProject.Proj_Status = $('#Proj_Status').val();
