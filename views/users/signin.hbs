@@ -1,17 +1,10 @@
-<div class="container">
-<h1>Sign In</h1>
-<form class="create-update-form" action="/users/login" method="POST">
+<div class="userForm" id="signinForm">
+	<form class="create-update-form" action="/users/login" method="POST">
+		<h2>Sign In</h2>
+		<input type="text" name="email" id="email" placeholder="Email Address" required>
 
-  <div class="form-group">
-    <label for="em">Email:</label>
-    <input type="text" id="em" name="email">
-  </div>
+		<input type="password" name="password" id="password" placeholder="Password" required>
 
-  <div class="form-group">
-    <label for="pass">Password:</label>
-    <input type="password" id="pass" name="password">
-  </div>
-
-  <button type="submit">Sign In</button>
-</form>
+		<button type="submit">Sign In</button>
+	</form>
 </div>
