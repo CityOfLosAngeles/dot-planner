@@ -160,7 +160,7 @@ function onEachFeature(feature, layer) {
     $(document).on('click', '#show-info', function() {
       $('#show-info').remove();
       $('#hide-info').remove();
-      var button = $('<button id="hide-info" type="button" name="button">Less Info</button>');
+      var button = $('<button id="hide-info" type="button" name="button" class="btn">Less Info</button>');
       $('#project-details').append(button);
       $('#sidebar-more-info').show();
       if (fundStatus === 'Funded') {
@@ -175,7 +175,7 @@ function onEachFeature(feature, layer) {
     $(document).on('click', '#hide-info', function() {
       $('#show-info').remove();
       $('#hide-info').remove();
-      var button = $('<button id="show-info" type="button" name="button">More Info</button>');
+      var button = $('<button id="show-info" type="button" name="button" class="btn">More Info</button>');
       $('#project-details').append(button);
       $('#sidebar-more-info').hide();
       if (fundStatus === 'Funded') {
@@ -204,7 +204,7 @@ function onEachFeature(feature, layer) {
       $('#Primary_Street').text(feature.properties.Primary_Street);
       $('#Cross_Streets').text(feature.properties.Cross_Streets.Intersections);
       $('#sidebar-fundedAndUnfunded').show();
-      var button = $('<button id="show-info" class="btn btn-primary" type="button" name="button">More Info</button>');
+      var button = $('<button id="show-info" class="btn" type="button" name="button">More Info</button>');
       $('#project-details').append(button);
     }
 
