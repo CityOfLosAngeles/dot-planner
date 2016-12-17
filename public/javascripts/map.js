@@ -134,7 +134,7 @@ function filterProjects() {
 function zoomToFeature(e) {
     if (e.target.feature.geometry.type === 'Point') {
       var coordinates = e.target.feature.geometry.coordinates.slice().reverse();
-      map.setView(coordinates, 18)
+      map.setView(coordinates, 16)
     } else {
       map.fitBounds(e.target.getBounds());
     }
