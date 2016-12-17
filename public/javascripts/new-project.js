@@ -216,15 +216,20 @@ $('#add-intersection').on('click', function() {
 
     var div = $('<div class="form-group" id="cross-street' + intersectionCounter + '-group">');
 
-    var input = $('<input class="form-control">');
+    var input = $('<input type="text" class="form-control">');
     input.addClass('Intersections');
-    input.attr('placeholder', 'Cross Street ' + intersectionCounter);
+    input.attr('placeholder', '');
     input.attr('id', 'cross-street' + intersectionCounter);
-
-    var span = $('<span id="cross-street' + intersectionCounter + '-span" area-hidden="true">');
-
-    div.append(input);
-    div.append(span);
+    
+    var span = $('<span id="cross-street' + intersectionCounter + '-span" area-hidden="true">');        
+    span.css({
+        "height": "100%",
+        "right": "9px",
+        "top": "0px"
+    });
+    div.append(input);        
+    div.append(span);     
+    div.append($("<span>Cross Street " + intersectionCounter + "</span>"));
     $('#intersections').append(div);
 
     var input = document.getElementById('cross-street' + intersectionCounter);
