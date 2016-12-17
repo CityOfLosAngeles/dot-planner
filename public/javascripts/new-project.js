@@ -214,11 +214,23 @@ function addProject(project) {
 $('#add-intersection').on('click', function() {
     intersectionCounter++;
 
-    var input = $('<input type="text" class="form-control"><span id="cross-street' + intersectionCounter + '-span" area-hidden="true">');
+    var div = $('<div class="form-group" id="cross-street' + intersectionCounter + '-group">');
+
+    var input = $('<input type="text" class="form-control">');
     input.addClass('Intersections');
-    input.attr('placeholder', 'Cross Street ' + intersectionCounter);
+    input.attr('placeholder', '');
     input.attr('id', 'cross-street' + intersectionCounter);
-    $('#intHere').append(input);
+    
+    var span = $('<span id="cross-street' + intersectionCounter + '-span" area-hidden="true">');        
+    span.css({
+        "height": "100%",
+        "right": "9px",
+        "top": "0px"
+    });
+    div.append(input);        
+    div.append(span);     
+    div.append($("<span>Cross Street " + intersectionCounter + "</span>"));
+    $('#intersections').append(div);
 
     var input = document.getElementById('cross-street' + intersectionCounter);
     autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
@@ -234,7 +246,7 @@ $("#undo-intersection").on('click', function() {
     if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
         intersectionsValidated.pop();
 
-    $('#cross-street' + intersectionCounter).remove();
+    $('#cross-street' + intersectionCounter + '-group').remove();
     intersectionCounter--;
     if (intersectionCounter === 2) {
         $('#undo-intersection').hide();
