@@ -21,10 +21,11 @@ body {
 
 .navbar-default .navbar-nav>li>a {
     color: #AAAAAA;
+    text-decoration: none;
 }
 
-.navbar-default .navbar-nav>li>a:hover {
-    color: #DDDDDD;
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:hover {
+    color: white;
 }
 
 #map{
@@ -68,11 +69,38 @@ body {
     text-decoration: none;
 }
 
-#export {
-  margin-top: 10px;
-  margin-bottom: 10px;
+#export, #submit-project {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f0eeee;
+  color: #001f3f;
+  border: 1px solid #001f3f;
+  border-radius: 0px;
 }
-
+#submit-project {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 3px;
+}
+#deleteuserbutton {
+  margin-left: 8px;
+}
+#show-info, #edit-button, #hide-info {
+  background-color: #f0eeee;
+  border: 1px solid #001f3f;
+  border-radius: 0px;
+  color: #001f3f;
+  margin: 0 20px 0 20px;
+}
+#deleteuserbutton, #show-info:hover, #edit-button:hover, #hide-info:hover, #export:hover, #submit-project:hover {
+  background-color: #001f3f;
+  border: 1px solid #001f3f;
+  border-radius: 0px;
+  color: white;
+}
 #fundedAttributes, #unfundedAttributes, #fundedAndUnfundedAttributes {
   display: none;
 }
