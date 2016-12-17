@@ -159,7 +159,7 @@ router.post('/new', function(req, res) {
       //Parse the contact info
       var contactInfo = JSON.parse(newProject.Contact_info);
       newProject.Contact_info = contactInfo;
-
+      console.log('Working up to cross streets!');
       //Check if the project has cross streets
       if (newProject.hasOwnProperty('Cross_Streets')) {
         //parse the cross streets
