@@ -141,8 +141,10 @@ router.get('/funding/:status/type/:type', function(req, res) {
 
 //Saves a new project to the DB only if user is logged in
 router.post('/new', function(req, res) {
+    console.log('Route Hit');
     //If the user is logged in
     if (req.session.logged_in) {
+      console.log('User is logged in.');
       var newProject = req.body;
 
       //Parse the projects geometry which was stringified on the front end
