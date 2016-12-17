@@ -88,14 +88,24 @@ body {
 #deleteuserbutton {
   margin-left: 8px;
 }
-#show-info, #edit-button, #hide-info {
+#show-info, #edit-button, #hide-info, #add-intersection, #undo-intersection, #update-project {
   background-color: #f0eeee;
   border: 1px solid #001f3f;
   border-radius: 0px;
   color: #001f3f;
   margin: 0 20px 0 20px;
 }
-#deleteuserbutton, #show-info:hover, #edit-button:hover, #hide-info:hover, #export:hover, #submit-project:hover {
+#intersections .form-group{
+  margin-bottom: 2px;
+}
+#intersections .form-group:last-child {
+  margin-bottom: 5px;
+}
+#add-intersection, #undo-intersection, #update-project {
+  margin-top: 10px;
+  margin-left: 0px;
+}
+#deleteuserbutton, #add-intersection:hover, #undo-intersection:hover, #show-info:hover, #edit-button:hover, #hide-info:hover, #export:hover, #submit-project:hover, #update-project:hover {
   background-color: #001f3f;
   border: 1px solid #001f3f;
   border-radius: 0px;
