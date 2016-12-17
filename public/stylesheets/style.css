@@ -7,7 +7,20 @@ body {
 
 .navbar {
   margin-bottom: 0;
-  background-color: #f0eeee;
+  background-color: #001f3f;
+  color: black;
+}
+
+.navbar-default .navbar-brand {
+    color: #DDDDDD;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #AAAAAA;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    color: #DDDDDD;
 }
 
 #map{
@@ -302,7 +315,7 @@ td{
     background:#fff;
     border-radius:2px;
     padding:20px;
-    color: #B9B9B9;
+    color: rgba(0, 0, 0, 0.59);
 }
 #newprojectform h1, .list-group-flush h1{
     display: block;
@@ -331,7 +344,7 @@ td{
     background: white;
     height: 14px;
     padding: 2px 5px 2px 5px;
-    color: #B9B9B9;
+    color:rgba(0, 0, 0, 0.59);
     font-size: 14px;
 }
 
@@ -371,7 +384,7 @@ td{
     padding: 3px;
     margin: 0 -9px -9px -9px;
     text-align: center;
-    color: #C0C0C0;
+    color: rgba(0, 0, 0, 0.59);
     font-size: 11px;
     border-radius: 3px;
 }
