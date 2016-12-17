@@ -13,24 +13,25 @@
               <!-- Funding Status -->
               <div class="form-group" id="Fund_St">
                 <label for="Fund_St">Funding Status*</label>
-                  <div class="radio">
-                      <label>
-                        <input type="radio" name="Fund_St" id="funded" value="Funded" class="Fund_St-option">
-                        Funded
-                      </label>
-                  </div>
-                  <div class="radio">
-                      <label>
-                        <input type="radio" name="Fund_St" id="unfunded" value="Unfunded" class="Fund_St-option">
-                        Unfunded
-                      </label>
-                  </div>
-                  <div class="radio">
-                      <label>
-                        <input type="radio" name="Fund_St" id="idea" value="Idea Project" class="Fund_St-option">
-                        Idea Project
-                      </label>
-                  </div>
+                <div class="radio">
+                    <label>
+                      <input type="radio" name="Fund_St" id="funded" value="Funded" class="Fund_St-option">
+                      Funded
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                      <input type="radio" name="Fund_St" id="unfunded" value="Unfunded" class="Fund_St-option">
+                      Unfunded
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                      <input type="radio" name="Fund_St" id="idea" value="Idea Project" class="Fund_St-option">
+                      Idea Project
+                    </label>
+                </div>
+                <span id="Fund_St-span" aria-hidden="true"></span>
                 {{!-- <span>any extra info?</span> --}}
               </div>
 
@@ -38,7 +39,7 @@
               
               <div class="form-group" id="Legacy-ID-group">
                   <label for="Legacy_ID">Legacy ID</label>
-                  <input type="number" class="form-control" id="Legacy_ID" placeholder="">
+                  <input type="text" class="form-control" id="Legacy_ID" placeholder="">
                   <span id="Legacy-ID-span" aria-hidden="true"></span>
                   <span>If the project is older it could have a legacy Id</span>
               </div>
@@ -101,10 +102,11 @@
                   </div>
                   <div class="radio">
                       <label>
-                    <input type="radio" value="Ped and Bike" name="Proj_Ty" class="Proj_Ty-option">
-                    Ped and Bike
-                  </label>
+                        <input type="radio" value="Ped and Bike" name="Proj_Ty" class="Proj_Ty-option">
+                        Ped and Bike
+                      </label>
                   </div>
+                  <span id="Proj_Ty-span" aria-hidden="true"></span>
               </div>
 
               <!-- Project Description -->
@@ -117,20 +119,24 @@
 
               <!-- Contact Information -->
               <div class="form-group">
-                <label for="Contact_info">Project Contact Information*</label>
+                <label for="Contact_info">Project Contact Information</label>
+                <br>
 
-                <div id="Contact_info_name-group">
-                    <input type="text" class="form-control" id="Contact_info_name" placeholder="Contact Name">
+                <div class="form-group" id="Contact_info_name-group">
+                    <label>Contact Name*</label>
+                    <input type="text" class="form-control" id="Contact_info_name" placeholder="">
                     <span id="Contact_info_name-span" aria-hidden="true"></span>
                 </div>
 
-                <div id="Contact_info_phone-group">
-                    <input type="tel" class="form-control" id="Contact_info_phone" placeholder="Contact Phone">
+                <div class="form-group" id="Contact_info_phone-group">
+                    <label>Contact Phone*</label>
+                    <input type="tel" class="form-control" id="Contact_info_phone" placeholder="">
                     <span id="Contact_info_phone-span" aria-hidden="true"></span>
                 </div>
 
-                <div id="Contact_info_email-group">
-                    <input type="email" class="form-control" id="Contact_info_email" placeholder="Contact Email">
+                <div class="form-group" id="Contact_info_email-group">
+                    <label>Contact Email*</label>
+                    <input type="email" class="form-control" id="Contact_info_email" placeholder="">
                     <span id="Contact_info_email-span" aria-hidden="true"></span>
                 </div>
               </div>
@@ -149,7 +155,7 @@
                 <!-- Council District Number -->
                 <div class="form-group" id="CD-group">
                   <label for="CD">Council District Number*</label>
-                  <input type="number" min="1" max="15" class="form-control" id="CD">
+                  <input type="text" class="form-control" id="CD">
                   <span id="CD-span" aria-hidden="true"></span>
                   <span>Districts 1-15</span>
                 </div>
@@ -212,6 +218,7 @@
                           Public
                         </label>
                     </div>
+                    <span id="Access-span" area-hidden="true"></span>
                     <span>Define project’s accessibility to different users.</span>
                 </div>
 
@@ -237,49 +244,49 @@
                 
                   <div class="form-group" id="Total_bgt-group">
                   <label for="Total_bgt">Total Budget*</label>
-                      <input type="number" step="0.01" class="form-control" id="Total_bgt" placeholder="$">
+                      <input type="text" class="form-control" id="Total_bgt" placeholder="$">
                       <span id="Total_bgt-span" aria-hidden="true"></span>
                   </div>
 
                   <!-- Grant -->
                   <div class="form-group" id="Grant-group">
                     <label for="Grant">Grant*</label>
-                    <input type="number" step="0.01" class="form-control" id="Grant" placeholder="$">
+                    <input type="text" class="form-control" id="Grant" placeholder="$">
                     <span id="Grant-span" aria-hidden="true"></span>
                   </div>
 
                   <!-- Other Funds -->
                   <div class="form-group" id="Other_funds-group">
                     <label for="Other_funds">Other Funds*</label>
-                    <input type="number" step="0.01" class="form-control" id="Other_funds" placeholder="$">
+                    <input type="text" class="form-control" id="Other_funds" placeholder="$">
                     <span id="Other_funds-span" aria-hidden="true"></span>
                   </div>
 
                   <!-- Prop C -->
                   <div class="form-group" id="Prop_c-group">
                     <label for="Prop_c">Prop C*</label>
-                    <input type="number" step="0.01" class="form-control" id="Prop_c" placeholder="$">
+                    <input type="text" class="form-control" id="Prop_c" placeholder="$">
                     <span id="Prop_c-span" aria-hidden="true"></span>
                   </div>
 
                   <!-- Measure R -->
                   <div class="form-group" id="Measure_r-group">
                     <label for="Measure_r">Measure R*</label>
-                    <input type="number" step="0.01" class="form-control" id="Measure_r" placeholder="$">
+                    <input type="text" class="form-control" id="Measure_r" placeholder="$">
                     <span id="Measure_r-span" aria-hidden="true"></span>
                   </div>
 
                   <!-- Gas Tax -->
                   <div class="form-group" id="Gas_tax-group">
                     <label for="Gas_tax">Gas Tax*</label>
-                    <input type="number" step="0.01" class="form-control" id="Gas_tax" placeholder="$">
+                    <input type="text" class="form-control" id="Gas_tax" placeholder="$">
                      <span id="Gas_tax-span" aria-hidden="true"></span>
                   </div>
 
                   <!-- General Fund -->
                   <div class="form-group" id="General_fund-group">
                     <label for="General_fund">General Fund*</label>
-                    <input type="number" step="0.01" class="form-control" id="General_fund" placeholder="$">
+                    <input type="text" class="form-control" id="General_fund" placeholder="$">
                     <span id="General_fund-span" aria-hidden="true"></span>
                   </div>
 
@@ -311,21 +318,21 @@
                     </div>
                     <div class="radio">
                         <label>
-                      <input type="radio" name="Deobligation" value="No" class="Deobligation-option">
-                      No
-                    </label>
+                          <input type="radio" name="Deobligation" value="No" class="Deobligation-option">
+                          No
+                        </label>
                     </div>
+                    <span id="Deobligation-span" aria-hidden="true"></span>
                 </div>
 
                 <!-- Explanation -->
-                <div class="form-group" id="explainRiskDiv">
-                  <label for="Explanation">Explain Risk of Deobligation*</label>
-                  <div id="Explanation-group">
+                <div id="explainRiskDiv">
+                  <div class="form-group" id="Explanation-group">
+                      <label for="Explanation">Explain Risk of Deobligation*</label>
                       <textarea class="form-control" rows="3" id="Explanation"></textarea>
                       <span id="Explanation-span" aria-hidden="true"></span>
-                      
+                      <span>Reasons why the project is/is not at risk.</span>
                   </div>
-                  <span>Reasons why the project is/is not at risk.</span>
                 </div>
 
                 <!-- Construction By -->
@@ -368,21 +375,21 @@
                   <!-- Estimated Cost -->
                   <div class="form-group" id="Est_Cost-group">
                     <label for="Est_Cost">Estimated City Cost*</label>
-                    <input type="number" step="0.01" class="form-control" id="Est_Cost" placeholder="$">
+                    <input type="text" class="form-control" id="Est_Cost" placeholder="$">
                     <span id="Est_Cost-span" aria-hidden="true"></span>
                   </div>
 
                   <!-- Fund Request -->
                   <div class="form-group" id="Fund_Rq-group">
                     <label for="Fund_Rq">Fund Request*</label>
-                    <input type="number" step="0.01" class="form-control" id="Fund_Rq" placeholder="">
+                    <input type="text" class="form-control" id="Fund_Rq" placeholder="$">
                     <span id="Fund_Rq-span" aria-hidden="true"></span>
                   </div>
 
                   <!-- Local Match -->
                   <div class="form-group" id="Lc_match-group">
                     <label for="Lc_match">Local Match*</label>
-                    <input type="number" step="0.01" class="form-control" id="Lc_match" placeholder="$">
+                    <input type="text" class="form-control" id="Lc_match" placeholder="$">
                     <span id="Lc_match-span" aria-hidden="true"></span>
                     <span>Amount of fund provided by lead agency</span>
                   </div>
