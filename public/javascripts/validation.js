@@ -66,6 +66,27 @@ $("#Fund_St").on("click", ".Fund_St-option", function() {
     checkForm();
 });
 
+// Legacy ID
+// =========
+// Not required
+// If written, must be numeric
+$("#Legacy_ID").keyup(function() {
+    if ($("#Legacy_ID").val() == "") {
+        console.log($("#Legacy_ID").val());
+        legacy_idValid = true;
+        hasSuccess("#Legacy-ID-group", "#Legacy-ID-span");
+    } else {
+        if ($.isNumeric($("#Legacy_ID").val())) {
+            legacy_idValid = true;
+            hasSuccess("#Legacy-ID-group", "#Legacy-ID-span");
+        } else {
+            console.log("3");
+            legacy_idValid = false;
+            hasError("#Legacy-ID-group", "#Legacy-ID-span");
+        }
+    }
+});
+
 // Lead Agency
 // ===========
 // HTML type = text

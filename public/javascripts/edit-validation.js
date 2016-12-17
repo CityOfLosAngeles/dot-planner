@@ -149,16 +149,15 @@ $("#Legacy_ID").keyup(function() {
     if ($("#Legacy_ID").val() == "") {
         console.log($("#Legacy_ID").val());
         legacy_idValid = true;
-        hasSuccess("#Legacy_ID-group", "#Legacy_ID-span");
+        hasSuccess("#Legacy-ID-group", "#Legacy-ID-span");
     } else {
         if ($.isNumeric($("#Legacy_ID").val())) {
-            console.log($("#Legacy_ID").val());
             legacy_idValid = true;
-            hasSuccess("#Legacy_ID-group", "#Legacy_ID-span");
+            hasSuccess("#Legacy-ID-group", "#Legacy-ID-span");
         } else {
             console.log("3");
             legacy_idValid = false;
-            hasError("#Legacy_ID-group", "#Legacy_ID-span");
+            hasError("#Legacy-ID-group", "#Legacy-ID-span");
         }
     }
 });
