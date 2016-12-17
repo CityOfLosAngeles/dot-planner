@@ -260,7 +260,11 @@ function populateData(project) {
         input.attr('id', 'cross-street' + intersectionCounter);
 
         var span = $('<span id="cross-street'+intersectionCounter+'-span" area-hidden="true">');
-
+        span.css({
+            "height": "100%",
+            "right": "9px",
+            "top": "0px"
+        });
         div.append(input);
         div.append(span);
         div.append($("<span>Cross Street " + intersectionCounter + "</span>"));
