@@ -159,7 +159,7 @@ function onEachFeature(feature, layer) {
     $(document).on('click', '#show-info', function() {
       $('#show-info').remove();
       $('#hide-info').remove();
-      var button = $('<button id="hide-info" class="btn btn-primary" type="button" name="button">Less Info</button>');
+      var button = $('<button id="hide-info" type="button" name="button">Less Info</button>');
       $('#project-details').append(button);
       $('#sidebar-more-info').show();
       if (fundStatus === 'Funded') {
@@ -257,7 +257,7 @@ function onEachFeature(feature, layer) {
       }
       $('#Match_Pt').text(feature.properties.Match_Pt + '%');
     }
-    var editButton = $('<button class="btn btn-danger" id="edit-button" data-href="/projects/edit/' + feature.properties.id + '">Edit Project</button>');
+    var editButton = $('<button id="edit-button" data-href="/projects/edit/' + feature.properties.id + '">Edit Project</button>');
     $('#project-details').append(editButton);
   });
 }
