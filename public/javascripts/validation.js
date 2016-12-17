@@ -63,6 +63,7 @@ $("#Fund_St").on("click", ".Fund_St-option", function() {
     fundStatus = $(this).val();
 
     fund_stComplete = true;
+    radioHasSuccess("#Fund_St", "#Fund_St-span");
     checkForm();
 });
 
@@ -716,6 +717,13 @@ function hasSuccess(divID, spanID) {
     $(divID).removeClass("has-error has-feedback");
     $(divID).addClass("has-success has-feedback");
     $(spanID).removeClass("glyphicon glyphicon-remove form-control-feedback");
+    $(spanID).addClass("glyphicon glyphicon-ok form-control-feedback");
+}
+
+function radioHasSuccess(divID, spanID) {
+    $(divID).removeClass("has-feedback");
+    $(divID).addClass("has-feedback");
+    // $(spanID).removeClass("glyphicon glyphicon-remove form-control-feedback");
     $(spanID).addClass("glyphicon glyphicon-ok form-control-feedback");
 }
 
