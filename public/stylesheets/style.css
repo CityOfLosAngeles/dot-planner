@@ -284,7 +284,6 @@ td{
   margin-top: 5px;
   width: 40px;
 }
-
 .select-all {
   display: inline-block;
   margin-left: 5px;
@@ -294,3 +293,150 @@ td{
   float: right;
 }
 /*/////////////////////////*/
+
+/*project form style*/
+
+#newprojectform, .list-group-flush{
+    max-width:500px;
+    margin:10px auto;
+    background:#fff;
+    border-radius:2px;
+    padding:20px;
+    color: #B9B9B9;
+}
+#newprojectform h1, .list-group-flush h1{
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0px 0px 20px 0px;
+    color: #5C5C5C;
+    font-size:x-large;
+}
+
+#newprojectform .form-group, .list-group-flush li{
+    display: block;
+    padding: 9px;
+    border:1px solid #DDDDDD;
+    margin-bottom: 30px;
+    border-radius: 3px;
+}
+#budgetdiv .form-group, #unfundedAttributes .form-group {
+  margin-bottom: 15px;
+}
+
+#newprojectform .form-group > label, .list-group-flush li > label{
+    display: block;
+    float: left;
+    margin-top: -21px;
+    background: white;
+    height: 14px;
+    padding: 2px 5px 2px 5px;
+    color: #B9B9B9;
+    font-size: 14px;
+}
+
+#newprojectform input[type="text"],
+#newprojectform input[type="tel"],
+#newprojectform input[type="email"],
+#newprojectform input[type="number"],
+#newprojectform input[type="password"],
+#newprojectform textarea,
+#newprojectform select,
+.list-group-flush input[type="text"],
+.list-group-flush input[type="tel"],
+.list-group-flush input[type="email"],
+.list-group-flush input[type="number"],
+.list-group-flush input[type="password"],
+.list-group-flush textarea,
+.list-group-flush select 
+{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    display: block;
+    outline: none;
+    border: none;
+    height: 25px;
+    line-height: 25px;
+    font-size: 16px;
+    padding: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#newprojectform .form-group > span{
+    background: #F3F3F3;
+    display: block;
+    padding: 3px;
+    margin: 0 -9px -9px -9px;
+    text-align: center;
+    color: #C0C0C0;
+    font-size: 11px;
+    border-radius: 3px;
+}
+#newprojectform textarea{
+    resize:none;
+}
+#newprojectform input[type="submit"],
+#newprojectform input[type="button"]{
+    background: #2471FF;
+    border: none;
+    padding: 10px 20px 10px 20px;
+    border-bottom: 3px solid #5994FF;
+    border-radius: 3px;
+    color: #D2E2FF;
+}
+#newprojectform input[type="submit"]:hover,
+#newprojectform input[type="button"]:hover{
+    background: #6B9FFF;
+    color:#fff;
+}
+
+#newprojinfo {
+  color: #666666;
+}
+
+.list-group-flush p {
+  display: inline;
+}
+/*/////////////////////////*/
+
+/*span style*/
+#Legacy-ID-span,
+#Lead_Ag-span,
+#Proj_Title-span,
+#Proj_Desc-span,
+#Contact_info_name-span,
+#Contact_info_phone-span,
+#Contact_info_email-span,
+#More_info-span,
+#CD-span,
+#Primary_Street-span,
+#Proj_Status-span,
+#Proj_Man-span,
+#Dept_Proj_ID-span,
+#Other_ID-span,
+#Total_bgt-span,
+#Grant-span,
+#Other_funds-span,
+#Prop_c-span,
+#Measure_r-span,
+#Gas_tax-span,
+#General_fund-span,
+#Authorization-span,
+#Issues-span,
+#Explanation-span,
+#Constr_by-span,
+#Info_source-span,
+#Grant_Cat-span,
+#Grant_Cycle-span,
+#Est_Cost-span,
+#Fund_Rq-span,
+#Lc_match-span {
+  display: none;
+  height: 100%;
+  /*left: 302px;*/
+  right: 9px;
+  top: 0px;
+}
