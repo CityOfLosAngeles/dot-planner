@@ -401,3 +401,41 @@ td{
   display: inline;
 }
 /*/////////////////////////*/
+
+/*span style*/
+#Legacy-ID-span,
+#Lead_Ag-span,
+#Proj_Title-span,
+#Proj_Desc-span,
+#Contact_info_name-span,
+#Contact_info_phone-span,
+#Contact_info_email-span,
+#More_info-span,
+#CD-span,
+#Primary_Street-span,
+#Proj_Status-span,
+#Proj_Man-span,
+#Dept_Proj_ID-span,
+#Other_ID-span,
+#Total_bgt-span,
+#Grant-span,
+#Other_funds-span,
+#Prop_c-span,
+#Measure_r-span,
+#Gas_tax-span,
+#General_fund-span,
+#Authorization-span,
+#Issues-span,
+#Explanation-span,
+#Constr_by-span,
+#Info_source-span,
+#Grant_Cat-span,
+#Grant_Cycle-span,
+#Est_Cost-span,
+#Fund_Rq-span,
+#Lc_match-span {
+  display: none;
+  height: 100%;
+  left: 302px;
+  top: 0px;
+}
