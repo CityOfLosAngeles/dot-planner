@@ -3,11 +3,29 @@ body {
   padding: 0;
   max-width: 100%;
   overflow-x: hidden;
+  font-family: 'Lato', sans-serif;
 }
 
 .navbar {
   margin-bottom: 0;
-  background-color: #f0eeee;
+  background-color: #001f3f; /*//navy*/
+  color: black;
+  border-radius: 0px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.navbar-default .navbar-brand {
+    color: #DDDDDD;
+    border-radius: 0px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #AAAAAA;
+    text-decoration: none;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:hover {
+    color: white;
 }
 
 #map{
@@ -46,17 +64,53 @@ body {
     color: black;
     padding: 6px;
     border-radius: 4px;
-    font-family: 'Helvetica Neue';
     cursor: pointer;
     font-size: 12px;
     text-decoration: none;
 }
 
-#export {
-  margin-top: 10px;
-  margin-bottom: 10px;
+#export, #submit-project {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f0eeee;
+  color: #001f3f;
+  border: 1px solid #001f3f;
+  border-radius: 0px;
 }
-
+#submit-project {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 3px;
+}
+#deleteuserbutton {
+  margin-left: 8px;
+}
+#show-info, #edit-button, #hide-info, #add-intersection, #undo-intersection, #update-project {
+  background-color: #f0eeee;
+  border: 1px solid #001f3f;
+  border-radius: 0px;
+  color: #001f3f;
+  margin: 0 20px 0 20px;
+}
+#intersections .form-group{
+  margin-bottom: 2px;
+}
+#intersections .form-group:last-child {
+  margin-bottom: 5px;
+}
+#add-intersection, #undo-intersection, #update-project {
+  margin-top: 10px;
+  margin-left: 0px;
+}
+#deleteuserbutton, #add-intersection:hover, #undo-intersection:hover, #show-info:hover, #edit-button:hover, #hide-info:hover, #export:hover, #submit-project:hover, #update-project:hover {
+  background-color: #001f3f;
+  border: 1px solid #001f3f;
+  border-radius: 0px;
+  color: white;
+}
 #fundedAttributes, #unfundedAttributes, #fundedAndUnfundedAttributes {
   display: none;
 }
@@ -129,8 +183,10 @@ body {
     -webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
 }
 .userForm h2{
+    font-family: 'Roboto', sans-serif;
     text-align: center;
-    background: #f0eeee;
+    background: #001f3f;
+    color: white;
     font-size: 20px;
     padding: 20px;
     margin: -30px -30px 10px -30px;
@@ -164,6 +220,7 @@ body {
 .userForm button {
   clear: both;
   background-color: #f0eeee;
+  color: #001f3f;
   -moz-box-shadow: inset 0px 1px 0px 0px #f0eeee;
   -webkit-box-shadow: inset 0px 1px 0px 0px #f0eeee;
   box-shadow: inset 0px 1px 0px 0px #f0eeee;
@@ -176,7 +233,7 @@ body {
   text-decoration: none;
 }
 .userForm button:hover {
-  background:gray;
+  background: #001f3f;
   color: white;
 }
 .userForm input[type="radio"]{
@@ -228,12 +285,12 @@ body {
 }
 
 .userForm input[type="radio"]:checked + label{
-  border: 1px solid black;
+  border: 1px solid #001f3f;
   background-color: #f0eeee;
 }
 
 .userForm input[type="radio"]:checked + label h4{
-  color: black;
+  color: #001f3f;
 }
 .userForm h3, h4 {
   font-size: 16px;
@@ -260,7 +317,10 @@ th{
   text-align: center;
   font-weight: 500;
   font-size: 12px;
-  background-color: #f0eeee;
+  background-color: #001f3f;
+  /*#28527e;*/ /*lighter navy*/
+  color: white;
+  /*#f0eeee;*/
 }
 td{
   padding: 15px;
@@ -302,14 +362,15 @@ td{
     background:#fff;
     border-radius:2px;
     padding:20px;
-    color: #B9B9B9;
+    color: #001f3f;
+/*    color: rgba(0, 0, 0, 0.59);*/
 }
 #newprojectform h1, .list-group-flush h1{
+    font-family: 'Roboto', sans-serif;
     display: block;
     text-align: center;
     padding: 0;
     margin: 0px 0px 20px 0px;
-    color: #5C5C5C;
     font-size:x-large;
 }
 
@@ -331,7 +392,7 @@ td{
     background: white;
     height: 14px;
     padding: 2px 5px 2px 5px;
-    color: #B9B9B9;
+/*    color:rgba(0, 0, 0, 0.59);*/
     font-size: 14px;
 }
 
@@ -371,7 +432,7 @@ td{
     padding: 3px;
     margin: 0 -9px -9px -9px;
     text-align: center;
-    color: #C0C0C0;
+/*    color: rgba(0, 0, 0, 0.59);*/
     font-size: 11px;
     border-radius: 3px;
 }
@@ -391,10 +452,6 @@ td{
 #newprojectform input[type="button"]:hover{
     background: #6B9FFF;
     color:#fff;
-}
-
-#newprojinfo {
-  color: #666666;
 }
 
 .list-group-flush p {
@@ -417,6 +474,8 @@ td{
 #CD-span,
 #Deobligation-span,
 #Primary_Street-span,
+#cross-street1-span,
+#cross-street2-span,
 #Proj_Status-span,
 #Proj_Man-span,
 #Dept_Proj_ID-span,
@@ -440,7 +499,6 @@ td{
 #Lc_match-span {
   display: none;
   height: 100%;
-  /*left: 302px;*/
   right: 9px;
   top: 0px;
 }

@@ -2,7 +2,7 @@
 
     {{#if adminclearance}}
     <div class="container">
-  	<h2>LaDOT Users</h2>
+  	<h2>LADOT Users</h2>
   	<table class="table-bordered">
   	<thead> 
         <th>First Name</th> 
@@ -22,7 +22,7 @@
             <td>{{admin}}</td>
             <td id="userdeletebtn"><form action="/users/admindestroyuser" method="POST">
               <input type="checkbox" name="deleteemail" value={{email}}></input>
-            <button type="submit">Confirm</button>
+            <button id="deleteuserbutton"type="submit">Confirm</button>
             </form>
             </td> 
             
