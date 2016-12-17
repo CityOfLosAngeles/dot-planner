@@ -145,6 +145,7 @@ function onEachFeature(feature, layer) {
     zoomToFeature(e)
     geoJSON.eachLayer(function(l){geoJSON.resetStyle(l);});
     if (e.target.feature.geometry.type != 'Point'){
+      layer.bringToFront();
       layer.setStyle({color: 'yellow'});
     }
     var fundStatus = feature.properties.Fund_St;
@@ -257,7 +258,7 @@ function onEachFeature(feature, layer) {
       }
       $('#Match_Pt').text(feature.properties.Match_Pt + '%');
     }
-    var editButton = $('<button id="edit-button" data-href="/projects/edit/' + feature.properties.id + '">Edit Project</button>');
+    var editButton = $('<button id="edit-button" class="btn btn-primary" data-href="/projects/edit/' + feature.properties.id + '">Edit Project</button>');
     $('#project-details').append(editButton);
   });
 }

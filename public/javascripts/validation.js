@@ -181,12 +181,12 @@ $("#Contact_info_phone").keyup(function() {
 // Contains no spaces
 // Regex express
 $("#Contact_info_email").keyup(function() {
-    if ($("#Contact_info_email").val() != "" 
-        && $("#Contact_info_email").val().includes("@") 
-        && $("#Contact_info_email").val().includes(".") 
-        && $("#Contact_info_email").val().length > 5 
-        && $("#Contact_info_email").val().indexOf("@.") == -1 
-        && $("#Contact_info_email").val().indexOf(" ") == -1 
+    if ($("#Contact_info_email").val() != ""
+        && $("#Contact_info_email").val().includes("@")
+        && $("#Contact_info_email").val().includes(".")
+        && $("#Contact_info_email").val().length > 5
+        && $("#Contact_info_email").val().indexOf("@.") == -1
+        && $("#Contact_info_email").val().indexOf(" ") == -1
         && $("#Contact_info_email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
         contact_info_emailComplete = true;
         hasSuccess("#Contact_info_email-group", "#Contact_info_email-span");
