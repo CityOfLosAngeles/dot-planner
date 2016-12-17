@@ -258,7 +258,7 @@ function onEachFeature(feature, layer) {
       }
       $('#Match_Pt').text(feature.properties.Match_Pt + '%');
     }
-    var editButton = $('<button id="edit-button" data-href="/projects/edit/' + feature.properties.id + '">Edit Project</button>');
+    var editButton = $('<button id="edit-button" class="btn btn-primary" data-href="/projects/edit/' + feature.properties.id + '">Edit Project</button>');
     $('#project-details').append(editButton);
   });
 }
