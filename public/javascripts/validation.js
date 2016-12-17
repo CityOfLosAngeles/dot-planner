@@ -1,6 +1,7 @@
 // Automatically hide this div
 $("#explainRiskDiv").hide();
 
+var legacy_idValid = true;
 
 // Global variables
 
@@ -616,7 +617,8 @@ function checkForm() {
 
     // Check common attributes first
     if (
-      lead_agComplete
+      legacy_idValid
+      && lead_agComplete
       && proj_titleComplete
       && proj_tyComplete
       && proj_descComplete

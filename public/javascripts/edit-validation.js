@@ -1,6 +1,7 @@
 var riskOfDeobligation;
 var fundStatus = "";
 
+var legacy_idValid = true;
 
 // Required for all projects, so mark all as true (since all projects will have these characteristics already)
 var lead_agComplete = true;
@@ -138,6 +139,28 @@ $("#Fund_St").on("click", ".Fund_St-option", function() {
 
     fund_stComplete = true;
     checkForm();
+});
+
+// Legacy ID
+// =========
+// Not required
+// If written, must be numeric
+$("#Legacy_ID").keyup(function() {
+    if ($("#Legacy_ID").val() == "") {
+        console.log($("#Legacy_ID").val());
+        legacy_idValid = true;
+        hasSuccess("#Legacy_ID-group", "#Legacy_ID-span");
+    } else {
+        if ($.isNumeric($("#Legacy_ID").val())) {
+            console.log($("#Legacy_ID").val());
+            legacy_idValid = true;
+            hasSuccess("#Legacy_ID-group", "#Legacy_ID-span");
+        } else {
+            console.log("3");
+            legacy_idValid = false;
+            hasError("#Legacy_ID-group", "#Legacy_ID-span");
+        }
+    }
 });
 
 // Lead Agency
@@ -286,6 +309,7 @@ $("#CD").keyup(function() {
 // Valid location
 $("#Primary_Street").on('keyup', function(){
     if($("#Primary_Street").val() != ""){
+        // check_location_valid("#Primary_Street", "#Primary_Street-group", "#Primary_Street-span");
         primary_streetComplete = true;
         hasSuccess("#Primary_Street-group", "#Primary_Street-span");
     }
@@ -692,7 +716,8 @@ function checkForm() {
 
     // Check common attributes first
     if (
-      lead_agComplete
+      legacy_idValid
+      && lead_agComplete
       && proj_titleComplete
       && proj_tyComplete
       && proj_descComplete
@@ -779,22 +804,32 @@ function hasError(divID, spanID) {
     $(spanID).addClass("glyphicon glyphicon-remove form-control-feedback");
 }
 
-function location_valid(stringAddress) {
-    var geocoder = new google.maps.Geocoder();
+// function check_location_valid(stringAddress, divID, spanID) {
+//     var geocoder = new google.maps.Geocoder();
 
-    geocoder.geocode({
-        "address": stringAddress
-    }, function(results, status) {
+//     geocoder.geocode({
+//         "address": stringAddress
+//     }, function(results, status) {
+//         if (status == google.maps.GeocoderStatus.OK) {
 
-        // console.log(status);
-        // console.log(google.maps.GeocoderStatus.OK);
+//             // Has success
+//             $(divID).removeClass("has-error has-feedback");
+//             $(divID).addClass("has-success has-feedback");
+//             $(spanID).removeClass("glyphicon glyphicon-remove form-control-feedback");
+//             $(spanID).addClass("glyphicon glyphicon-ok form-control-feedback");
 
-        if (status == google.maps.GeocoderStatus.OK) {
-            // console.log(true)
-            return true;
-        } else {
-            // console.log(false);
-            return false;
-        }
-    });
-}
+//             primary_streetComplete = true;
+//             console.log(true);
+//         } else {
+
+//             // Has error
+//             $(divID).removeClass("has-success has-feedback");
+//             $(divID).addClass("has-error has-feedback");
+//             $(spanID).removeClass("glyphicon glyphicon-ok form-control-feedback");
+//             $(spanID).addClass("glyphicon glyphicon-remove form-control-feedback");
+
+//             primary_streetComplete = false;
+//             console.log(false);
+//         }
+//     });
+// }
