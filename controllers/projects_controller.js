@@ -167,6 +167,7 @@ router.post('/new', function(req, res) {
         newProject.Cross_Streets = crossStreets;
       }
 
+      console.log(newProject);
       //If newProject has the propery flagged then the user has already chosen to flag it true or false
       if (newProject.hasOwnProperty('Flagged')) {
         models.Project.create(newProject).then(function() {
