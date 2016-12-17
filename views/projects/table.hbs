@@ -135,7 +135,7 @@
       </div>
     </div>
 
-    <button type="submit" name="button" id="export">Export Projects</button>
+    <button type="submit" name="button" id="export">Export As Spreadsheet</button>
   {{/if}}
 
   {{#unless logged_in}}
@@ -334,7 +334,7 @@
           $.post('https://ogre.adc4gis.com/convertJson', { json: projectsString, format : "csv"},
           function(csv){
             a = document.createElement('a');
-            a.download="myFileName.csv";
+            a.download="projects.csv";
             a.href='data:text/csv;charset=utf-8,'+escape(csv);
             document.body.appendChild(a);
             a.click()
