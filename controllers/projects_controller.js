@@ -161,13 +161,12 @@ router.post('/new', function(req, res) {
       newProject.Contact_info = contactInfo;
       console.log('Working up to cross streets!');
       //Check if the project has cross streets
-      if (newProject.hasOwnProperty('Cross_Streets')) {
-        //parse the cross streets
-        var crossStreets = JSON.parse(newProject.Cross_Streets);
-        newProject.Cross_Streets = crossStreets;
-      }
+      // if (newProject.hasOwnProperty('Cross_Streets')) {
+      //   //parse the cross streets
+      //   var crossStreets = JSON.parse(newProject.Cross_Streets);
+      //   newProject.Cross_Streets = crossStreets;
+      // }
 
-      console.log(newProject);
       //If newProject has the propery flagged then the user has already chosen to flag it true or false
       if (newProject.hasOwnProperty('Flagged')) {
         models.Project.create(newProject).then(function() {
