@@ -436,6 +436,7 @@ td{
 #Lc_match-span {
   display: none;
   height: 100%;
-  left: 302px;
+  /*left: 302px;*/
+  right: 9px;
   top: 0px;
 }
