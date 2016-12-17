@@ -5,8 +5,10 @@
           <button type="button" name="button" id="delete-button"><i class="fa fa-trash" aria-hidden="true"></i>
       </div>
       <div id="sidebar" class="col-xs-4">
-        <div>
-          <form>
+        <div id="newprojinfo">
+          <center><h2>Add a New Project</h2></center>
+          <p>Use the draw tools on the map to add a new shape. Then fill out the form below and submit the new project.</p>
+          <form id="newprojectform">
 
               <!-- Funding Status -->
               <div class="form-group" id="Fund_St">
@@ -29,25 +31,31 @@
                         Idea Project
                       </label>
                   </div>
+                {{!-- <span>any extra info?</span> --}}
               </div>
 
               <!-- Legacy ID -->
-              <label for="Legacy_ID">Legacy ID</label>
+              
               <div class="form-group" id="Legacy-ID-group">
+                  <label for="Legacy_ID">Legacy ID</label>
                   <input type="number" class="form-control" id="Legacy_ID" placeholder="">
                   <span id="Legacy-ID-span" aria-hidden="true"></span>
+                  <span>If the project is older it could have a legacy Id</span>
               </div>
 
               <!-- Lead Agency -->
-              <label for="Lead_Ag">Lead Agency*</label>
+              
               <div class="form-group" id="Lead_Ag-group">
-                  <input type="text" class="form-control" id="Lead_Ag" placeholder="i.e. LADOT">
+                  <label for="Lead_Ag">Lead Agency*</label>
+                  <input type="text" class="form-control" id="Lead_Ag">
                   <span id="Lead_Ag-span" aria-hidden="true"></span>
+                  <span>i.e. LADOT</span>
               </div>
 
               <!-- Project Title -->
-              <label for="Proj_Title">Project Title*</label>
+              
               <div class="form-group" id="Proj_Title-group">
+                  <label for="Proj_Title">Project Title*</label>
                   <input type="text" class="form-control" id="Proj_Title" placeholder="">
                   <span id="Proj_Title-span" aria-hidden="true"></span>
               </div>
@@ -100,79 +108,89 @@
               </div>
 
               <!-- Project Description -->
-              <label for="Proj_Desc">Project Description*</label>
               <div class="form-group" id="Proj_Desc-group">
+                  <label for="Proj_Desc">Project Description*</label>
                   <textarea class="form-control" rows="3" id="Proj_Desc"></textarea>
-                  <p class="help-block">Brief statement of project purpose and scope</p>
+                  <span>Brief statement of project purpose and scope</span>
                   <span id="Proj_Desc-span" aria-hidden="true"></span>
               </div>
 
               <!-- Contact Information -->
-              <label for="Contact_info">Project Contact Information*</label>
-              <div class="form-group" id="Contact_info_name-group">
-                  <input type="text" class="form-control" id="Contact_info_name" placeholder="Contact Name">
-                  <span id="Contact_info_name-span" aria-hidden="true"></span>
-              </div>
-              <div class="form-group" id="Contact_info_phone-group">
-                  <input type="tel" class="form-control" id="Contact_info_phone" placeholder="Contact Phone">
-                  <span id="Contact_info_phone-span" aria-hidden="true"></span>
-              </div>
-              <div class="form-group" id="Contact_info_email-group">
-                  <input type="email" class="form-control" id="Contact_info_email" placeholder="Contact Email">
-                  <span id="Contact_info_email-span" aria-hidden="true"></span>
+              <div class="form-group">
+                <label for="Contact_info">Project Contact Information*</label>
+
+                <div id="Contact_info_name-group">
+                    <input type="text" class="form-control" id="Contact_info_name" placeholder="Contact Name">
+                    <span id="Contact_info_name-span" aria-hidden="true"></span>
+                </div>
+
+                <div id="Contact_info_phone-group">
+                    <input type="tel" class="form-control" id="Contact_info_phone" placeholder="Contact Phone">
+                    <span id="Contact_info_phone-span" aria-hidden="true"></span>
+                </div>
+
+                <div id="Contact_info_email-group">
+                    <input type="email" class="form-control" id="Contact_info_email" placeholder="Contact Email">
+                    <span id="Contact_info_email-span" aria-hidden="true"></span>
+                </div>
               </div>
 
               <!-- More Info -->
-              <label for="More_info">Link to More Project Info or Comments*</label>
               <div class="form-group" id="More_info-group">
-                  <textarea class="form-control" rows="3" id="More_info"></textarea>
-                  <span id="More_info-span" aria-hidden="true"></span>
+                <label for="More_info">Link to More Project Info or Comments*</label>
+                <textarea class="form-control" rows="3" id="More_info"></textarea>
+                <span id="More_info-span" aria-hidden="true"></span>
+                <span>Add a relevant website link if applicable</span>
               </div>
 
               <!-- Funded and Unfunded but NOT Idea -->
               <div id="fundedAndUnfundedAttributes">
 
                 <!-- Council District Number -->
-                <label for="CD">Council District Number*</label>
                 <div class="form-group" id="CD-group">
-                    <input type="number" min="1" max="15" class="form-control" id="CD" placeholder="1-15">
-                    <span id="CD-span" aria-hidden="true"></span>
+                  <label for="CD">Council District Number*</label>
+                  <input type="number" min="1" max="15" class="form-control" id="CD">
+                  <span id="CD-span" aria-hidden="true"></span>
+                  <span>Districts 1-15</span>
                 </div>
 
                 <!-- Intersections -->
                 <div class="form-group" id="intersections">
                     <label>Intersections*</label>
-                    <div class="form-group" id="Primary_Street-group">
+                    <div id="Primary_Street-group">
                       <input type="text" class="form-control" placeholder="Primary Street" id="Primary_Street">
                       <span id="Primary_Street-span" aria-hidden="true"></span>
                     </div>
-                    <div class="form-group" id="cross-street1-group">
+                    <div id="cross-street1-group">
                       <input type="text" class="form-control Intersections" placeholder="Cross Street 1" id="cross-street1">
                       <span id="cross-street1-span" aria-hidden="true"></span>
                     </div>
-                    <div class="form-group" id="cross-street2-group">
+                    <div id="cross-street2-group">
                       <input type="text" class="form-control Intersections" placeholder="Cross Street 2" id="cross-street2">
                       <span id="cross-street2-span" aria-hidden="true"></span>
                     </div>
+                    <button type="button" class="btn btn-primary" id="add-intersection">Add More Intersections</button>
+                    <button type="button" class="btn btn-danger" id="undo-intersection">Undo Intersection</button>
                 </div>
-                <div class="form-group">
-                  <button type="button" class="btn btn-primary" id="add-intersection">Add Intersection</button>
-                  <button type="button" class="btn btn-danger" id="undo-intersection">Undo Intersection</button>
-                </div>
+                  
 
                 <!-- Project Status -->
-                <label for="Current_Status">Project Status*</label>
+                
                 <div class="form-group" id="Proj_Status-group">
-                    <input type="text" class="form-control" id="Proj_Status" placeholder="Project’s current construction stage">
-                    <span id="Proj_Status-span" aria-hidden="true"></span>
+                  <label for="Current_Status">Project Status*</label>
+                  <input type="text" class="form-control" id="Proj_Status">
+                  <span id="Proj_Status-span" aria-hidden="true"></span>
+                  <span>Project’s current construction stage</span>
                 </div>
 
-                <!-- Project Manager -->
-                <label for="Proj_Man">Project Manager*</label>
+                <!-- Project Manager --> 
                 <div class="form-group" id="Proj_Man-group">
-                    <input type="text" class="form-control" id="Proj_Man" placeholder="Manager Name">
-                    <span id="Proj_Man-span" aria-hidden="true"></span>
+                  <label for="Proj_Man">Project Manager*</label>
+                  <input type="text" class="form-control" id="Proj_Man">
+                  <span id="Proj_Man-span" aria-hidden="true"></span>
+                  <span>Name of the project manager</span>
                 </div>
+
               </div>
 
 
@@ -194,105 +212,92 @@
                           Public
                         </label>
                     </div>
-                    <p class="help-block">Define project’s accessibility to different users.</p>
+                    <span>Define project’s accessibility to different users.</span>
                 </div>
 
                 <!-- Deparment Project ID -->
-                <label for="Dept_Proj_ID">Department Project ID*</label>
                 <div class="form-group" id="Dept_Proj_ID-group">
-                    <input class="form-control" id="Dept_Proj_ID" placeholder="Any ID assigned to projects by departments">
-                    <span id="Dept_Proj_ID-span" aria-hidden="true"></span>
+                  <label for="Dept_Proj_ID">Department Project ID*</label>
+                  <input type="text" class="form-control" id="Dept_Proj_ID">
+                  <span id="Dept_Proj_ID-span" aria-hidden="true"></span>
+                  <span>Any ID assigned to projects by departments</span>
                 </div>
 
                 <!-- Other Project ID -->
-                <label for="Other_ID">Other Project ID*</label>
                 <div class="form-group" id="Other_ID-group">
-                    <input class="form-control" id="Other_ID" placeholder="i.e. grant application ID, etc.">
+                  <label for="Other_ID">Other Project ID*</label>
+                    <input type="text" class="form-control" id="Other_ID">
                     <span id="Other_ID-span" aria-hidden="true"></span>
+                    <span>i.e. grant application ID, etc.</span>
                 </div>
 
-                {{!-- Total Budget --}}
-                <label for="Total_bgt">Total Budget*</label>
-                <div class="form-group" id="Total_bgt-group">
-                    <div class="input-group">
-                      <span class="input-group-addon">$</span>
-                      <input type="number" step="0.01" class="form-control" id="Total_bgt" placeholder="Estimated budget of the project">
+                <div class="form-group" id="budgetdiv">
+                <label>Budget</label>
+                <br>
+                
+                  <div class="form-group" id="Total_bgt-group">
+                  <label for="Total_bgt">Total Budget*</label>
+                      <input type="number" step="0.01" class="form-control" id="Total_bgt" placeholder="$">
                       <span id="Total_bgt-span" aria-hidden="true"></span>
-                    </div>
-                </div>
+                  </div>
 
-                <!-- Grant -->
-                <label for="Grant">Grant*</label>
-                <div class="form-group" id="Grant-group">
-                  <div class="input-group">
-                    <span class="input-group-addon">$</span>
-                    <input type="number" step="0.01" class="form-control" id="Grant" placeholder="">
+                  <!-- Grant -->
+                  <div class="form-group" id="Grant-group">
+                    <label for="Grant">Grant*</label>
+                    <input type="number" step="0.01" class="form-control" id="Grant" placeholder="$">
                     <span id="Grant-span" aria-hidden="true"></span>
                   </div>
-                </div>
 
-                <!-- Other Funds -->
-                <label for="Other_funds">Other Funds*</label>
-                <div class="form-group" id="Other_funds-group">
-                    <div class="input-group">
-                      <span class="input-group-addon">$</span>
-                      <input type="number" step="0.01" class="form-control" id="Other_funds" placeholder="">
-                      <span id="Other_funds-span" aria-hidden="true"></span>
-                    </div>
-                </div>
+                  <!-- Other Funds -->
+                  <div class="form-group" id="Other_funds-group">
+                    <label for="Other_funds">Other Funds*</label>
+                    <input type="number" step="0.01" class="form-control" id="Other_funds" placeholder="$">
+                    <span id="Other_funds-span" aria-hidden="true"></span>
+                  </div>
 
-                <!-- Prop C -->
-                <label for="Prop_c">Prop C*</label>
-                <div class="form-group" id="Prop_c-group">
-                    <div class="input-group">
-                      <span class="input-group-addon">$</span>
-                      <input type="number" step="0.01" class="form-control" id="Prop_c" placeholder="">
-                      <span id="Prop_c-span" aria-hidden="true"></span>
-                    </div>
-                </div>
+                  <!-- Prop C -->
+                  <div class="form-group" id="Prop_c-group">
+                    <label for="Prop_c">Prop C*</label>
+                    <input type="number" step="0.01" class="form-control" id="Prop_c" placeholder="$">
+                    <span id="Prop_c-span" aria-hidden="true"></span>
+                  </div>
 
-                <!-- Measure R -->
-                <label for="Measure_r">Measure R*</label>
-                <div class="form-group" id="Measure_r-group">
-                    <div class="input-group">
-                      <span class="input-group-addon">$</span>
-                      <input type="number" step="0.01" class="form-control" id="Measure_r" placeholder="">
-                      <span id="Measure_r-span" aria-hidden="true"></span>
-                    </div>
-                </div>
+                  <!-- Measure R -->
+                  <div class="form-group" id="Measure_r-group">
+                    <label for="Measure_r">Measure R*</label>
+                    <input type="number" step="0.01" class="form-control" id="Measure_r" placeholder="$">
+                    <span id="Measure_r-span" aria-hidden="true"></span>
+                  </div>
 
-                <!-- Gas Tax -->
-                <label for="Gas_tax">Gas Tax*</label>
-                <div class="form-group" id="Gas_tax-group">
-                    <div class="input-group">
-                      <span class="input-group-addon">$</span>
-                      <input type="number" step="0.01" class="form-control" id="Gas_tax" placeholder="">
-                       <span id="Gas_tax-span" aria-hidden="true"></span>
-                    </div>
-                </div>
+                  <!-- Gas Tax -->
+                  <div class="form-group" id="Gas_tax-group">
+                    <label for="Gas_tax">Gas Tax*</label>
+                    <input type="number" step="0.01" class="form-control" id="Gas_tax" placeholder="$">
+                     <span id="Gas_tax-span" aria-hidden="true"></span>
+                  </div>
 
-                <!-- General Fund -->
-                <label for="General_fund">General Fund*</label>
-                <div class="form-group" id="General_fund-group">
-                    <div class="input-group">
-                      <span class="input-group-addon">$</span>
-                      <input type="number" step="0.01" class="form-control" id="General_fund" placeholder="">
-                      <span id="General_fund-span" aria-hidden="true"></span>
-                    </div>
+                  <!-- General Fund -->
+                  <div class="form-group" id="General_fund-group">
+                    <label for="General_fund">General Fund*</label>
+                    <input type="number" step="0.01" class="form-control" id="General_fund" placeholder="$">
+                    <span id="General_fund-span" aria-hidden="true"></span>
+                  </div>
+
                 </div>
 
                 <!-- Authorization -->
-                <label for="Authorization">Authorization*</label>
                 <div class="form-group" id="Authorization-group">
-                    <input class="form-control" id="Authorization" placeholder="">
+                  <label for="Authorization">Authorization*</label>
+                    <input type="text" class="form-control" id="Authorization" placeholder="">
                     <span id="Authorization-span" aria-hidden="true"></span>
                 </div>
 
                 <!-- Issues -->
-                <label for="Issues">Issues*</label>
                 <div class="form-group" id="Issues-group">
-                    <input class="form-control" id="Issues" placeholder="Obstacles that may jeopardize the project">
+                  <label for="Issues">Issues*</label>
+                    <input type="text" class="form-control" id="Issues">
                     <span id="Issues-span" aria-hidden="true"></span>
+                    <span>List obstacles that may jeopardize the project</span>
                 </div>
 
                 <!-- Deobligation -->
@@ -313,26 +318,28 @@
                 </div>
 
                 <!-- Explanation -->
-                <div id="explainRiskDiv">
+                <div class="form-group" id="explainRiskDiv">
                   <label for="Explanation">Explain Risk of Deobligation*</label>
-                  <div class="form-group" id="Explanation-group">
+                  <div id="Explanation-group">
                       <textarea class="form-control" rows="3" id="Explanation"></textarea>
                       <span id="Explanation-span" aria-hidden="true"></span>
-                      <p class="help-block">Reasons why the project is/is not at risk.</p>
+                      
                   </div>
+                  <span>Reasons why the project is/is not at risk.</span>
                 </div>
 
                 <!-- Construction By -->
-                <label for="Constr_by">Construction By*</label>
                 <div class="form-group" id="Constr_by-group">
-                    <input class="form-control" id="Constr_by" placeholder="i.e. contractor, city force">
+                  <label for="Constr_by">Construction By*</label>
+                    <input type="text" class="form-control" id="Constr_by">
                     <span id="Constr_by-span" aria-hidden="true"></span>
+                    <span>i.e. contractor, city force</span>
                 </div>
 
                 <!-- Info Source -->
-                <label for="Info_source">Source*</label>
                 <div class="form-group" id="Info_source-group">
-                    <input class="form-control" id="Info_source" placeholder="">
+                  <label for="Info_source">Source*</label>
+                    <input type="text" class="form-control" id="Info_source" placeholder="">
                     <span id="Info_source-span" aria-hidden="true"></span>
                 </div>
               </div>
@@ -340,49 +347,45 @@
               <!-- Unfunded Attributes -->
               <div id="unfundedAttributes">
 
-                <!-- Grant Category -->
-                <label for="Grant_Cat">Grant Category*</label>
-                <div class="form-group" id="Grant_Cat-group">
-                    <input class="form-control" id="Grant_Cat" placeholder="CFP,Pl,Bl, etc.">
+                <div class="form-group">
+                <label>Grants and Estimated Funding</label>
+                <br>
+                  <!-- Grant Category -->
+                  <div class="form-group" id="Grant_Cat-group">
+                    <label for="Grant_Cat">Grant Category*</label>
+                    <input type="text" class="form-control" id="Grant_Cat">
                     <span id="Grant_Cat-span" aria-hidden="true"></span>
-                </div>
+                    <span>CFP, Pl, Bl, etc.</span>
+                  </div>
 
-                <!-- Grant Cycle -->
-                <label for="Grant_Cycle">Grant Cycle*</label>
-                <div class="form-group" id="Grant_Cycle-group">
-                    <input class="form-control" id="Grant_Cycle" placeholder="">
+                  <!-- Grant Cycle -->
+                  <div class="form-group" id="Grant_Cycle-group">
+                    <label for="Grant_Cycle">Grant Cycle*</label>
+                    <input type="text" class="form-control" id="Grant_Cycle" placeholder="">
                     <span id="Grant_Cycle-span" aria-hidden="true"></span>
-                </div>
+                  </div>
 
-                <!-- Estimated Cost -->
-                <label for="Est_Cost">Estimated City Cost*</label>
-                <div class="form-group" id="Est_Cost-group">
-                    <div class="input-group">
-                      <span class="input-group-addon">$</span>
-                      <input type="number" step="0.01" class="form-control" id="Est_Cost" placeholder="">
-                      <span id="Est_Cost-span" aria-hidden="true"></span>
-                    </div>
-                </div>
+                  <!-- Estimated Cost -->
+                  <div class="form-group" id="Est_Cost-group">
+                    <label for="Est_Cost">Estimated City Cost*</label>
+                    <input type="number" step="0.01" class="form-control" id="Est_Cost" placeholder="$">
+                    <span id="Est_Cost-span" aria-hidden="true"></span>
+                  </div>
 
-                <!-- Fund Request -->
-                <label for="Fund_Rq">Fund Request*</label>
-                <div class="form-group" id="Fund_Rq-group">
-                    <div class="input-group">
-                      <span class="input-group-addon">$</span>
-                      <input type="number" step="0.01" class="form-control" id="Fund_Rq" placeholder="">
-                      <span id="Fund_Rq-span" aria-hidden="true"></span>
-                    </div>
-                </div>
+                  <!-- Fund Request -->
+                  <div class="form-group" id="Fund_Rq-group">
+                    <label for="Fund_Rq">Fund Request*</label>
+                    <input type="number" step="0.01" class="form-control" id="Fund_Rq" placeholder="">
+                    <span id="Fund_Rq-span" aria-hidden="true"></span>
+                  </div>
 
-                <!-- Local Match -->
-                <label for="Lc_match">Local Match*</label>
-                <div class="form-group" id="Lc_match-group">
-                    <div class="input-group">
-                      <span class="input-group-addon">$</span>
-                      <input type="number" step="0.01" class="form-control" id="Lc_match" placeholder="">
-                      <span id="Lc_match-span" aria-hidden="true"></span>
-                    </div>
-                    <p class="help-block">Amount of fund provided by lead agency</p>
+                  <!-- Local Match -->
+                  <div class="form-group" id="Lc_match-group">
+                    <label for="Lc_match">Local Match*</label>
+                    <input type="number" step="0.01" class="form-control" id="Lc_match" placeholder="$">
+                    <span id="Lc_match-span" aria-hidden="true"></span>
+                    <span>Amount of fund provided by lead agency</span>
+                  </div>
                 </div>
               </div>
 
