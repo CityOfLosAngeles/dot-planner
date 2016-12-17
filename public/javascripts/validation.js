@@ -63,6 +63,7 @@ $("#Fund_St").on("click", ".Fund_St-option", function() {
     fundStatus = $(this).val();
 
     fund_stComplete = true;
+    radioHasSuccess("#Fund_St", "#Fund_St-span");
     checkForm();
 });
 
@@ -122,6 +123,7 @@ $("#Proj_Title").keyup(function() {
 // Required
 $("#Proj_Ty").on("click", ".Proj_Ty-option", function() {
     proj_tyComplete = true;
+    radioHasSuccess("#Proj_Ty", "#Proj_Ty-span");
     checkForm();
 });
 
@@ -311,6 +313,7 @@ $("#Proj_Man").keyup(function(){
 // Required
 $("#Access").on("click", ".Access-option", function() {
     accessComplete = true;
+    radioHasSuccess("#Access", "#Access-span");
     checkForm();
 });
 
@@ -498,6 +501,7 @@ $("#Deobligation").on("click", ".Deobligation-option", function() {
     }
 
     deobligationComplete = true;
+    radioHasSuccess("#Deobligation", "#Deobligation-span");
     checkForm();
 });
 
@@ -716,6 +720,13 @@ function hasSuccess(divID, spanID) {
     $(divID).removeClass("has-error has-feedback");
     $(divID).addClass("has-success has-feedback");
     $(spanID).removeClass("glyphicon glyphicon-remove form-control-feedback");
+    $(spanID).addClass("glyphicon glyphicon-ok form-control-feedback");
+}
+
+function radioHasSuccess(divID, spanID) {
+    $(divID).removeClass("has-feedback");
+    $(divID).addClass("has-feedback");
+    // $(spanID).removeClass("glyphicon glyphicon-remove form-control-feedback");
     $(spanID).addClass("glyphicon glyphicon-ok form-control-feedback");
 }
 
