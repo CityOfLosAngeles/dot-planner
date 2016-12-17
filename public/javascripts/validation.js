@@ -1,6 +1,7 @@
 // Automatically hide this div
 $("#explainRiskDiv").hide();
 
+var legacy_idValid = true;
 
 // Global variables
 
@@ -63,6 +64,27 @@ $("#Fund_St").on("click", ".Fund_St-option", function() {
 
     fund_stComplete = true;
     checkForm();
+});
+
+// Legacy ID
+// =========
+// Not required
+// If written, must be numeric
+$("#Legacy_ID").keyup(function() {
+    if ($("#Legacy_ID").val() == "") {
+        console.log($("#Legacy_ID").val());
+        legacy_idValid = true;
+        hasSuccess("#Legacy-ID-group", "#Legacy-ID-span");
+    } else {
+        if ($.isNumeric($("#Legacy_ID").val())) {
+            legacy_idValid = true;
+            hasSuccess("#Legacy-ID-group", "#Legacy-ID-span");
+        } else {
+            console.log("3");
+            legacy_idValid = false;
+            hasError("#Legacy-ID-group", "#Legacy-ID-span");
+        }
+    }
 });
 
 // Lead Agency
@@ -616,7 +638,8 @@ function checkForm() {
 
     // Check common attributes first
     if (
-      lead_agComplete
+      legacy_idValid
+      && lead_agComplete
       && proj_titleComplete
       && proj_tyComplete
       && proj_descComplete
