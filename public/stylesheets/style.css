@@ -356,6 +356,7 @@ td{
 
 #edit-button {
   float: right;
+  /*display: none;*/
 }
 /*/////////////////////////*/
 
@@ -506,4 +507,8 @@ td{
   height: 100%;
   right: 9px;
   top: 0px;
+}
+
+.fa-spinner{
+  display: none;
 }
