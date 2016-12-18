@@ -167,7 +167,7 @@ router.post('/new', function(req, res) {
         var crossStreets = JSON.parse(newProject.Cross_Streets);
         newProject.Cross_Streets = crossStreets;
       }
-
+      console.log('Past the cross streets section');
       //If newProject has the propery flagged then the user has already chosen to flag it true or false
       if (newProject.hasOwnProperty('Flagged')) {
         console.log('Inside has own propery flagged');
