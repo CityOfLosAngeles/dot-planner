@@ -24,6 +24,11 @@ body {
     text-decoration: none;
 }
 
+.navbar-default .navbar-nav>li>a:visited{
+  color: #AAAAAA;
+  text-decoration: none;
+}
+
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:hover {
     color: white;
 }
@@ -409,7 +414,7 @@ td{
 .list-group-flush input[type="number"],
 .list-group-flush input[type="password"],
 .list-group-flush textarea,
-.list-group-flush select 
+.list-group-flush select
 {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
