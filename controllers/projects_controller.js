@@ -141,8 +141,10 @@ router.get('/funding/:status/type/:type', function(req, res) {
 
 //Saves a new project to the DB only if user is logged in
 router.post('/new', function(req, res) {
+    console.log('Route Hit');
     //If the user is logged in
     if (req.session.logged_in) {
+      console.log('User is logged in.');
       var newProject = req.body;
 
       //Parse the projects geometry which was stringified on the front end
@@ -157,13 +159,13 @@ router.post('/new', function(req, res) {
       //Parse the contact info
       var contactInfo = JSON.parse(newProject.Contact_info);
       newProject.Contact_info = contactInfo;
-
+      console.log('Working up to cross streets!');
       //Check if the project has cross streets
-      if (newProject.hasOwnProperty('Cross_Streets')) {
-        //parse the cross streets
-        var crossStreets = JSON.parse(newProject.Cross_Streets);
-        newProject.Cross_Streets = crossStreets;
-      }
+      // if (newProject.hasOwnProperty('Cross_Streets')) {
+      //   //parse the cross streets
+      //   var crossStreets = JSON.parse(newProject.Cross_Streets);
+      //   newProject.Cross_Streets = crossStreets;
+      // }
 
       //If newProject has the propery flagged then the user has already chosen to flag it true or false
       if (newProject.hasOwnProperty('Flagged')) {
