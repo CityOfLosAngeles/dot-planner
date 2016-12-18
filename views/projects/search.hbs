@@ -82,7 +82,7 @@
         </table>
       </div>
     </div>
-    <button type="submit" name="button" class="btn btn-primary" id="export">Export As Spreadsheet</button>
+    <button type="submit" name="button" class="btn btn-primary" id="export"><i class="fa fa-spinner fa-spin fa-pulse fa-fw"></i> Export As Spreadsheet</button>
   {{/unless}}
 </div>
 
@@ -125,6 +125,7 @@
   });
 
   $('#export').on('click', function() {
+    $('.fa-spinner').css("display","inline-block");
     var searchIDs = $('table input:checked').map(function(){
      return $(this).val();
     }).toArray();
@@ -143,7 +144,8 @@
             a.download="myFileName.csv";
             a.href='data:text/csv;charset=utf-8,'+escape(csv);
             document.body.appendChild(a);
-            a.click()
+            a.click();
+            $('.fa-spinner').css("display","none");
           });
         }
     });
