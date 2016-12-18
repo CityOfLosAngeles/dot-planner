@@ -145,7 +145,7 @@ router.post('/new', function(req, res) {
     //If the user is logged in
     if (req.session.logged_in) {
       console.log('User is logged in.');
-      var newProject = req.body;
+      var newProject = JSON.parse(JSON.stringify(req.body));
       console.log('Has own property: ' + newProject.hasOwnProperty('Flagged'));
       //Parse the projects geometry which was stringified on the front end
       var geometry = JSON.parse(newProject.Geometry);
