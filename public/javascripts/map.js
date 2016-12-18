@@ -267,7 +267,15 @@ $(document).on('click', '#edit-button', function() {
   window.location = $('#edit-button').attr('data-href');
 });
 
-$('#export-map-view').on('click', function() {
+$('#export-csv').on('click', function() {
+  exportCSV();
+});
+
+$('#export-shapefiles').on('click', function() {
+  seperateShapes();
+});
+
+function exportCSV() {
   var searchIDs = [ ];
   var bounds = map.getBounds();
   geoJSON.eachLayer(function(layer) {
@@ -289,8 +297,8 @@ $('#export-map-view').on('click', function() {
       url: "/projects/ids/" + queryString,
       dataType: "json",
       success: function(data) {
-        var projectsString = JSON.stringify(data);
-        $.post('https://ogre.adc4gis.com/convertJson', { json: projectsString, format : "csv"},
+        var geoJSON = JSON.stringify(data);
+        $.post('https://ogre.adc4gis.com/convertJson', { json: geoJSON, format : "csv"},
         function(csv){
           a = document.createElement('a');
           a.download="projects.csv";
@@ -301,4 +309,79 @@ $('#export-map-view').on('click', function() {
         });
       }
   });
-});
+}
+
+function seperateShapes(){
+  var bounds = map.getBounds();
+  var points = {name: 'points', features: [ ]};
+  var lines = {name: 'lines', features: [ ]};
+  var multilines = {name: 'multilinestrings', features: [ ]};
+  var polygons = {name: 'polygons', features: [ ]};
+  geoJSON.eachLayer(function(layer) {
+    switch(layer.feature.geometry.type){
+      case 'Point':
+      if(bounds.contains(layer.getLatLng())) {
+        points.features.push(layer.feature.properties.id);
+      }
+      break;
+      case 'LineString':
+      if(bounds.contains(layer.getLatLngs())) {
+        lines.features.push(layer.feature.properties.id);
+      }
+      break;
+      case 'MultiLineString':
+      if(bounds.contains(layer.getLatLngs())) {
+        multilines.features.push(layer.feature.properties.id);
+      }
+      break;
+      case 'Polygon':
+      if(bounds.contains(layer.getLatLngs())) {
+        polygons.features.push(layer.feature.properties.id);
+      }
+    }
+  });
+  var shapeFilesArr = [points, lines, polygons];
+  for (var i = 0; i < shapeFilesArr.length; i++) {
+    downloadShapeFiles(shapeFilesArr[i]);
+  }
+}
+
+function downloadShapeFiles(geoTypeObj) {
+  if (geoTypeObj.features.length > 0) {
+
+    var queryString = geoTypeObj.features.join('&');
+    $.ajax({
+        method: "GET",
+        url: "/projects/ids/" + queryString,
+        dataType: "json",
+        success: function(data) {
+          var geoJSON = JSON.stringify(data);
+          //XHR Request Working
+          var formData = new FormData();
+            formData.append('json', JSON.stringify(geoJSON));
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://ogre.adc4gis.com/convertJson");
+            xhr.responseType = "arraybuffer"; // ask for a binary result
+            xhr.onreadystatechange = function(evt) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        JSZip.loadAsync(xhr.response).then(function(zip) {
+                            zip.generateAsync({
+                                    type: "blob"
+                                })
+                                .then(function(blob) {
+                                    saveAs(blob, geoTypeObj.name + '.zip');
+                                });
+                        });
+                    } else {
+                        console.log("http call error");
+                    }
+                }
+            };
+
+            xhr.send(formData);
+        }
+    });
+  }
+}
