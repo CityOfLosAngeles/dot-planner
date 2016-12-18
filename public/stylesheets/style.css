@@ -508,3 +508,7 @@ td{
   right: 9px;
   top: 0px;
 }
+
+.fa-spinner{
+  display: none;
+}
