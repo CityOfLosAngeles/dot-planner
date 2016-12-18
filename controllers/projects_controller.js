@@ -161,8 +161,10 @@ router.post('/new', function(req, res) {
       newProject.Contact_info = contactInfo;
       console.log('Working up to cross streets!');
       console.log(newProject);
+      console.log('Has own property: ' + newProject.hasOwnProperty('Flagged'));
       //Check if the project has cross streets
       if (newProject.hasOwnProperty('Cross_Streets')) {
+        console.log('Has cross streets');
         console.log('Inside cross streets.');
         //parse the cross streets
         var crossStreets = JSON.parse(newProject.Cross_Streets);
