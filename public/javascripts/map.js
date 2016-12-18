@@ -155,7 +155,7 @@ function onEachFeature(feature, layer) {
     $('#sidebar-more-info').hide();
     $('#show-info').remove();
     $('#hide-info').remove();
-    $('#edit-button').remove();
+    $('#edit-button').show();
 
     $(document).on('click', '#show-info', function() {
       $('#show-info').remove();
@@ -258,8 +258,7 @@ function onEachFeature(feature, layer) {
       }
       $('#Match_Pt').text(feature.properties.Match_Pt + '%');
     }
-    var editButton = $('<button id="edit-button" class="btn btn-primary" data-href="/projects/edit/' + feature.properties.id + '">Edit Project</button>');
-    $('#project-details').append(editButton);
+    $('#edit-button').attr('data-href', "/projects/edit/" + feature.properties.id);
   });
 }
 

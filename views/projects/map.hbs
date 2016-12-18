@@ -17,7 +17,7 @@
                       <label for="Legacy_ID">Legacy ID</label>
                       <p id="Legacy_ID"></p>
                     </li>
-                    
+
                     <li class="list-group-item">
                       <label for="Lead_Ag">Lead Agency</label>
                       <p id="Lead_Ag"></p>
@@ -37,7 +37,7 @@
                       <label for="Contact_info_name">Contact Name</label>
                       <p id="Contact_info_name"></p>
                     </li>
-                    
+
                     <li class="list-group-item">
                       <label for="Contact_info_phone">Contact Number</label>
                       <p id="Contact_info_phone"></p>
@@ -191,6 +191,9 @@
                     <p id="Lc_match"></p>
                   </li>
                 </ul>
+                {{#if logged_in}}
+                <button id="edit-button" class="btn btn-primary">Edit Project</button>
+                {{/if}}
             </div>
           </div>
         </div>
