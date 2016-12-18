@@ -267,3 +267,39 @@ function onEachFeature(feature, layer) {
 $(document).on('click', '#edit-button', function() {
   window.location = $('#edit-button').attr('data-href');
 });
+
+$('#export-map-view').on('click', function() {
+  var searchIDs = [ ];
+  var bounds = map.getBounds();
+  geoJSON.eachLayer(function(layer) {
+    if (layer.feature.geometry.type === 'Point') {
+      if(bounds.contains(layer.getLatLng())) {
+        searchIDs.push(layer.feature.properties.id);
+      }
+    } else {
+      if(bounds.contains(layer.getLatLngs())) {
+        searchIDs.push(layer.feature.properties.id);
+      }
+    }
+  });
+
+  var queryString = searchIDs.join('&')
+
+  $.ajax({
+      method: "GET",
+      url: "/projects/ids/" + queryString,
+      dataType: "json",
+      success: function(data) {
+        var projectsString = JSON.stringify(data);
+        $.post('https://ogre.adc4gis.com/convertJson', { json: projectsString, format : "csv"},
+        function(csv){
+          a = document.createElement('a');
+          a.download="projects.csv";
+          a.href='data:text/csv;charset=utf-8,'+escape(csv);
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        });
+      }
+  });
+});
