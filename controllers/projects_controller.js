@@ -141,12 +141,11 @@ router.get('/funding/:status/type/:type', function(req, res) {
 
 //Saves a new project to the DB only if user is logged in
 router.post('/new', function(req, res) {
-    console.log('Route Hit');
     //If the user is logged in
     if (req.session.logged_in) {
-      console.log('User is logged in.');
+      //req.body is does not come as a native object and therefore does not have Object.prototype methods
+      //This is a work around to assign it as an object so we can use prototype methods below
       var newProject = JSON.parse(JSON.stringify(req.body));
-      console.log('Has own property: ' + newProject.hasOwnProperty('Flagged'));
       //Parse the projects geometry which was stringified on the front end
       var geometry = JSON.parse(newProject.Geometry);
       var coordinates = JSON.parse(geometry.coordinates);
@@ -155,31 +154,23 @@ router.post('/new', function(req, res) {
           coordinates: coordinates
       }
       newProject.Geometry = parsedGeometry;
-      console.log('Geometry has been converted.');
       //Parse the contact info
       var contactInfo = JSON.parse(newProject.Contact_info);
       newProject.Contact_info = contactInfo;
-      console.log('Working up to cross streets!');
-      console.log(newProject);
       //Check if the project has cross streets
       if (newProject.hasOwnProperty('Cross_Streets')) {
-        console.log('Has cross streets');
-        console.log('Inside cross streets.');
         //parse the cross streets
         var crossStreets = JSON.parse(newProject.Cross_Streets);
         newProject.Cross_Streets = crossStreets;
       }
-      console.log('Past the cross streets section');
       //If newProject has the propery flagged then the user has already chosen to flag it true or false
       if (newProject.hasOwnProperty('Flagged')) {
-        console.log('Inside has own propery flagged');
         models.Project.create(newProject).then(function() {
             res.send({"status": "saved"});
         });
 
         //If newProject does not have property flagged then check the db for potention duplicates
       } else {
-        console.log('Does not have the property flagged.');
         var searchArr = [
           {
             "Proj_Title": {
@@ -202,16 +193,12 @@ router.post('/new', function(req, res) {
                 $or: searchArr
             }
         }).then(function(projects) {
-          console.log('Finished looking for duplicates.');
-          console.log('----------------------------------');
-          console.log(projects);
           //If more than more projects is returned there is a potential duplicate
           //The response tells the front end that there is a potential duplicate and passes the potential duplicate id
           if (projects && projects.length >= 1) {
             res.send({'status': 'duplicate', 'id': projects[0].id});
             //If there is no potential duplicate then save to the db
           } else {
-            console.log('No duplicates... saving to db');
             models.Project.create(newProject).then(function() {
                 res.send({"status": "saved"});
             });
@@ -381,7 +368,9 @@ router.get('/ids/:id', function(req, res) {
 router.put('/edit/:id', function(req, res) {
   if (req.session.logged_in) {
     var id = req.params.id;
-    var newProject = req.body;
+    //req.body is does not come as a native object and therefore does not have Object.prototype methods
+    //This is a work around to assign it as an object so we can use prototype methods below
+    var newProject = JSON.parse(JSON.stringify(req.body));
     var geometry = JSON.parse(newProject.Geometry);
     var coordinates = JSON.parse(geometry.coordinates);
     var parsedGeometry = {
