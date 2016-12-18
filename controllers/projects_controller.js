@@ -155,27 +155,29 @@ router.post('/new', function(req, res) {
           coordinates: coordinates
       }
       newProject.Geometry = parsedGeometry;
-
+      console.log('Geometry has been converted.');
       //Parse the contact info
       var contactInfo = JSON.parse(newProject.Contact_info);
       newProject.Contact_info = contactInfo;
       console.log('Working up to cross streets!');
       //Check if the project has cross streets
-      // if (newProject.hasOwnProperty('Cross_Streets')) {
-      //   //parse the cross streets
-      //   var crossStreets = JSON.parse(newProject.Cross_Streets);
-      //   newProject.Cross_Streets = crossStreets;
-      // }
+      if (newProject.hasOwnProperty('Cross_Streets')) {
+        console.log('Inside cross streets.');
+        //parse the cross streets
+        var crossStreets = JSON.parse(newProject.Cross_Streets);
+        newProject.Cross_Streets = crossStreets;
+      }
 
       //If newProject has the propery flagged then the user has already chosen to flag it true or false
       if (newProject.hasOwnProperty('Flagged')) {
+        console.log('Inside has own propery flagged');
         models.Project.create(newProject).then(function() {
             res.send({"status": "saved"});
         });
 
         //If newProject does not have property flagged then check the db for potention duplicates
       } else {
-
+        console.log('Does not have the property flagged.');
         var searchArr = [
           {
             "Proj_Title": {
@@ -198,12 +200,16 @@ router.post('/new', function(req, res) {
                 $or: searchArr
             }
         }).then(function(projects) {
+          console.log('Finished looking for duplicates.');
+          console.log('----------------------------------');
+          console.log(projects);
           //If more than more projects is returned there is a potential duplicate
           //The response tells the front end that there is a potential duplicate and passes the potential duplicate id
           if (projects && projects.length >= 1) {
             res.send({'status': 'duplicate', 'id': projects[0].id});
             //If there is no potential duplicate then save to the db
           } else {
+            console.log('No duplicates... saving to db');
             models.Project.create(newProject).then(function() {
                 res.send({"status": "saved"});
             });
