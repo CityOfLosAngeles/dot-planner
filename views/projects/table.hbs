@@ -33,7 +33,7 @@
                       <td>{{this.Contact_info.Contact_info_phone}}</td>
                       <td>{{this.Contact_info.Contact_info_email}}</td>
                       <td class="text-center">
-                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
+                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" data-geometry="{{this.Geometry.type}}" type="button" name="button" class="view btn btn-success table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
                         <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary table-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a><br>
                         <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger table-button"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
                       </td>
@@ -135,7 +135,8 @@
       </div>
     </div>
 
-    <button type="submit" name="button" class="btn btn-primary" id="export"><i class="fa fa-spinner fa-spin fa-pulse fa-fw"></i> Export As Spreadsheet</button>
+    <button type="submit" name="button" class="btn btn-primary" id="exportCSV"><i id="spreadsheet-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Spreadsheet</button>
+    <button type="submit" name="button" class="btn btn-primary" id="exportShape"><i id="shape-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Shapefiles</button>
   {{/if}}
 
   {{#unless logged_in}}
@@ -261,7 +262,8 @@
       </div>
     </div>
 
-    <button type="submit" name="button" class="btn btn-primary" id="export"><i class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Spreadsheet</button>
+    <button type="submit" name="button" class="btn btn-primary" id="exportCSV"><i id="spreadsheet-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Spreadsheet</button>
+    <button type="submit" name="button" class="btn btn-primary" id="exportShape"><i id="shape-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Shapefiles</button>
     {{/unless}}
   </div>
 </div>
@@ -318,8 +320,17 @@
     $('#delete-modal').modal()
   });
 
-  $('#export').on('click', function() {
-    $('.fa-spinner').css("display","inline-block");
+  $('#exportCSV').on('click', function() {
+    $('#spreadsheet-spinner').css("display","inline-block");
+    exportCSV();
+  });
+
+  $('#exportShape').on('click', function() {
+    $('#shape-spinner').css('display', 'inline-block');
+    separateShapes();
+  });
+
+  function exportCSV() {
     var searchIDs = $('table input:checked').map(function(){
      return $(this).val();
     }).toArray();
@@ -339,14 +350,96 @@
             a.href='data:text/csv;charset=utf-8,'+escape(csv);
             document.body.appendChild(a);
             a.click();
-            $('.fa-spinner').css("display","none");
+            $('.spreadsheet-spinner').css("display","none");
           });
         }
     });
+  }
 
-    //Uncheck all the selectors on export
-    $('#funded-table input').prop('checked', false);
-    $('#unfunded-table input').prop('checked', false);
-    $('#idea-table input').prop('checked', false);
-  });
+  function separateShapes() {
+    var searchIDs = $('table input:checked').map(function(){
+     return $(this).val();
+    }).toArray();
+
+    var points = {name: 'points', features: [ ]};
+    var lines = {name: 'lines', features: [ ]};
+    var multilines = {name: 'multilinestrings', features: [ ]};
+    var polygons = {name: 'polygons', features: [ ]};
+
+    var queryString = searchIDs.join('&');
+
+    $.ajax({
+        method: "GET",
+        url: "/projects/ids/" + queryString,
+        dataType: "json",
+        success: function(data) {
+          for (var i = 0; i < data.features.length; i++) {
+            if (data.features[i].geometry != undefined) {
+              switch (data.features[i].geometry.type) {
+                case 'Point':
+                  points.features.push(data.features[i].properties.id);
+                break;
+                case 'LineString':
+                  lines.features.push(data.features[i].properties.id);
+                break;
+                case 'MultiLineString':
+                  multilines.features.push(data.features[i].properties.id);
+                break;
+                case 'Polygon':
+                  polygons.features.push(data.features[i].properties.id);
+                break;
+              }
+            }
+          }
+          var shapeFilesArr = [points, lines, polygons, multilines];
+          for (var i = shapeFilesArr.length - 1; i >= 0; i--) {
+            if (shapeFilesArr[i].features.length < 1) {
+                shapeFilesArr.splice(i, 1);
+            }
+          }
+          for (var i = 0; i < shapeFilesArr.length; i++) {
+            downloadShapeFiles(shapeFilesArr[i], i + 1, shapeFilesArr.length)
+          }
+        }
+    });
+  }
+
+  function downloadShapeFiles(geoTypeObj, numTimesRun, numeTimesToRun) {
+    var queryString = geoTypeObj.features.join('&');
+    $.ajax({
+        method: "GET",
+        url: "/projects/ids/" + queryString,
+        dataType: "json",
+        success: function(data) {
+          var geoJSON = JSON.stringify(data);
+          //XHR Request Working
+          var formData = new FormData();
+            formData.append('json', geoJSON);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://ogre.adc4gis.com/convertJson");
+            xhr.responseType = "arraybuffer"; // ask for a binary result
+            xhr.onreadystatechange = function(evt) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        JSZip.loadAsync(xhr.response).then(function(zip) {
+                            zip.generateAsync({
+                                    type: "blob"
+                                })
+                                .then(function(blob) {
+                                    saveAs(blob, geoTypeObj.name + '.zip');
+                                    if (numTimesRun === numeTimesToRun) {
+                                      $('#shape-spinner').css('display', 'none');
+                                    }
+                                });
+                        });
+                    } else {
+                        console.log("http call error");
+                    }
+                }
+            };
+          xhr.send(formData);
+        }
+    });
+  }
 </script>
