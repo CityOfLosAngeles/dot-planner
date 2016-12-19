@@ -74,7 +74,7 @@ body {
     text-decoration: none;
 }
 
-#export, #submit-project {
+#exportCSV, #exportShape, #submit-project {
   margin-top: 15px;
   margin-bottom: 15px;
   padding: 10px;
@@ -110,7 +110,7 @@ body {
   margin-top: 10px;
   margin-left: 0px;
 }
-#deleteuserbutton, #add-intersection:hover, #undo-intersection:hover, #show-info:hover, #edit-button:hover, #hide-info:hover, #export:hover, #submit-project:hover, #update-project:hover {
+#deleteuserbutton, #add-intersection:hover, #undo-intersection:hover, #show-info:hover, #edit-button:hover, #hide-info:hover, #exportCSV:hover, #exportShape:hover, #submit-project:hover, #update-project:hover {
   background-color: #001f3f;
   border: 1px solid #001f3f;
   border-radius: 0px;
