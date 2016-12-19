@@ -364,7 +364,7 @@ function downloadShapeFiles(geoTypeObj) {
         var formData = new FormData();
           formData.append('json', geoJSON);
           var xhr = new XMLHttpRequest();
-          xhr.open("POST", "http://ogre.adc4gis.com/convertJson");
+          xhr.open("POST", "https://ogre.adc4gis.com/convertJson");
           xhr.responseType = "arraybuffer"; // ask for a binary result
           xhr.onreadystatechange = function(evt) {
               if (xhr.readyState === 4) {
