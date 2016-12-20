@@ -134,7 +134,34 @@ body {
   right: 50px;
   z-index: 100;
   width: 275px;
-  border-radius: 0 !important;
+}
+
+#hide-button{
+  position: absolute;
+  top: 10px;
+  right: 440px;
+  z-index: 100;
+  background-color: white;
+  border: #999 solid 1px;
+  box-sizing: border-box;
+}
+
+#hide-button:focus{
+  outline: 0;
+}
+
+#unhide-button{
+  position: absolute;
+  top: 10px;
+  right: 340px;
+  z-index: 100;
+  background-color: white;
+  border: #999 solid 1px;
+  box-sizing: border-box;
+}
+
+#unhide-button:focus{
+  outline: 0;
 }
 
 #searchbar{
@@ -154,6 +181,8 @@ body {
   border: #999 solid 1px;
   box-sizing: border-box;
 }
+
+
 
 #project-details{
   margin-top: 25px;
