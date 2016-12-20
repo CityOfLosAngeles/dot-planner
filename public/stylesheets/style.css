@@ -100,6 +100,41 @@ body {
   color: #001f3f;
   margin: 0 20px 0 20px;
 }
+
+#delete-project-button, #close-modal-button{
+  background-color: #f0eeee;
+  border: 1px solid #001f3f;
+  border-radius: 0px;
+  color: #001f3f;
+}
+
+#delete-project-button:hover, #close-modal-button:hover{
+  background-color: #001f3f;
+  border: 1px solid #001f3f;
+  border-radius: 0px;
+  color: white;
+}
+
+#cancel-button, #flag-button, #add-button{
+  background-color: #f0eeee;
+  border: 1px solid #001f3f;
+  border-radius: 0px;
+  color: #001f3f;
+}
+
+#cancel-button:hover, #flag-button:hover, #add-button:hover{
+  background-color: #001f3f;
+  border: 1px solid #001f3f;
+  border-radius: 0px;
+  color: white;
+}
+
+.modal-header {
+  background-color: #001f3f;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
 #intersections .form-group{
   margin-bottom: 2px;
 }
