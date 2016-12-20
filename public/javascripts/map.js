@@ -1,6 +1,9 @@
 //Global variable which will become the geoJSON layer
 var geoJSON;
 
+//Global variable which will represent the layer at the top of the map(layer that has been clicked on) so that it can be hidden
+var layerID;
+
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map');
 
@@ -37,24 +40,33 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 });
 
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
-$.ajax({
-    type: 'GET',
-    url: '/projects/all',
-    datatype: 'JSON',
-    success: function(data) {
-        if (data) {
-          geoJSON = L.geoJson(data, {
-                style: {
-                  color: 'blue'
-                },
-                onEachFeature: function(feature, layer) {
-                  onEachFeature(feature, layer);
-                },
-            }).addTo(map);
-            checkZoom();
+function renderAllProjects(zoom) {
+  $.ajax({
+      type: 'GET',
+      url: '/projects/all',
+      datatype: 'JSON',
+      success: function(data) {
+          if (data) {
+            if (geoJSON) {
+              geoJSON.clearLayers();
+            }
+            geoJSON = L.geoJson(data, {
+                  style: {
+                    color: 'blue'
+                  },
+                  onEachFeature: function(feature, layer) {
+                    onEachFeature(feature, layer);
+                  },
+              }).addTo(map);
+              if (zoom) {
+                checkZoom();
+              }
+          }
         }
-      }
-});
+  });
+}
+
+renderAllProjects(true);
 
 //Function to check if a project should be zoomed in on
 function checkZoom() {
@@ -129,6 +141,18 @@ function filterProjects() {
   }
 }
 
+$('#hide-button').on('click', function() {
+  geoJSON.eachLayer(function(l) {
+    if (l._leaflet_id === layerID) {
+      map.removeLayer(l);
+    }
+  });
+});
+
+$('#unhide-button').on('click', function() {
+  renderAllProjects(false);
+});
+
 //Function that sets the map bounds to a project
 //This essentially "zooms in" on a project
 function zoomToFeature(e) {
@@ -142,6 +166,7 @@ function zoomToFeature(e) {
 
 function onEachFeature(feature, layer) {
   layer.on('click', function(e) {
+    layerID = layer._leaflet_id;
     zoomToFeature(e)
     geoJSON.eachLayer(function(l){geoJSON.resetStyle(l);});
     if (e.target.feature.geometry.type != 'Point'){
