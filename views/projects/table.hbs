@@ -270,23 +270,23 @@
 
 <div class="modal fade" id="delete-modal">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Delete</h4>
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+              <h3 class="modal-title">Delete</h3>
+          </div>
+          <div class="modal-body">
+              <h4>Are you sure you would like to delete this project?</h4>
+          </div>
+          <div class="modal-footer">
+              <form method="POST" id="delete-form">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-modal-button">Close</button>
+                  <button type="submit" class="btn btn-danger" id="delete-project-button">Delete</button>
+              </form>
+          </div>
       </div>
-      <div class="modal-body">
-        <p>Are you sure you would like to delete this project?</p>
-      </div>
-      <div class="modal-footer">
-        <form method="POST" id="delete-form">
-           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-danger" id="delete-project-button">Delete</button>
-        </form>
-      </div>
-    </div>
   </div>
 </div>
 
