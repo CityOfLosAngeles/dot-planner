@@ -4,53 +4,48 @@ var config = require('./config.js');
 var parseGeometry = require('./geometry.js');
 var pg = require('pg');
 
+var q = "SELECT fpolygons.uid_1,  sa_fpolygons.project_title,  sa_fpolygons.project_category,  scope__sum,  sa_fpolygons.other_info,  sa_fpolygons.n,  sa_fpolygons.s,  sa_fpolygons.e,  sa_fpolygons.w,  sa_fpolygons.current_status,  sa_fpolygons.project_manager,  sa_fpolygons.cd,  sa_fpolygons.accessibility,  sa_fpolygons.dept_proj__id,  sa_fpolygons.bgt_total,  sa_fpolygons.grant_,  sa_fpolygons.other_funds,  sa_fpolygons.prop_c,  general_fu,  sa_fpolygons.authorization_,  sa_fpolygons.issues,  sa_fpolygons.at_risk_of_deobligation__y_n,  sa_fpolygons.explain_if_at_risk,  sa_fpolygons.construction_by,  sa_fpolygons.source,  sa_fpolygons.measure_r,  fpolygons.gas_tax,  sa_fpolygons.other_funds,  sa_fpolygons.contact_info,  ST_AsText(shape) FROM fpolygons LEFT JOIN sa_fpolygons ON fpolygons.uid_1=sa_fpolygons.uid;";
 
 var client = new pg.Client(config);
 client.connect(function(err) {
 	if (err) console.log(err);
 
-	client.query('SELECT public.f_polygon.*, ST_AsText(public.polygon_2.wkb_geometry)  FROM public.f_polygon LEFT JOIN public.polygon_2 ON public.f_polygon.uid=public.polygon_2.uid_1;', function (err, result) {
+	client.query(q, function (err, result) {
 	    if (err) throw err;
 	    // console.log(result.rows[0]);
 	    for (let i = 0; i < result.rows.length; i++) {
 	    	var curElmnt = result.rows[i];
-	    	// var newProject = {};
 
-	    	// newProject.Proj_Title = curElmnt['project_ti'];
-	    	// newProject.Proj_Desc = curElmnt['scope__sum'];
-	    	// newProject.Geometry = parseGeometry(curElmnt['st_astext']);
-	    	
-	    	// Sequelize Prep TODO: Finalize Fields
 	    	let newProject = {
-			    Fund_St: curElmnt['funding_status'],
-			    Legacy_ID: curElmnt['uid'],
+			    Fund_St: "Funded",
+			    Legacy_ID: curElmnt['uid_1'],
 			    Lead_Ag: null,
 			    Proj_Title: curElmnt['project_title'],
 			    Proj_Ty: curElmnt['project_category'],
-			    Proj_Desc: curElmnt['scope__summary_'],
+			    Proj_Desc: curElmnt['scope__sum'],
 			    Contact_info: {
-			          Contact_info_name: curElmnt['field1'],
+			          Contact_info_name: curElmnt[' project_manager'],
 			          Contact_info_phone: "TBD",
 			          Contact_info_email: curElmnt['contact_info']
 			        },
 			    More_info: curElmnt['other_info'],
-			    Primary_Street: curElmnt[' primary_street'],
-			    Cross_Streets: [curElmnt[' cross_street_1'], curElmnt[' cross_street_2']],
-			    Proj_Status: curElmnt[' current_status'],
+			    Primary_Street: null,
+			    Cross_Streets: [curElmnt['n'], curElmnt['s'], curElmnt['e'], curElmnt['w']],
+			    Proj_Status: curElmnt['current_status'],
 			    Proj_Man: curElmnt[' project_manager'],
 			    CD: curElmnt['cd'],
 			    Access: curElmnt['accessibility'],
-			    Dept_Proj_ID: curElmnt['  dept_proj__id'],
-			    Other_ID: curElmnt[' other_project_id'],
+			    Dept_Proj_ID: curElmnt['dept_proj__id'],
+			    Other_ID: curElmnt['other_project_id'],
 			    Total_bgt: parseInt(curElmnt['bgt_total']),
 			    Grant: parseInt(curElmnt['grant_']),
 			    Other_funds: parseInt(curElmnt['other_funds']),
 			    Prop_c:parseInt( curElmnt['prop_c']),
 			    General_fund: parseInt(curElmnt['general_fund']),
-			    Authorization: curElmnt[' authorization_'],
+			    Authorization: curElmnt['authorization_'],
 			    Issues: curElmnt['issues'],
-			    Deobligation: curElmnt[' at_risk_of_deobligation__y_n'],
-			    Explanation: curElmnt[' explain_if_at_risk'],
+			    Deobligation: curElmnt['at_risk_of_deobligation__y_n'],
+			    Explanation: curElmnt['explain_if_at_risk'],
 			    Constr_by: curElmnt['construction_by'],
 			    Info_source: curElmnt['source'],
 			    Grant_Cat: null,
@@ -78,25 +73,6 @@ client.connect(function(err) {
 					return console.log(err);
 				}
 			});
-
-			//Account for Blank CD
-			// i == 63 ? newProject.CD = 0: console.log("");
-			// curElmnt['cd'] == null? newProject.CD = 0: newProject.CD = parseInt(curElmnt['cd']);
-			// console.log(newProject);
-
-			// models.Project.create(newProject).then(function(result) {
-			// 	// console.log("success");
-			// })
-			// .catch(function(err) {
-			// 	// console.log(err);
-			// 	fs.appendFile("./error_polygons_funded.js", (err + "\r\n" + JSON.stringify(newProject) + "\r\n"), function(err) {
-			// 	    if(err) {
-			// 	        return console.log(err);
-			// 	    }
-
-			// 	    console.log("The file was saved!");
-			// 	});
-			// });
 	    }
 	 	
 	    // disconnect the client 

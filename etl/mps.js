@@ -4,7 +4,8 @@ var config = require('./config.js');
 var parseGeometry = require('./geometry.js');
 var pg = require('pg');
 
-var q = "SELECT flines.uid_12, sa_flines.project_title, sa_flines.project_category, scope__sum, sa_flines.field, sa_flines.other_info, sa_flines.primary_street, sa_flines.cross_street_1, sa_flines.cross_street_2, sa_flines.current_status, sa_flines.project_manager, sa_flines.cd, sa_flines.accessibility, sa_flines.dept_proj__id, sa_flines.bgt_total, sa_flines.grant_, sa_flines.other_funds, sa_flines.prop_c, general_fu, sa_flines.authorization_, sa_flines.issues, sa_flines.at_risk_of_deobligation__y_n, sa_flines.explain_if_at_risk, sa_flines.construction_by, sa_flines.source, flines.measure_r, flines.gas_tax, sa_flines.other_funds, ST_AsText(shape) FROM flines LEFT JOIN sa_flines ON flines.uid_12=sa_flines.uid;"
+var q = "SELECT project_title, fmps.uid, sa_fmps.project_category, scope__sum, sa_fmps.other_info, sa_fmps.current_status, sa_fmps.project_manager, sa_fmps.accessibility, sa_fmps.dept_proj__id, sa_fmps.bgt_total, sa_fmps.grant_, sa_fmps.other_funds, sa_fmps.prop_c, general_fu, sa_fmps.authorization_, sa_fmps.issues, sa_fmps.at_risk_of_deobligation__y_n, sa_fmps.explain_if_at_risk, sa_fmps.construction_by, sa_fmps.source, fmps.measure_r, fmps.gas_tax, sa_fmps.other_funds, ST_AsText(shape) FROM fmps LEFT JOIN sa_fmps ON fmps.uid=sa_fmps.uid;"
+
 var client = new pg.Client(config);
 client.connect(function(err) {
 	if (err) console.log(err);
@@ -20,10 +21,9 @@ client.connect(function(err) {
 	    	// newProject.Proj_Desc = curElmnt['scope__sum'];
 	    	// newProject.Geometry = parseGeometry(curElmnt['st_astext']);
 	    	
-	    	// Sequelize Prep TODO: Finalize Fields
 	    	let newProject = {
 			    Fund_St: "Funded",
-			    Legacy_ID: curElmnt['uid_12'],
+			    Legacy_ID: curElmnt['uid'],
 			    Lead_Ag: null,
 			    Proj_Title: curElmnt['project_title'],
 			    Proj_Ty: curElmnt['project_category'],
@@ -31,11 +31,11 @@ client.connect(function(err) {
 			    Contact_info: {
 			          Contact_info_name: "TBD",
 			          Contact_info_phone: "TBD",
-			          Contact_info_email: curElmnt['field']
+			          Contact_info_email: "TBD"
 			        },
 			    More_info: curElmnt['other_info'],
-			    Primary_Street: curElmnt['primary_street'],
-			    Cross_Streets: [curElmnt['cross_street_1'], curElmnt[' cross_street_2']],
+			    Primary_Street: null,
+			    Cross_Streets: null,
 			    Proj_Status: curElmnt['current_status'],
 			    Proj_Man: curElmnt['project_manager'],
 			    CD: curElmnt['cd'],
@@ -44,7 +44,6 @@ client.connect(function(err) {
 			    Other_ID: curElmnt['other_project_id'],
 			    Total_bgt: parseInt(curElmnt['bgt_total']),
 			    Grant: parseInt(curElmnt['grant_']),
-			    Other_funds: parseInt(curElmnt['other_funds']),
 			    Prop_c:parseInt(curElmnt['prop_c']),
 			    General_fund: parseInt(curElmnt['general_fund']),
 			    Authorization: curElmnt[' authorization_'],
@@ -70,11 +69,11 @@ client.connect(function(err) {
 			//Account for null values in gas_tax
 		    curElmnt['gas_tax'] == null? newProject.Gas_Tax = 0 : newProject.Gas_Tax = parseInt(curElmnt['gas_tax']);
 
-		    //Account for null values in general_fund
-		    curElmnt['general_fu'] == null? newProject.General_fund = 0 : newProject.General_fund = parseInt(curElmnt['general_fu']);
+		    //Account for null values in other funds
+		    curElmnt['other_funds'] == null ? newProject.Other_funds = 0: newProject.Other_funds = parseInt(curElmnt['other_funds']),
 
 		    //Write results to file
-			fs.appendFile("./export_funded_lines.js", JSON.stringify(newProject) + ",\r\n", function(err){
+			fs.appendFile("./export_funded_multipoints.js", JSON.stringify(newProject) + ",\r\n", function(err){
 				if (err) {
 					return console.log(err);
 				}

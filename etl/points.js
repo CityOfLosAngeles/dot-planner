@@ -3,13 +3,13 @@ var models = require("../models");
 var config = require('./config.js');
 var parseGeometry = require('./geometry.js');
 var pg = require('pg');
-
+var q = "SELECT fpoints.uid,  sa_fpoints.project_title,  sa_fpoints.project_category,  scope__sum,  sa_fpoints.other_info,  sa_fpoints.primary_street,  sa_fpoints.cross_street_1,  sa_fpoints.cross_street_2,  sa_fpoints.current_status,  sa_fpoints.project_manager,  sa_fpoints.cd,  sa_fpoints.accessibility,  sa_fpoints.dept_proj__id,  sa_fpoints.bgt_total,  sa_fpoints.grant_,  sa_fpoints.other_funds,  sa_fpoints.prop_c,  general_fu,  sa_fpoints.authorization_,  sa_fpoints.issues,  sa_fpoints.at_risk_of_deobligation,  sa_fpoints.explain_if_at_risk,  sa_fpoints.construction_by,  sa_fpoints.source,  fpoints.measure_r,  fpoints.gas_tax,  sa_fpoints.other_funds,  ST_AsText(shape) FROM fpoints LEFT JOIN sa_fpoints ON fpoints.uid=sa_fpoints.uid;"
 
 var client = new pg.Client(config);
 client.connect(function(err) {
 	if (err) console.log(err);
 
-	client.query('SELECT public.f_points.*, ST_AsText(public.points_2.wkb_geometry)  FROM public.f_points LEFT JOIN public.points_2 ON public.f_points.uid=public.points_2.uid;', function (err, result) {
+	client.query(q, function (err, result) {
 	    if (err) throw err;
 	    // console.log(result.rows[0]);
 	    for (let i = 0; i < result.rows.length; i++) {
@@ -22,7 +22,7 @@ client.connect(function(err) {
 	    	
 	    	// Sequelize Prep TODO: Finalize Fields
 	    	let newProject = {
-			    Fund_St: curElmnt['funding_status'],
+			    Fund_St: "Funded",
 			    Legacy_ID: curElmnt['uid'],
 			    Lead_Ag: null,
 			    Proj_Title: curElmnt['project_title'],
@@ -49,7 +49,7 @@ client.connect(function(err) {
 			    General_fund: parseInt(curElmnt['general_fund']),
 			    Authorization: curElmnt[' authorization_'],
 			    Issues: curElmnt['issues'],
-			    Deobligation: curElmnt['at_risk_of_deobligation__y_n'],
+			    Deobligation: curElmnt['at_risk_of_deobligation'],
 			    Explanation: curElmnt['explain_if_at_risk'],
 			    Constr_by: curElmnt['construction_by'],
 			    Info_source: curElmnt['source'],
@@ -71,7 +71,7 @@ client.connect(function(err) {
 		    curElmnt['gas_tax'] == null? newProject.Gas_Tax = 0 : newProject.Gas_Tax = parseInt(curElmnt['gas_tax']);
 
 		    //Account for null values in general_fund
-		    curElmnt['general_fund'] == null? newProject.General_fund = 0 : newProject.General_fund = parseInt(curElmnt['general_fund']);
+		    curElmnt['general_fu'] == null? newProject.General_fund = 0 : newProject.General_fund = parseInt(curElmnt['general_fund']);
 
 		    //Write results to file
 			fs.appendFile("./export_funded_points.js", JSON.stringify(newProject) + ",\r\n", function(err){
