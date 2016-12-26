@@ -18,6 +18,7 @@
     "path": "^0.12.7",
     "pg": "^6.1.0",
     "sequelize": "^3.27.0",
+    "sequelize-cli": "^2.5.1",
     "serve-favicon": "~2.3.0"
   }
 }
