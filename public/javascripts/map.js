@@ -220,6 +220,8 @@ function onEachFeature(feature, layer) {
     $('#Contact_info_name').text(feature.properties.Contact_info.Contact_info_name);
     $('#Contact_info_phone').text(feature.properties.Contact_info.Contact_info_phone);
     $('#Contact_info_email').text(feature.properties.Contact_info.Contact_info_email);
+    $('#attachment').text(feature.properties.Attachment);
+    // $('#attachment').attr('href',); //TODO: File download
 
     if (fundStatus != 'Idea Project') {
       $('#Proj_Man').text(feature.properties.Proj_Man);
