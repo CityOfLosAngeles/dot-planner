@@ -59,6 +59,190 @@ $.ajax({
   success: function(data) {
     if (data) {
       fundStatus = data[0].Fund_St;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// THIS FUNCTION IS FROM EDIT.JS
+function populateData(project) {
+  if (data[0].Fund_St == undefined) {
+    fund_stComplete = false;
+  }
+  if (data[0].Lead_Ag == undefined) {
+    lead_agComplete = false;
+  }
+  if (data[0].Proj_Title == undefined) {
+    proj_titleComplete = false;
+  }
+  if (data[0].Proj_Ty == undefined) {
+    proj_tyComplete = false;
+  }
+  if (data[0].Proj_Desc == undefined) {
+    proj_descComplete = false;
+  }
+  if (data[0].Contact_info.Contact_info_name == undefined) {
+    contact_info_nameComplete = false;
+  }
+  if (data[0].Contact_info.Contact_info_phone == undefined) {
+    contact_info_phoneComplete = false;
+  }
+  if (data[0].Contact_info.Contact_info_email == undefined) {
+    contact_info_emailComplete = false;
+  }
+  if (data[0].More_info == undefined) {
+    more_infoComplete = false;
+  }
+  if (data[0].CD == undefined) {
+    cdComplete = false;
+  }
+  if (data[0].Proj_Status == undefined) {
+    proj_statusComplete = false;
+  }
+  if (data[0].Proj_Man == undefined) {
+    proj_manComplete = false;
+  }
+  if (data[0].Access == undefined) {
+    accessComplete = false;
+  }
+  if (data[0].Dept_Proj_ID == undefined) {
+    dept_proj_idComplete = false;
+  }
+  if (data[0].Other_ID == undefined) {
+    other_idComplete = false;
+  }
+  if (data[0].Total_bgt == undefined) {
+    total_bgtComplete = false;
+  }
+  if (data[0].Grant == undefined) {
+    grantComplete = false;
+  }
+  if (data[0].Other_funds == undefined) {
+    other_fundsComplete = false;
+  }
+  if (data[0].Prop_c == undefined) {
+    prop_cComplete = false;
+  }
+  if (data[0].Measure_r == undefined) {
+    measure_rComplete = false;
+  }
+  if (data[0].Gas_Tax == undefined) {
+    gas_taxComplete = false;
+  }
+  if (data[0].General_fund == undefined) {
+    general_fundComplete = false;
+  }
+  if (data[0].Authorization == undefined) {
+    authorizationComplete = false;
+  }
+  if (data[0].Issues == undefined) {
+    issuesComplete = false;
+  }
+  if (data[0].Deobligation == undefined) {
+    deobligationComplete = false;
+  }
+  if (data[0].Explanation == undefined) {
+    explanationComplete = false;
+  }
+  if (data[0].Constr_by == undefined) {
+    constr_byComplete = false;
+  }
+  if (data[0].Info_source == undefined) {
+    info_sourceComplete = false;
+  }
+  if (data[0].Grant_Cat == undefined) {
+    grant_catComplete = false;
+  }
+  if (data[0].Grant_Cycle == undefined) {
+    grant_cycleComplete = false;
+  }
+  if (data[0].Est_Cost == undefined) {
+    est_costComplete = false;
+  }
+  if (data[0].Fund_Rq == undefined) {
+    fund_rqComplete = false;
+  }
+  if (data[0].Lc_match == undefined) {
+    lc_matchComplete = false;
+  }
+  if (data[0].Primary_Street == undefined) {
+    primary_streetComplete = false;
+  }
+  if (data[0].Cross_Streets && project.Cross_Streets.Intersections && project.Cross_Streets.Intersections[0] != undefined) {
+    
+
+    // START HERE
+    var cross = project.Cross_Streets.Intersections;
+
+    for(var i=1; i<=cross.length; i++)
+      intersectionsValidated.push("cross-street"+i);
+    console.log(intersectionsValidated);
+
+    if (cross.length <=2) {
+      for (var i = 0; i < cross.length; i++) {
+        $('#cross-street' + (i + 1)).val(cross[i]);
+      }
+    } else {
+
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       
       // If project has Deobligation defined in database, means all of the Funded information is in database and may be displayed (although the project may not be currently funded)
       if(data[0].Deobligation == 'Yes'){
