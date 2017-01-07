@@ -164,7 +164,7 @@ function populateData(project) {
   if (project.Proj_Status != undefined) {
     $('#Proj_Status').val(project.Proj_Status);
   }
-  if (project.Proj_Status != undefined) {
+  if (project.Proj_Man != undefined) {
     $('#Proj_Man').val(project.Proj_Man);
   }
   if (project.Access != undefined) {
