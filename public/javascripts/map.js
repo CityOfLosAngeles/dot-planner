@@ -346,7 +346,7 @@ $('#export-csv').on('click', function() {
 });
 
 $('#export-shapefiles').on('click', function() {
-    seperateShapes();
+    separateShapes();
 });
 
 function exportCSV() {
@@ -357,6 +357,10 @@ function exportCSV() {
             if (bounds.contains(layer.getLatLng())) {
                 searchIDs.push(layer.feature.properties.id);
             }
+        } else if (layer.feature.geometry.type === 'MultiPoint') {
+          if (bounds.contains(layer.getBounds())) {
+            searchIDs.push(layer.feature.properties.id);
+          }
         } else {
             if (bounds.contains(layer.getLatLngs())) {
                 searchIDs.push(layer.feature.properties.id);
@@ -365,7 +369,6 @@ function exportCSV() {
     });
 
     var queryString = searchIDs.join('&')
-
     $.ajax({
         method: "GET",
         url: "/projects/ids/" + queryString,
@@ -388,7 +391,7 @@ function exportCSV() {
     });
 }
 
-function seperateShapes() {
+function separateShapes() {
     var bounds = map.getBounds();
     var points = {
         name: 'points',
@@ -406,6 +409,10 @@ function seperateShapes() {
         name: 'polygons',
         features: []
     };
+    var multipoints = {
+      name: 'multipoints',
+      features: []
+    }
     geoJSON.eachLayer(function(layer) {
         switch (layer.feature.geometry.type) {
             case 'Point':
@@ -413,6 +420,11 @@ function seperateShapes() {
                     points.features.push(layer.feature.properties.id);
                 }
                 break;
+            case 'MultiPoint':
+                  if (bounds.contains(layer.getBounds())) {
+                      multipoints.features.push(layer.feature.properties.id);
+                  }
+                  break;
             case 'LineString':
                 if (bounds.contains(layer.getLatLngs())) {
                     lines.features.push(layer.feature.properties.id);
@@ -430,7 +442,7 @@ function seperateShapes() {
                 break;
         }
     });
-    var shapeFilesArr = [points, lines, polygons, multilines];
+    var shapeFilesArr = [points, lines, polygons, multilines, multipoints];
     for (var i = shapeFilesArr.length - 1; i >= 0; i--) {
         if (shapeFilesArr[i].features.length < 1) {
             shapeFilesArr.splice(i, 1);
