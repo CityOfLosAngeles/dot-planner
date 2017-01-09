@@ -170,6 +170,7 @@ $.ajax({
       if (data[0].Primary_Street != undefined) {
         primary_streetComplete = true;
       }
+    }
   }
 });
 
