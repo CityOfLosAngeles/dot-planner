@@ -508,6 +508,11 @@ router.get('/search', function(req, res) {
           Info_source: {
             ilike: '%' + search + '%'
           }
+        },
+        {
+          Primary_Street: {
+            ilike: '%' + search + '%'
+          }
         }
       ]
     }
@@ -537,6 +542,11 @@ router.get('/search', function(req, res) {
         },
         {
           Info_source: {
+            ilike: '%' + search + '%'
+          }
+        },
+        {
+          Primary_Street: {
             ilike: '%' + search + '%'
           }
         }
