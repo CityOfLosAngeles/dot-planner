@@ -171,6 +171,7 @@
     var lines = {name: 'lines', features: [ ]};
     var multilines = {name: 'multilinestrings', features: [ ]};
     var polygons = {name: 'polygons', features: [ ]};
+    var multipoints = {name: 'multipoints', features: []}
 
     var queryString = searchIDs.join('&');
 
@@ -185,6 +186,9 @@
                 case 'Point':
                   points.features.push(data.features[i].properties.id);
                 break;
+                case 'MultiPoint':
+                      multipoints.features.push(data.features[i].properties.id);
+                      break;
                 case 'LineString':
                   lines.features.push(data.features[i].properties.id);
                 break;
@@ -197,7 +201,7 @@
               }
             }
           }
-          var shapeFilesArr = [points, lines, polygons, multilines];
+          var shapeFilesArr = [points, lines, polygons, multilines, multipoints];
           for (var i = shapeFilesArr.length - 1; i >= 0; i--) {
             if (shapeFilesArr[i].features.length < 1) {
                 shapeFilesArr.splice(i, 1);
@@ -212,7 +216,6 @@
 
   function downloadShapeFiles(geoTypeObj, numTimesRun, numeTimesToRun) {
     var queryString = geoTypeObj.features.join('&');
-    console.log(queryString);
     $.ajax({
         method: "GET",
         url: "/projects/ids/" + queryString,
