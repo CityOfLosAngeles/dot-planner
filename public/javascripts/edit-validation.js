@@ -846,8 +846,7 @@ function hasSuccess(divID, spanID) {
 
 function radioHasSuccess(divID, spanID) {
     $(divID).removeClass("has-feedback");
-    $(divID).addClass("has-feedback");
-    // $(spanID).removeClass("glyphicon glyphicon-remove form-control-feedback");
+    $(divID).addClass("has-feedback has-success");
     $(spanID).addClass("glyphicon glyphicon-ok form-control-feedback");
 }
 
