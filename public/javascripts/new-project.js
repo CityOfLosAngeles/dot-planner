@@ -243,8 +243,10 @@ $("#undo-intersection").on('click', function() {
 
     // Remove the element from the intersection validation counter
     // if last intersection is not validated
-    if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
-        intersectionsValidated.pop();
+    if(intersectionsValidated.length > 0){
+        if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
+            intersectionsValidated.pop();
+    }
 
     $('#cross-street' + intersectionCounter + '-group').remove();
     intersectionCounter--;

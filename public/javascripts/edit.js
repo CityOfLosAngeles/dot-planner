@@ -333,8 +333,10 @@ $('#add-intersection').on('click', function() {
 $("#undo-intersection").on('click', function() {
 
   // If last intersection in validated, remove from intersection validation counter
-  if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
+  if(intersectionsValidated.length > 0){
+    if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
       intersectionsValidated.pop();
+  }
 
   $('#cross-street' + intersectionCounter + '-group').remove();
   intersectionCounter--;
