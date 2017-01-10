@@ -133,6 +133,7 @@ function filterProjects() {
             datatype: 'JSON',
             success: function(data) {
                 if (data) {
+                    var features = data.features
                     for (var i = 0; i < features.length; i++) {
                       features[i].properties['marker-color'] = '#000000';
                       features[i].properties['marker-symbol'] = 'circle-stroked';
