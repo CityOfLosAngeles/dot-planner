@@ -182,6 +182,8 @@ function zoomToFeature(e) {
 
 function onEachFeature(feature, layer) {
     layer.on('click', function(e) {
+      //Empty the cross streets since we are using .append()
+      $('#Cross_Streets').empty();
         layerID = layer._leaflet_id;
         zoomToFeature(e)
         geoJSON.eachLayer(function(l) {
@@ -276,7 +278,12 @@ function onEachFeature(feature, layer) {
             $('#CD').text(feature.properties.CD);
             $('#Primary_Street').text(feature.properties.Primary_Street);
             if (feature.properties.Cross_Streets && feature.properties.Cross_Streets.Intersections) {
-                $('#Cross_Streets').text(feature.properties.Cross_Streets.Intersections);
+              var streets = feature.properties.Cross_Streets.Intersections;
+              streetsString = '';
+              for (var i = 0; i < streets.length; i++) {
+              streetsString += '<p>' + streets[i] + '</p><br>';
+              }
+              $('#Cross_Streets').append(streetsString);
             }
             $('#sidebar-fundedAndUnfunded').show();
             var button = $('<button id="show-info" class="btn" type="button" name="button">More Info</button>');
