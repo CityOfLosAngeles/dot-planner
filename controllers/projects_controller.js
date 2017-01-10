@@ -572,4 +572,12 @@ router.get('/search', function(req, res) {
   });
 });
 
+// router.get('/upload', function(err, res) {
+//   var data = require('../db/projects.js');
+//   for (var i = 0; i < data.length; i++) {
+//     models.Project.create(data[i]);
+//   }
+//   res.send('Saving a TON of stuff to the db!');
+// });
+
 module.exports = router;
