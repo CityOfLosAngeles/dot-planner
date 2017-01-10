@@ -59,73 +59,116 @@ $.ajax({
   success: function(data) {
     if (data) {
       fundStatus = data[0].Fund_St;
-      
-      // If project has Deobligation defined in database, means all of the Funded information is in database and may be displayed (although the project may not be currently funded)
+
       if(data[0].Deobligation == 'Yes'){
-        
-        primary_streetComplete = true;
-        proj_statusComplete = true;
-        proj_manComplete = true;
-        cdComplete = true;
-
-        accessComplete = true;
-        dept_proj_idComplete = true;
-        other_idComplete = true;
-        total_bgtComplete = true;
-        grantComplete = true;
-        other_fundsComplete = true;
-        prop_cComplete = true;
-        measure_rComplete = true;
-        gas_taxComplete = true;
-        general_fundComplete = true;
-        authorizationComplete = true;
-        issuesComplete = true;
-        constr_byComplete = true;
-        info_sourceComplete = true;
-        deobligationComplete = true;
-
-        explanationComplete = true;
         riskOfDeobligation = true;
-      } else if(data[0].Deobligation == 'No'){
-        
-        primary_streetComplete = true;
-        proj_statusComplete = true;
-        proj_manComplete = true;
-        cdComplete = true;
-
-        accessComplete = true;
-        dept_proj_idComplete = true;
-        other_idComplete = true;
-        total_bgtComplete = true;
-        grantComplete = true;
-        other_fundsComplete = true;
-        prop_cComplete = true;
-        measure_rComplete = true;
-        gas_taxComplete = true;
-        general_fundComplete = true;
-        authorizationComplete = true;
-        issuesComplete = true;
-        constr_byComplete = true;
-        info_sourceComplete = true;
-        deobligationComplete = true;
-
+      }
+      if(data[0].Deobligation == 'No'){
         riskOfDeobligation = false;
         $("#explainRiskDiv").hide();
       }
 
-      // If project has Grant_Cat defined in database, means all of the Unfunded information is in database and may be displayed (although the project may not be currently funded)
-      if (data[0].Grant_Cat != undefined) {
-        
-        primary_streetComplete = true;
-        proj_statusComplete = true;
-        proj_manComplete = true;
+      if (data[0].Fund_St != undefined) {
+        fund_stComplete = true;
+      }
+      if (data[0].Lead_Ag != undefined) {
+        lead_agComplete = true;
+      }
+      if (data[0].Proj_Title != undefined) {
+        proj_titleComplete = true;
+      }
+      if (data[0].Proj_Ty != undefined) {
+        proj_tyComplete = true;
+      }
+      if (data[0].Proj_Desc != undefined) {
+        proj_descComplete = true;
+      }
+      if (data[0].Contact_info.Contact_info_name != undefined) {
+        contact_info_nameComplete = true;
+      }
+      if (data[0].Contact_info.Contact_info_phone != undefined) {
+        contact_info_phoneComplete = true;
+      }
+      if (data[0].Contact_info.Contact_info_email != undefined) {
+        contact_info_emailComplete = true;
+      }
+      if (data[0].More_info != undefined) {
+        more_infoComplete = true;
+      }
+      if (data[0].CD != undefined) {
         cdComplete = true;
-
+      }
+      if (data[0].Proj_Status != undefined) {
+        proj_statusComplete = true;
+      }
+      if (data[0].Proj_Man != undefined) {
+        proj_manComplete = true;
+      }
+      if (data[0].Access != undefined) {
+        accessComplete = true;
+      }
+      if (data[0].Dept_Proj_ID != undefined) {
+        dept_proj_idComplete = true;
+      }
+      if (data[0].Other_ID != undefined) {
+        other_idComplete = true;
+      }
+      if (data[0].Total_bgt != undefined) {
+        total_bgtComplete = true;
+      }
+      if (data[0].Grant != undefined) {
+        grantComplete = true;
+      }
+      if (data[0].Other_funds != undefined) {
+        other_fundsComplete = true;
+      }
+      if (data[0].Prop_c != undefined) {
+        prop_cComplete = true;
+      }
+      if (data[0].Measure_r != undefined) {
+        measure_rComplete = true;
+      }
+      if (data[0].Gas_Tax != undefined) {
+        gas_taxComplete = true;
+      }
+      if (data[0].General_fund != undefined) {
+        general_fundComplete = true;
+      }
+      if (data[0].Authorization != undefined) {
+        authorizationComplete = true;
+      }
+      if (data[0].Issues != undefined) {
+        issuesComplete = true;
+      }
+      if (data[0].Deobligation != undefined) {
+        deobligationComplete = true;
+      }
+      if (data[0].Explanation != undefined) {
+        explanationComplete = true;
+      }
+      if (data[0].Constr_by != undefined) {
+        constr_byComplete = true;
+      }
+      if (data[0].Info_source != undefined) {
+        info_sourceComplete = true;
+      }
+      if (data[0].Grant_Cat != undefined) {
         grant_catComplete = true;
+      }
+      if (data[0].Grant_Cycle != undefined) {
         grant_cycleComplete = true;
+      }
+      if (data[0].Est_Cost != undefined) {
         est_costComplete = true;
+      }
+      if (data[0].Fund_Rq != undefined) {
         fund_rqComplete = true;
+      }
+      if (data[0].Lc_match != undefined) {
         lc_matchComplete = true;
+      }
+      if (data[0].Primary_Street != undefined) {
+        primary_streetComplete = true;
       }
     }
   }
