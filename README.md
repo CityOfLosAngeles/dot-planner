@@ -16,6 +16,18 @@ Install the required npm packages.
 npm install
 ```
 
+Run sequelize migrations.
+
+```
+sequelize db:migrate
+```
+
+To start the application:
+
+```
+npm start
+```
+
 ## Authors (alphabetical order)
 
 * Spencer Charest, *spencercharest*
