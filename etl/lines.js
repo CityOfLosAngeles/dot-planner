@@ -35,7 +35,7 @@ client.connect(function(err) {
 			        },
 			    More_info: curElmnt['other_info'],
 			    Primary_Street: curElmnt['primary_street'],
-			    Cross_Streets: [curElmnt['cross_street_1'], curElmnt[' cross_street_2']],
+			    Cross_Streets: {"Intersections": [curElmnt['cross_street_1'], curElmnt[' cross_street_2']]},
 			    Proj_Status: curElmnt['current_status'],
 			    Proj_Man: curElmnt['project_manager'],
 			    CD: curElmnt['cd'],

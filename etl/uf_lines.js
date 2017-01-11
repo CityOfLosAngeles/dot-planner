@@ -20,7 +20,7 @@ client.connect(function(err) {
 			    Fund_St: "unfunded",
 			    Legacy_ID: curElmnt['uid'],
 			    Lead_Ag: null,
-			    Proj_Title: curElmnt['project_1'],
+			    Proj_Title: curElmnt['project__1'],
 			    Proj_Ty: projectTypes[curElmnt['project_ca']],
 			    Proj_Desc: curElmnt['project_de'],
 			    Contact_info: {

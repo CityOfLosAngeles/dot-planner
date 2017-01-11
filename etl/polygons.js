@@ -30,7 +30,7 @@ client.connect(function(err) {
 			        },
 			    More_info: curElmnt['other_info'],
 			    Primary_Street: null,
-			    Cross_Streets: [curElmnt['n'], curElmnt['s'], curElmnt['e'], curElmnt['w']],
+			    Cross_Streets: {"Intersections": [curElmnt['n'], curElmnt['s'], curElmnt['e'], curElmnt['w']]},
 			    Proj_Status: curElmnt['current_status'],
 			    Proj_Man: curElmnt[' project_manager'],
 			    CD: curElmnt['cd'],
