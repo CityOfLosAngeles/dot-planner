@@ -299,16 +299,7 @@ router.delete('/id/:id', function(req, res) {
         }
       }).then(function() {
         //After the project is deleted redirect to the table view page
-        res.redirect('/projects/table', {
-            logged_in: req.session.logged_in,
-            adminclearance: req.session.adminclearance,
-            id: req.session.user_id,
-            email: req.session.email,
-            firstname: req.session.firstname,
-            lastname: req.session.lastname,
-            phonenumber: req.session.phonenumber,
-            admin: req.session.admin
-        });
+        res.redirect('/projects/table');
       });
     }
     else {
