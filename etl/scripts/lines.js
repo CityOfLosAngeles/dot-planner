@@ -1,5 +1,5 @@
 var fs = require('fs');
-var models = require("../models");
+// var models = require("../models");
 var config = require('./config.js');
 var parseGeometry = require('./geometry.js');
 var pg = require('pg');
@@ -80,25 +80,6 @@ client.connect(function(err) {
 				}
 			});
 
-			//Account for Blank CD
-			// i == 63 ? newProject.CD = 0: console.log("");
-			// curElmnt['cd'] == null? newProject.CD = 0: newProject.CD = parseInt(curElmnt['cd']);
-			// console.log(newProject);
-
-			//Insert projects into Target DB
-			// models.Project.create(newProject).then(function(result) {
-			// 	// console.log("success");
-			// })
-			// .catch(function(err) {
-			// 	// console.log(err);
-			// 	fs.appendFile("./error_lines_funded.js", (err + "\r\n" + JSON.stringify(newProject) + "\r\n"), function(err) {
-			// 	    if(err) {
-			// 	        return console.log(err);
-			// 	    }
-
-			// 	    console.log("The file was saved!");
-			// 	});
-			// });
 	    }
 	 	
 	    // disconnect the client 

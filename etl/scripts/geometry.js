@@ -90,7 +90,7 @@ function createCoordArray(parseDb) {
 		strCoordinates[i].split(" ").forEach(function(el) {
 			tempArr.push(parseFloat(el));
 		});
-
+		//Note: if coordinates need conversion: uncomment the line below, and comment out the next line.
 		// finalArray.push(proj4('EPSG:3857','EPSG:4326', tempArr));
 		finalArray.push(tempArr);
 	}
