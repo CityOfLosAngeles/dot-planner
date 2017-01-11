@@ -63,21 +63,21 @@ router.get('/', function(req,res) {
 });
 
 //sign up (only for first admin!!!)
-router.get('/signup', function(req,res) {
-	res.render('users/signup'
-		, {
-		logged_in: req.session.logged_in,
-	    adminclearance: req.session.adminclearance,
-
-		id: req.session.user_id,
-	    email: req.session.email,
-	    firstname: req.session.firstname,
-	    lastname: req.session.lastname,
-	    phonenumber: req.session.phonenumber,
-	    admin: req.session.admin,
-	    data: keepresp
-	});
-});
+// router.get('/signup', function(req,res) {
+// 	res.render('users/signup'
+// 		, {
+// 		logged_in: req.session.logged_in,
+// 	    adminclearance: req.session.adminclearance,
+//
+// 		id: req.session.user_id,
+// 	    email: req.session.email,
+// 	    firstname: req.session.firstname,
+// 	    lastname: req.session.lastname,
+// 	    phonenumber: req.session.phonenumber,
+// 	    admin: req.session.admin,
+// 	    data: keepresp
+// 	});
+// });
 
 //sign up (only for first admin!!!)
 router.get('/finishsignup', function(req,res) {
