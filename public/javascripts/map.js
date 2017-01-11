@@ -317,7 +317,7 @@ function onEachFeature(feature, layer) {
             }
             $('#Authorization').text(feature.properties.Authorization);
             $('#Issues').text(feature.properties.Issues);
-            $('#Deobligation').text(feature.properties.Issues);
+            $('#Deobligation').text(feature.properties.Deobligation);
             $('#Explanation').text(feature.properties.Explanation);
             $('#Constr_by').text(feature.properties.Constr_by);
             $('#Info_source').text(feature.properties.Info_source);
