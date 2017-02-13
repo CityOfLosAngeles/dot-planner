@@ -3,13 +3,12 @@ body {
     padding: 0;
     max-width: 100%;
     overflow-x: hidden;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Calibri', sans-serif;
 }
 
 .navbar {
     margin-bottom: 0;
     background-color: #002E6D;
-    /*//navy*/
     color: white;
     border-radius: 0px;
     font-family: 'Calibri', sans-serif;
