@@ -1,7 +1,7 @@
 // Global variables
 var intersectionCounter = 2;
 var intersectionsValidated = [];
-
+var newShapeDrawn = false;
 //Creating the map
 var map = L.mapbox.map('map')
 
@@ -51,6 +51,7 @@ map.on(L.Draw.Event.CREATED, function(e) {
 $('#delete-button').on('click', function(e) {
   featureGroup.clearLayers();
   drawControlFull.addTo(map);
+  newShapeDrawn = true;
   $('#delete-button').hide();
 });
 
@@ -164,7 +165,7 @@ function populateData(project) {
   if (project.Proj_Status != undefined) {
     $('#Proj_Status').val(project.Proj_Status);
   }
-  if (project.Proj_Status != undefined) {
+  if (project.Proj_Man != undefined) {
     $('#Proj_Man').val(project.Proj_Man);
   }
   if (project.Access != undefined) {
@@ -332,8 +333,10 @@ $('#add-intersection').on('click', function() {
 $("#undo-intersection").on('click', function() {
 
   // If last intersection in validated, remove from intersection validation counter
-  if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
+  if(intersectionsValidated.length > 0){
+    if(intersectionsValidated[intersectionsValidated.length-1].substring(12) == intersectionCounter)
       intersectionsValidated.pop();
+  }
 
   $('#cross-street' + intersectionCounter + '-group').remove();
   intersectionCounter--;
@@ -367,11 +370,6 @@ $('#update-project').on('click', function() {
 
         //Create the newProject object and set common attributes
         var newProject = {
-            //Geometry
-            Geometry: JSON.stringify({
-                type: data.features[0].geometry.features[0].geometry.type,
-                coordinates: JSON.stringify(data.features[0].geometry.features[0].geometry.coordinates)
-            }),
             //Common Attributes
             Fund_St: $('#Fund_St input[type="radio"]:checked').val(),
             Legacy_ID: $('#Legacy_ID').val(),
@@ -421,6 +419,17 @@ $('#update-project').on('click', function() {
             newProject.Fund_Rq = parseInt($('#Fund_Rq').val()).toFixed(2);
             newProject.Lc_match = parseInt($('#Lc_match').val()).toFixed(2);
             newProject.Match_Pt = $('#Match_Pt').val();
+        }
+        if (newShapeDrawn) {
+          newProject.Geometry = JSON.stringify({
+              type: data.features[0].geometry.type,
+              coordinates: JSON.stringify(data.features[0].geometry.coordinates)
+          })
+        } else {
+          newProject.Geometry = JSON.stringify({
+              type: data.features[0].geometry.features[0].geometry.type,
+              coordinates: JSON.stringify(data.features[0].geometry.features[0].geometry.coordinates)
+          })
         }
         updateProject(newProject);
         return false;

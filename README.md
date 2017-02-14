@@ -2,7 +2,10 @@
 
 This planning and management tool helps add, review, edit, and search current and future transportation projects.
 
-* [Deployed Application Link](https://stormy-savannah-76629.herokuapp.com/)
+* [Deployed Application Link](https://still-fjord-74085.herokuapp.com/)
+* [Deployed Demo Link](https://serene-ridge-12103.herokuapp.com/)
+
+![ladot](https://cloud.githubusercontent.com/assets/18273101/21868025/c0c87de2-d805-11e6-8355-47a2efb4a1fb.gif)
 
 ## Getting Started
 
@@ -14,6 +17,18 @@ Install the required npm packages.
 
 ```
 npm install
+```
+
+Run sequelize migrations.
+
+```
+sequelize db:migrate
+```
+
+To start the application:
+
+```
+npm start
 ```
 
 ## Authors (alphabetical order)
