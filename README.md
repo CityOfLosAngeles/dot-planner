@@ -31,6 +31,13 @@ To start the application:
 npm start
 ```
 
+To load data. You'll need the old ATB database zip file stored in a directory called `data` that will be ignored from git. 
+
+```
+cd etl
+./transform_data.sh
+```
+
 ## Authors (alphabetical order)
 
 * Spencer Charest, *spencercharest*
