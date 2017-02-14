@@ -19,4 +19,6 @@ do
   ogr2ogr -sql "SELECT * FROM $i" -f "GeoJSON" atd_$i.geojson ATD_projectdatabase.gdb
 done
 
+node load.js
+
 
