@@ -2,7 +2,7 @@
 
 set -e
 
-unzip ATD_projectdatabase.gdb.zip
+#unzip ATD_projectdatabase.gdb.zip
 
 declare -a arr=("f_multipoints"
                 "f_points"
@@ -16,7 +16,7 @@ declare -a arr=("f_multipoints"
 for i in "${arr[@]}"
 do
   echo "$i"
-  ogr2ogr -sql "SELECT * FROM $i" -f "GeoJSON" atd_$i.geojson ATD_projectdatabase.gdb
+  ogr2ogr -sql "SELECT * FROM $i" -f "GeoJSON" ../data/atd_$i.geojson ../data/ATD_projectdatabase.gdb
 done
 
 node load.js
