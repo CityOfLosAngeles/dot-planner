@@ -19,6 +19,6 @@ do
   ogr2ogr -sql "SELECT * FROM $i" -f "GeoJSON" ../data/atd_$i.geojson ../data/ATD_projectdatabase.gdb
 done
 
-node load.js
+python load.py
 
 
