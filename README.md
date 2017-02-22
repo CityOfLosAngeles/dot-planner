@@ -31,6 +31,17 @@ To start the application:
 npm start
 ```
 
+To load data from ./db/projects.js file, create a new file in the db/ director caleld `load.js` and populate with the following code:
+```
+var models = require('../models/');
+var dataSet = require('./projects.js');
+
+for (var i = 0; i < dataSet.length; i++) {
+	models.Project.create(dataSet[i]);
+}
+```
+- From command line in /db directory, run `node load.js`
+
 To load data. You'll need the old ATB database zip file stored in a directory called `data` that will be ignored from git. 
 
 ```
