@@ -40,7 +40,7 @@ for (var i = 0; i < dataSet.length; i++) {
 	models.Project.create(dataSet[i]);
 }
 ```
-- from command line in /db directory, run `node load.js`
+- From command line in /db directory, run `node load.js`
 
 To load data. You'll need the old ATB database zip file stored in a directory called `data` that will be ignored from git. 
 
