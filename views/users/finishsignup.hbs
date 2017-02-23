@@ -1,0 +1,22 @@
+{{#if logged_in}}
+<div class="userForm" id="updateForm">
+  <form class="create-update-form" action="/users/finishuser" method="POST">
+    <h2>Update User Profile</h2>
+
+    <input type="text" name="firstname" id="firstname" value="{{firstname}}" placeholder="First Name" required>
+
+    <input type="text" name="lastname" id="lastname" value="{{lastname}}" placeholder="Last Name" required>
+
+    <input type="email" name="email" id="email" value="{{email}}" placeholder="Email Address" required>
+
+    <input type="number" name="phonenumber" id="phonenumber" value="{{phonenumber}}" placeholder="Phone Number" required>
+
+    <input type="password" name="password" id="password" placeholder="Password" required>
+
+    <input type="password" name="repassword" id="repassword" placeholder="Retype Password" required>
+
+    <button type="submit">Save Profile</button>
+
+  </form>
+</div>
+{{/if}}
