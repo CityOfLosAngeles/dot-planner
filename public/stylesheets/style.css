@@ -215,6 +215,32 @@ body {
     right: 50px;
     z-index: 100;
     width: 275px;
+    border: none;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+}
+
+#google-search:hover {
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+}
+
+#google-search-icon {
+    background-color: lightgray;
+}
+
+#google-search:focus {
+    border: none;
+}
+
+#google-search-input {
+    font-size: 12px;
+    background-color: white;
+    color: darkgray;
+    border-radius: 0 3px 3px 0;
+    border: none;
+    display: inline-block;
+    box-shadow: none;
+    padding-left: 5px;
 }
 
 #hide-button {
@@ -222,13 +248,20 @@ body {
     top: 10px;
     right: 440px;
     z-index: 100;
-    background-color: white;
-    border: #999 solid 1px;
+    background-color: #002E6D;
+    color: white;
     box-sizing: border-box;
+    margin: 0 5px;
+    padding: 5px 8px;
 }
 
 #hide-button:focus {
     outline: 0;
+}
+
+#hide-button:hover {
+    background-color: #004EB9;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
 }
 
 #unhide-button {
@@ -236,13 +269,20 @@ body {
     top: 10px;
     right: 340px;
     z-index: 100;
-    background-color: white;
-    border: #999 solid 1px;
+    background-color: #002E6D;
+    color: white;
     box-sizing: border-box;
+    margin: 0 5px;
+    padding: 5px 8px;
 }
 
 #unhide-button:focus {
     outline: 0;
+}
+
+#unhide-button:hover {
+    background-color: #004EB9;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
 }
 
 #searchbar {
