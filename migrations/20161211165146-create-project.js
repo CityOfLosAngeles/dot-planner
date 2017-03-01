@@ -119,6 +119,9 @@ module.exports = {
       Dup_ID: {
         type: Sequelize.INTEGER
       },
+      Attachment: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

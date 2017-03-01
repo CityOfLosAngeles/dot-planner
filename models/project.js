@@ -40,7 +40,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    Dup_ID: DataTypes.INTEGER
+    Dup_ID: DataTypes.INTEGER,
+    Attachment: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
