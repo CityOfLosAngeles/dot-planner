@@ -209,6 +209,28 @@ body {
     display: none;
 }
 
+#search-projects {
+    border: none;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+    line-height: 27px;
+}
+
+#search-projects-input {
+    font-size: 16px;
+    background-color: white;
+    color: #666666;
+    border-radius: 0 3px 3px 0;
+    border: none;
+    display: inline-block;
+    box-shadow: none;
+    padding-left: 5px;
+}
+
+#search-button {
+    background-color: lightgray;
+}
+
 #google-search {
     position: absolute;
     top: 10px;
@@ -218,10 +240,7 @@ body {
     border: none;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
     border-radius: 3px;
-}
-
-#google-search:hover {
-    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+    line-height: 27px;
 }
 
 #google-search-icon {
@@ -243,25 +262,66 @@ body {
     padding-left: 5px;
 }
 
-#hide-button {
-    position: absolute;
-    top: 10px;
-    right: 440px;
-    z-index: 100;
+.map-button {
     background-color: #002E6D;
     color: white;
     box-sizing: border-box;
     margin: 0 5px;
     padding: 5px 8px;
+    line-height: 2.2em;
+    vertical-align: middle;
 }
 
-#hide-button:focus {
+.map-button:focus {
     outline: 0;
 }
 
-#hide-button:hover {
+.map-button:hover {
     background-color: #004EB9;
+    color: white;
     box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+}
+
+#map-legend {
+    position: absolute;
+    top: 10px;
+    width: 100px;
+    left: 100px;
+    z-index: 100;
+}
+
+#map-legend:focus {
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+}
+
+#map-legend-button {
+    border-radius: 3px;
+    width: 100px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    background-color: #002E6D;
+    color: white;
+    box-sizing: border-box;
+    padding: 5px 8px;
+    line-height: 2.2em;
+    vertical-align: middle;
+}
+
+#map-legend-button:hover,
+#map-legend-button:focus {
+    background-color: #004EB9;
+    color: white;
+}
+
+.legend-category {
+    margin: 5px 0 5px 10px;
+    font-size: 14px;
+}
+
+#hide-button {
+    position: absolute;
+    top: 10px;
+    right: 440px;
+    z-index: 100;
 }
 
 #unhide-button {
@@ -269,20 +329,6 @@ body {
     top: 10px;
     right: 340px;
     z-index: 100;
-    background-color: #002E6D;
-    color: white;
-    box-sizing: border-box;
-    margin: 0 5px;
-    padding: 5px 8px;
-}
-
-#unhide-button:focus {
-    outline: 0;
-}
-
-#unhide-button:hover {
-    background-color: #004EB9;
-    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
 }
 
 #searchbar {
