@@ -1,4 +1,6 @@
 module.exports = function(app){
+  var fileUpload = require('express-fileupload');
+  app.use(fileUpload());
 	//pointing to controllers
 	var application_controller = require('../controllers/application_controller');
 	var projects_controller = require('../controllers/projects_controller');

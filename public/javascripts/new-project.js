@@ -127,6 +127,7 @@ $('#submit-project').on('click', function(){
             Proj_Ty: $('#Proj_Ty input[type="radio"]:checked').val(),
             Proj_Desc: $('#Proj_Desc').val(),
             More_info: $('#More_info').val(),
+            Attachment: $('#fileAttachment').val(),
             Contact_info: JSON.stringify({Contact_info_name: $('#Contact_info_name').val(), Contact_info_phone: $('#Contact_info_phone').val(), Contact_info_email: $('#Contact_info_email').val()})
         }
 
@@ -262,4 +263,37 @@ $("#flag-button").on("click", function() {});
 
 $("#add-button").on("click", function() {
     addProject(newProject);
+});
+
+$("#btnUpload").on("click", function(){
+    var attachment = document.getElementById('file-upload').files[0];
+    var formData = new FormData();
+    formData.append('attachment', attachment);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/projects/upload');
+
+    xhr.onloadstart = function() {
+      $('#file-upload-group').empty();
+      var loadingGif = $('<img>');
+      loadingGif.attr('src', '/images/loading.gif');
+      $('#file-upload-group').append(loadingGif);
+    };
+    
+    xhr.onload = function(result){
+      var details = JSON.parse(result.currentTarget.response);
+      $('#file-upload-group').html("<p>" + details.origFileName + "</p><p>File Uploaded</p>");
+      var fileNameInput = $('<input>');
+      fileNameInput.attr('type', 'text');
+      fileNameInput.attr('disabled', 'true');
+      fileNameInput.attr('id', 'fileAttachment');
+      fileNameInput.val(details.fileName);
+      $('#file-upload-group').append(fileNameInput);
+    };
+
+    xhr.onerror = function(err){
+        $('#file-upload-group').html("<p>" + result.currentTarget.response + "</p>");
+    };
+
+    xhr.send(formData);
 });

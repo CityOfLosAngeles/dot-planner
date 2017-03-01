@@ -246,7 +246,7 @@ function onEachFeature(feature, layer) {
                 $('#sidebar-funded-attributes').hide();
             }
         });
-
+        
         $(document).on('click', '#hide-info', function() {
             $('#show-info').remove();
             $('#hide-info').remove();
