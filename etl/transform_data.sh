@@ -29,6 +29,4 @@ do
   ogr2ogr -append -f "PostgreSQL" PG:"host=localhost user=dot-planner dbname=dot password=dot-planner" ../data/atd_$i.geojson -nlt GEOMETRY
 done
 
-
 psql -d dot -c "SELECT * INTO Projects FROM ogrgeojson;"
-
