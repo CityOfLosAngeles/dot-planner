@@ -1,4 +1,4 @@
-{
+module.exports = {
     "development": {
         "username": "dot-planner",
         "password": "dot-planner",
