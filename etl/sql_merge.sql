@@ -43,7 +43,7 @@ SELECT
  at_risk_of as Deobligation,
  explain_if as Explanation,
  project_ma as Proj_Man, 
- uid as Other_ID,
+ uid as Other_ID,	
  project_category as Proj_Ty,
  total_local_match as Lc_match,
  funding_status as Fund_St
