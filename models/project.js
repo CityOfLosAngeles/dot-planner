@@ -40,7 +40,17 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    Dup_ID: DataTypes.INTEGER
+    TotalUnmetFunding: DataTypes.INTEGER,
+    ProjectStartDate: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
+    ProjectProjectedCompletionDate: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
+    Dup_ID: DataTypes.INTEGER,
+    Attachment: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
