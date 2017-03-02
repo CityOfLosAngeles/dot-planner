@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
+var moment = require('moment');
 
 
 //function to convert row from db into geoJSON feature
@@ -563,12 +564,27 @@ router.get('/search', function(req, res) {
   });
 });
 
-// router.get('/upload', function(err, res) {
-//   var data = require('../db/projects.js');
-//   for (var i = 0; i < data.length; i++) {
-//     models.Project.create(data[i]);
-//   }
-//   res.send('Saving a TON of stuff to the db!');
-// });
+  router.post('/upload', function(req,res){
+    if (!req.files) {
+    res.send('No files were uploaded');
+    return;
+  }
+
+  var fileAttachment = req.files.attachment;
+  var fname = __dirname;
+  fname += '/uploads/';
+  fname += moment().format('YYYY-MM-DD_kkmmss_');
+  fname += fileAttachment.name.split(' ').join('_');
+
+  fileAttachment.mv(fname, function(err) {
+      if (err) {
+        res.status(500).send(err);
+      }
+
+      else {
+        res.send(JSON.stringify({"origFileName": fileAttachment.name, "fileName": fname.split(__dirname + "/uploads/")[1]}));
+      }
+    });
+  });
 
 module.exports = router;
