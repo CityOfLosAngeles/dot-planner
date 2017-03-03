@@ -104,41 +104,69 @@ function checkZoom() {
     }
 }
 
+// Global variable to know if we're loking for funded or unfunded
+var isFunded;
+
+// Checkbox to filter for project types
 $('.filter input[type="checkbox"]').change(function() {
-    filterProjects();
+    filterProjectTypes();
 });
 
-function filterProjects() {
-    var fundingTypes = $('.funding-types input[type="checkbox"]:checked').map(function(_, el) {
-        return $(el).val();
-    }).get();
+// Give me funded projects
+$('#fundedTab').on('click', function() {
+    isFunded = "funded";
+    $('#project-details').empty();
+    filterProjectTypes();
+});
+
+//Give me unfunded projects
+$('#unfundedTab').on('click', function() {
+    isFunded = "unfunded";
+    $('#project-details').empty();
+    filterProjectTypes();
+});
+
+function filterProjectTypes() {
+
+    // var fundingType = $('#fundedTab').getAttribute('value');
+    var fundingType = $('#fundedTab').text().toLowerCase();
+    console.log(fundingType);
 
     var projectTypes = $('.project-type input[type="checkbox"]:checked').map(function(_, el) {
         return $(el).val();
     }).get();
 
-    if (fundingTypes.length >= 1 && projectTypes.length >= 1) {
-        for (var i = 0; i < fundingTypes.length; i++) {
-            fundingTypes[i] = fundingTypes[i].split(' ').join('%20');
-        }
+    if (projectTypes.length >= 1) {
+
         for (var i = 0; i < projectTypes.length; i++) {
             projectTypes[i] = projectTypes[i].split(' ').join('%20');
         }
-
-        var fundingQuery = fundingTypes.join('&');
+                        // funded%20unfunded%20idea%20project
+        var fundingQuery = isFunded;
         var typeQuery = projectTypes.join('&');
+        console.log(fundingQuery);
+        console.log(typeQuery);
+
         $.ajax({
             type: 'GET',
             url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
             datatype: 'JSON',
             success: function(data) {
+                $('#project-details').empty();
+                $('#main-info').empty();
+                var count = 0;
                 if (data) {
                     var features = data.features
                     for (var i = 0; i < features.length; i++) {
-                      features[i].properties['marker-color'] = '#000000';
+                      features[i].properties['marker-color'] = "#00F";
                       features[i].properties['marker-symbol'] = 'circle-stroked';
                       features[i].properties['marker-size'] = 'medium';
+                      $('#project-details').append("<div class='projects_list' <p>"+ features[i].properties.Proj_Title + "<br /> " + features[i].properties.ProjectProjectedCompletionDate + '              Miles   |' + features[i].properties.id + "</p></div>");
+                      count++;
+
                     }
+                    $('#main-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
+                    console.log(JSON.stringify(features[0].properties.Proj_Title));
                     geoJSON.clearLayers();
                     geoJSON = L.geoJson(data, {
                         style: {
@@ -246,7 +274,7 @@ function onEachFeature(feature, layer) {
                 $('#sidebar-funded-attributes').hide();
             }
         });
-        
+
         $(document).on('click', '#hide-info', function() {
             $('#show-info').remove();
             $('#hide-info').remove();
