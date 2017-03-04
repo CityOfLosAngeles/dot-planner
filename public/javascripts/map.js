@@ -7,6 +7,20 @@ var layerID;
 //Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map');
 
+var colors = {
+    red: "#FF355E",
+    watermelon: "#FD5B78",
+    orange: "#FF9933",
+    sun: "#FFCC33",
+    yellow: "#FFFF66",
+    lime: "#CCFF00",
+    green: "#66FF66",
+    mint: "#AAF0D1",
+    blue: "#50BFE6"
+
+};
+
+
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 
 L.tileLayer('https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ubnn/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q', {
@@ -51,30 +65,40 @@ function renderAllProjects(zoom) {
             if (data) {
                 var features = data.features;
                 for (var i = 0; i < features.length; i++) {
+
                     var projectFeatures = features[i].properties;
                     var projectType = features[i].properties.Proj_Ty;
+
                     projectFeatures["marker-size"] = "medium";
+
                     if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
-                        projectFeatures["marker-color"] = "#5DA36C";
+                        projectFeatures["marker-color"] = colors.green;
                         projectFeatures["marker-symbol"] = "bicycle";
-                    } else if (projectType === "Ped Only") {
-                        projectFeatures["marker-color"] = "#1E702F";
+                    }
+                    else if (projectType === "Ped Only") {
+                        projectFeatures["marker-color"] = colors.yellow;
                         projectFeatures["marker-symbol"] = "pitch";
-                    } else if (projectType === "Bike Only") {
-                        projectFeatures["marker-color"] = "#AED68F";
-                    } else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
-                        projectFeatures["marker-color"] = "#751917";
-                    } else if (projectType === "Safety") {
-                        projectFeatures["marker-color"] = "#E46247";
+                    }
+                    else if (projectType === "Bike Only") {
+                        projectFeatures["marker-color"] = colors.blue;
+                    }
+                    else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
+                        projectFeatures["marker-color"] = colors.sun;
+                    }
+                    else if (projectType === "Safety") {
+                        projectFeatures["marker-color"] = colors.red;
                         projectFeatures["marker-symbol"] = "police";
-                    } else if (projectType === "SRTS") {
-                        projectFeatures["marker-color"] = "#B51412";
+                    }
+                    else if (projectType === "SRTS") {
+                        projectFeatures["marker-color"] = colors.mint;
                         projectFeatures["marker-symbol"] = "college";
-                    } else if (projectType === "People St") {
-                        projectFeatures["marker-color"] = "#0064A8";
+                    }
+                    else if (projectType === "People St") {
+                        projectFeatures["marker-color"] = colors.orange;
                         projectFeatures["marker-symbol"] = "school";
-                    } else {
-                        projectFeatures["marker-color"] = "#F4984F";
+                    }
+                    else {
+                        projectFeatures["marker-color"] = colors.lime;
                     }
                 }
                 if (geoJSON) {
@@ -182,29 +206,39 @@ function filterProjectTypes() {
                     for (var i = 0; i < features.length; i++) {
                         var projectFeatures = features[i].properties;
                         var projectType = features[i].properties.Proj_Ty;
-                        if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
-                            projectFeatures["marker-color"] = "#5DA36C";
-                            projectFeatures["marker-symbol"] = "bicycle";
-                        } else if (projectType === "Ped Only") {
-                            projectFeatures["marker-color"] = "#1E702F";
-                            projectFeatures["marker-symbol"] = "pitch";
-                        } else if (projectType === "Bike Only") {
-                            projectFeatures["marker-color"] = "#AED68F";
-                        } else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
-                            projectFeatures["marker-color"] = "#751917";
-                        } else if (projectType === "Safety") {
-                            projectFeatures["marker-color"] = "#E46247";
-                            projectFeatures["marker-symbol"] = "police";
-                        } else if (projectType === "SRTS") {
-                            projectFeatures["marker-color"] = "#B51412";
-                            projectFeatures["marker-symbol"] = "college";
-                        } else if (projectType === "People St") {
-                            projectFeatures["marker-color"] = "#0064A8";
-                            projectFeatures["marker-symbol"] = "school";
-                        } else {
-                            projectFeatures["marker-color"] = "#F4984F";
-                        }
+
                         projectFeatures["marker-size"] = "medium";
+
+                        if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
+                            projectFeatures["marker-color"] = colors.green;
+                            projectFeatures["marker-symbol"] = "bicycle";
+                        }
+                        else if (projectType === "Ped Only") {
+                            projectFeatures["marker-color"] = colors.yellow;
+                            projectFeatures["marker-symbol"] = "pitch";
+                        }
+                        else if (projectType === "Bike Only") {
+                            projectFeatures["marker-color"] = colors.blue;
+                        }
+                        else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
+                            projectFeatures["marker-color"] = colors.sun;
+                        }
+                        else if (projectType === "Safety") {
+                            projectFeatures["marker-color"] = colors.red;
+                            projectFeatures["marker-symbol"] = "police";
+                        }
+                        else if (projectType === "SRTS") {
+                            projectFeatures["marker-color"] = colors.mint;
+                            projectFeatures["marker-symbol"] = "college";
+                        }
+                        else if (projectType === "People St") {
+                            projectFeatures["marker-color"] = colors.orange;
+                            projectFeatures["marker-symbol"] = "school";
+                        }
+                        else {
+                            projectFeatures["marker-color"] = colors.lime;
+                        }
+
                         $('#project-details').append("<div class='projects_list' <p>" + features[i].properties.Proj_Title + "<br /> " + features[i].properties.ProjectProjectedCompletionDate + '              Miles   |' + features[i].properties.id + "</p></div>");
                         count++;
                     }
@@ -272,8 +306,8 @@ function onEachFeature(feature, layer) {
             layer.eachLayer(function(l) {
                 l.setIcon(
                     L.mapbox.marker.icon({
-                        'marker-color': '#002E6D',
-                        'marker-size': 'medium'
+                        'marker-color': colors.watermelon,
+                        'marker-size': 'large'
                     })
                 );
             });
@@ -281,15 +315,15 @@ function onEachFeature(feature, layer) {
         if (e.target.feature.geometry.type === 'Point') {
             layer.setIcon(
                 L.mapbox.marker.icon({
-                    'marker-color': '#002E6D',
-                    'marker-size': 'medium'
+                    'marker-color': colors.watermelon,
+                    'marker-size': 'large'
                 })
             );
         }
         if (e.target.feature.geometry.type != 'Point') {
             layer.bringToFront();
             layer.setStyle({
-                color: '#002E6D'
+                color: colors.watermelon
             });
         }
         var fundStatus = feature.properties.Fund_St;
