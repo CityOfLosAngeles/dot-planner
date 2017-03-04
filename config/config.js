@@ -1,4 +1,4 @@
-{
+module.exports = {
     "development": {
         "username": "postgres",
         "password": "password",
@@ -18,6 +18,12 @@
         "port": "5432"
     },
     "production": {
-        "use_env_variable": "DATABASE_URL"
+        "host": process.env.RDS_HOSTNAME,
+        "user": process.env.RDS_USERNAME,
+        "password": process.env.RDS_PASSWORD,
+        "port": process.env.RDS_PORT,
+        "database": process.env.RDS_DBNAME,
+        "dialect": "postgres",
+        "protocol": "postgres"
     }
 }
