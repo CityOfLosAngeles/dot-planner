@@ -13,7 +13,7 @@ var hbs = require('hbs');
 app.use(methodOverride('_method'))
 
 //sessions
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 3600000 }}));
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 3600000 } }));
 app.use(cookieParser());
 
 // views and handlebars setup
@@ -25,7 +25,7 @@ hbs.registerPartials(__dirname + '/views/partials');
 hbs.registerHelper('equal', function(lvalue, rvalue, options) {
     if (arguments.length < 3)
         throw new Error("Handlebars Helper equal needs 2 parameters");
-    if( lvalue!=rvalue ) {
+    if (lvalue != rvalue) {
         return options.inverse(this);
     } else {
         return options.fn(this);
@@ -50,16 +50,16 @@ app.use(cookieParser());
 require('./routes/index')(app);
 
 //sequelize sync
-var models  = require('./models');
+var models = require('./models');
 var sequelizeConnection = models.sequelize;
-// sequelizeConnection.sync({force:true});
+// sequelizeConnection.sync({ force: true });
 sequelizeConnection.sync();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
@@ -67,23 +67,23 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
     });
-  });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
 });
 
 
