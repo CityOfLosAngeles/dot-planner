@@ -1,5 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
+
     var Project = sequelize.define('Project', {
         Geometry: DataTypes.JSONB,
         Fund_St: DataTypes.STRING(1000),
@@ -39,6 +40,15 @@ module.exports = function(sequelize, DataTypes) {
         Flagged: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
+        },
+        TotalUnmetFunding: DataTypes.INTEGER,
+        ProjectStartDate: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        ProjectProjectedCompletionDate: {
+            type: DataTypes.DATE,
+            allowNull: true
         },
         Dup_ID: DataTypes.INTEGER,
         Attachment: DataTypes.STRING
