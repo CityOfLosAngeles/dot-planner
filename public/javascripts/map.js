@@ -63,15 +63,16 @@ function renderAllProjects(zoom) {
                     } else if (projectType === "Bike Only") {
                         projectFeatures["marker-color"] = "#AED68F";
                     } else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
-                        projectFeatures["marker-color"] = "#F4F30C";
+                        projectFeatures["marker-color"] = "#751917";
                     } else if (projectType === "Safety") {
                         projectFeatures["marker-color"] = "#E46247";
                         projectFeatures["marker-symbol"] = "police";
                     } else if (projectType === "SRTS") {
                         projectFeatures["marker-color"] = "#B51412";
-                        projectFeatures["marker-symbol"] = "school";
+                        projectFeatures["marker-symbol"] = "college";
                     } else if (projectType === "People St") {
                         projectFeatures["marker-color"] = "#0064A8";
+                        projectFeatures["marker-symbol"] = "school";
                     } else {
                         projectFeatures["marker-color"] = "#F4984F";
                     }
@@ -183,22 +184,26 @@ function filterProjectTypes() {
                         var projectType = features[i].properties.Proj_Ty;
                         if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
                             projectFeatures["marker-color"] = "#5DA36C";
+                            projectFeatures["marker-symbol"] = "bicycle";
                         } else if (projectType === "Ped Only") {
                             projectFeatures["marker-color"] = "#1E702F";
+                            projectFeatures["marker-symbol"] = "pitch";
                         } else if (projectType === "Bike Only") {
                             projectFeatures["marker-color"] = "#AED68F";
-                        } else if (projectType === "First and Last Mile" || "First mile and last mile") {
-                            projectFeatures["marker-color"] = "#F4F30C";
+                        } else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
+                            projectFeatures["marker-color"] = "#751917";
                         } else if (projectType === "Safety") {
                             projectFeatures["marker-color"] = "#E46247";
+                            projectFeatures["marker-symbol"] = "police";
                         } else if (projectType === "SRTS") {
                             projectFeatures["marker-color"] = "#B51412";
+                            projectFeatures["marker-symbol"] = "college";
                         } else if (projectType === "People St") {
                             projectFeatures["marker-color"] = "#0064A8";
+                            projectFeatures["marker-symbol"] = "school";
                         } else {
                             projectFeatures["marker-color"] = "#F4984F";
                         }
-                        projectFeatures["marker-symbol"] = "circle-stroked";
                         projectFeatures["marker-size"] = "medium";
                         $('#project-details').append("<div class='projects_list' <p>" + features[i].properties.Proj_Title + "<br /> " + features[i].properties.ProjectProjectedCompletionDate + '              Miles   |' + features[i].properties.id + "</p></div>");
                         count++;
@@ -268,7 +273,6 @@ function onEachFeature(feature, layer) {
                 l.setIcon(
                     L.mapbox.marker.icon({
                         'marker-color': '#002E6D',
-                        'marker-symbol': 'circle-stroked',
                         'marker-size': 'medium'
                     })
                 );
@@ -278,7 +282,6 @@ function onEachFeature(feature, layer) {
             layer.setIcon(
                 L.mapbox.marker.icon({
                     'marker-color': '#002E6D',
-                    'marker-symbol': 'circle-stroked',
                     'marker-size': 'medium'
                 })
             );
