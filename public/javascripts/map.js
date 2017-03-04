@@ -48,29 +48,50 @@ function renderAllProjects(zoom) {
         url: '/projects/all',
         datatype: 'JSON',
         success: function(data) {
-          if (data) {
-              var features = data.features;
-              for (var i = 0; i < features.length; i++) {
-                features[i].properties['marker-color'] = '#000000';
-                features[i].properties['marker-symbol'] = 'circle-stroked';
-                features[i].properties['marker-size'] = 'medium';
-              }
-              if (geoJSON) {
-                  geoJSON.clearLayers();
-              }
-              geoJSON = L.geoJson(data, {
-                  style: {
-                      color: 'blue'
-                  },
-                  onEachFeature: function(feature, layer) {
-                      onEachFeature(feature, layer);
-                  },
-                  pointToLayer: L.mapbox.marker.style
-              }).addTo(map);
-              if (zoom) {
-                  checkZoom();
-              }
-          }
+            if (data) {
+                var features = data.features;
+                for (var i = 0; i < features.length; i++) {
+                    var projectFeatures = features[i].properties;
+                    var projectType = features[i].properties.Proj_Ty;
+                    projectFeatures["marker-size"] = "medium";
+                    if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
+                        projectFeatures["marker-color"] = "#5DA36C";
+                        projectFeatures["marker-symbol"] = "bicycle";
+                    } else if (projectType === "Ped Only") {
+                        projectFeatures["marker-color"] = "#1E702F";
+                        projectFeatures["marker-symbol"] = "pitch";
+                    } else if (projectType === "Bike Only") {
+                        projectFeatures["marker-color"] = "#AED68F";
+                    } else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
+                        projectFeatures["marker-color"] = "#F4F30C";
+                    } else if (projectType === "Safety") {
+                        projectFeatures["marker-color"] = "#E46247";
+                        projectFeatures["marker-symbol"] = "police";
+                    } else if (projectType === "SRTS") {
+                        projectFeatures["marker-color"] = "#B51412";
+                        projectFeatures["marker-symbol"] = "school";
+                    } else if (projectType === "People St") {
+                        projectFeatures["marker-color"] = "#0064A8";
+                    } else {
+                        projectFeatures["marker-color"] = "#F4984F";
+                    }
+                }
+                if (geoJSON) {
+                    geoJSON.clearLayers();
+                }
+                geoJSON = L.geoJson(data, {
+                    style: {
+                        color: "blue"
+                    },
+                    onEachFeature: function(feature, layer) {
+                        onEachFeature(feature, layer);
+                    },
+                    pointToLayer: L.mapbox.marker.style
+                }).addTo(map);
+                if (zoom) {
+                    checkZoom();
+                }
+            }
         }
     });
 }
@@ -141,7 +162,7 @@ function filterProjectTypes() {
         for (var i = 0; i < projectTypes.length; i++) {
             projectTypes[i] = projectTypes[i].split(' ').join('%20');
         }
-                        // funded%20unfunded%20idea%20project
+        // funded%20unfunded%20idea%20project
         var fundingQuery = isFunded;
         var typeQuery = projectTypes.join('&');
         console.log(fundingQuery);
@@ -158,12 +179,29 @@ function filterProjectTypes() {
                 if (data) {
                     var features = data.features
                     for (var i = 0; i < features.length; i++) {
-                      features[i].properties['marker-color'] = "#00F";
-                      features[i].properties['marker-symbol'] = 'circle-stroked';
-                      features[i].properties['marker-size'] = 'medium';
-                      $('#project-details').append("<div class='projects_list' <p>"+ features[i].properties.Proj_Title + "<br /> " + features[i].properties.ProjectProjectedCompletionDate + '              Miles   |' + features[i].properties.id + "</p></div>");
-                      count++;
-
+                        var projectFeatures = features[i].properties;
+                        var projectType = features[i].properties.Proj_Ty;
+                        if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
+                            projectFeatures["marker-color"] = "#5DA36C";
+                        } else if (projectType === "Ped Only") {
+                            projectFeatures["marker-color"] = "#1E702F";
+                        } else if (projectType === "Bike Only") {
+                            projectFeatures["marker-color"] = "#AED68F";
+                        } else if (projectType === "First and Last Mile" || "First mile and last mile") {
+                            projectFeatures["marker-color"] = "#F4F30C";
+                        } else if (projectType === "Safety") {
+                            projectFeatures["marker-color"] = "#E46247";
+                        } else if (projectType === "SRTS") {
+                            projectFeatures["marker-color"] = "#B51412";
+                        } else if (projectType === "People St") {
+                            projectFeatures["marker-color"] = "#0064A8";
+                        } else {
+                            projectFeatures["marker-color"] = "#F4984F";
+                        }
+                        projectFeatures["marker-symbol"] = "circle-stroked";
+                        projectFeatures["marker-size"] = "medium";
+                        $('#project-details').append("<div class='projects_list' <p>" + features[i].properties.Proj_Title + "<br /> " + features[i].properties.ProjectProjectedCompletionDate + '              Miles   |' + features[i].properties.id + "</p></div>");
+                        count++;
                     }
                     $('#main-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
                     console.log(JSON.stringify(features[0].properties.Proj_Title));
@@ -210,26 +248,26 @@ function zoomToFeature(e) {
 
 function onEachFeature(feature, layer) {
     layer.on('click', function(e) {
-      //Empty the cross streets since we are using .append()
-      $('#Cross_Streets').empty();
+        //Empty the cross streets since we are using .append()
+        $('#Cross_Streets').empty();
         layerID = layer._leaflet_id;
         zoomToFeature(e)
         geoJSON.eachLayer(function(l) {
-          geoJSON.resetStyle(l);
-          if (l.feature.geometry.type === 'MultiPoint') {
-            l.eachLayer(function(MultiPointLayer) {
-              MultiPointLayer.setIcon(L.mapbox.marker.icon(feature.properties));
-            });
-          }
-          if (l.feature.geometry.type === 'Point') {
-            l.setIcon(L.mapbox.marker.icon(feature.properties));
-          }
+            geoJSON.resetStyle(l);
+            if (l.feature.geometry.type === 'MultiPoint') {
+                l.eachLayer(function(MultiPointLayer) {
+                    MultiPointLayer.setIcon(L.mapbox.marker.icon(feature.properties));
+                });
+            }
+            if (l.feature.geometry.type === 'Point') {
+                l.setIcon(L.mapbox.marker.icon(feature.properties));
+            }
         });
         if (e.target.feature.geometry.type === 'MultiPoint') {
             layer.eachLayer(function(l) {
                 l.setIcon(
                     L.mapbox.marker.icon({
-                        'marker-color': '#ffff00',
+                        'marker-color': '#002E6D',
                         'marker-symbol': 'circle-stroked',
                         'marker-size': 'medium'
                     })
@@ -239,7 +277,7 @@ function onEachFeature(feature, layer) {
         if (e.target.feature.geometry.type === 'Point') {
             layer.setIcon(
                 L.mapbox.marker.icon({
-                    'marker-color': '#ffff00',
+                    'marker-color': '#002E6D',
                     'marker-symbol': 'circle-stroked',
                     'marker-size': 'medium'
                 })
@@ -248,7 +286,7 @@ function onEachFeature(feature, layer) {
         if (e.target.feature.geometry.type != 'Point') {
             layer.bringToFront();
             layer.setStyle({
-                color: 'yellow'
+                color: '#002E6D'
             });
         }
         var fundStatus = feature.properties.Fund_St;
@@ -306,12 +344,12 @@ function onEachFeature(feature, layer) {
             $('#CD').text(feature.properties.CD);
             $('#Primary_Street').text(feature.properties.Primary_Street);
             if (feature.properties.Cross_Streets && feature.properties.Cross_Streets.Intersections) {
-              var streets = feature.properties.Cross_Streets.Intersections;
-              streetsString = '';
-              for (var i = 0; i < streets.length; i++) {
-              streetsString += '<p>' + streets[i] + '</p><br>';
-              }
-              $('#Cross_Streets').append(streetsString);
+                var streets = feature.properties.Cross_Streets.Intersections;
+                streetsString = '';
+                for (var i = 0; i < streets.length; i++) {
+                    streetsString += '<p>' + streets[i] + '</p><br>';
+                }
+                $('#Cross_Streets').append(streetsString);
             }
             $('#sidebar-fundedAndUnfunded').show();
             var button = $('<button id="show-info" class="btn" type="button" name="button">More Info</button>');
@@ -394,9 +432,9 @@ function exportCSV() {
                 searchIDs.push(layer.feature.properties.id);
             }
         } else if (layer.feature.geometry.type === 'MultiPoint') {
-          if (bounds.contains(layer.getBounds())) {
-            searchIDs.push(layer.feature.properties.id);
-          }
+            if (bounds.contains(layer.getBounds())) {
+                searchIDs.push(layer.feature.properties.id);
+            }
         } else {
             if (bounds.contains(layer.getLatLngs())) {
                 searchIDs.push(layer.feature.properties.id);
@@ -446,8 +484,8 @@ function separateShapes() {
         features: []
     };
     var multipoints = {
-      name: 'multipoints',
-      features: []
+        name: 'multipoints',
+        features: []
     }
     geoJSON.eachLayer(function(layer) {
         switch (layer.feature.geometry.type) {
@@ -457,10 +495,10 @@ function separateShapes() {
                 }
                 break;
             case 'MultiPoint':
-                  if (bounds.contains(layer.getBounds())) {
-                      multipoints.features.push(layer.feature.properties.id);
-                  }
-                  break;
+                if (bounds.contains(layer.getBounds())) {
+                    multipoints.features.push(layer.feature.properties.id);
+                }
+                break;
             case 'LineString':
                 if (bounds.contains(layer.getLatLngs())) {
                     lines.features.push(layer.feature.properties.id);
