@@ -26,8 +26,7 @@ for i in "${arr[@]}"
 do
   echo "$i"
   ogr2ogr -sql "SELECT * FROM $i" -f "GeoJSON" ../data/atd_$i.geojson ../data/ATD_projectdatabase.gdb
-  ogr2ogr -append -f "PostgreSQL" PG:"host=localhost user=dot-planner dbname=dot password=dot-planner" ../data/atd_$i.geojson
+  ogr2ogr -append -f "PostgreSQL" PG:"host=localhost user=dot-planner dbname=dot password=dot-planner" ../data/atd_$i.geojson -nlt GEOMETRY
 done
 
 psql -d dot -c "SELECT * INTO Projects FROM ogrgeojson;"
-
