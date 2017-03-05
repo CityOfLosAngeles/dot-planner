@@ -1,9 +1,4 @@
-/*NEEDS TO BE PUT IN THE RIGHT PLACE*/
-.projects_list {
-    border: 1px solid #000;
-}
 
- /*---------------------------------------------------------------*/
 body {
     margin: 0;
     padding: 0;
@@ -11,6 +6,30 @@ body {
     overflow-x: hidden;
     font-family: 'Calibri', sans-serif;
 }
+
+/*NEEDS TO BE PUT IN THE RIGHT PLACE*/
+/*FUNDED / UNFUNDED PANELS*/
+.projects-list-item {
+    border: 1px solid #002E6D;
+    margin: 5px;
+}
+
+#main-info {
+    margin-top: 10px;
+}
+
+.project-data {
+    padding: 2px 15px;
+}
+
+.project-title {
+    color: white;
+}
+
+.project-heading {
+    background-color: #004EB9;
+}
+/*---------------------------------------------------------------*/
 
 .navbar {
     margin-bottom: 0;
@@ -269,7 +288,7 @@ body {
     background-color: #002E6D;
     color: white;
     box-sizing: border-box;
-    margin: 0 5px;
+    margin-right: 5px;
     padding: 5px 8px;
     line-height: 2.2em;
     vertical-align: middle;
@@ -398,7 +417,7 @@ body {
 }
 
 #project-details {
-    margin-top: 25px;
+    margin-top: 10px;
 }
 
 .Intersections {

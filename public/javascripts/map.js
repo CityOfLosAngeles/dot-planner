@@ -198,7 +198,7 @@ function filterProjectTypes() {
             url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
             datatype: 'JSON',
             success: function(data) {
-                $('#project-details').empty();
+                $('#project-details').empty().attr("role", "tablist");
                 $('#main-info').empty();
                 var count = 0;
                 if (data) {
@@ -239,7 +239,18 @@ function filterProjectTypes() {
                             projectFeatures["marker-color"] = colors.lime;
                         }
 
-                        $('#project-details').append("<div class='projects_list' <p>" + features[i].properties.Proj_Title + "<br /> " + features[i].properties.ProjectProjectedCompletionDate + '              Miles   |' + features[i].properties.id + "</p></div>");
+                        var panel = $("<div>");
+                        panel.addClass("panel projects-list-item");
+                        var panelHeading = $("<div>");
+                        panelHeading.addClass("panel-heading project-heading");
+                        var panelTitle = $("<h3>");
+                        var panelMiles = $("<h4>");
+                        panelTitle.addClass("panel-title project-title").text(features[i].properties.Proj_Title);
+                        panelHeading.append(panelTitle);
+                        var panelBody = $("<div>");
+                        panelBody.addClass("panel-body project-data").html("Completion: " + features[i].properties.ProjectProjectedCompletionDate + "</br> Miles: " + features[i].properties.id);
+                        panel.append(panelHeading).append(panelBody);
+                        $('#project-details').append(panel);
                         count++;
                     }
                     $('#main-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
