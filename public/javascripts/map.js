@@ -198,7 +198,7 @@ function filterProjectTypes() {
             url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
             datatype: 'JSON',
             success: function(data) {
-                $('#project-details').empty().attr("role", "tablist");
+                $('#project-details').empty();
                 $('#main-info').empty();
                 var count = 0;
                 if (data) {
@@ -244,7 +244,6 @@ function filterProjectTypes() {
                         var panelHeading = $("<div>");
                         panelHeading.addClass("panel-heading project-heading");
                         var panelTitle = $("<h3>");
-                        var panelMiles = $("<h4>");
                         panelTitle.addClass("panel-title project-title").text(features[i].properties.Proj_Title);
                         panelHeading.append(panelTitle);
                         var panelBody = $("<div>");
