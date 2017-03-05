@@ -207,7 +207,7 @@ function filterProjectTypes() {
         for (var i = 0; i < projectTypes.length; i++) {
             projectTypes[i] = projectTypes[i].split(' ').join('%20');
         }
-        // funded%20unfunded%20idea%20project
+
         var fundingQuery = isFunded;
         var typeQuery = projectTypes.join('&');
         console.log(fundingQuery);
@@ -219,10 +219,14 @@ function filterProjectTypes() {
             datatype: 'JSON',
             success: function(data) {
                 $('#project-details').empty();
+                var panelGroup = $("<div>");
+                panelGroup.addClass("panel-group").attr("id", "project-accordian").attr("role", "tablist").attr("aria-multiselectable", "true");
                 $('#main-info').empty();
+                $("#main-info").append(panelGroup);
+
                 var count = 0;
                 if (data) {
-                    var features = data.features
+                    var features = data.features;
                     for (var i = 0; i < features.length; i++) {
                         var projectFeatures = features[i].properties;
                         var projectType = features[i].properties.Proj_Ty;
@@ -259,19 +263,64 @@ function filterProjectTypes() {
                             projectFeatures["marker-color"] = colors.lime;
                         }
 
+                        // build accordian panel
+
                         var panel = $("<div>");
                         panel.addClass("panel projects-list-item");
                         var panelHeading = $("<div>");
-                        panelHeading.addClass("panel-heading project-heading");
+                        panelHeading.addClass("panel-heading project-heading").attr("id", "heading_" + i).attr("role", "tab");
                         var panelTitle = $("<h3>");
-                        panelTitle.addClass("panel-title project-title").text(features[i].properties.Proj_Title);
-                        panelHeading.append(panelTitle);
+                        panelTitle.addClass("panel-title project-title");
+                        var panelLink = $("<a>");
+                        panelLink.addClass("project-heading-data").attr("role", "button").attr("data-toggle", "collapse").attr("data-parent", "#project-accordian").attr("href", "#collapse_" + i).attr("aria-expanded", "true").attr("aria-controls", "collapse_" + i).text(features[i].properties.Proj_Title);
+                        panelTitle.append(panelLink);
+                        var panelMiles = $("<h6>");
+                        var panelCompletion = $("<h6>");
+                        var panelId = $("<h6>");
+                        panelMiles.addClass("project-heading-data").text("Miles: ");
+                        panelCompletion.addClass("project-heading-data").text("Completion: ", features[i].properties.ProjectProjectedCompletionDate);
+                        panelId.addClass("project-heading-data").text("ID: ", features[i].properties.id);
+
+                        panelHeading.append(panelTitle).append(panelMiles).append(panelCompletion).append(panelId);
+
+                        panel.append(panelHeading);
+
+                        var panelBodyCollapse = $("<div>");
+                        panelBodyCollapse.addClass("panel-collapse collapse").attr("id", "collapse_" + i).attr("role", "tabpanel").attr("aria-labelledby", "heading_" + i);
+
                         var panelBody = $("<div>");
-                        panelBody.addClass("panel-body project-data").html("Completion: " + features[i].properties.ProjectProjectedCompletionDate + "</br> Miles: " + features[i].properties.id);
-                        panel.append(panelHeading).append(panelBody);
-                        $('#project-details').append(panel);
+                        panelBody.addClass("panel-body");
+
+                        var projTitle = $("<p>");
+                        projTitle.text(features[i].properties.Proj_Title);
+                        var projDesc = $("<p>");
+                        projDesc.text(features[i].properties.Proj_Desc);
+                        var legacyId = $("<p>");
+                        legacyId.text(features[i].properties.Legacy_ID);
+                        var leadAg = $("<p>");
+                        leadAg.text(features[i].properties.Lead_Ag);
+                        var fundSt = $("<p>");
+                        fundSt.text(features[i].properties.Fund_St);
+                        var projTy = $("<p>");
+                        projTy.text(features[i].properties.Proj_Ty);
+                        var contactName = $("<p>");
+                        contactName.text(features[i].properties.Contact_info.Contact_info_name);
+                        var contactPhone = $("<p>");
+                        contactPhone.text(features[i].properties.Contact_info.Contact_info_phone);
+                        var contactEmail = $("<p>");
+                        contactEmail.text(features[i].properties.Contact_info.Contact_info_email);
+
+                        panelBody.append(projTitle).append(projDesc).append(legacyId).append(leadAg).append(fundSt).append(projTy).append(contactName).append(contactPhone).append(contactEmail);
+
+                        panelBodyCollapse.append(panelBody);
+
+                        panel.append(panelBodyCollapse);
+
+                        panelGroup.append(panel);
+
                         count++;
                     }
+
                     $('#main-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
                     console.log(JSON.stringify(features[0].properties.Proj_Title));
                     geoJSON.clearLayers();

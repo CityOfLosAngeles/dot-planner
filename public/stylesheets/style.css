@@ -22,12 +22,21 @@ body {
     padding: 2px 15px;
 }
 
-.project-title {
-    color: white;
-}
-
 .project-heading {
     background-color: #004EB9;
+}
+
+.projects-list-item {
+    margin-left: 0;
+}
+
+.project-title {
+    color: white;
+    margin-bottom: 5px;
+}
+.project-heading-data {
+    color: white;
+    margin: 0;
 }
 /*---------------------------------------------------------------*/
 
