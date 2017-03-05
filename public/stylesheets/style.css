@@ -30,9 +30,31 @@ body {
     margin-left: 0;
 }
 
+.project-body > p {
+    margin: 0;
+}
+
+.project-more-data > p {
+    margin: 0;
+}
+
+.project-body-button {
+    margin: -10px 0 10px 15px;
+    background-color: #002E6D;
+    color: white;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.project-body-button:hover,
+.project-body-button:focus {
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+    background-color: #004EB9;
+    color: white;
+}
+
 .project-title {
     color: white;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 .project-heading-data {
     color: white;
@@ -94,7 +116,6 @@ body {
 }
 
 #project-view-sidebar {
-    margin-top: -15px;
     height: -o-calc(100vh - 50px);
     /* opera */
     height: -webkit-calc(100vh - 50px);
