@@ -106,7 +106,7 @@ function renderAllProjects(zoom) {
                 }
                 geoJSON = L.geoJson(data, {
                     style: {
-                        color: "blue"
+                        color: "#004EB9"
                     },
                     onEachFeature: function(feature, layer) {
                         onEachFeature(feature, layer);

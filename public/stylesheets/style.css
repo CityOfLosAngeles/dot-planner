@@ -66,6 +66,7 @@ body {
 }
 
 #project-view-sidebar {
+    margin-top: -15px;
     height: -o-calc(100vh - 50px);
     /* opera */
     height: -webkit-calc(100vh - 50px);
@@ -306,19 +307,61 @@ body {
     color: white;
 }
 
+.fa-circle-thin {
+    color: #231F20;
+}
+
+#legend-bike {
+    color: #50BFE6;
+}
+
+#legend-bike-ped {
+    color: #66FF66;
+}
+
+#legend-ped {
+    color: #FFFF66;
+}
+
+#legend-safety {
+    color: #FF355E;
+}
+
+#legend-first-last {
+    color: #FFCC33;
+}
+
+#legend-people {
+    color: #FF9933
+}
+
+#legend-srts {
+    color: #AAF0D1;
+}
+
+#legend-other {
+    color: #CCFF00;
+}
+
 .dropdown.open #map-legend-button {
     background-color: #004EB9;
     color: white;
     border-radius: 3px 3px 0 0;
 }
 
+.dropdown-menu .divider {
+    margin: 5px 0 8px 0;
+}
+
 #legend-dropdown {
+    padding: 8px 0;
     border-radius: 0 0 3px 3px;
 }
 
 .legend-category {
-    margin: 5px 0 5px 10px;
-    font-size: 14px;
+    color: #231F20;
+    margin: -10px 0;
+    font-size: 10px;
 }
 
 #hide-button {
@@ -334,6 +377,7 @@ body {
     right: 340px;
     z-index: 100;
 }
+
 
 #searchbar {
     padding: 0;
