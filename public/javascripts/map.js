@@ -289,7 +289,7 @@ function filterProjectTypes() {
                         panelBodyCollapse.addClass("panel-collapse collapse").attr("id", "collapse_" + i).attr("role", "tabpanel").attr("aria-labelledby", "heading_" + i);
 
                         var panelBody = $("<div>");
-                        panelBody.addClass("panel-body");
+                        panelBody.addClass("project-body panel-body");
 
                         var projTitle = $("<p>");
                         projTitle.text(features[i].properties.Proj_Title);
@@ -315,6 +315,125 @@ function filterProjectTypes() {
                         panelBodyCollapse.append(panelBody);
 
                         panel.append(panelBodyCollapse);
+
+                        var panelButton = $("<button>");
+                        panelButton.addClass("btn project-body-button").attr("type", "button").attr("data-toggle", "collapse").attr("data-target", "#collapseMore_" + i).attr("aria-expanded", "false").attr("aria-controls", "collapseMore_" + i).text("More Info");
+
+                        panelBodyCollapse.append(panelButton);
+
+                        var moreData = $("<div>");
+                        moreData.addClass("collapse").attr("id", "collapseMore_" + i);
+                        var moreDataWell = $("<div>");
+                        moreDataWell.addClass("project-more-data well");
+
+                        if (fundingQuery === "funded") {
+
+                            var deptProjId = $("<p>");
+                            deptProjId.text("Dept Project ID: " + features[i].properties.Dept_Proj_ID);
+                            moreDataWell.append(deptProjId);
+
+                            var otherId = $("<p>");
+                            otherId.text("Other ID: " + features[i].properties.Other_ID);
+                            moreDataWell.append(otherId);
+
+                            if (features[i].properties.Total_bgt) {
+                                var totalBgt = $("<p>");
+                                totalBgt.text("Total Budget: $" + features[i].properties.Total_bgt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                moreDataWell.append(totalBgt);
+                            }
+
+                            if (features[i].properties.Grant) {
+                                var grant = $("<p>");
+                                grant.text("Grant: $" + features[i].properties.Grant.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                moreDataWell.append(grant);
+                            }
+
+                            if (features[i].properties.Other_funds) {
+                                var otherFunds = $("<p>");
+                                otherFunds.text("Other Funds: $" + features[i].properties.Other_funds.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                moreDataWell.append(otherFunds);
+                            }
+
+                            if (features[i].properties.Prop_c) {
+                                var propC = $("<p>");
+                                propC.text("Prop C: $" + features[i].properties.Prop_c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                moreDataWell.append(propC);
+                            }
+
+                            if (features[i].properties.Measure_r) {
+                                var measureR = $("<p>");
+                                measureR.text("Measure R: $" + features[i].properties.Measure_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                moreDataWell.append(measureR);
+                            }
+
+                            if (features[i].properties.Gas_Tax) {
+                                var gasTax = $("<p>");
+                                gasTax.text("Gas Tax: $" + features[i].properties.Gas_Tax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+                                moreDataWell.append(gasTax);
+                            }
+
+                            if (features[i].properties.General_fund) {
+                                var generalFund = $("<p>");
+                                generalFund.text("General Fund: $" + features[i].properties.General_fund.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                moreDataWell.append(generalFund);
+                            }
+
+                            var authorization = $("<p>");
+                            authorization.text("Authorization: " + features[i].properties.Authorization);
+                            var issues = $("<p>");
+                            issues.text("Issues: " + features[i].properties.Issues);
+                            var deobligation = $("<p>");
+                            deobligation.text("Deobligation: " + features[i].properties.Deobligation);
+                            var explanation = $("<p>");
+                            explanation.text("Explanation: " + features[i].properties.Explanation);
+                            var constrBy = $("<p>");
+                            constrBy.text("Constructed By: " + features[i].properties.Constr_by);
+                            var infoSource = $("<p>");
+                            infoSource.text("Info Source: " + features[i].properties.Info_source);
+                            var access = $("<p>");
+                            access.text("Access: " + features[i].properties.Access);
+
+                            moreDataWell.append(authorization).append(issues).append(deobligation).append(explanation).append(constrBy).append(infoSource).append(access);
+                        }
+
+                        if (fundingQuery === "unfunded") {
+
+                            var unfundedMoreInfo = $("<p>");
+                            unfundedMoreInfo.text("Unfunded More Info: " + features[i].properties.More_info);
+                            var unfundedCD = $("<p>");
+                            unfundedCD.text("Unfunded CD: " + features[i].properties.CD);
+                            var grantCat = $("<p>");
+                            grantCat.text("Grant Category: " + features[i].properties.Grant_Cat);
+                            var grantCycle = $("<p>");
+                            grantCycle.text(features[i].properties.Grant_Cycle);
+
+                            moreDataWell.append(unfundedMoreInfo).append(unfundedCD).append(grantCat).append(grantCycle);
+
+                            if (features[i].properties.Est_Cost) {
+                                var estCost = $("<p>");
+                                estCost.text("Estimated Cost: $" + features[i].properties.Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                moreDataWell.append(estCost);
+                            }
+                            if (features[i].properties.Fund_Rq) {
+                                var fundRq = $("<p>");
+                                fundRq.text("Fund Request: " + features[i].properties.Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                moreDataWell.append(fundRq);
+                            }
+
+                            if (features[i].properties.Lc_match) {
+                                var LcMatch = $("<p>");
+                                LcMatch.text("Lc Match: $ " + features[i].properties.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                moreDataWell.append(LcMatch);
+                            }
+                            var matchPt = $("<p>");
+                            matchPt.text("Match Percentage: " + features[i].properties.Match_Pt + "%");
+                            moreDataWell.append(matchPt);
+                        }
+
+                        moreData.append(moreDataWell);
+
+                        panelBodyCollapse.append(moreData);
 
                         panelGroup.append(panel);
 
