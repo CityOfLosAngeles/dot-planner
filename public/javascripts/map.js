@@ -17,7 +17,6 @@ var colors = {
     green: "#66FF66",
     mint: "#AAF0D1",
     blue: "#50BFE6"
-
 };
 
 
@@ -181,14 +180,16 @@ $('.filter input[type="checkbox"]').change(function() {
 // Give me funded projects
 $('#fundedTab').on('click', function() {
     isFunded = "funded";
-    $('#project-details').empty();
+    $('#project-details').hide();
+    $('#main-info').empty();
     filterProjectTypes();
 });
 
 //Give me unfunded projects
 $('#unfundedTab').on('click', function() {
     isFunded = "unfunded";
-    $('#project-details').empty();
+    $('#project-details').hide();
+    $('#main-info').empty();
     filterProjectTypes();
 });
 
@@ -210,18 +211,16 @@ function filterProjectTypes() {
 
         var fundingQuery = isFunded;
         var typeQuery = projectTypes.join('&');
-        console.log(fundingQuery);
-        console.log(typeQuery);
 
         $.ajax({
             type: 'GET',
             url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
             datatype: 'JSON',
             success: function(data) {
-                $('#project-details').empty();
+                $('#main-info').show();
+                $("#project-details").hide();
                 var panelGroup = $("<div>");
                 panelGroup.addClass("panel-group").attr("id", "project-accordian").attr("role", "tablist").attr("aria-multiselectable", "true");
-                $('#main-info').empty();
                 $("#main-info").append(panelGroup);
 
                 var count = 0;
@@ -440,12 +439,12 @@ function filterProjectTypes() {
                         count++;
                     }
 
-                    $('#main-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
+                    $('#main-info').prepend("<p><strong>Projects Listed: " + count + "</strong></p>");
                     console.log(JSON.stringify(features[0].properties.Proj_Title));
                     geoJSON.clearLayers();
                     geoJSON = L.geoJson(data, {
                         style: {
-                            color: 'blue'
+                            color: "#002E6D"
                         },
                         onEachFeature: function(feature, layer) {
                             onEachFeature(feature, layer);
@@ -485,10 +484,14 @@ function zoomToFeature(e) {
 
 function onEachFeature(feature, layer) {
     layer.on('click', function(e) {
+
+        $("#project-details").show();
+        $("#main-info").hide();
+
         //Empty the cross streets since we are using .append()
         $('#Cross_Streets').empty();
         layerID = layer._leaflet_id;
-        zoomToFeature(e)
+        zoomToFeature(e);
         geoJSON.eachLayer(function(l) {
             geoJSON.resetStyle(l);
             if (l.feature.geometry.type === 'MultiPoint') {
@@ -504,7 +507,7 @@ function onEachFeature(feature, layer) {
             layer.eachLayer(function(l) {
                 l.setIcon(
                     L.mapbox.marker.icon({
-                        'marker-color': colors.watermelon,
+                        'marker-color': "#002E6D",
                         'marker-size': 'large'
                     })
                 );
@@ -513,7 +516,7 @@ function onEachFeature(feature, layer) {
         if (e.target.feature.geometry.type === 'Point') {
             layer.setIcon(
                 L.mapbox.marker.icon({
-                    'marker-color': colors.watermelon,
+                    'marker-color': "#002E6D",
                     'marker-size': 'large'
                 })
             );
@@ -521,7 +524,7 @@ function onEachFeature(feature, layer) {
         if (e.target.feature.geometry.type != 'Point') {
             layer.bringToFront();
             layer.setStyle({
-                color: colors.watermelon
+                color: "#002E6D"
             });
         }
         var fundStatus = feature.properties.Fund_St;
@@ -721,7 +724,7 @@ function separateShapes() {
     var multipoints = {
         name: 'multipoints',
         features: []
-    }
+    };
     geoJSON.eachLayer(function(layer) {
         switch (layer.feature.geometry.type) {
             case 'Point':
