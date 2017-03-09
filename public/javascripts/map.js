@@ -86,40 +86,11 @@ function renderAllProjects(zoom) {
                 for (var i = 0; i < features.length; i++) {
 
                     var projectFeatures = features[i].properties;
-                    var projectType = features[i].properties.Proj_Ty;
 
                     projectFeatures["marker-size"] = "medium";
-
-                    if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
-                        projectFeatures["marker-color"] = colors.green;
-                        projectFeatures["marker-symbol"] = "bicycle";
-                    }
-                    else if (projectType === "Ped Only") {
-                        projectFeatures["marker-color"] = colors.yellow;
-                        projectFeatures["marker-symbol"] = "pitch";
-                    }
-                    else if (projectType === "Bike Only") {
-                        projectFeatures["marker-color"] = colors.blue;
-                    }
-                    else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
-                        projectFeatures["marker-color"] = colors.sun;
-                    }
-                    else if (projectType === "Safety") {
-                        projectFeatures["marker-color"] = colors.red;
-                        projectFeatures["marker-symbol"] = "police";
-                    }
-                    else if (projectType === "SRTS") {
-                        projectFeatures["marker-color"] = colors.mint;
-                        projectFeatures["marker-symbol"] = "college";
-                    }
-                    else if (projectType === "People St") {
-                        projectFeatures["marker-color"] = colors.orange;
-                        projectFeatures["marker-symbol"] = "school";
-                    }
-                    else {
-                        projectFeatures["marker-color"] = colors.lime;
-                    }
+                    projectFeatures["marker-color"] = "#002E6D";
                 }
+
                 if (geoJSON) {
                     geoJSON.clearLayers();
                 }
@@ -195,6 +166,9 @@ $('#unfundedTab').on('click', function() {
 
 function filterProjectTypes() {
 
+    // reset map view
+    checkZoom();
+
     // var fundingType = $('#fundedTab').getAttribute('value');
     var fundingType = $('#fundedTab').text().toLowerCase();
     console.log(fundingType);
@@ -217,7 +191,11 @@ function filterProjectTypes() {
             url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
             datatype: 'JSON',
             success: function(data) {
+
+                // show main info div
                 $('#main-info').show();
+
+                // hide project details div
                 $("#project-details").hide();
                 var panelGroup = $("<div>");
                 panelGroup.addClass("panel-group").attr("id", "project-accordian").attr("role", "tablist").attr("aria-multiselectable", "true");
@@ -228,50 +206,25 @@ function filterProjectTypes() {
                     var features = data.features;
                     for (var i = 0; i < features.length; i++) {
                         var projectFeatures = features[i].properties;
-                        var projectType = features[i].properties.Proj_Ty;
+
 
                         projectFeatures["marker-size"] = "medium";
-
-                        if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
-                            projectFeatures["marker-color"] = colors.green;
-                            projectFeatures["marker-symbol"] = "bicycle";
-                        }
-                        else if (projectType === "Ped Only") {
-                            projectFeatures["marker-color"] = colors.yellow;
-                            projectFeatures["marker-symbol"] = "pitch";
-                        }
-                        else if (projectType === "Bike Only") {
-                            projectFeatures["marker-color"] = colors.blue;
-                        }
-                        else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
-                            projectFeatures["marker-color"] = colors.sun;
-                        }
-                        else if (projectType === "Safety") {
-                            projectFeatures["marker-color"] = colors.red;
-                            projectFeatures["marker-symbol"] = "police";
-                        }
-                        else if (projectType === "SRTS") {
-                            projectFeatures["marker-color"] = colors.mint;
-                            projectFeatures["marker-symbol"] = "college";
-                        }
-                        else if (projectType === "People St") {
-                            projectFeatures["marker-color"] = colors.orange;
-                            projectFeatures["marker-symbol"] = "school";
-                        }
-                        else {
-                            projectFeatures["marker-color"] = colors.lime;
-                        }
+                        projectFeatures["marker-color"] = "#002E6D";
 
                         // build accordian panel
 
                         var panel = $("<div>");
                         panel.addClass("panel projects-list-item");
+
                         var panelHeading = $("<div>");
                         panelHeading.addClass("panel-heading project-heading").attr("id", "heading_" + i).attr("role", "tab");
+
                         var panelTitle = $("<h3>");
                         panelTitle.addClass("panel-title project-title");
+
                         var panelLink = $("<a>");
                         panelLink.addClass("project-heading-data").attr("role", "button").attr("data-toggle", "collapse").attr("data-parent", "#project-accordian").attr("href", "#collapse_" + i).attr("aria-expanded", "true").attr("aria-controls", "collapse_" + i).text(features[i].properties.Proj_Title);
+
                         panelTitle.append(panelLink);
                         var panelMiles = $("<h6>");
                         var panelCompletion = $("<h6>");
@@ -318,7 +271,10 @@ function filterProjectTypes() {
                         var panelButton = $("<button>");
                         panelButton.addClass("btn project-body-button").attr("type", "button").attr("data-toggle", "collapse").attr("data-target", "#collapseMore_" + i).attr("aria-expanded", "false").attr("aria-controls", "collapseMore_" + i).text("More Info");
 
-                        panelBodyCollapse.append(panelButton);
+                        var viewButton = $("<a>");
+                        viewButton.addClass("btn project-body-button").attr("type", "button").attr("data-id", features[i].properties.id).text("View Project");
+
+                        panelBodyCollapse.append(panelButton).append(viewButton);
 
                         var moreData = $("<div>");
                         moreData.addClass("collapse").attr("id", "collapseMore_" + i);
@@ -438,18 +394,17 @@ function filterProjectTypes() {
 
                         count++;
                     }
-
-                    $('#main-info').prepend("<p><strong>Projects Listed: " + count + "</strong></p>");
-                    console.log(JSON.stringify(features[0].properties.Proj_Title));
+                    $("#count-info").empty();
+                    $('#count-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
                     geoJSON.clearLayers();
                     geoJSON = L.geoJson(data, {
-                        style: {
-                            color: "#002E6D"
-                        },
+                        // style: {
+                        //     color: "#002E6D"
+                        // },
                         onEachFeature: function(feature, layer) {
                             onEachFeature(feature, layer);
-                        },
-                        pointToLayer: L.mapbox.marker.style
+                        }
+                        // pointToLayer: L.mapbox.marker.style
                     }).addTo(map);
                 }
             }
@@ -458,6 +413,20 @@ function filterProjectTypes() {
         geoJSON.clearLayers();
     }
 }
+
+$(document).on("click", ".project-body-button", function() {
+    var id = $(this).data("id");
+    console.log(id);
+    $.ajax({
+        method: "GET",
+        url: "/projects/id/" + id,
+        datatype: 'JSON',
+        success: function(project) {
+            console.log("Selected Project: ", project);
+            zoomToFeatureFunded(project);
+        }
+    });
+});
 
 $('#hide-button').on('click', function() {
     geoJSON.eachLayer(function(l) {
@@ -479,6 +448,15 @@ function zoomToFeature(e) {
         map.setView(coordinates, 16)
     } else {
         map.fitBounds(e.target.getBounds());
+    }
+}
+
+function zoomToFeatureFunded(project) {
+    if (project[0].Geometry.type === 'Point') {
+        var coordinates = project[0].Geometry.coordinates.slice().reverse();
+        map.setView(coordinates, 16)
+    } else {
+        map.fitBounds(project[0].Geometry.coordinates);
     }
 }
 
