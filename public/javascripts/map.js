@@ -423,7 +423,7 @@ $(document).on("click", ".project-body-button", function() {
         datatype: 'JSON',
         success: function(project) {
             console.log("Selected Project: ", project);
-            zoomToFeatureFunded(project);
+            viewProject(project);
         }
     });
 });
@@ -456,8 +456,138 @@ function zoomToFeatureFunded(project) {
         var coordinates = project[0].Geometry.coordinates.slice().reverse();
         map.setView(coordinates, 16)
     } else {
-        map.fitBounds(project[0].Geometry.coordinates);
+        var coordinates = project[0].Geometry.coordinates;
+        var newCoordinates = coordinates.map((coordinate) => (coordinate.slice().reverse()));
+        map.fitBounds(newCoordinates);
     }
+}
+
+function viewProject(project) {
+    $("#project-details").show();
+    $("#main-info").hide();
+    $('#Cross_Streets').empty();
+    zoomToFeatureFunded(project);
+
+    var fundStatus = project[0].Fund_St;
+
+    $('#sidebar-fundedAndUnfunded').hide();
+    $('#sidebar-funded-attributes').hide();
+    $('#sidebar-unfunded-attributes').hide();
+    $('#sidebar-more-info').hide();
+    $('#show-info').remove();
+    $('#hide-info').remove();
+    $('#edit-button').show();
+
+    $(document).on('click', '#show-info', function() {
+        $('#show-info').remove();
+        $('#hide-info').remove();
+        var button = $('<button id="hide-info" type="button" name="button" class="btn">Less Info</button>');
+        $('#project-details').append(button);
+        $('#sidebar-more-info').show();
+        if (fundStatus === 'Funded') {
+            $('#sidebar-funded-attributes').show();
+            $('#sidebar-unfunded-attributes').hide();
+        } else if (fundStatus === 'Unfunded') {
+            $('#sidebar-unfunded-attributes').show();
+            $('#sidebar-funded-attributes').hide();
+        }
+    });
+
+    $(document).on('click', '#hide-info', function() {
+        $('#show-info').remove();
+        $('#hide-info').remove();
+        var button = $('<button id="show-info" type="button" name="button" class="btn">More Info</button>');
+        $('#project-details').append(button);
+        $('#sidebar-more-info').hide();
+        if (fundStatus === 'Funded') {
+            $('#sidebar-funded-attributes').hide();
+        } else if (fundStatus === 'Unfunded') {
+            $('#sidebar-unfunded-attributes').hide();
+        }
+    });
+
+    //Common attributes
+    $('#Proj_Title').text(project[0].Proj_Title);
+    $('#Proj_Desc').text(project[0].Proj_Desc);
+    $('#Legacy_ID').text(project[0].Legacy_ID);
+    $('#Lead_Ag').text(project[0].Lead_Ag);
+    $('#Fund_St').text(project[0].Fund_St);
+    $('#Proj_Ty').text(project[0].Proj_Ty);
+    $('#Contact_info_name').text(project[0].Contact_info.Contact_info_name);
+    $('#Contact_info_phone').text(project[0].Contact_info.Contact_info_phone);
+    $('#Contact_info_email').text(project[0].Contact_info.Contact_info_email);
+
+    if (fundStatus != 'Idea Project') {
+        $('#Proj_Man').text(project[0].Proj_Man);
+        $('#Current_Status').text(project[0].Proj_Status);
+        $('#More_info').text(project[0].More_info);
+        $('#CD').text(project[0].CD);
+        $('#Primary_Street').text(project[0].Primary_Street);
+        if (project[0].Cross_Streets && project[0].Cross_Streets.Intersections) {
+            var streets = project[0].Cross_Streets.Intersections;
+            streetsString = '';
+            for (var i = 0; i < streets.length; i++) {
+                streetsString += '<p>' + streets[i] + '</p><br>';
+            }
+            $('#Cross_Streets').append(streetsString);
+        }
+        $('#sidebar-fundedAndUnfunded').show();
+        var button = $('<button id="show-info" class="btn" type="button" name="button">More Info</button>');
+        $('#project-details').append(button);
+    }
+
+    //Separate section for funded attributes
+    if (fundStatus === 'Funded') {
+        $('#Dept_Proj_ID').text(project[0].Dept_Proj_ID);
+        $('#Other_ID').text(project[0].Other_ID);
+        if (project[0].Total_bgt) {
+            $('#Total_bgt').text('$' + project[0].Total_bgt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Grant) {
+            $('#Grant').text('$' + project[0].Grant.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Other_funds) {
+            $('#Other_funds').text('$' + project[0].Other_funds.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Prop_c) {
+            $('#Prop_c').text('$' + project[0].Prop_c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Measure_r) {
+            $('#Measure_r').text('$' + project[0].Measure_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Gas_Tax) {
+            $('#Gas_Tax').text('$' + project[0].Gas_Tax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].General_fund) {
+            $('#General_fund').text('$' + project[0].General_fund.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        $('#Authorization').text(project[0].Authorization);
+        $('#Issues').text(project[0].Issues);
+        $('#Deobligation').text(project[0].Deobligation);
+        $('#Explanation').text(project[0].Explanation);
+        $('#Constr_by').text(project[0].Constr_by);
+        $('#Info_source').text(project[0].Info_source);
+        $('#Access').text(project[0].Access);
+
+    } else if (fundStatus === 'Unfunded') {
+        //Unfunded
+        $('#Unfunded-More_info').text(project[0].More_info);
+        $('#Unfunded-CD').text(project[0].CD);
+        $('#Grant_Cat').text(project[0].Grant_Cat);
+        $('#Grant_Cycle').text(project[0].Grant_Cycle);
+        if (project[0].Est_Cost) {
+            $('#Est_Cost').text('$' + project[0].Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Fund_Rq) {
+            $('#Fund_Rq').text('$' + project[0].Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Lc_match) {
+            $('#Lc_match').text('$' + project[0].Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        $('#Match_Pt').text(project[0].Match_Pt + '%');
+    }
+    console.log("ID:", project[0].id);
+    $('#edit-button').attr('data-href', "/projects/edit/" + project[0].id);
 }
 
 function onEachFeature(feature, layer) {
