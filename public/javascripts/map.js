@@ -77,7 +77,7 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 
 var circleRadius;
 
-// Add radius circle to map
+// Add circle radius to map
 var updateCircle = function(radius) {
   circleRadius = L.circle(
     [34.0522, -118.2437],
@@ -85,7 +85,7 @@ var updateCircle = function(radius) {
   ).addTo(map);
 };
 
-// Grab the search radius value from the slider
+// Grab the radius value from the slider
 $('#radiusSlider').slider({
 	formatter: function(value) {
     if (circleRadius !== undefined) {
@@ -95,22 +95,6 @@ $('#radiusSlider').slider({
 		return 'Current value: ' + value;
 	}
 });
-//-----------------------------------
-// var circleRadius;
-//
-// function addCircle(e) {
-//   if (e) {
-//     map.removeLayer(circleRadius);
-//   }
-//
-//   circleRadius = L.circle([34.0522, -118.2437], value, {
-//     color: '#f07300',
-//     fillOpacity: 0,
-//     opacity: 0.5
-//   }).addTo(map);
-// }
-
-
 
 //---------------------------------------------
 //---------------------------------------------
