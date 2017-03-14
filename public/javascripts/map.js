@@ -17,15 +17,13 @@ var colors = {
     green: "#66FF66",
     mint: "#AAF0D1",
     blue: "#50BFE6"
-
 };
-
 
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 
 // Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map', {
-    layers: [imageryLayer]
+    layers: [imageryLayer],
 });
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 
@@ -75,15 +73,24 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 //---------------------------------------------
 //---------------------------------------------
 
-var circleRadius;
+// Create radius to add to map
+var circleRadius = L.circle([34.0522, -118.2437], 10).addTo(map);
 
 // Add circle radius to map
 var updateCircle = function(radius) {
-  circleRadius = L.circle(
-    [34.0522, -118.2437],
-    radius
-  ).addTo(map);
+  circleRadius = L.circle([34.0522, -118.2437], radius).addTo(map);
 };
+
+circleRadius.on({
+  mousedown: function() {
+    map.on('mousemove', function(e) {
+      circle.setLatLng(e.latlng);
+    });
+  }
+});
+map.on('mouseup', function(e) {
+  map.removeEventListener('mousemove');
+});
 
 // Grab the radius value from the slider
 $('#radiusSlider').slider({
