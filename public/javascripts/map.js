@@ -9,19 +9,88 @@ var layerID;
 
 var colors = {
     red: "#FF355E",
+    // safety / police
+
     watermelon: "#FD5B78",
+    // srts / triangle
+
     orange: "#FF9933",
+    // else / marker
+
     sun: "#FFCC33",
+    // bike / bicycle
+
     yellow: "#FFFF66",
+    // ped & bike / entrance
+
     lime: "#CCFF00",
+    // first & last / hospital
+
     green: "#66FF66",
+    // people / city
+
     mint: "#AAF0D1",
+    // ped / toilets
+
     blue: "#50BFE6"
+    // transit / rail
 };
 
 function getMarkerStyle(type) {
-    if (type === )
-}
+
+    var newMarker = {
+        "marker-color": "",
+        "marker-symbol": ""
+    };
+
+    var projectType;
+
+    if (type) {
+        projectType = type.trim();
+    } else {
+        projectType = type;
+    }
+
+    if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
+        newMarker["marker-color"] = colors.yellow;
+        newMarker["marker-symbol"] = "entrance"
+    }
+
+    else if (projectType === "Bike Only") {
+        newMarker["marker-color"] = colors.sun;
+        newMarker["marker-symbol"] = "bicycle";
+    }
+    else if (projectType === "Ped Only") {
+        newMarker["marker-color"] = colors.mint;
+        newMarker["marker-symbol"] = "toilets";
+    }
+    else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
+        newMarker["marker-color"] = colors.lime;
+        newMarker["marker-symbol"] = "hospital"
+    }
+    else if (projectType === "Safety") {
+        newMarker["marker-color"] = colors.red;
+        newMarker["marker-symbol"] = "police";
+    }
+    else if (projectType === "SRTS") {
+        newMarker["marker-color"] = colors.watermelon;
+        newMarker["marker-symbol"] = "triangle-stroked";
+    }
+    else if (projectType === "People St") {
+        newMarker["marker-color"] = colors.green;
+        newMarker["marker-symbol"] = "city";
+    }
+    else if (projectType === "Transit") {
+        newMarker["marker-color"] = colors.blue;
+        newMarker["marker-symbol"] = "rail";
+    }
+    else {
+        newMarker["marker-color"] = colors.orange;
+        newMarker["marker-symbol"] = "marker"
+    }
+
+    return newMarker;
+};
 
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 
@@ -84,9 +153,13 @@ function renderAllProjects(zoom) {
                 for (var i = 0; i < features.length; i++) {
 
                     var projectFeatures = features[i].properties;
+                    var projectType = projectFeatures.Proj_Ty;
 
-                    projectFeatures["marker-size"] = "medium";
-                    projectFeatures["marker-color"] = "#002E6D";
+                    var markerStyle = getMarkerStyle(projectType);
+
+                    projectFeatures["marker-color"] = markerStyle["marker-color"];
+
+                    projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
                 }
 
                 if (geoJSON) {
@@ -189,7 +262,7 @@ function filterProjectTypes() {
             url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
             datatype: 'JSON',
             success: function(data) {
-
+                $('#main-info').empty();
                 // show main info div
                 $('#main-info').show();
 
@@ -203,11 +276,15 @@ function filterProjectTypes() {
                 if (data) {
                     var features = data.features;
                     for (var i = 0; i < features.length; i++) {
+
                         var projectFeatures = features[i].properties;
+                        var projectType = projectFeatures.Proj_Ty;
 
+                        var markerStyle = getMarkerStyle(projectType);
 
-                        projectFeatures["marker-size"] = "medium";
-                        projectFeatures["marker-color"] = "#002E6D";
+                        projectFeatures["marker-color"] = markerStyle["marker-color"];
+
+                        projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
 
                         // build accordian panel
 
@@ -228,8 +305,8 @@ function filterProjectTypes() {
                         var panelCompletion = $("<h6>");
                         var panelId = $("<h6>");
                         panelMiles.addClass("project-heading-data").text("Miles: ");
-                        panelCompletion.addClass("project-heading-data").text("Completion: ", features[i].properties.ProjectProjectedCompletionDate);
-                        panelId.addClass("project-heading-data").text("ID: ", features[i].properties.id);
+                        panelCompletion.addClass("project-heading-data").text("Completion: " + features[i].properties.ProjectProjectedCompletionDate);
+                        panelId.addClass("project-heading-data").text("ID: " + features[i].properties.id);
 
                         panelHeading.append(panelTitle).append(panelMiles).append(panelCompletion).append(panelId);
 
@@ -427,9 +504,14 @@ $(document).on("click", ".project-body-button", function() {
         method: "GET",
         url: "/projects/id/" + id,
         datatype: 'JSON',
-        success: function(project) {
-            console.log("Selected Project: ", project);
-            zoomToFeatureFunded(project);
+        success: function(data) {
+            if (data) {
+                geoJSON.eachLayer(function(l) {
+                    if (l.feature.properties.id === data[0].id) {
+                        l.fireEvent('click');
+                    }
+                });
+            }
         }
     });
 });
@@ -458,20 +540,29 @@ function zoomToFeature(e) {
 }
 
 // function to zoom to feature on funded/unfunded "view project" click
-function zoomToFeatureFunded(project) {
-
-    if (project[0].Geometry.type === 'Point') {
-
-        var coordinates = project[0].Geometry.coordinates.slice().reverse();
-        map.setView(coordinates, 16);
-
-    } else {
-
-        var coordinates = project[0].Geometry.coordinates;
-        var newCoordinates = coordinates.map((coordinate) => (coordinate.slice().reverse()));
-        map.fitBounds(newCoordinates);
-    }
-}
+// function zoomToFeatureFunded(project) {
+//
+//     if (project[0].Geometry.type === 'Point') {
+//
+//         var projectFeatures = project[0];
+//         var projectType = projectFeatures.Proj_Ty;
+//
+//         var markerStyle = getMarkerStyle(projectType);
+//
+//         projectFeatures["marker-color"] = markerStyle["marker-color"];
+//
+//         projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
+//
+//         var coordinates = project[0].Geometry.coordinates.slice().reverse();
+//         map.setView(coordinates, 16);
+//
+//     } else {
+//
+//         var coordinates = project[0].Geometry.coordinates;
+//         var newCoordinates = coordinates.map((coordinate) => (coordinate.slice().reverse()));
+//         map.fitBounds(newCoordinates);
+//     }
+// }
 
 // function viewProject(project) {
 //     $("#project-details").show();
