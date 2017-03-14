@@ -20,7 +20,7 @@ var colors = {
     sun: "#FFCC33",
     // bike / bicycle
 
-    yellow: "#FFFF66",
+    rose: "#EE34D2",
     // ped & bike / entrance
 
     lime: "#CCFF00",
@@ -52,8 +52,8 @@ function getMarkerStyle(type) {
     }
 
     if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
-        newMarker["marker-color"] = colors.yellow;
-        newMarker["marker-symbol"] = "entrance"
+        newMarker["marker-color"] = colors.rose;
+        newMarker["marker-symbol"] = "pitch"
     }
 
     else if (projectType === "Bike Only") {
@@ -82,7 +82,7 @@ function getMarkerStyle(type) {
     }
     else if (projectType === "Transit") {
         newMarker["marker-color"] = colors.blue;
-        newMarker["marker-symbol"] = "rail";
+        newMarker["marker-symbol"] = "bus";
     }
     else {
         newMarker["marker-color"] = colors.orange;
