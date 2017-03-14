@@ -41,6 +41,10 @@ body {
     margin-left: 0;
 }
 
+.project-more-data {
+    margin-bottom: 0;
+}
+
 .project-body > p {
     margin: 0;
 }

@@ -119,40 +119,11 @@ function renderAllProjects(zoom) {
                 for (var i = 0; i < features.length; i++) {
 
                     var projectFeatures = features[i].properties;
-                    var projectType = features[i].properties.Proj_Ty;
 
                     projectFeatures["marker-size"] = "medium";
-
-                    if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
-                        projectFeatures["marker-color"] = colors.green;
-                        projectFeatures["marker-symbol"] = "bicycle";
-                    }
-                    else if (projectType === "Ped Only") {
-                        projectFeatures["marker-color"] = colors.yellow;
-                        projectFeatures["marker-symbol"] = "pitch";
-                    }
-                    else if (projectType === "Bike Only") {
-                        projectFeatures["marker-color"] = colors.blue;
-                    }
-                    else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
-                        projectFeatures["marker-color"] = colors.sun;
-                    }
-                    else if (projectType === "Safety") {
-                        projectFeatures["marker-color"] = colors.red;
-                        projectFeatures["marker-symbol"] = "police";
-                    }
-                    else if (projectType === "SRTS") {
-                        projectFeatures["marker-color"] = colors.mint;
-                        projectFeatures["marker-symbol"] = "college";
-                    }
-                    else if (projectType === "People St") {
-                        projectFeatures["marker-color"] = colors.orange;
-                        projectFeatures["marker-symbol"] = "school";
-                    }
-                    else {
-                        projectFeatures["marker-color"] = colors.lime;
-                    }
+                    projectFeatures["marker-color"] = "#002E6D";
                 }
+
                 if (geoJSON) {
                     geoJSON.clearLayers();
                 }
@@ -213,18 +184,23 @@ $('.filter input[type="checkbox"]').change(function() {
 // Give me funded projects
 $('#fundedTab').on('click', function() {
     isFunded = "funded";
-    $('#project-details').empty();
+    $('#project-details').hide();
+    $('#main-info').empty();
     filterProjectTypes();
 });
 
 //Give me unfunded projects
 $('#unfundedTab').on('click', function() {
     isFunded = "unfunded";
-    $('#project-details').empty();
+    $('#project-details').hide();
+    $('#main-info').empty();
     filterProjectTypes();
 });
 
 function filterProjectTypes() {
+
+    // reset map view
+    checkZoom();
 
     // var fundingType = $('#fundedTab').getAttribute('value');
     var fundingType = $('#fundedTab').text().toLowerCase();
@@ -242,18 +218,20 @@ function filterProjectTypes() {
 
         var fundingQuery = isFunded;
         var typeQuery = projectTypes.join('&');
-        console.log(fundingQuery);
-        console.log(typeQuery);
 
         $.ajax({
             type: 'GET',
             url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
             datatype: 'JSON',
             success: function(data) {
-                $('#project-details').empty();
+
+                // show main info div
+                $('#main-info').show();
+
+                // hide project details div
+                $("#project-details").hide();
                 var panelGroup = $("<div>");
                 panelGroup.addClass("panel-group").attr("id", "project-accordian").attr("role", "tablist").attr("aria-multiselectable", "true");
-                $('#main-info').empty();
                 $("#main-info").append(panelGroup);
 
                 var count = 0;
@@ -261,50 +239,25 @@ function filterProjectTypes() {
                     var features = data.features;
                     for (var i = 0; i < features.length; i++) {
                         var projectFeatures = features[i].properties;
-                        var projectType = features[i].properties.Proj_Ty;
+
 
                         projectFeatures["marker-size"] = "medium";
-
-                        if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
-                            projectFeatures["marker-color"] = colors.green;
-                            projectFeatures["marker-symbol"] = "bicycle";
-                        }
-                        else if (projectType === "Ped Only") {
-                            projectFeatures["marker-color"] = colors.yellow;
-                            projectFeatures["marker-symbol"] = "pitch";
-                        }
-                        else if (projectType === "Bike Only") {
-                            projectFeatures["marker-color"] = colors.blue;
-                        }
-                        else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
-                            projectFeatures["marker-color"] = colors.sun;
-                        }
-                        else if (projectType === "Safety") {
-                            projectFeatures["marker-color"] = colors.red;
-                            projectFeatures["marker-symbol"] = "police";
-                        }
-                        else if (projectType === "SRTS") {
-                            projectFeatures["marker-color"] = colors.mint;
-                            projectFeatures["marker-symbol"] = "college";
-                        }
-                        else if (projectType === "People St") {
-                            projectFeatures["marker-color"] = colors.orange;
-                            projectFeatures["marker-symbol"] = "school";
-                        }
-                        else {
-                            projectFeatures["marker-color"] = colors.lime;
-                        }
+                        projectFeatures["marker-color"] = "#002E6D";
 
                         // build accordian panel
 
                         var panel = $("<div>");
                         panel.addClass("panel projects-list-item");
+
                         var panelHeading = $("<div>");
                         panelHeading.addClass("panel-heading project-heading").attr("id", "heading_" + i).attr("role", "tab");
+
                         var panelTitle = $("<h3>");
                         panelTitle.addClass("panel-title project-title");
+
                         var panelLink = $("<a>");
                         panelLink.addClass("project-heading-data").attr("role", "button").attr("data-toggle", "collapse").attr("data-parent", "#project-accordian").attr("href", "#collapse_" + i).attr("aria-expanded", "true").attr("aria-controls", "collapse_" + i).text(features[i].properties.Proj_Title);
+
                         panelTitle.append(panelLink);
                         var panelMiles = $("<h6>");
                         var panelCompletion = $("<h6>");
@@ -351,7 +304,10 @@ function filterProjectTypes() {
                         var panelButton = $("<button>");
                         panelButton.addClass("btn project-body-button").attr("type", "button").attr("data-toggle", "collapse").attr("data-target", "#collapseMore_" + i).attr("aria-expanded", "false").attr("aria-controls", "collapseMore_" + i).text("More Info");
 
-                        panelBodyCollapse.append(panelButton);
+                        var viewButton = $("<a>");
+                        viewButton.addClass("btn project-body-button").attr("type", "button").attr("data-id", features[i].properties.id).text("View Project");
+
+                        panelBodyCollapse.append(panelButton).append(viewButton);
 
                         var moreData = $("<div>");
                         moreData.addClass("collapse").attr("id", "collapseMore_" + i);
@@ -471,18 +427,17 @@ function filterProjectTypes() {
 
                         count++;
                     }
-
-                    $('#main-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
-                    console.log(JSON.stringify(features[0].properties.Proj_Title));
+                    $("#count-info").empty();
+                    $('#count-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
                     geoJSON.clearLayers();
                     geoJSON = L.geoJson(data, {
-                        style: {
-                            color: 'blue'
-                        },
+                        // style: {
+                        //     color: "#002E6D"
+                        // },
                         onEachFeature: function(feature, layer) {
                             onEachFeature(feature, layer);
-                        },
-                        pointToLayer: L.mapbox.marker.style
+                        }
+                        // pointToLayer: L.mapbox.marker.style
                     }).addTo(map);
                 }
             }
@@ -491,6 +446,20 @@ function filterProjectTypes() {
         geoJSON.clearLayers();
     }
 }
+
+$(document).on("click", ".project-body-button", function() {
+    var id = $(this).data("id");
+    console.log(id);
+    $.ajax({
+        method: "GET",
+        url: "/projects/id/" + id,
+        datatype: 'JSON',
+        success: function(project) {
+            console.log("Selected Project: ", project);
+            viewProject(project);
+        }
+    });
+});
 
 $('#hide-button').on('click', function() {
     geoJSON.eachLayer(function(l) {
@@ -515,12 +484,155 @@ function zoomToFeature(e) {
     }
 }
 
+function zoomToFeatureFunded(project) {
+    if (project[0].Geometry.type === 'Point') {
+        var coordinates = project[0].Geometry.coordinates.slice().reverse();
+        map.setView(coordinates, 16)
+    } else {
+        var coordinates = project[0].Geometry.coordinates;
+        var newCoordinates = coordinates.map((coordinate) => (coordinate.slice().reverse()));
+        map.fitBounds(newCoordinates);
+    }
+}
+
+function viewProject(project) {
+    $("#project-details").show();
+    $("#main-info").hide();
+    $('#Cross_Streets').empty();
+    zoomToFeatureFunded(project);
+
+    var fundStatus = project[0].Fund_St;
+
+    $('#sidebar-fundedAndUnfunded').hide();
+    $('#sidebar-funded-attributes').hide();
+    $('#sidebar-unfunded-attributes').hide();
+    $('#sidebar-more-info').hide();
+    $('#show-info').remove();
+    $('#hide-info').remove();
+    $('#edit-button').show();
+
+    $(document).on('click', '#show-info', function() {
+        $('#show-info').remove();
+        $('#hide-info').remove();
+        var button = $('<button id="hide-info" type="button" name="button" class="btn">Less Info</button>');
+        $('#project-details').append(button);
+        $('#sidebar-more-info').show();
+        if (fundStatus === 'Funded') {
+            $('#sidebar-funded-attributes').show();
+            $('#sidebar-unfunded-attributes').hide();
+        } else if (fundStatus === 'Unfunded') {
+            $('#sidebar-unfunded-attributes').show();
+            $('#sidebar-funded-attributes').hide();
+        }
+    });
+
+    $(document).on('click', '#hide-info', function() {
+        $('#show-info').remove();
+        $('#hide-info').remove();
+        var button = $('<button id="show-info" type="button" name="button" class="btn">More Info</button>');
+        $('#project-details').append(button);
+        $('#sidebar-more-info').hide();
+        if (fundStatus === 'Funded') {
+            $('#sidebar-funded-attributes').hide();
+        } else if (fundStatus === 'Unfunded') {
+            $('#sidebar-unfunded-attributes').hide();
+        }
+    });
+
+    //Common attributes
+    $('#Proj_Title').text(project[0].Proj_Title);
+    $('#Proj_Desc').text(project[0].Proj_Desc);
+    $('#Legacy_ID').text(project[0].Legacy_ID);
+    $('#Lead_Ag').text(project[0].Lead_Ag);
+    $('#Fund_St').text(project[0].Fund_St);
+    $('#Proj_Ty').text(project[0].Proj_Ty);
+    $('#Contact_info_name').text(project[0].Contact_info.Contact_info_name);
+    $('#Contact_info_phone').text(project[0].Contact_info.Contact_info_phone);
+    $('#Contact_info_email').text(project[0].Contact_info.Contact_info_email);
+
+    if (fundStatus != 'Idea Project') {
+        $('#Proj_Man').text(project[0].Proj_Man);
+        $('#Current_Status').text(project[0].Proj_Status);
+        $('#More_info').text(project[0].More_info);
+        $('#CD').text(project[0].CD);
+        $('#Primary_Street').text(project[0].Primary_Street);
+        if (project[0].Cross_Streets && project[0].Cross_Streets.Intersections) {
+            var streets = project[0].Cross_Streets.Intersections;
+            streetsString = '';
+            for (var i = 0; i < streets.length; i++) {
+                streetsString += '<p>' + streets[i] + '</p><br>';
+            }
+            $('#Cross_Streets').append(streetsString);
+        }
+        $('#sidebar-fundedAndUnfunded').show();
+        var button = $('<button id="show-info" class="btn" type="button" name="button">More Info</button>');
+        $('#project-details').append(button);
+    }
+
+    //Separate section for funded attributes
+    if (fundStatus === 'Funded') {
+        $('#Dept_Proj_ID').text(project[0].Dept_Proj_ID);
+        $('#Other_ID').text(project[0].Other_ID);
+        if (project[0].Total_bgt) {
+            $('#Total_bgt').text('$' + project[0].Total_bgt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Grant) {
+            $('#Grant').text('$' + project[0].Grant.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Other_funds) {
+            $('#Other_funds').text('$' + project[0].Other_funds.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Prop_c) {
+            $('#Prop_c').text('$' + project[0].Prop_c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Measure_r) {
+            $('#Measure_r').text('$' + project[0].Measure_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Gas_Tax) {
+            $('#Gas_Tax').text('$' + project[0].Gas_Tax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].General_fund) {
+            $('#General_fund').text('$' + project[0].General_fund.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        $('#Authorization').text(project[0].Authorization);
+        $('#Issues').text(project[0].Issues);
+        $('#Deobligation').text(project[0].Deobligation);
+        $('#Explanation').text(project[0].Explanation);
+        $('#Constr_by').text(project[0].Constr_by);
+        $('#Info_source').text(project[0].Info_source);
+        $('#Access').text(project[0].Access);
+
+    } else if (fundStatus === 'Unfunded') {
+        //Unfunded
+        $('#Unfunded-More_info').text(project[0].More_info);
+        $('#Unfunded-CD').text(project[0].CD);
+        $('#Grant_Cat').text(project[0].Grant_Cat);
+        $('#Grant_Cycle').text(project[0].Grant_Cycle);
+        if (project[0].Est_Cost) {
+            $('#Est_Cost').text('$' + project[0].Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Fund_Rq) {
+            $('#Fund_Rq').text('$' + project[0].Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        if (project[0].Lc_match) {
+            $('#Lc_match').text('$' + project[0].Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+        $('#Match_Pt').text(project[0].Match_Pt + '%');
+    }
+    console.log("ID:", project[0].id);
+    $('#edit-button').attr('data-href', "/projects/edit/" + project[0].id);
+}
+
 function onEachFeature(feature, layer) {
     layer.on('click', function(e) {
+
+        $("#project-details").show();
+        $("#main-info").hide();
+
         //Empty the cross streets since we are using .append()
         $('#Cross_Streets').empty();
         layerID = layer._leaflet_id;
-        zoomToFeature(e)
+        zoomToFeature(e);
         geoJSON.eachLayer(function(l) {
             geoJSON.resetStyle(l);
             if (l.feature.geometry.type === 'MultiPoint') {
@@ -536,7 +648,7 @@ function onEachFeature(feature, layer) {
             layer.eachLayer(function(l) {
                 l.setIcon(
                     L.mapbox.marker.icon({
-                        'marker-color': colors.watermelon,
+                        'marker-color': "#002E6D",
                         'marker-size': 'large'
                     })
                 );
@@ -545,7 +657,7 @@ function onEachFeature(feature, layer) {
         if (e.target.feature.geometry.type === 'Point') {
             layer.setIcon(
                 L.mapbox.marker.icon({
-                    'marker-color': colors.watermelon,
+                    'marker-color': "#002E6D",
                     'marker-size': 'large'
                 })
             );
@@ -553,7 +665,7 @@ function onEachFeature(feature, layer) {
         if (e.target.feature.geometry.type != 'Point') {
             layer.bringToFront();
             layer.setStyle({
-                color: colors.watermelon
+                color: "#002E6D"
             });
         }
         var fundStatus = feature.properties.Fund_St;
@@ -753,7 +865,7 @@ function separateShapes() {
     var multipoints = {
         name: 'multipoints',
         features: []
-    }
+    };
     geoJSON.eachLayer(function(layer) {
         switch (layer.feature.geometry.type) {
             case 'Point':
