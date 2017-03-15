@@ -159,8 +159,8 @@ function renderAllProjects(zoom) {
                     var markerStyle = getMarkerStyle(projectType);
 
                     projectFeatures["marker-color"] = markerStyle["marker-color"];
-
                     projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
+                    projectFeatures["marker-size"] = "small";
                 }
 
                 if (geoJSON) {
@@ -529,6 +529,7 @@ $('#unhide-button').on('click', function() {
     renderAllProjects(false);
 });
 
+/* ZOOM TO FEATURE FUNCTION */
 //Function that sets the map bounds to a project
 //This essentially "zooms in" on a project
 function zoomToFeature(e) {
@@ -540,167 +541,10 @@ function zoomToFeature(e) {
     }
 }
 
-// function to zoom to feature on funded/unfunded "view project" click
-// function zoomToFeatureFunded(project) {
-//
-//     if (project[0].Geometry.type === 'Point') {
-//
-//         var projectFeatures = project[0];
-//         var projectType = projectFeatures.Proj_Ty;
-//
-//         var markerStyle = getMarkerStyle(projectType);
-//
-//         projectFeatures["marker-color"] = markerStyle["marker-color"];
-//
-//         projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
-//
-//         var coordinates = project[0].Geometry.coordinates.slice().reverse();
-//         map.setView(coordinates, 16);
-//
-//     } else {
-//
-//         var coordinates = project[0].Geometry.coordinates;
-//         var newCoordinates = coordinates.map((coordinate) => (coordinate.slice().reverse()));
-//         map.fitBounds(newCoordinates);
-//     }
-// }
 
-// function viewProject(project) {
-//     $("#project-details").show();
-//     $("#main-info").hide();
-//     $('#Cross_Streets').empty();
-//
-//     // show on map
-//     zoomToFeatureFunded(project);
-//
-//     var fundStatus = project[0].Fund_St;
-//
-//     $('#sidebar-fundedAndUnfunded').hide();
-//     $('#sidebar-funded-attributes').hide();
-//     $('#sidebar-unfunded-attributes').hide();
-//     $('#sidebar-more-info').hide();
-//     $('#show-info').remove();
-//     $('#hide-info').remove();
-//     $('#edit-button').show();
-//
-//     $(document).on('click', '#show-info', function() {
-//         $('#show-info').remove();
-//         $('#hide-info').remove();
-//         var button = $('<button id="hide-info" type="button" name="button" class="btn">Less Info</button>');
-//         $('#project-details').append(button);
-//         $('#sidebar-more-info').show();
-//         if (fundStatus === 'Funded') {
-//             $('#sidebar-funded-attributes').show();
-//             $('#sidebar-unfunded-attributes').hide();
-//         } else if (fundStatus === 'Unfunded') {
-//             $('#sidebar-unfunded-attributes').show();
-//             $('#sidebar-funded-attributes').hide();
-//         }
-//     });
-//
-//     $(document).on('click', '#hide-info', function() {
-//         $('#show-info').remove();
-//         $('#hide-info').remove();
-//         var button = $('<button id="show-info" type="button" name="button" class="btn">More Info</button>');
-//         $('#project-details').append(button);
-//         $('#sidebar-more-info').hide();
-//         if (fundStatus === 'Funded') {
-//             $('#sidebar-funded-attributes').hide();
-//         } else if (fundStatus === 'Unfunded') {
-//             $('#sidebar-unfunded-attributes').hide();
-//         }
-//     });
-//
-//     //Common attributes
-//     $('#Proj_Title').text(project[0].Proj_Title);
-//     $('#Proj_Desc').text(project[0].Proj_Desc);
-//     $('#Legacy_ID').text(project[0].Legacy_ID);
-//     $('#Lead_Ag').text(project[0].Lead_Ag);
-//     $('#Fund_St').text(project[0].Fund_St);
-//     $('#Proj_Ty').text(project[0].Proj_Ty);
-//     $('#Contact_info_name').text(project[0].Contact_info.Contact_info_name);
-//     $('#Contact_info_phone').text(project[0].Contact_info.Contact_info_phone);
-//     $('#Contact_info_email').text(project[0].Contact_info.Contact_info_email);
-//
-//     if (fundStatus != 'Idea Project') {
-//         $('#Proj_Man').text(project[0].Proj_Man);
-//         $('#Current_Status').text(project[0].Proj_Status);
-//         $('#More_info').text(project[0].More_info);
-//         $('#CD').text(project[0].CD);
-//         $('#Primary_Street').text(project[0].Primary_Street);
-//         if (project[0].Cross_Streets && project[0].Cross_Streets.Intersections) {
-//             var streets = project[0].Cross_Streets.Intersections;
-//             streetsString = '';
-//             for (var i = 0; i < streets.length; i++) {
-//                 streetsString += '<p>' + streets[i] + '</p><br>';
-//             }
-//             $('#Cross_Streets').append(streetsString);
-//         }
-//         $('#sidebar-fundedAndUnfunded').show();
-//         var button = $('<button id="show-info" class="btn" type="button" name="button">More Info</button>');
-//         $('#project-details').append(button);
-//     }
-//
-//     //Separate section for funded attributes
-//     if (fundStatus === 'Funded') {
-//         $('#Dept_Proj_ID').text(project[0].Dept_Proj_ID);
-//         $('#Other_ID').text(project[0].Other_ID);
-//         if (project[0].Total_bgt) {
-//             $('#Total_bgt').text('$' + project[0].Total_bgt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-//         }
-//         if (project[0].Grant) {
-//             $('#Grant').text('$' + project[0].Grant.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-//         }
-//         if (project[0].Other_funds) {
-//             $('#Other_funds').text('$' + project[0].Other_funds.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-//         }
-//         if (project[0].Prop_c) {
-//             $('#Prop_c').text('$' + project[0].Prop_c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-//         }
-//         if (project[0].Measure_r) {
-//             $('#Measure_r').text('$' + project[0].Measure_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-//         }
-//         if (project[0].Gas_Tax) {
-//             $('#Gas_Tax').text('$' + project[0].Gas_Tax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-//         }
-//         if (project[0].General_fund) {
-//             $('#General_fund').text('$' + project[0].General_fund.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-//         }
-//         $('#Authorization').text(project[0].Authorization);
-//         $('#Issues').text(project[0].Issues);
-//         $('#Deobligation').text(project[0].Deobligation);
-//         $('#Explanation').text(project[0].Explanation);
-//         $('#Constr_by').text(project[0].Constr_by);
-//         $('#Info_source').text(project[0].Info_source);
-//         $('#Access').text(project[0].Access);
-//
-//     } else if (fundStatus === 'Unfunded') {
-//         //Unfunded
-//         $('#Unfunded-More_info').text(project[0].More_info);
-//         $('#Unfunded-CD').text(project[0].CD);
-//         $('#Grant_Cat').text(project[0].Grant_Cat);
-//         $('#Grant_Cycle').text(project[0].Grant_Cycle);
-//         if (project[0].Est_Cost) {
-//             $('#Est_Cost').text('$' + project[0].Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-//         }
-//         if (project[0].Fund_Rq) {
-//             $('#Fund_Rq').text('$' + project[0].Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-//         }
-//         if (project[0].Lc_match) {
-//             $('#Lc_match').text('$' + project[0].Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-//         }
-//         $('#Match_Pt').text(project[0].Match_Pt + '%');
-//     }
-//     console.log("ID:", project[0].id);
-//     $('#edit-button').attr('data-href', "/projects/edit/" + project[0].id);
-// }
-
+/* ON EACH FEATURE FUNCTION */
 function onEachFeature(feature, layer) {
     layer.on('click', function(e) {
-
-        console.log("e click", e);
-        console.log("feature", feature);
-        console.log("layer", layer);
 
         $("#project-details").show();
         $("#main-info").hide();
@@ -712,52 +556,66 @@ function onEachFeature(feature, layer) {
         geoJSON.eachLayer(function(l) {
             geoJSON.resetStyle(l);
             if (l.feature.geometry.type === 'MultiPoint') {
-                console.log('l: ', l);
                 l.eachLayer(function(MultiPointLayer) {
-                    var projectType = projectFeatures.Proj_Ty;
+
+                    var projectType = l.feature.properties.Proj_Ty;
 
                     var markerStyle = getMarkerStyle(projectType);
 
-                    projectFeatures["marker-color"] = markerStyle["marker-color"];
-
-                    projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
                     MultiPointLayer.setIcon(L.mapbox.marker.icon({
-                        "marker-color": "#002E6D",
-                        "marker-size": "medium"
+                        "marker-color": markerStyle["marker-color"],
+                        "marker-symbol": markerStyle["marker-symbol"],
+                        "marker-size": "small"
                     }));
                 });
             }
             if (l.feature.geometry.type === 'Point') {
+
+                var projectType = l.feature.properties.Proj_Ty;
+
+                var markerStyle = getMarkerStyle(projectType);
                 l.setIcon(L.mapbox.marker.icon({
-                    "marker-color": "#002E6D",
-                    "marker-size": "medium"
+                    "marker-color": markerStyle["marker-color"],
+                    "marker-symbol": markerStyle["marker-symbol"],
+                    "marker-size": "small"
                 }));
             }
         });
         if (e.target.feature.geometry.type === 'MultiPoint') {
             layer.eachLayer(function(l) {
+                var projectType = e.target.feature.properties.Proj_Ty;
+
+                var markerStyle = getMarkerStyle(projectType);
                 l.setIcon(
                     L.mapbox.marker.icon({
-                        'marker-color': "#0069F9",
-                        'marker-size': 'large',
-                        'marker-symbol': 'star'
+                        "marker-color": markerStyle["marker-color"],
+                        "marker-symbol": "star",
+                        "marker-size": "large"
                     })
                 );
             });
         }
         if (e.target.feature.geometry.type === 'Point') {
+            var projectType = e.target.feature.properties.Proj_Ty;
+
+            var markerStyle = getMarkerStyle(projectType);
+
             layer.setIcon(
                 L.mapbox.marker.icon({
-                    'marker-color': "#0069F9",
-                    'marker-size': 'large',
-                    'marker-symbol': 'star'
+                    "marker-color": markerStyle["marker-color"],
+                    "marker-symbol": "star",
+                    "marker-size": "large"
                 })
             );
         }
         if (e.target.feature.geometry.type != 'Point') {
             layer.bringToFront();
+            var projectType = e.target.feature.properties.Proj_Ty;
+
+            var markerStyle = getMarkerStyle(projectType);
+
             layer.setStyle({
-                color: "#0A24E8"
+                color: markerStyle["marker-color"]
             });
         }
         var fundStatus = feature.properties.Fund_St;
