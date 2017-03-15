@@ -236,6 +236,7 @@ $('#unfundedTab').on('click', function() {
     filterProjectTypes();
 });
 
+/* FILTER PROJECT TYPES FUNCTION */
 function filterProjectTypes() {
 
     // reset map view
@@ -284,78 +285,154 @@ function filterProjectTypes() {
                         var markerStyle = getMarkerStyle(projectType);
 
                         projectFeatures["marker-color"] = markerStyle["marker-color"];
-
                         projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
+                        projectFeatures["marker-size"] = "small";
+
 
                         // build accordian panel
-
                         var panel = $("<div>");
                         panel.addClass("panel projects-list-item");
 
                         var panelHeading = $("<div>");
-                        panelHeading.addClass("panel-heading project-heading").attr("id", "heading_" + i).attr("role", "tab");
+                        panelHeading
+                            .addClass("panel-heading project-heading")
+                            .attr("id", "heading_" + i)
+                            .attr("role", "tab");
 
                         var panelTitle = $("<h3>");
                         panelTitle.addClass("panel-title project-title");
 
                         var panelLink = $("<a>");
-                        panelLink.addClass("project-heading-data").attr("role", "button").attr("data-toggle", "collapse").attr("data-parent", "#project-accordian").attr("href", "#collapse_" + i).attr("aria-expanded", "true").attr("aria-controls", "collapse_" + i).text(features[i].properties.Proj_Title);
+                        panelLink
+                            .addClass("project-heading-data")
+                            .attr("role", "button")
+                            .attr("data-toggle", "collapse")
+                            .attr("data-parent", "#project-accordian")
+                            .attr("href", "#collapse_" + i)
+                            .attr("aria-expanded", "true")
+                            .attr("aria-controls", "collapse_" + i)
+                            .text(features[i].properties.Proj_Title);
 
                         panelTitle.append(panelLink);
+
                         var panelMiles = $("<h6>");
                         var panelCompletion = $("<h6>");
                         var panelId = $("<h6>");
-                        panelMiles.addClass("project-heading-data").text("Miles: ");
-                        panelCompletion.addClass("project-heading-data").text("Completion: " + features[i].properties.ProjectProjectedCompletionDate);
-                        panelId.addClass("project-heading-data").text("ID: " + features[i].properties.id);
 
-                        panelHeading.append(panelTitle).append(panelMiles).append(panelCompletion).append(panelId);
+                        panelMiles
+                            .addClass("project-heading-data")
+                            .text("Miles: ");
 
-                        panel.append(panelHeading);
+                        panelCompletion
+                            .addClass("project-heading-data")
+                            .text("Completion: " + features[i].properties.ProjectProjectedCompletionDate);
+
+                        panelId
+                            .addClass("project-heading-data")
+                            .text("ID: " + features[i].properties.id);
+
+                        panelHeading
+                            .append(panelTitle)
+                            .append(panelMiles)
+                            .append(panelCompletion)
+                            .append(panelId);
+
+                        panel
+                            .append(panelHeading);
 
                         var panelBodyCollapse = $("<div>");
-                        panelBodyCollapse.addClass("panel-collapse collapse").attr("id", "collapse_" + i).attr("role", "tabpanel").attr("aria-labelledby", "heading_" + i);
+
+                        panelBodyCollapse
+                            .addClass("panel-collapse collapse")
+                            .attr("id", "collapse_" + i)
+                            .attr("role", "tabpanel")
+                            .attr("aria-labelledby", "heading_" + i);
 
                         var panelBody = $("<div>");
-                        panelBody.addClass("project-body panel-body");
+                        panelBody
+                            .addClass("project-body panel-body");
 
                         var projTitle = $("<p>");
-                        projTitle.text(features[i].properties.Proj_Title);
+                        projTitle
+                            .text(features[i].properties.Proj_Title);
+
                         var projDesc = $("<p>");
-                        projDesc.text(features[i].properties.Proj_Desc);
+                        projDesc
+                            .text(features[i].properties.Proj_Desc);
+
                         var legacyId = $("<p>");
-                        legacyId.text(features[i].properties.Legacy_ID);
+                        legacyId
+                            .text(features[i].properties.Legacy_ID);
+
                         var leadAg = $("<p>");
-                        leadAg.text(features[i].properties.Lead_Ag);
+                        leadAg
+                            .text(features[i].properties.Lead_Ag);
+
                         var fundSt = $("<p>");
-                        fundSt.text(features[i].properties.Fund_St);
+                        fundSt
+                            .text(features[i].properties.Fund_St);
+
                         var projTy = $("<p>");
-                        projTy.text(features[i].properties.Proj_Ty);
+                        projTy
+                            .text(features[i].properties.Proj_Ty);
+
                         var contactName = $("<p>");
-                        contactName.text(features[i].properties.Contact_info.Contact_info_name);
+                        contactName
+                            .text(features[i].properties.Contact_info.Contact_info_name);
+
                         var contactPhone = $("<p>");
-                        contactPhone.text(features[i].properties.Contact_info.Contact_info_phone);
+                        contactPhone
+                            .text(features[i].properties.Contact_info.Contact_info_phone);
+
                         var contactEmail = $("<p>");
-                        contactEmail.text(features[i].properties.Contact_info.Contact_info_email);
+                        contactEmail
+                            .text(features[i].properties.Contact_info.Contact_info_email);
 
-                        panelBody.append(projTitle).append(projDesc).append(legacyId).append(leadAg).append(fundSt).append(projTy).append(contactName).append(contactPhone).append(contactEmail);
+                        panelBody
+                            .append(projTitle)
+                            .append(projDesc)
+                            .append(legacyId)
+                            .append(leadAg)
+                            .append(fundSt)
+                            .append(projTy)
+                            .append(contactName)
+                            .append(contactPhone)
+                            .append(contactEmail);
 
-                        panelBodyCollapse.append(panelBody);
+                        panelBodyCollapse
+                            .append(panelBody);
 
-                        panel.append(panelBodyCollapse);
+                        panel
+                            .append(panelBodyCollapse);
 
                         var panelButton = $("<button>");
-                        panelButton.addClass("btn project-body-button").attr("type", "button").attr("data-toggle", "collapse").attr("data-target", "#collapseMore_" + i).attr("aria-expanded", "false").attr("aria-controls", "collapseMore_" + i).text("More Info");
+                        panelButton
+                            .addClass("btn project-body-button")
+                            .attr("type", "button")
+                            .attr("data-toggle", "collapse")
+                            .attr("data-target", "#collapseMore_" + i)
+                            .attr("aria-expanded", "false")
+                            .attr("aria-controls", "collapseMore_" + i)
+                            .text("More Info");
 
                         var viewButton = $("<a>");
-                        viewButton.addClass("btn project-body-button").attr("type", "button").attr("data-id", features[i].properties.id).text("View Project");
+                        viewButton
+                            .addClass("btn project-body-button")
+                            .attr("type", "button")
+                            .attr("data-id", features[i].properties.id)
+                            .text("View Project");
 
-                        panelBodyCollapse.append(panelButton).append(viewButton);
+                        panelBodyCollapse
+                            .append(panelButton)
+                            .append(viewButton);
 
                         var moreData = $("<div>");
-                        moreData.addClass("collapse").attr("id", "collapseMore_" + i);
+                        moreData
+                            .addClass("collapse").attr("id", "collapseMore_" + i);
+
                         var moreDataWell = $("<div>");
-                        moreDataWell.addClass("project-more-data well");
+                        moreDataWell
+                            .addClass("project-more-data well");
 
                         if (fundingQuery === "funded") {
 
