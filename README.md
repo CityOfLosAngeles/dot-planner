@@ -49,9 +49,14 @@ cd etl
 ./transform_data.sh
 ```
 
-## Authors (alphabetical order)
+## Deploying
 
-* Spencer Charest, *spencercharest*
-* Colin McDaniel, *colinmcdaniel*
-* Stephanie Orpilla, *stephorpilla*
-* Eliot Reyes, *emrzero*
+Currently, the application is deploying on elastic beanstalk. To deploy, you'll need to configure your local repo by running `eb init`. 
+
+To deploy the codebase, simply run `eb deploy .`
+
+## Contact
+
+Jacqui Swartz (LADOT, jacqui.swartz@lacity.org)
+Hunter Owens (ITA, hunter.owens@lacity.org)
+
