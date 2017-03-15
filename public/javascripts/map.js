@@ -153,6 +153,7 @@ function renderAllProjects(zoom) {
                 for (var i = 0; i < features.length; i++) {
 
                     var projectFeatures = features[i].properties;
+
                     var projectType = projectFeatures.Proj_Ty;
 
                     var markerStyle = getMarkerStyle(projectType);
@@ -711,7 +712,15 @@ function onEachFeature(feature, layer) {
         geoJSON.eachLayer(function(l) {
             geoJSON.resetStyle(l);
             if (l.feature.geometry.type === 'MultiPoint') {
+                console.log('l: ', l);
                 l.eachLayer(function(MultiPointLayer) {
+                    var projectType = projectFeatures.Proj_Ty;
+
+                    var markerStyle = getMarkerStyle(projectType);
+
+                    projectFeatures["marker-color"] = markerStyle["marker-color"];
+
+                    projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
                     MultiPointLayer.setIcon(L.mapbox.marker.icon({
                         "marker-color": "#002E6D",
                         "marker-size": "medium"
