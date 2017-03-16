@@ -101,16 +101,7 @@ var map = L.mapbox.map('map', {
 
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 var imageryLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-<<<<<<< HEAD
     id: 'SATELLITE',
-    //attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-    detectRetina: true
-});
-var overlayMaps = {
-    'SATELLITE': imageryLayer
-};
-=======
-    id: 'Satellite',
     //attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
     detectRetina: true
 });
@@ -119,7 +110,6 @@ var overlayMaps = {
     'Satellite': imageryLayer
 };
 
->>>>>>> 79a1e83c336b47ab8d73abfcbad91cda12a41ef9
 L.control.layers({}, overlayMaps).addTo(map);
 
 L.tileLayer("https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ubnn/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q", {
