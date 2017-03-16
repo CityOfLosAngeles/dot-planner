@@ -72,37 +72,50 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 
 //---------------------------------------------
 //---------------------------------------------
+//---------------------------------------------
+//---------------------------------------------
 
 // Create radius to add to map
-var circleRadius = L.circle([34.0522, -118.2437], 10).addTo(map);
+var circleRadius = L.circle([34.0522, -118.2437], 100).addTo(map);
 
-// Add circle radius to map
-var updateCircle = function(radius) {
-  circleRadius = L.circle([34.0522, -118.2437], radius).addTo(map);
+// Add circle radius to map when slider value changes
+var updateCircle = function(latlng, radius) {
+  circleRadius = L.circle([latlng.lat, latlng.lng], radius).addTo(map);
+  // console.log(latlng + " Radius: " + radius);
+  moveRadius(); // add move radius functionality
 };
 
-circleRadius.on({
-  mousedown: function() {
-    map.on('mousemove', function(e) {
-      circle.setLatLng(e.latlng);
-    });
-  }
-});
-map.on('mouseup', function(e) {
-  map.removeEventListener('mousemove');
-});
+var moveRadius = function() {
+  circleRadius.on({
+    mousedown: function() {
+      map.on('mousemove', function(e) {
+        circleRadius.setLatLng(e.latlng);
+      });
+    }
+  });
+  map.on('mouseup', function(e) {
+    map.removeEventListener('mousemove');
+  });
+};
+moveRadius(); // add move radius functionality to map
 
 // Grab the radius value from the slider
 $('#radiusSlider').slider({
 	formatter: function(value) {
+    var latlng;
     if (circleRadius !== undefined) {
       map.removeLayer(circleRadius);
+      latlng = circleRadius._latlng;
     }
-    updateCircle(value);
+    updateCircle(latlng, value);
 		return 'Current value: ' + value;
 	}
 });
 
+//---------------------------------------------
+//---------------------------------------------
+//---------------------------------------------
+//---------------------------------------------
 //---------------------------------------------
 //---------------------------------------------
 
@@ -197,6 +210,15 @@ $('#unfundedTab').on('click', function() {
     filterProjectTypes();
 });
 
+//++++++++++++++++
+//++++++++++++++++
+
+// Grab lat and long of circleRadius
+var circle_lat_long = circleRadius.getLatLng();
+
+//++++++++++++++++
+//++++++++++++++++
+
 function filterProjectTypes() {
 
     // reset map view
@@ -224,6 +246,64 @@ function filterProjectTypes() {
             url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
             datatype: 'JSON',
             success: function(data) {
+
+              //==========
+              //==========
+              //==========
+              //==========
+                          // first [0] is each project, second [0] is first point of multiple points for each project
+                          // TODO create a function that loops through the lower code to set up distanceTo()
+
+                          // flip values of the coordinates
+                             var flip = data.features[0].geometry.coordinates[0];
+                          var flipped = flip[1];
+                              flip[1] = flip[0];
+                              flip[0] = flipped;
+
+                          var latlng = L.latLng(flip);
+                           console.log("latlng "+latlng);
+                           console.log("circle lat long "+circle_lat_long);
+                           console.log("distance to"+ (latlng).distanceTo(circle_lat_long) );
+
+                              // create array
+                              var latLngResultsFiltered = [];
+                              var latLngResultsFilteredLatLng = [];
+
+                              // Create function that passes data from the AJAX call fromfunded/unfunded data
+                              var filterPointsWithRadiusCircle = function(data) {
+
+                                // Filter funded and unfunded data
+                                for(var i = 0; i < data.features.length; i++){
+                                      latLngResultsFiltered.push(data.features[i]);
+                                      //console.log("Geometry results: "+latLngResultsFiltered);
+
+                                      // Get coordinates
+                                      for(var j = 0; j < latLngResultsFiltered.length; j++){
+                                        latLngResultsFilteredLatLng.push(latLngResultsFiltered[j].geometry.coordinates);
+                                        console.log(latLngResultsFiltered[j].geometry.coordinates);
+                                        for(var k = 0; k < latLngResultsFilteredLatLng.length; k++){
+                                          // Distance from our circle marker to current point in meters
+                                          // var distance_from_layer_circle = latLngResultsFilteredLatLng[k].distanceTo(circle_lat_long);
+                                          // console.log(latLngResultsFilteredLatLng[k]);
+                                          //console.log( (latLngResultsFilteredLatLng[k]).distanceTo(circle_lat_long) );
+                                        }
+
+
+                                      }
+                                }
+                              //  console.log("1 "+JSON.stringify(latLngResultsFilteredLatLng[0]));
+                                // console.log("2 "+JSON.stringify(latLngResultsFiltered[0]));
+
+                              };
+                              filterPointsWithRadiusCircle(data);
+
+                              // Distance from our circle marker to current point in meters
+                              distance_from_layer_circle = layer_lat_long.distanceTo(circle_lat_long);
+
+              //==========
+              //==========
+              //==========
+              //==========s
 
                 // show main info div
                 $('#main-info').show();
