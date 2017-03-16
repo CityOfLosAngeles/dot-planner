@@ -141,6 +141,7 @@ router.get('/funding/:status/type/:type', function(req, res) {
 });
 
 
+
 // Route to get all projects of a certain type
 
 //Endpoint to get projects by specific funding and project types
