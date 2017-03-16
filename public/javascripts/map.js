@@ -261,9 +261,9 @@ function filterProjectTypes() {
                               flip[0] = flipped;
 
                           var latlng = L.latLng(flip);
-                           console.log("latlng "+latlng);
-                           console.log("circle lat long "+circle_lat_long);
-                           console.log("distance to"+ (latlng).distanceTo(circle_lat_long) );
+                           console.log("latlng of point on map: "+latlng);
+                           console.log("lat long of search circle: "+circle_lat_long);
+                           console.log("distance to: "+ (latlng).distanceTo(circle_lat_long) );
 
                               // create array
                               var latLngResultsFiltered = [];
@@ -280,7 +280,7 @@ function filterProjectTypes() {
                                       // Get coordinates
                                       for(var j = 0; j < latLngResultsFiltered.length; j++){
                                         latLngResultsFilteredLatLng.push(latLngResultsFiltered[j].geometry.coordinates);
-                                        console.log(latLngResultsFiltered[j].geometry.coordinates);
+                                        // console.log(latLngResultsFiltered[j].geometry.coordinates);
                                         for(var k = 0; k < latLngResultsFilteredLatLng.length; k++){
                                           // Distance from our circle marker to current point in meters
                                           // var distance_from_layer_circle = latLngResultsFilteredLatLng[k].distanceTo(circle_lat_long);
@@ -298,7 +298,7 @@ function filterProjectTypes() {
                               filterPointsWithRadiusCircle(data);
 
                               // Distance from our circle marker to current point in meters
-                              distance_from_layer_circle = layer_lat_long.distanceTo(circle_lat_long);
+                            //   distance_from_layer_circle = layer_lat_long.distanceTo(circle_lat_long);
 
               //==========
               //==========
