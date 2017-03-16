@@ -375,36 +375,145 @@ body {
     color: #231F20;
 }
 
+.filter-check {
+    color: black;
+}
+
 #legend-bike {
-    color: #50BFE6;
+    color: #FFCC33;
+}
+
+#filter-bike:checked:after {
+    background-color: #FFCC33;
+    border-color: #FFCC33;
+}
+
+#filter-bike:after {
+    border-color: #FFCC33;
+}
+
+#filter-bike:focus:after {
+    border-color: #FFCC33;
 }
 
 #legend-bike-ped {
-    color: #66FF66;
+    color: #EE34D2;
+}
+
+#filter-bike-ped:checked:after {
+    background-color: #EE34D2;
+    border-color: #EE34D2;
+}
+
+#filter-bike-ped:after {
+    border-color: #EE34D2;
+}
+
+#filter-bike-ped:focus:after {
+    border-color: #EE34D2;
 }
 
 #legend-ped {
-    color: #FFFF66;
+    color: #AAF0D1;
+}
+
+#filter-ped:checked:after {
+    background-color: #AAF0D1;
+    border-color: #AAF0D1;
+}
+
+#filter-ped:after {
+    border-color: #AAF0D1;
+}
+
+#filter-ped:focus:after {
+    border-color: #AAF0D1;
 }
 
 #legend-safety {
     color: #FF355E;
 }
 
+#filter-safety:checked:after {
+    background-color: #FF355E;
+    border-color: #FF355E;
+}
+
+#filter-safety:after {
+    border-color: #FF355E;
+}
+
+#filter-safety:focus:after {
+    border-color: #FF355E;
+}
+
 #legend-first-last {
-    color: #FFCC33;
+    color: #CCFF00;
+}
+
+#filter-first-last:checked:after {
+    background-color: #CCFF00;
+    border-color: #CCFF00;
+}
+
+#filter-first-last:after {
+    border-color: #CCFF00;
+}
+
+#filter-first-last:focus:after {
+    border-color: #CCFF00;
 }
 
 #legend-people {
-    color: #FF9933
+    color: #66FF66
+}
+
+#filter-people:checked:after {
+    background-color: #66FF66;
+    border-color: #66FF66;
+}
+
+#filter-people:after {
+    border-color: #66FF66;
+}
+
+#filter-people:focus:after {
+    border-color: #66FF66;
 }
 
 #legend-srts {
-    color: #AAF0D1;
+    color: #FD5B78;
 }
 
+#filter-srts:checked:after {
+    background-color: #FD5B78;
+    border-color: #FD5B78;
+}
+
+#filter-srts:after {
+    border-color: #FD5B78;
+}
+
+#filter-srts:focus:after {
+    border-color: #FD5B78;
+}
+
+
 #legend-other {
-    color: #CCFF00;
+    color: #FF9933;
+}
+
+#filter-other:checked:after {
+    background-color: #FF9933;
+    border-color: #FF9933;
+}
+
+#filter-other:after {
+    border-color: #FF9933;
+}
+
+#filter-other:focus:after {
+    border-color: #FF9933;
 }
 
 .dropdown.open #map-legend-button {
