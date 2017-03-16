@@ -73,6 +73,12 @@ body {
     color: white;
 }
 
+.panel-svg {
+    position: relative;
+    right: 24px;
+    bottom: 2px;
+}
+
 /*---------------------------------------------------------------*/
 
 .navbar {

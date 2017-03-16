@@ -380,7 +380,15 @@ function filterProjectTypes(type) {
                     .attr("aria-hidden", "true")
                     .css("color", projectColor);
 
-                var panelSvg =
+                var panelSvg = $("<img>");
+                var projectIcon = markerStyle["marker-symbol"];
+                panelSvg
+                    .attr("src", "/images/icons/" + projectIcon + ".svg")
+                    .addClass("panel-svg");
+
+                panelIcon
+                    .append(panelSvg);
+
                 panelHeaderColumn2
                     .append(panelIcon);
 
