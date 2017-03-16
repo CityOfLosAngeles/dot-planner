@@ -140,6 +140,72 @@ router.get('/funding/:status/type/:type', function(req, res) {
     }
 });
 
+
+// Route to get all projects of a certain type
+
+//Endpoint to get projects by specific funding and project types
+router.get('/type/:type', function(req, res) {
+    //Create an empty geoJSON feature collections
+    //The features array will be populated when toGeoJSON is run
+    var featureCollection = {
+        "type": "FeatureCollection",
+        features: []
+    };
+    //get the project types requested
+    var type = req.params.type;
+    //string manipulations to separate funding and project types into arrays
+    type = type.split('&');
+    console.log("TYPE: ", type);
+    //create the search array that sequelize while use as the $or parameter
+    var searchArr = [];
+
+    //If the user is logged in
+    if (req.session.logged_in) {
+        for (var j = 0; j < type.length; j++) {
+            var searchObj = {
+                Proj_Ty: {
+                    ilike: type[j]
+                }
+            };
+            searchArr.push(searchObj);
+        }
+        models.Project.findAll({
+            where: {
+                $or: searchArr
+            }
+        }).then(function(projects) {
+            for (var i = 0; i < projects.length; i++) {
+                toGeoJSON(projects[i], featureCollection.features);
+            }
+            res.send(featureCollection);
+        });
+
+        //If the user is not logged in only return publicy accessible projects
+    } else {
+        for (var i = 0; i < status.length; i++) {
+            for (var j = 0; j < type.length; j++) {
+                var searchObj = {
+                    Proj_Ty: {
+                        ilike: type[j]
+                    },
+                    Access: 'Public'
+                };
+                searchArr.push(searchObj);
+            }
+        }
+        models.Project.findAll({
+            where: {
+                $or: searchArr
+            }
+        }).then(function(projects) {
+            for (var i = 0; i < projects.length; i++) {
+                toGeoJSON(projects[i], featureCollection.features);
+            }
+            res.send(featureCollection);
+        });
+    }
+});
+
 //Saves a new project to the DB only if user is logged in
 router.post('/new', function(req, res) {
     //If the user is logged in
