@@ -1,3 +1,4 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 //Global variable which will become the geoJSON layer
 var geoJSON;
 
@@ -311,7 +312,7 @@ function filterProjectTypes() {
                             .attr("href", "#collapse_" + i)
                             .attr("aria-expanded", "true")
                             .attr("aria-controls", "collapse_" + i)
-                            .text(features[i].properties.Proj_Title);
+                            .text(features[i].properties.Proj_Title.toUpperCase());
 
                         panelTitle.append(panelLink);
 
@@ -321,7 +322,7 @@ function filterProjectTypes() {
 
                         var panelHeaderColumn1 = $("<div>");
                         panelHeaderColumn1
-                            .addClass("col-sm-10");
+                            .addClass("col-sm-6");
 
                         var panelMiles = $("<h6>");
                         var panelCompletion = $("<h6>");
@@ -329,11 +330,11 @@ function filterProjectTypes() {
 
                         panelMiles
                             .addClass("project-heading-data")
-                            .text("MILES: ");
+                            .text("Miles: ");
 
                         panelCompletion
                             .addClass("project-heading-data")
-                            .text("COMPLETION DATE: " + features[i].properties.ProjectProjectedCompletionDate);
+                            .text("Completion: " + features[i].properties.ProjectProjectedCompletionDate);
 
                         panelId
                             .addClass("project-heading-data")
@@ -346,7 +347,7 @@ function filterProjectTypes() {
 
                         var panelHeaderColumn2 = $("<div>");
                         panelHeaderColumn2
-                            .addClass("col-sm-2");
+                            .addClass("col-sm-2 col-sm-offset-3");
 
                         var projectColor = markerStyle["marker-color"];
 
@@ -384,39 +385,39 @@ function filterProjectTypes() {
 
                         var projTitle = $("<p>");
                         projTitle
-                            .text("TITLE: " + features[i].properties.Proj_Title);
+                            .text(features[i].properties.Proj_Title);
 
                         var projDesc = $("<p>");
                         projDesc
-                            .text("DESCRIPTION: " + features[i].properties.Proj_Desc);
+                            .text(features[i].properties.Proj_Desc);
 
                         var legacyId = $("<p>");
                         legacyId
-                            .text("LEGACY ID: " + features[i].properties.Legacy_ID);
+                            .text(features[i].properties.Legacy_ID);
 
                         var leadAg = $("<p>");
                         leadAg
-                            .text("LEAD AGENCY: " + features[i].properties.Lead_Ag);
+                            .text(features[i].properties.Lead_Ag);
 
                         var fundSt = $("<p>");
                         fundSt
-                            .text("FUNDING STATUS: " + features[i].properties.Fund_St);
+                            .text(features[i].properties.Fund_St);
 
                         var projTy = $("<p>");
                         projTy
-                            .text("PROJECT TYPE: " + features[i].properties.Proj_Ty);
+                            .text(features[i].properties.Proj_Ty);
 
                         var contactName = $("<p>");
                         contactName
-                            .text("CONTACT NAME: " + features[i].properties.Contact_info.Contact_info_name);
+                            .text(features[i].properties.Contact_info.Contact_info_name);
 
                         var contactPhone = $("<p>");
                         contactPhone
-                            .text("CONTACT PHONE: " + features[i].properties.Contact_info.Contact_info_phone);
+                            .text(features[i].properties.Contact_info.Contact_info_phone);
 
                         var contactEmail = $("<p>");
                         contactEmail
-                            .text("CONTACT EMAIL: " + features[i].properties.Contact_info.Contact_info_email);
+                            .text(features[i].properties.Contact_info.Contact_info_email);
 
                         panelBody
                             .append(projTitle)
@@ -467,6 +468,7 @@ function filterProjectTypes() {
                         if (fundingQuery === "funded") {
 
                             // funded project marker color
+
 
 
                             var deptProjId = $("<p>");
@@ -996,3 +998,4 @@ function downloadShapeFiles(geoTypeObj) {
         }
     });
 }
+},{}]},{},[1]);
