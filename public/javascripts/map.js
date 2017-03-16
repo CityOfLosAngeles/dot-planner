@@ -288,7 +288,6 @@ $('#unfundedTab').on('click', function() {
     filterProjectTypes();
 });
 
-<<<<<<< HEAD
 //++++++++++++++++
 //++++++++++++++++
 
@@ -335,63 +334,68 @@ function filterProjectTypes(type) {
             datatype: 'JSON',
             success: function(data) {
 
-              //==========
-              //==========
-              //==========
-              //==========
-                          // first [0] is each project, second [0] is first point of multiple points for each project
-                          // TODO create a function that loops through the lower code to set up distanceTo()
+//==========
+//==========
+//==========
+//==========
+            // first [0] is each project, second [0] is first point of multiple points for each project
+            // TODO create a function that loops through the lower code to set up distanceTo()
 
-                          // flip values of the coordinates
-                             var flip = data.features[0].geometry.coordinates[0];
-                          var flipped = flip[1];
-                              flip[1] = flip[0];
-                              flip[0] = flipped;
+            // flip values of the coordinates
+            //    var flip = data.features[0].geometry.coordinates[0];
+            // var flipped = flip[1];
+            //     flip[1] = flip[0];
+            //     flip[0] = flipped;
 
-                          var latlng = L.latLng(flip);
-                           console.log("latlng of point on map: "+latlng);
-                           console.log("lat long of search circle: "+circle_lat_long);
-                           console.log("distance to: "+ (latlng).distanceTo(circle_lat_long) );
+            // create location in leaflet format from distance to circle to project
+            // var latlng = L.latLng(flip);
+            //  console.log("latlng of point on map: "+latlng);
+            //  console.log("lat long of search circle: "+circle_lat_long);
+            //  console.log("distance to: "+ (latlng).distanceTo(circle_lat_long) );
 
-                              // create array
-                              var latLngResultsFiltered = [];
-                              var latLngResultsFilteredLatLng = [];
+                // create array
+                var latLngResultsFiltered = [];
+                var latLngResultsFilteredLatLng = [];
 
-                              // Create function that passes data from the AJAX call fromfunded/unfunded data
-                              var filterPointsWithRadiusCircle = function(data) {
+                // Create function that passes data from the AJAX call fromfunded/unfunded data
+                var filterPointsWithRadiusCircle = function(data) {
 
-                                // Filter funded and unfunded data
-                                for(var i = 0; i < data.features.length; i++){
-                                      latLngResultsFiltered.push(data.features[i]);
-                                      //console.log("Geometry results: "+latLngResultsFiltered);
+                    // Filter funded and unfunded data and push data.features to new array for each project
+                    for(var i = 0; i < data.features.length; i++){
+                          latLngResultsFiltered.push(data.features[i]);
+                    }
 
-                                      // Get coordinates
-                                      for(var j = 0; j < latLngResultsFiltered.length; j++){
-                                        latLngResultsFilteredLatLng.push(latLngResultsFiltered[j].geometry.coordinates);
-                                        // console.log(latLngResultsFiltered[j].geometry.coordinates);
-                                        for(var k = 0; k < latLngResultsFilteredLatLng.length; k++){
-                                          // Distance from our circle marker to current point in meters
-                                          // var distance_from_layer_circle = latLngResultsFilteredLatLng[k].distanceTo(circle_lat_long);
-                                          // console.log(latLngResultsFilteredLatLng[k]);
-                                          //console.log( (latLngResultsFilteredLatLng[k]).distanceTo(circle_lat_long) );
-                                        }
+                    // Get coordinates from new array for each project
+                    for(var j = 0; j < latLngResultsFiltered.length; j++){
+                      var eachProject =[];
+                      eachProject.push(latLngResultsFiltered[j].properties.id);
+                      eachProject.push(latLngResultsFiltered[j].geometry.coordinates);
+
+                      latLngResultsFilteredLatLng.push(eachProject);
+                      eachProject = [];
+                    }
+                };
 
 
-                                      }
-                                }
-                              //  console.log("1 "+JSON.stringify(latLngResultsFilteredLatLng[0]));
-                                // console.log("2 "+JSON.stringify(latLngResultsFiltered[0]));
+                  // for each project ...
+                  for(var k =0; k<latLngResultsFilteredLatLng.length; k++) {
+                    // if there is more than 1 coordinate in the coordinates array for each project
+                    if( latLngResultsFilteredLatLng[k][1].length > 1){
+                      console.log("MULTIPOINT PROJECT: ");
+                      console.log(latLngResultsFilteredLatLng[k]);
+                      
+                    } else {
+                      console.log("SINGLE POINT: ");
+                      console.log(latLngResultsFilteredLatLng[k]);
+                    }
+                  }
 
-                              };
-                              filterPointsWithRadiusCircle(data);
+                filterPointsWithRadiusCircle(data);
 
-                              // Distance from our circle marker to current point in meters
-                            //   distance_from_layer_circle = layer_lat_long.distanceTo(circle_lat_long);
-
-              //==========
-              //==========
-              //==========
-              //==========s
+//==========
+//==========
+//==========
+//==========s
 
                 $('#main-info').empty();
                 // show main info div
@@ -697,9 +701,6 @@ function filterProjectTypes(type) {
                 if (fundingQuery === "unfunded") {
 
                     // unfunded project marker color
-
-
-
                     var unfundedMoreInfo = $("<p>");
                     unfundedMoreInfo.text("Unfunded More Info: " + features[i].properties.More_info);
                     var unfundedCD = $("<p>");
@@ -752,11 +753,12 @@ function filterProjectTypes(type) {
                 },
                 pointToLayer: L.mapbox.marker.style
             }).addTo(map);
-        }
-
-    } else {
-        geoJSON.clearLayers();
-    }
+          }
+      }
+  });
+} else {
+  geoJSON.clearLayers();
+}
 }
 
 $(document).on("click", ".project-body-button", function() {
