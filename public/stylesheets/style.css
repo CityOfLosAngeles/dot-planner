@@ -61,9 +61,11 @@ body {
     margin-bottom: 10px;
 }
 .project-heading-data {
+    font-weight: 700;
     color: white;
     margin: 0;
 }
+
 /*---------------------------------------------------------------*/
 
 .navbar {
