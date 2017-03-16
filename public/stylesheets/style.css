@@ -58,12 +58,19 @@ body {
 
 .project-title {
     color: white;
+    font-weight: 700;
     margin-bottom: 10px;
 }
 .project-heading-data {
-    font-weight: 700;
     color: white;
     margin: 0;
+}
+
+.map-filter-a,
+.map-filter-a:focus,
+.map-filter-a:hover,
+.map-filter-a:visited {
+    color: white;
 }
 
 /*---------------------------------------------------------------*/
