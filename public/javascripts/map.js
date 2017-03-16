@@ -382,7 +382,7 @@ function filterProjectTypes() {
               //==========
               //==========s
 
-              TODO // $('#main-info').empty();
+                $('#main-info').empty();
                 // show main info div
                 $('#main-info').show();
 
