@@ -1,6 +1,6 @@
 //Global variable which will become the geoJSON layer
 var geoJSON;
-
+// power
 //Global variable which will represent the layer at the top of the map(layer that has been clicked on) so that it can be hidden
 var layerID;
 
