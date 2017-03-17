@@ -23,9 +23,11 @@
       <div class="tbl-content">
         <table class="table-bordered">
           <tbody>
+          {{!-- Testing Area To See Why Objects Are Not Displaying!!! --}}
+          {{!-- Probably requires a POST method from the Projects Controllers.js File --}}
             {{#each projects}}
                 <tr>
-                    <td><input type="checkbox" value="{{this.id}}"></td>
+                    <td><input type="checkbox" value="{{this.id}}" method=""></td>
                     <td>{{this.Proj_Title}}</td>
                     <td>{{this.Proj_Desc}}</td>
                     <td>{{this.Proj_Ty}}</td>
