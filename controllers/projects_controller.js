@@ -540,9 +540,10 @@ router.get('/flagged', function(req, res) {
 //Area of interest: Router Area that uses 
 router.get('/search', function(req, res) {
   var search = req.query.search;
+  var searchObj; 
   //If the user is logged in return all results that match the search terms
   if (req.session.logged_in) {
-    var searchObj = {
+    searchObj = {
       $or: [
         {
           Proj_Title: {
@@ -578,7 +579,7 @@ router.get('/search', function(req, res) {
     }
     //If the user is not logged in return only publicly available projects that match the search terms
   } else {
-    var searchObj = {
+    searchObj = {
       $or: [
         {
           Proj_Title: {
