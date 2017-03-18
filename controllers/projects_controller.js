@@ -237,7 +237,7 @@ router.post('/new', function(req, res) {
             res.send({"status": "saved"});
         });
 
-        //If newProject does not have property flagged then check the db for potention duplicates
+        //If newProject does not have property flagged then check the db for potential duplicates
       } else {
         var searchArr = [
           {
@@ -538,10 +538,12 @@ router.get('/flagged', function(req, res) {
 
 //Route to search db for a keyword or phrase
 router.get('/search', function(req, res) {
-  var search = req.query.search;
+    var searchObj;
+    var search = req.query.search;
+    console.log("SEARCH: ", search);
   //If the user is logged in return all results that match the search terms
   if (req.session.logged_in) {
-    var searchObj = {
+    searchObj = {
       $or: [
         {
           Proj_Title: {
@@ -574,10 +576,10 @@ router.get('/search', function(req, res) {
           }
         }
       ]
-    }
+    };
     //If the user is not logged in return only publicly available projects that match the search terms
   } else {
-    var searchObj = {
+    searchObj = {
       $or: [
         {
           Proj_Title: {

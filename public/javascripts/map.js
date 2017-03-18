@@ -143,6 +143,8 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
 function renderAllProjects(zoom) {
+
+    $("#edit-button").attr("disabled", "true");
     $.ajax({
         type: 'GET',
         url: '/projects/all',
@@ -242,7 +244,6 @@ $(".filter-check").change(function() {
         filterProjectTypes(true);
     }
 });
-
 
 /* FILTER PROJECT TYPES FUNCTION */
 function filterProjectTypes(type) {
@@ -696,6 +697,7 @@ function zoomToFeature(e) {
 function onEachFeature(feature, layer) {
     layer.on('click', function(e) {
 
+
         $("#project-details").show();
         $("#main-info").hide();
 
@@ -804,7 +806,7 @@ function onEachFeature(feature, layer) {
                 $('#sidebar-unfunded-attributes').hide();
             }
         });
-
+        $("#edit-button").removeAttr("disabled");
         //Common attributes
         $('#Proj_Title').text(feature.properties.Proj_Title);
         $('#Proj_Desc').text(feature.properties.Proj_Desc);
