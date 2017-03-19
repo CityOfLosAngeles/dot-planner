@@ -100,11 +100,19 @@
             </div>
         </div>
         <div id="project-view-sidebar" class="col-xs-4">
+
             <div class="container-fluid">
 
                 {{!-- butttons to toggle between funded and unfunded projets to show on the right project views bar --}}
                 <a id="fundedTab" value="funded" type="button" name="button" class="map-button btn">Funded</a>
                 <a id="unfundedTab" value="unfunded" type="button" name="button" class="map-button btn">Unfunded</a>
+
+                <br  />
+                <br  />
+
+                <!-- Slider for map radius search -->
+                1/4 Mile <input id="radiusSlider" data-slider-id='Slider' type="text" data-slider-min="500" data-slider-max="1500" data-slider-step="500" data-slider-value="500"/> 1 Mile
+
                 <div id="count-info"></div>
                 <div id="main-info"></div>
                 <div class="card" id="project-details">

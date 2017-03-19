@@ -8,6 +8,17 @@ body {
 }
 
 /*NEEDS TO BE PUT IN THE RIGHT PLACE*/
+/*Radius search slide bar*/
+#ex1Slider .slider-selection {
+	background: #BABABA;
+  display: inline;
+}
+
+.leaflet-clickable {
+  z-index: 1;
+}
+
+/*NEEDS TO BE PUT IN THE RIGHT PLACE*/
 /*FUNDED / UNFUNDED PANELS*/
 .projects-list-item {
     border: 1px solid #002E6D;
