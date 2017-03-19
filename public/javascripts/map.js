@@ -163,6 +163,7 @@ var moveRadius = function() {
     mousedown: function() {
       map.on('mousemove', function(e) {
         circleRadius.setLatLng(e.latlng);
+        console.log(e.latlng);
       });
     }
   });
@@ -293,7 +294,74 @@ $('#unfundedTab').on('click', function() {
 
 // Grab lat and long of circleRadius
 var circle_lat_long = circleRadius.getLatLng();
+// Create Array
+var latLngResultsFiltered = [];
+var latLngResultsFilteredLatLng = [];
 
+// Create function that passes data from the AJAX call fromfunded/unfunded data
+var filterPointsWithRadiusCircle = function(data) {
+
+    // Filter funded and unfunded data and push data.features to new array for each project
+    for(var i = 0; i < data.features.length; i++){
+          latLngResultsFiltered.push(data.features[i]);
+          // console.log(JSON.stringify(latLngResultsFiltered));
+    }
+
+    // Get coordinates from new array for each project
+    for(var j = 0; j < latLngResultsFiltered.length; j++){
+      var eachProject =[];
+      eachProject.push(latLngResultsFiltered[j].properties.id);
+      eachProject.push(latLngResultsFiltered[j].geometry.type);
+      eachProject.push(latLngResultsFiltered[j].geometry.coordinates);
+
+      latLngResultsFilteredLatLng.push(eachProject);
+      eachProject = [];
+    }
+    // for each project ...
+    for(var k =0; k<latLngResultsFilteredLatLng.length; k++) {
+      // console.log("ID: " + latLngResultsFilteredLatLng[k][0]);
+      // console.log("Num of points: " + latLngResultsFilteredLatLng[k][1].length);
+      var geometryType = latLngResultsFilteredLatLng[k][1];
+
+      // console.log(latLngResultsFilteredLatLng[k][1].length);
+      if (geometryType === "Point") {
+        // console.log("This is a point project");
+        // console.log(latLngResultsFilteredLatLng[k]);
+
+        var points = latLngResultsFilteredLatLng[k][2];
+
+        // flip values of the coordinates
+        var flip = points;
+        var flipped = flip[1];
+            flip[1] = flip[0];
+            flip[0] = flipped;
+
+        var latlng = L.latLng(flip);
+        var distance = (latlng).distanceTo(circle_lat_long);
+        console.log("ID: " + latLngResultsFilteredLatLng[k][0]);
+        // Convert meters to feet
+        var distanceInMiles = distance * 0.000621371192;
+        console.log("DISTANCE in miles: " + distanceInMiles);
+
+      }
+
+        // // create for loop and find distance between points
+        //   for(var l =0; latLngResultsFilteredLatLng[k].length; l++){
+        //
+        //     // flip values of the coordinates
+        //        var flip = latLngResultsFilteredLatLng[k][1][l];
+        //     var flipped = flip[1];
+        //         flip[1] = flip[0];
+        //         flip[0] = flipped;
+        //
+        //     var point = flip;
+        //     var latlng = L.latLng(point);
+        //     var distance = (latlng).distanceTo(circle_lat_long);
+        //     console.log("ID: "+ latLngResultsFilteredLatLng[0] +" | DISTANCE in meters: " + distance);
+        //   }
+
+    }
+};
 //++++++++++++++++
 //++++++++++++++++
 
@@ -338,57 +406,6 @@ function filterProjectTypes(type) {
 //==========
 //==========
 //==========
-            // first [0] is each project, second [0] is first point of multiple points for each project
-            // TODO create a function that loops through the lower code to set up distanceTo()
-
-            // flip values of the coordinates
-            //    var flip = data.features[0].geometry.coordinates[0];
-            // var flipped = flip[1];
-            //     flip[1] = flip[0];
-            //     flip[0] = flipped;
-
-            // create location in leaflet format from distance to circle to project
-            // var latlng = L.latLng(flip);
-            //  console.log("latlng of point on map: "+latlng);
-            //  console.log("lat long of search circle: "+circle_lat_long);
-            //  console.log("distance to: "+ (latlng).distanceTo(circle_lat_long) );
-
-                // create array
-                var latLngResultsFiltered = [];
-                var latLngResultsFilteredLatLng = [];
-
-                // Create function that passes data from the AJAX call fromfunded/unfunded data
-                var filterPointsWithRadiusCircle = function(data) {
-
-                    // Filter funded and unfunded data and push data.features to new array for each project
-                    for(var i = 0; i < data.features.length; i++){
-                          latLngResultsFiltered.push(data.features[i]);
-                    }
-
-                    // Get coordinates from new array for each project
-                    for(var j = 0; j < latLngResultsFiltered.length; j++){
-                      var eachProject =[];
-                      eachProject.push(latLngResultsFiltered[j].properties.id);
-                      eachProject.push(latLngResultsFiltered[j].geometry.coordinates);
-
-                      latLngResultsFilteredLatLng.push(eachProject);
-                      eachProject = [];
-                    }
-                };
-
-
-                  // for each project ...
-                  for(var k =0; k<latLngResultsFilteredLatLng.length; k++) {
-                    // if there is more than 1 coordinate in the coordinates array for each project
-                    if( latLngResultsFilteredLatLng[k][1].length > 1){
-                      console.log("MULTIPOINT PROJECT: ");
-                      console.log(latLngResultsFilteredLatLng[k]);
-                      
-                    } else {
-                      console.log("SINGLE POINT: ");
-                      console.log(latLngResultsFilteredLatLng[k]);
-                    }
-                  }
 
                 filterPointsWithRadiusCircle(data);
 
