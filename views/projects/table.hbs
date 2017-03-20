@@ -33,9 +33,9 @@
                       <td>{{this.Contact_info.Contact_info_phone}}</td>
                       <td>{{this.Contact_info.Contact_info_email}}</td>
                       <td class="text-center">
-                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" data-geometry="{{this.Geometry.type}}" type="button" name="button" class="view btn btn-success table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
-                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary table-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a><br>
-                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger table-button"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
+                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" data-geometry="{{this.Geometry.type}}" type="button" name="button" class="view btn table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
+                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn table-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a><br>
+                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn table-button"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
                       </td>
                   </tr>
                   {{/equal}}
@@ -78,9 +78,9 @@
                       <td>{{this.Contact_info.Contact_info_phone}}</td>
                       <td>{{this.Contact_info.Contact_info_email}}</td>
                       <td class="text-center">
-                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
-                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary table-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a><br>
-                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger table-button"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
+                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
+                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn table-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a><br>
+                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn table-button"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
                       </td>
                   </tr>
                   {{/equal}}
@@ -123,9 +123,9 @@
                       <td>{{this.Contact_info.Contact_info_phone}}</td>
                       <td>{{this.Contact_info.Contact_info_email}}</td>
                       <td class="text-center">
-                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn btn-success table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
-                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn btn-primary table-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a><br>
-                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn btn-danger table-button"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
+                        <a href="/?id={{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="view btn table-button"><i class="fa fa-map-marker" aria-hidden="true"></i></button><br>
+                        <a href="/projects/edit/{{this.id}}"><button data-id="{{this.id}}" type="button" name="button" class="edit btn table-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a><br>
+                        <button data-id="{{this.id}}" type="button" name="button" class="delete btn table-button"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
                       </td>
                   </tr>
                   {{/equal}}
@@ -135,8 +135,8 @@
       </div>
     </div>
 
-    <button type="submit" name="button" class="btn btn-primary" id="exportCSV"><i id="spreadsheet-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Spreadsheet</button>
-    <button type="submit" name="button" class="btn btn-primary" id="exportShape"><i id="shape-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Shapefiles</button>
+    <button type="submit" name="button" class="btn" id="exportCSV"><i id="spreadsheet-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Spreadsheet</button>
+    <button type="submit" name="button" class="btn" id="exportShape"><i id="shape-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Shapefiles</button>
   {{/if}}
 
   {{#unless logged_in}}
@@ -262,8 +262,8 @@
       </div>
     </div>
 
-    <button type="submit" name="button" class="btn btn-primary" id="exportCSV"><i id="spreadsheet-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Spreadsheet</button>
-    <button type="submit" name="button" class="btn btn-primary" id="exportShape"><i id="shape-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Shapefiles</button>
+    <button type="submit" name="button" class="btn" id="exportCSV"><i id="spreadsheet-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Spreadsheet</button>
+    <button type="submit" name="button" class="btn" id="exportShape"><i id="shape-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Shapefiles</button>
     {{/unless}}
   </div>
 </div>
@@ -282,8 +282,8 @@
           </div>
           <div class="modal-footer">
               <form method="POST" id="delete-form">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-modal-button">Close</button>
-                  <button type="submit" class="btn btn-danger" id="delete-project-button">Delete</button>
+                  <button type="button" class="btn" data-dismiss="modal" id="close-modal-button">Close</button>
+                  <button type="submit" class="btn" id="delete-project-button">Delete</button>
               </form>
           </div>
       </div>
