@@ -409,6 +409,9 @@ $('#update-project').on('click', function() {
             newProject.Constr_by = $('#Constr_by').val();
             newProject.Info_source = $('#Info_source').val();
             newProject.Access = $('#Access input[type="radio"]:checked').val();
+            newProject.ProjectStartDate = $('#StartDate').val();
+            newProject.ProjectProjectedCompletionDate = $('#ProjectProjectedCompletionDate').val();
+            newProject.TotalUnmetFunding = parseInt($('#Total_bgt').val()).toFixed(2) - parseInt($('#Grant').val()).toFixed(2);
         }
 
         //Unfunded Attributes
