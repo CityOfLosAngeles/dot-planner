@@ -159,10 +159,10 @@ body {
     margin-top: 15px;
     margin-bottom: 15px;
     padding: 10px;
-    background-color: #f0eeee;
-    color: #231F20;
-    border: 1px solid #002E6D;
-    border-radius: 0px;
+    border-radius: 3px;
+    background-color: #002E6D;
+    color: white;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
 }
 
 #submit-project {
@@ -183,11 +183,14 @@ body {
 #add-intersection,
 #undo-intersection,
 #update-project {
-    background-color: #f0eeee;
-    border: 1px solid #002E6D;
-    border-radius: 0px;
-    color: #231F20;
-    margin: 0 20px 0 20px;
+    background-color: #002E6D;
+    color: white;
+    box-sizing: border-box;
+    margin-right: 5px;
+    padding: 5px 8px;
+    line-height: 2.2em;
+    vertical-align: middle;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
 }
 
 #delete-project-button,
@@ -254,11 +257,13 @@ body {
 #exportCSV:hover,
 #exportShape:hover,
 #submit-project:hover,
-#update-project:hover {
+#update-project:hover,
+#exportCSV:focus {
     background-color: #004EB9;
-    border: 1px solid #002E6D;
-    border-radius: 0px;
+    border-radius: 3px;
     color: white;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
 }
 
 #fundedAttributes,
