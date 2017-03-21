@@ -200,6 +200,14 @@ body {
     box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
 }
 
+#show-info {
+    margin-left: 20px;
+}
+
+#edit-button {
+    margin-right: 20px;
+}
+
 #delete-project-button,
 #close-modal-button {
     background-color: #f0eeee;
