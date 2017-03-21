@@ -145,7 +145,9 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 });
 
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
-function renderAllProjects(zoom, type) {
+function renderAllProjects(zoom) {
+
+    $("#edit-button").attr("disabled", "true");
     $.ajax({
         type: 'GET',
         url: '/projects/all',
@@ -160,6 +162,7 @@ function renderAllProjects(zoom, type) {
                     var projectType = projectFeatures.Proj_Ty;
 
                     var markerStyle = getMarkerStyle(projectType);
+
 
                     projectFeatures["marker-color"] = markerStyle["marker-color"];
                     projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
@@ -219,9 +222,9 @@ function checkZoom() {
 var isFunded;
 
 // Checkbox to filter for project types
-$('.filter input[type="checkbox"]').change(function() {
-    filterProjectTypes();
-});
+// $('.filter input[type="checkbox"]').change(function() {
+//     filterProjectTypes();
+// });
 
 // Give me funded projects
 $('#fundedTab').on('click', function() {
@@ -244,7 +247,6 @@ $(".filter-check").change(function() {
         filterProjectTypes(true);
     }
 });
-
 
 /* FILTER PROJECT TYPES FUNCTION */
 function filterProjectTypes(type) {
@@ -289,346 +291,365 @@ function filterProjectTypes(type) {
             });
         }
 
-        $('#main-info').empty();
-        // show main info div
-        $('#main-info').show();
 
-        // hide project details div
-        $("#project-details").hide();
-        var panelGroup = $("<div>");
-        panelGroup.addClass("panel-group").attr("id", "project-accordian").attr("role", "tablist").attr("aria-multiselectable", "true");
-        $("#main-info").append(panelGroup);
-
-        var count = 0;
-
-        function displayResults(results) {
-
-            var features = results.features;
-            for (var i = 0; i < features.length; i++) {
-
-                var projectFeatures = features[i].properties;
-                var projectType = projectFeatures.Proj_Ty;
-
-                var markerStyle = getMarkerStyle(projectType);
-
-                projectFeatures["marker-color"] = markerStyle["marker-color"];
-                projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
-                projectFeatures["marker-size"] = "small";
-
-
-                // build accordian panel
-                var panel = $("<div>");
-                panel.addClass("row panel projects-list-item");
-
-                var panelHeading = $("<div>");
-                panelHeading
-                    .addClass("col-sm-12 panel-heading project-heading")
-                    .attr("id", "heading_" + i)
-                    .attr("role", "tab");
-
-                var panelTitle = $("<h3>");
-                panelTitle.addClass("panel-title project-title");
-
-                var panelLink = $("<a>");
-                panelLink
-                    .addClass("project-heading-data")
-                    .attr("role", "button")
-                    .attr("data-toggle", "collapse")
-                    .attr("data-parent", "#project-accordian")
-                    .attr("href", "#collapse_" + i)
-                    .attr("aria-expanded", "true")
-                    .attr("aria-controls", "collapse_" + i)
-                    .text(features[i].properties.Proj_Title);
-
-                panelTitle.append(panelLink);
-
-                var panelHeaderData = $("<div>");
-                panelHeaderData
-                    .addClass("row");
-
-                var panelHeaderColumn1 = $("<div>");
-                panelHeaderColumn1
-                    .addClass("col-sm-9");
-
-                var panelMiles = $("<h6>");
-                var panelCompletion = $("<h6>");
-                var panelId = $("<h6>");
-
-                panelMiles
-                    .addClass("project-heading-data")
-                    .text("MILES: ");
-
-                panelCompletion
-                    .addClass("project-heading-data")
-                    .text("COMPLETION DATE: " + features[i].properties.ProjectProjectedCompletionDate);
-
-                panelId
-                    .addClass("project-heading-data")
-                    .text("ID: " + features[i].properties.id);
-
-                panelHeaderColumn1
-                    .append(panelMiles)
-                    .append(panelCompletion)
-                    .append(panelId);
-
-                var panelHeaderColumn2 = $("<div>");
-                panelHeaderColumn2
-                    .addClass("col-sm-2");
-
-                var projectColor = markerStyle["marker-color"];
-
-                var panelIcon = $("<i>");
-                panelIcon
-                    .addClass("fa fa-circle fa-3x panel-icon")
-                    .attr("aria-hidden", "true")
-                    .css("color", projectColor);
-
-                var panelSvg =
-                panelHeaderColumn2
-                    .append(panelIcon);
-
-                panelHeaderData
-                    .append(panelHeaderColumn1)
-                    .append(panelHeaderColumn2);
-
-                panelHeading
-                    .append(panelTitle)
-                    .append(panelHeaderData);
-
-                panel
-                    .append(panelHeading);
-
-                var panelBodyCollapse = $("<div>");
-
-                panelBodyCollapse
-                    .addClass("panel-collapse collapse")
-                    .attr("id", "collapse_" + i)
-                    .attr("role", "tabpanel")
-                    .attr("aria-labelledby", "heading_" + i);
-
-                var panelBody = $("<div>");
-                panelBody
-                    .addClass("project-body panel-body");
-
-                var projTitle = $("<p>");
-                projTitle
-                    .text("Title: " + features[i].properties.Proj_Title);
-
-                var projDesc = $("<p>");
-                projDesc
-                    .text("Description: " + features[i].properties.Proj_Desc);
-
-                var legacyId = $("<p>");
-                legacyId
-                    .text("Legacy ID: " + features[i].properties.Legacy_ID);
-
-                var leadAg = $("<p>");
-                leadAg
-                    .text("Lead Agency: " + features[i].properties.Lead_Ag);
-
-                var fundSt = $("<p>");
-                fundSt
-                    .text("Funding Status: " + features[i].properties.Fund_St);
-
-                var projTy = $("<p>");
-                projTy
-                    .text("Project Type: " + features[i].properties.Proj_Ty);
-
-                var contactName = $("<p>");
-                contactName
-                    .text("Contact Name: " + features[i].properties.Contact_info.Contact_info_name);
-
-                var contactPhone = $("<p>");
-                contactPhone
-                    .text("Contact Phone: " + features[i].properties.Contact_info.Contact_info_phone);
-
-                var contactEmail = $("<p>");
-                contactEmail
-                    .text("Contact Email: " + features[i].properties.Contact_info.Contact_info_email);
-
-                panelBody
-                    .append(projTitle)
-                    .append(projDesc)
-                    .append(legacyId)
-                    .append(leadAg)
-                    .append(fundSt)
-                    .append(projTy)
-                    .append(contactName)
-                    .append(contactPhone)
-                    .append(contactEmail);
-
-                panelBodyCollapse
-                    .append(panelBody);
-
-                panel
-                    .append(panelBodyCollapse);
-
-                var panelButton = $("<button>");
-                panelButton
-                    .addClass("btn project-body-button")
-                    .attr("type", "button")
-                    .attr("data-toggle", "collapse")
-                    .attr("data-target", "#collapseMore_" + i)
-                    .attr("aria-expanded", "false")
-                    .attr("aria-controls", "collapseMore_" + i)
-                    .text("More Info");
-
-                var viewButton = $("<a>");
-                viewButton
-                    .addClass("btn project-body-button")
-                    .attr("type", "button")
-                    .attr("data-id", features[i].properties.id)
-                    .text("View Project");
-
-                panelBodyCollapse
-                    .append(panelButton)
-                    .append(viewButton);
-
-                var moreData = $("<div>");
-                moreData
-                    .addClass("collapse").attr("id", "collapseMore_" + i);
-
-                var moreDataWell = $("<div>");
-                moreDataWell
-                    .addClass("project-more-data well");
-
-                if (fundingQuery === "funded") {
-
-                    // funded project marker color
-
-
-                    var deptProjId = $("<p>");
-                    deptProjId.text("Dept Project ID: " + features[i].properties.Dept_Proj_ID);
-                    moreDataWell.append(deptProjId);
-
-                    var otherId = $("<p>");
-                    otherId.text("Other ID: " + features[i].properties.Other_ID);
-                    moreDataWell.append(otherId);
-
-                    if (features[i].properties.Total_bgt) {
-                        var totalBgt = $("<p>");
-                        totalBgt.text("Total Budget: $" + features[i].properties.Total_bgt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                        moreDataWell.append(totalBgt);
-                    }
-
-                    if (features[i].properties.Grant) {
-                        var grant = $("<p>");
-                        grant.text("Grant: $" + features[i].properties.Grant.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                        moreDataWell.append(grant);
-                    }
-
-                    if (features[i].properties.Other_funds) {
-                        var otherFunds = $("<p>");
-                        otherFunds.text("Other Funds: $" + features[i].properties.Other_funds.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                        moreDataWell.append(otherFunds);
-                    }
-
-                    if (features[i].properties.Prop_c) {
-                        var propC = $("<p>");
-                        propC.text("Prop C: $" + features[i].properties.Prop_c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                        moreDataWell.append(propC);
-                    }
-
-                    if (features[i].properties.Measure_r) {
-                        var measureR = $("<p>");
-                        measureR.text("Measure R: $" + features[i].properties.Measure_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                        moreDataWell.append(measureR);
-                    }
-
-                    if (features[i].properties.Gas_Tax) {
-                        var gasTax = $("<p>");
-                        gasTax.text("Gas Tax: $" + features[i].properties.Gas_Tax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-
-                        moreDataWell.append(gasTax);
-                    }
-
-                    if (features[i].properties.General_fund) {
-                        var generalFund = $("<p>");
-                        generalFund.text("General Fund: $" + features[i].properties.General_fund.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                        moreDataWell.append(generalFund);
-                    }
-
-                    var authorization = $("<p>");
-                    authorization.text("Authorization: " + features[i].properties.Authorization);
-                    var issues = $("<p>");
-                    issues.text("Issues: " + features[i].properties.Issues);
-                    var deobligation = $("<p>");
-                    deobligation.text("Deobligation: " + features[i].properties.Deobligation);
-                    var explanation = $("<p>");
-                    explanation.text("Explanation: " + features[i].properties.Explanation);
-                    var constrBy = $("<p>");
-                    constrBy.text("Constructed By: " + features[i].properties.Constr_by);
-                    var infoSource = $("<p>");
-                    infoSource.text("Info Source: " + features[i].properties.Info_source);
-                    var access = $("<p>");
-                    access.text("Access: " + features[i].properties.Access);
-
-                    moreDataWell.append(authorization).append(issues).append(deobligation).append(explanation).append(constrBy).append(infoSource).append(access);
-                }
-
-                if (fundingQuery === "unfunded") {
-
-                    // unfunded project marker color
-
-
-
-                    var unfundedMoreInfo = $("<p>");
-                    unfundedMoreInfo.text("Unfunded More Info: " + features[i].properties.More_info);
-                    var unfundedCD = $("<p>");
-                    unfundedCD.text("Unfunded CD: " + features[i].properties.CD);
-                    var grantCat = $("<p>");
-                    grantCat.text("Grant Category: " + features[i].properties.Grant_Cat);
-                    var grantCycle = $("<p>");
-                    grantCycle.text(features[i].properties.Grant_Cycle);
-
-                    moreDataWell.append(unfundedMoreInfo).append(unfundedCD).append(grantCat).append(grantCycle);
-
-                    if (features[i].properties.Est_Cost) {
-                        var estCost = $("<p>");
-                        estCost.text("Estimated Cost: $" + features[i].properties.Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                        moreDataWell.append(estCost);
-                    }
-                    if (features[i].properties.Fund_Rq) {
-                        var fundRq = $("<p>");
-                        fundRq.text("Fund Request: " + features[i].properties.Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                        moreDataWell.append(fundRq);
-                    }
-
-                    if (features[i].properties.Lc_match) {
-                        var LcMatch = $("<p>");
-                        LcMatch.text("Lc Match: $ " + features[i].properties.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                        moreDataWell.append(LcMatch);
-                    }
-                    var matchPt = $("<p>");
-                    matchPt.text("Match Percentage: " + features[i].properties.Match_Pt + "%");
-                    moreDataWell.append(matchPt);
-                }
-
-                moreData.append(moreDataWell);
-
-                panelBodyCollapse.append(moreData);
-
-                panelGroup.append(panel);
-
-                count++;
-            }
-            $("#count-info").empty();
-            $('#count-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
-            geoJSON.clearLayers();
-            geoJSON = L.geoJson(results, {
-                style: {
-                    color: "#004EB9"
-                },
-                onEachFeature: function(feature, layer) {
-                    onEachFeature(feature, layer);
-                },
-                pointToLayer: L.mapbox.marker.style
-            }).addTo(map);
-        }
 
     } else {
         geoJSON.clearLayers();
     }
+}
+
+function displayResults(results) {
+
+
+    $('#main-info').empty();
+    // show main info div
+    $('#main-info').show();
+
+    // hide project details div
+    $("#project-details").hide();
+
+    var panelGroup = $("<div>");
+
+    panelGroup
+        .addClass("panel-group")
+        .attr("id", "project-accordian")
+        .attr("role", "tablist")
+        .attr("aria-multiselectable", "true");
+
+    $("#main-info").append(panelGroup);
+
+    var count = 0;
+
+    var features = results.features;
+    for (var i = 0; i < features.length; i++) {
+
+        var projectFeatures = features[i].properties;
+        var projectType = projectFeatures.Proj_Ty;
+
+        var markerStyle = getMarkerStyle(projectType);
+
+        projectFeatures["marker-color"] = markerStyle["marker-color"];
+        projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
+        projectFeatures["marker-size"] = "small";
+
+        // build accordian panel
+        var panel = $("<div>");
+        panel
+            .addClass("row panel projects-list-item");
+
+        var panelHeading = $("<div>");
+        panelHeading
+            .addClass("col-sm-12 panel-heading project-heading")
+            .attr("id", "heading_" + i)
+            .attr("role", "tab");
+
+        var panelTitle = $("<h3>");
+        panelTitle
+            .addClass("panel-title project-title");
+
+        var panelLink = $("<a>");
+        panelLink
+            .addClass("project-heading-data")
+            .attr("role", "button")
+            .attr("data-toggle", "collapse")
+            .attr("data-parent", "#project-accordian")
+            .attr("href", "#collapse_" + i)
+            .attr("aria-expanded", "true")
+            .attr("aria-controls", "collapse_" + i)
+            .text(projectFeatures.Proj_Title);
+
+        panelTitle.append(panelLink);
+
+        var panelHeaderData = $("<div>");
+        panelHeaderData
+            .addClass("row");
+
+        var panelHeaderColumn1 = $("<div>");
+        panelHeaderColumn1
+            .addClass("col-sm-9");
+
+        var panelMiles = $("<h6>");
+        var panelCompletion = $("<h6>");
+        var panelId = $("<h6>");
+
+        panelMiles
+            .addClass("project-heading-data")
+            .text("MILES: ");
+
+        panelCompletion
+            .addClass("project-heading-data")
+            .text("COMPLETION DATE: " + projectFeatures.ProjectProjectedCompletionDate);
+
+        panelId
+            .addClass("project-heading-data")
+            .text("ID: " + projectFeatures.id);
+
+        panelHeaderColumn1
+            .append(panelMiles)
+            .append(panelCompletion)
+            .append(panelId);
+
+        var panelHeaderColumn2 = $("<div>");
+        panelHeaderColumn2
+            .addClass("col-sm-2");
+
+        var projectColor = markerStyle["marker-color"];
+
+        var panelIcon = $("<i>");
+        panelIcon
+            .addClass("fa fa-circle fa-3x panel-icon")
+            .attr("aria-hidden", "true")
+            .css("color", projectColor);
+
+        var panelSvg = $("<img>");
+        var projectIcon = markerStyle["marker-symbol"];
+        panelSvg
+            .attr("src", "/images/icons/" + projectIcon + ".svg")
+            .addClass("panel-svg");
+
+        panelIcon
+            .append(panelSvg);
+
+        panelHeaderColumn2
+            .append(panelIcon);
+
+        panelHeaderData
+            .append(panelHeaderColumn1)
+            .append(panelHeaderColumn2);
+
+        panelHeading
+            .append(panelTitle)
+            .append(panelHeaderData);
+
+        panel
+            .append(panelHeading);
+
+        var panelBodyCollapse = $("<div>");
+
+        panelBodyCollapse
+            .addClass("panel-collapse collapse")
+            .attr("id", "collapse_" + i)
+            .attr("role", "tabpanel")
+            .attr("aria-labelledby", "heading_" + i);
+
+        var panelBody = $("<div>");
+        panelBody
+            .addClass("project-body panel-body");
+
+        var projTitle = $("<p>");
+        projTitle
+            .text("Title: " + projectFeatures.Proj_Title);
+
+        var projDesc = $("<p>");
+        projDesc
+            .text("Description: " + projectFeatures.Proj_Desc);
+
+        var legacyId = $("<p>");
+        legacyId
+            .text("Legacy ID: " + projectFeatures.Legacy_ID);
+
+        var leadAg = $("<p>");
+        leadAg
+            .text("Lead Agency: " + projectFeatures.Lead_Ag);
+
+        var fundSt = $("<p>");
+        fundSt
+            .text("Funding Status: " + projectFeatures.Fund_St);
+
+        var projTy = $("<p>");
+        projTy
+            .text("Project Type: " + projectFeatures.Proj_Ty);
+
+        var contactName = $("<p>");
+        contactName
+            .text("Contact Name: " + projectFeatures.Contact_info.Contact_info_name);
+
+        var contactPhone = $("<p>");
+        contactPhone
+            .text("Contact Phone: " + projectFeatures.Contact_info.Contact_info_phone);
+
+        var contactEmail = $("<p>");
+        contactEmail
+            .text("Contact Email: " + projectFeatures.Contact_info.Contact_info_email);
+
+        panelBody
+            .append(projTitle)
+            .append(projDesc)
+            .append(legacyId)
+            .append(leadAg)
+            .append(fundSt)
+            .append(projTy)
+            .append(contactName)
+            .append(contactPhone)
+            .append(contactEmail);
+
+        panelBodyCollapse
+            .append(panelBody);
+
+        panel
+            .append(panelBodyCollapse);
+
+        var panelButton = $("<button>");
+        panelButton
+            .addClass("btn project-body-button")
+            .attr("type", "button")
+            .attr("data-toggle", "collapse")
+            .attr("data-target", "#collapseMore_" + i)
+            .attr("aria-expanded", "false")
+            .attr("aria-controls", "collapseMore_" + i)
+            .text("More Info");
+
+        var viewButton = $("<a>");
+        viewButton
+            .addClass("btn project-body-button")
+            .attr("type", "button")
+            .attr("data-id", projectFeatures.id)
+            .text("View Project");
+
+        panelBodyCollapse
+            .append(panelButton)
+            .append(viewButton);
+
+        var moreData = $("<div>");
+        moreData
+            .addClass("collapse").attr("id", "collapseMore_" + i);
+
+        var moreDataWell = $("<div>");
+        moreDataWell
+            .addClass("project-more-data well");
+
+        if (isFunded === "funded") {
+
+            // funded project marker color
+
+
+            var deptProjId = $("<p>");
+            deptProjId.text("Dept Project ID: " + projectFeatures.Dept_Proj_ID);
+            moreDataWell.append(deptProjId);
+
+            var otherId = $("<p>");
+            otherId.text("Other ID: " + projectFeatures.Other_ID);
+            moreDataWell.append(otherId);
+
+            if (projectFeatures.Total_bgt) {
+                var totalBgt = $("<p>");
+                totalBgt.text("Total Budget: $" + projectFeatures.Total_bgt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                moreDataWell.append(totalBgt);
+            }
+
+            if (projectFeatures.Grant) {
+                var grant = $("<p>");
+                grant.text("Grant: $" + projectFeatures.Grant.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                moreDataWell.append(grant);
+            }
+
+            if (projectFeatures.Other_funds) {
+                var otherFunds = $("<p>");
+                otherFunds.text("Other Funds: $" + projectFeatures.Other_funds.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                moreDataWell.append(otherFunds);
+            }
+
+            if (projectFeatures.Prop_c) {
+                var propC = $("<p>");
+                propC.text("Prop C: $" + projectFeatures.Prop_c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                moreDataWell.append(propC);
+            }
+
+            if (projectFeatures.Measure_r) {
+                var measureR = $("<p>");
+                measureR.text("Measure R: $" + projectFeatures.Measure_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                moreDataWell.append(measureR);
+            }
+
+            if (projectFeatures.Gas_Tax) {
+                var gasTax = $("<p>");
+                gasTax.text("Gas Tax: $" + projectFeatures.Gas_Tax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+                moreDataWell.append(gasTax);
+            }
+
+            if (projectFeatures.General_fund) {
+                var generalFund = $("<p>");
+                generalFund.text("General Fund: $" + projectFeatures.General_fund.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                moreDataWell.append(generalFund);
+            }
+
+            var authorization = $("<p>");
+            authorization.text("Authorization: " + projectFeatures.Authorization);
+            var issues = $("<p>");
+            issues.text("Issues: " + projectFeatures.Issues);
+            var deobligation = $("<p>");
+            deobligation.text("Deobligation: " + projectFeatures.Deobligation);
+            var explanation = $("<p>");
+            explanation.text("Explanation: " + projectFeatures.Explanation);
+            var constrBy = $("<p>");
+            constrBy.text("Constructed By: " + projectFeatures.Constr_by);
+            var infoSource = $("<p>");
+            infoSource.text("Info Source: " + projectFeatures.Info_source);
+            var access = $("<p>");
+            access.text("Access: " + projectFeatures.Access);
+
+            moreDataWell.append(authorization).append(issues).append(deobligation).append(explanation).append(constrBy).append(infoSource).append(access);
+        }
+
+        if (isFunded === "unfunded") {
+
+            // unfunded project marker color
+
+
+
+            var unfundedMoreInfo = $("<p>");
+            unfundedMoreInfo.text("Unfunded More Info: " + projectFeatures.More_info);
+            var unfundedCD = $("<p>");
+            unfundedCD.text("Unfunded CD: " + projectFeatures.CD);
+            var grantCat = $("<p>");
+            grantCat.text("Grant Category: " + projectFeatures.Grant_Cat);
+            var grantCycle = $("<p>");
+            grantCycle.text(projectFeatures.Grant_Cycle);
+
+            moreDataWell.append(unfundedMoreInfo).append(unfundedCD).append(grantCat).append(grantCycle);
+
+            if (projectFeatures.Est_Cost) {
+                var estCost = $("<p>");
+                estCost.text("Estimated Cost: $" + projectFeatures.Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                moreDataWell.append(estCost);
+            }
+            if (projectFeatures.Fund_Rq) {
+                var fundRq = $("<p>");
+                fundRq.text("Fund Request: " + projectFeatures.Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                moreDataWell.append(fundRq);
+            }
+
+            if (projectFeatures.Lc_match) {
+                var LcMatch = $("<p>");
+                LcMatch.text("Lc Match: $ " + projectFeatures.Lc_match.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                moreDataWell.append(LcMatch);
+            }
+            var matchPt = $("<p>");
+            matchPt.text("Match Percentage: " + projectFeatures.Match_Pt + "%");
+            moreDataWell.append(matchPt);
+        }
+
+        moreData.append(moreDataWell);
+
+        panelBodyCollapse.append(moreData);
+
+        panelGroup.append(panel);
+
+        count++;
+    }
+    $("#count-info").empty();
+    $('#count-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
+    geoJSON.clearLayers();
+    geoJSON = L.geoJson(results, {
+        style: {
+            color: "#004EB9"
+        },
+        onEachFeature: function(feature, layer) {
+            onEachFeature(feature, layer);
+        },
+        pointToLayer: L.mapbox.marker.style
+    }).addTo(map);
 }
 
 $(document).on("click", ".project-body-button", function() {
@@ -678,6 +699,7 @@ function zoomToFeature(e) {
 /* ON EACH FEATURE FUNCTION */
 function onEachFeature(feature, layer) {
     layer.on('click', function(e) {
+
 
         $("#project-details").show();
         $("#main-info").hide();
@@ -787,7 +809,7 @@ function onEachFeature(feature, layer) {
                 $('#sidebar-unfunded-attributes').hide();
             }
         });
-
+        $("#edit-button").removeAttr("disabled");
         //Common attributes
         $('#Proj_Title').text(feature.properties.Proj_Title);
         $('#Proj_Desc').text(feature.properties.Proj_Desc);
