@@ -177,14 +177,15 @@ moveRadius(); // add move radius functionality to map
 
 // Grab the radius value from the slider
 $('#radiusSlider').slider({
-	formatter: function(value) {
+	formatter: function(radius) {
     var latlng;
     if (circleRadius !== undefined) {
       map.removeLayer(circleRadius);
       latlng = circleRadius._latlng;
     }
-    updateCircle(latlng, value);
-		return 'Current value: ' + value;
+    updateCircle(latlng, radius);
+    var convertedToMile = Math.floor(radius / 1609.34);
+		return 'Current radius: ' + convertedToMile;
 	}
 });
 
@@ -302,7 +303,7 @@ var latLngResultsFilteredLatLng = [];
 var multiPointDistances = [];
 
 // Create function that passes data from the AJAX call fromfunded/unfunded data
-var filterPointsWithRadiusCircle = function(data) {
+function filterPointsWithRadiusCircle(data) {
 
     // Filter funded and unfunded data and push data.features to new array for each project
     for(var i = 0; i < data.features.length; i++){
@@ -339,6 +340,7 @@ var filterPointsWithRadiusCircle = function(data) {
 
         // Convert meters to feet
         var distanceInMiles = distance * 0.000621371192;
+
         console.log("DISTANCE in miles: " + distanceInMiles);
 
       } else if (geometryType === "MultiPoint") {
@@ -371,10 +373,13 @@ var filterPointsWithRadiusCircle = function(data) {
           // multiPointProjects.push()
 
         }
+
         multiPointDistances.push(multiPointProjects);
-        console.log(multiPointDistances);
+        console.log(multiPointDistances[0]);
 
       }
+
+    } // LOOP end
 
         // // create for loop and find distance between points
         //   for(var l =0; latLngResultsFilteredLatLng[k].length; l++){
@@ -390,8 +395,6 @@ var filterPointsWithRadiusCircle = function(data) {
         //     var distance = (latlng).distanceTo(circle_lat_long);
         //     console.log("ID: "+ latLngResultsFilteredLatLng[0] +" | DISTANCE in meters: " + distance);
         //   }
-
-    }
 };
 //++++++++++++++++
 //++++++++++++++++
