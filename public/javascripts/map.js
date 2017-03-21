@@ -372,7 +372,6 @@ var filterPointsWithRadiusCircle = function(data) {
         multiPointDistances.push(multiPointProjects);
         console.log(multiPointDistances);
 
-
       }
 
         // // create for loop and find distance between points
