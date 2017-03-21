@@ -237,7 +237,7 @@ router.post('/new', function(req, res) {
             res.send({"status": "saved"});
         });
 
-        //If newProject does not have property flagged then check the db for potention duplicates
+        //If newProject does not have property flagged then check the db for potential duplicates
       } else {
         var searchArr = [
           {
@@ -576,7 +576,7 @@ router.get('/search', function(req, res) {
           }
         }
       ]
-    }
+    };
     //If the user is not logged in return only publicly available projects that match the search terms
   } else {
     searchObj = {
