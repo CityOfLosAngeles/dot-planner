@@ -297,6 +297,7 @@ var circle_lat_long = circleRadius.getLatLng();
 // Create Array
 var latLngResultsFiltered = [];
 var latLngResultsFilteredLatLng = [];
+var multiPointDistances = [];
 
 // Create function that passes data from the AJAX call fromfunded/unfunded data
 var filterPointsWithRadiusCircle = function(data) {
@@ -319,29 +320,58 @@ var filterPointsWithRadiusCircle = function(data) {
     }
     // for each project ...
     for(var k =0; k<latLngResultsFilteredLatLng.length; k++) {
-      // console.log("ID: " + latLngResultsFilteredLatLng[k][0]);
-      // console.log("Num of points: " + latLngResultsFilteredLatLng[k][1].length);
+      // find geometry type
       var geometryType = latLngResultsFilteredLatLng[k][1];
 
-      // console.log(latLngResultsFilteredLatLng[k][1].length);
       if (geometryType === "Point") {
-        // console.log("This is a point project");
-        // console.log(latLngResultsFilteredLatLng[k]);
 
-        var points = latLngResultsFilteredLatLng[k][2];
+        // Single point
+        var point = latLngResultsFilteredLatLng[k][2];
 
         // flip values of the coordinates
-        var flip = points;
-        var flipped = flip[1];
-            flip[1] = flip[0];
-            flip[0] = flipped;
+        var flip = point;
+        var flipped = point.reverse();
 
         var latlng = L.latLng(flip);
         var distance = (latlng).distanceTo(circle_lat_long);
-        console.log("ID: " + latLngResultsFilteredLatLng[k][0]);
+
         // Convert meters to feet
         var distanceInMiles = distance * 0.000621371192;
         console.log("DISTANCE in miles: " + distanceInMiles);
+
+      } else if (geometryType === "MultiPoint") {
+
+        // all points in multipoint project
+        var multiplePoints = latLngResultsFilteredLatLng[k][2];
+        var id = latLngResultsFilteredLatLng[k][0];
+
+        console.log(id);
+
+        var multiPointProjects = [];
+
+        // Pushing id to multiPointProjects
+        multiPointProjects.push(id);
+
+        for ( var p = 0 ; p<multiplePoints.length; p++) {
+          // console.log(multiplePoints[p].reverse());
+
+          var flip = multiplePoints[p];
+          var flipped = multiplePoints[p].reverse();
+
+          var latlng = L.latLng(flip);
+          var distance = (latlng).distanceTo(circle_lat_long);
+          // console.log("ID: " + latLngResultsFilteredLatLng[k][0]);
+          // Convert meters to feet
+          var distanceInMiles = distance * 0.000621371192;
+
+          multiPointProjects.push(distanceInMiles);
+          console.log("DISTANCE in miles: " + distanceInMiles);
+          // multiPointProjects.push()
+
+        }
+        multiPointDistances.push(multiPointProjects);
+        console.log(multiPointDistances);
+
 
       }
 
