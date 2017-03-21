@@ -84,6 +84,13 @@ body {
     color: white;
 }
 
+.panel-svg {
+    position: relative;
+    right: 24px;
+    bottom: 2px;
+    stroke: white;
+}
+
 /*---------------------------------------------------------------*/
 
 .navbar {
@@ -202,6 +209,14 @@ body {
     line-height: 2.2em;
     vertical-align: middle;
     box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+}
+
+#show-info {
+    margin-left: 20px;
+}
+
+#edit-button {
+    margin-right: 20px;
 }
 
 #delete-project-button,
@@ -554,14 +569,14 @@ body {
 #hide-button {
     position: absolute;
     top: 10px;
-    right: 440px;
+    right: 150px;
     z-index: 100;
 }
 
 #unhide-button {
     position: absolute;
     top: 10px;
-    right: 340px;
+    right: 50px;
     z-index: 100;
 }
 
