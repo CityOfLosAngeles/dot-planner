@@ -41,7 +41,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
-        TotalUnmetFunding: DataTypes.INTEGER,
+        TotalUnmetFunding: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
         ProjectStartDate: {
             type: DataTypes.DATE,
             allowNull: true
