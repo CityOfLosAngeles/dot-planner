@@ -432,28 +432,6 @@ function filterProjectTypes(type) {
         var fundingQuery = isFunded;
         var typeQuery = projectTypes.join('&');
 
-        $.ajax({
-            type: 'GET',
-            url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
-            datatype: 'JSON',
-            success: function(data) {
-
-//==========
-//==========
-//==========
-//==========
-
-                filterPointsWithRadiusCircle(data);
-
-//==========
-//==========
-//==========
-//==========s
-
-                $('#main-info').empty();
-                // show main info div
-                $('#main-info').show();
-
         if (type) {
             $.ajax({
                 type: 'GET',
