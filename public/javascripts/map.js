@@ -291,8 +291,6 @@ function filterProjectTypes(type) {
             });
         }
 
-
-
     } else {
         geoJSON.clearLayers();
     }
@@ -376,9 +374,17 @@ function displayResults(results) {
             .addClass("project-heading-data")
             .text("MILES: ");
 
+        var completionDate = projectFeatures.ProjectProjectedCompletionDate;
+
+        if (completionDate) {
+            completionDate = moment(completionDate).format("MMM Do YY")
+        } else {
+            completionDate = "TBD";
+        }
+
         panelCompletion
             .addClass("project-heading-data")
-            .text("COMPLETION DATE: " + projectFeatures.ProjectProjectedCompletionDate);
+            .text("COMPLETION DATE: " + moment(projectFeatures.ProjectProjectedCompletionDate).format("MMM Do YY"));
 
         panelId
             .addClass("project-heading-data")
