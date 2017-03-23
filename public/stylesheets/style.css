@@ -10,12 +10,12 @@ body {
 /*NEEDS TO BE PUT IN THE RIGHT PLACE*/
 /*Radius search slide bar*/
 #ex1Slider .slider-selection {
-	background: #BABABA;
+    background: #BABABA;
   display: inline;
 }
 
-.leaflet-clickable {
-  z-index: 1;
+.slider.slider-horizontal {
+    margin: 0 10px;
 }
 
 /*NEEDS TO BE PUT IN THE RIGHT PLACE*/

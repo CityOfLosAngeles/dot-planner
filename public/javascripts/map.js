@@ -150,12 +150,15 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 
 // Create radius to add to map
 var circleRadius = L.circle([34.0522, -118.2437], 100).addTo(map);
-
+var circle_lat_long = circleRadius.getLatLng();
+var globalRadius = 100;
 // Add circle radius to map when slider value changes
 var updateCircle = function(latlng, radius) {
-  circleRadius = L.circle([latlng.lat, latlng.lng], radius).addTo(map);
+    globalRadius = radius;
+  circleRadius = L.circle([latlng.lat, latlng.lng], globalRadius).addTo(map);
   // console.log(latlng + " Radius: " + radius);
   moveRadius(); // add move radius functionality
+
 };
 
 var moveRadius = function() {
@@ -163,6 +166,7 @@ var moveRadius = function() {
     mousedown: function() {
       map.on('mousemove', function(e) {
         circleRadius.setLatLng(e.latlng);
+
         console.log(e.latlng);
       });
     }
@@ -170,20 +174,24 @@ var moveRadius = function() {
   map.on('mouseup', function(e) {
     map.removeEventListener('mousemove');
   });
+
 };
-moveRadius(); // add move radius functionality to map
+
+// moveRadius(); // add move radius functionality to map
 
 // Grab the radius value from the slider
 $('#radiusSlider').slider({
   formatter: function(value) {
     var latlng;
-    if (circleRadius !== undefined) {
       map.removeLayer(circleRadius);
       latlng = circleRadius._latlng;
-      var valueInMiles = Math.floor(value * 0.000621371)
-    }
+      var valueInMiles = Math.round(value * 0.000621371);
+
+
+    // console.log(latlng);
     updateCircle(latlng, value);
-    return (valueInMiles + 1) ;
+    globalRadius = valueInMiles;
+    return valueInMiles;
   }
 });
 
@@ -204,7 +212,11 @@ function renderAllProjects(zoom) {
         url: '/projects/all',
         datatype: 'JSON',
         success: function(data) {
+
+
             if (data) {
+                // filterByRadius(data);
+
                 var features = data.features;
                 for (var i = 0; i < features.length; i++) {
 
@@ -297,90 +309,18 @@ $('#unfundedTab').on('click', function() {
 //++++++++++++++++
 
 // Grab lat and long of circleRadius
-var circle_lat_long = circleRadius.getLatLng();
 // Create Array
-var latLngResultsFiltered = [];
-var latLngResultsFilteredLatLng = [];
-var multiPointDistances = [];
+// var latLngResultsFiltered = [];
+// var latLngResultsFilteredLatLng = [];
+// var multiPointDistances = [];
 
 // Create function that passes data from the AJAX call fromfunded/unfunded data
-function filterPointsWithRadiusCircle(data) {
+// function filterPointsWithRadiusCircle(data) {
 
     // Filter funded and unfunded data and push data.features to new array for each project
-    for(var i = 0; i < data.features.length; i++){
-          latLngResultsFiltered.push(data.features[i]);
-          // console.log(JSON.stringify(latLngResultsFiltered));
-    }
 
-    // Get coordinates from new array for each project
-    for(var j = 0; j < latLngResultsFiltered.length; j++){
-      var eachProject =[];
-      eachProject.push(latLngResultsFiltered[j].properties.id);
-      eachProject.push(latLngResultsFiltered[j].geometry.type);
-      eachProject.push(latLngResultsFiltered[j].geometry.coordinates);
 
-      latLngResultsFilteredLatLng.push(eachProject);
-      eachProject = [];
-    }
-    // for each project ...
-    for(var k =0; k<latLngResultsFilteredLatLng.length; k++) {
-      // find geometry type
-      var geometryType = latLngResultsFilteredLatLng[k][1];
-
-      if (geometryType === "Point") {
-
-        // Single point
-        var point = latLngResultsFilteredLatLng[k][2];
-
-        // flip values of the coordinates
-        var flip = point;
-        var flipped = point.reverse();
-
-        var latlng = L.latLng(flip);
-        var distance = (latlng).distanceTo(circle_lat_long);
-
-        // Convert meters to feet
-        var distanceInMiles = distance * 0.000621371192;
-
-        console.log("DISTANCE in miles: " + distanceInMiles);
-
-      } else if (geometryType === "MultiPoint") {
-
-        // all points in multipoint project
-        var multiplePoints = latLngResultsFilteredLatLng[k][2];
-        var id = latLngResultsFilteredLatLng[k][0];
-
-        console.log(id);
-
-        var multiPointProjects = [];
-
-        // Pushing id to multiPointProjects
-        multiPointProjects.push(id);
-
-        for ( var p = 0 ; p<multiplePoints.length; p++) {
-          // console.log(multiplePoints[p].reverse());
-
-          var flip = multiplePoints[p];
-          var flipped = multiplePoints[p].reverse();
-
-          var latlng = L.latLng(flip);
-          var distance = (latlng).distanceTo(circle_lat_long);
-          // console.log("ID: " + latLngResultsFilteredLatLng[k][0]);
-          // Convert meters to feet
-          var distanceInMiles = distance * 0.000621371192;
-
-          multiPointProjects.push(distanceInMiles);
-          console.log("DISTANCE in miles: " + distanceInMiles);
-          // multiPointProjects.push()
-
-        }
-
-        multiPointDistances.push(multiPointProjects);
-        console.log(multiPointDistances[0]);
-
-      }
-
-    } // LOOP end
+    // } // LOOP end
 
         // // create for loop and find distance between points
         //   for(var l =0; latLngResultsFilteredLatLng[k].length; l++){
@@ -396,23 +336,21 @@ function filterPointsWithRadiusCircle(data) {
         //     var distance = (latlng).distanceTo(circle_lat_long);
         //     console.log("ID: "+ latLngResultsFilteredLatLng[0] +" | DISTANCE in meters: " + distance);
         //   }
-};
+// };
 //++++++++++++++++
 //++++++++++++++++
-
+$(".filter-check").change(function() {
+  if (!isFunded) {
+    filterProjectTypes(true);
+  } else {
+    filterProjectTypes();
+  }
+});
 
 /* FILTER PROJECT TYPES FUNCTION */
 function filterProjectTypes(type) {
 
-    $(".filter-check").change(function() {
-      if (!isFunded) {
-        filterProjectTypes(true);
-      }
-    });
-
     // reset map view
-    checkZoom();
-
     // var fundingType = $('#fundedTab').getAttribute('value');
     // var fundingType = $('#fundedTab').text().toLowerCase();
     // console.log(fundingType);
@@ -455,7 +393,114 @@ function filterProjectTypes(type) {
     }
 }
 
+function filterByRadius(data) {
+
+    console.log("DATA: ", data);
+
+    var finalResults = {};
+
+    finalResults.features = [];
+
+    var features = data.features;
+    // check if data meets radius requirements
+    for (var i = 0; i < features.length; i++) {
+
+        var projectGeometry = features[i].geometry;
+        console.log("PROJECT GEOMETRY: ", projectGeometry);
+
+        if (projectGeometry.type === "Point") {
+
+            // Single point
+            var coordinates = projectGeometry.coordinates;
+
+            // // flip values of the coordinates
+            // var flip = point;
+            // var flipped = point.reverse();
+
+            var latlng = L.latLng(coordinates.reverse());
+            var distance = (latlng).distanceTo(circle_lat_long);
+            // Convert meters to feet
+            var distanceInMiles = distance * 0.000621371192;
+                        console.log("DISTANCE: ", distanceInMiles);
+
+            if (distanceInMiles <= globalRadius) {
+                finalResults.features.push(features[i]);
+            }
+        }
+
+        // } else if (projectGeometry.type === "MultiLineString" || projectGeometry.type === "Polygon") {
+
+        //     var outsideCoordinates = projectGeometry.coordinates;
+        //     var isMatch = false;
+
+        //     for (var k = 0; k < outsideCoordinates.length; k++) {
+
+        //         if (isMatch) {
+        //             break;
+        //         }
+
+        //         var insideCoordinates = outsideCoordinates[k];
+        //         for (l = 0; l < insideCoordinates.length; l++) {
+        //             var latlng = L.latLng(insideCoordinates[l].reverse());
+        //             var distance = (latlng).distanceTo(circle_lat_long);
+        //             // Convert meters to feet
+        //             var distanceInMiles = distance * 0.000621371192;
+        //                     console.log("DISTANCE: ", distanceInMiles);
+
+        //             if (distanceInMiles <= globalRadius) {
+        //                 finalResults.features.push(features[i]);
+        //                 isMatch = true;
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
+        if (projectGeometry.type === "MultiPoint") {
+
+            var coordinates = projectGeometry.coordinates;
+        // all points in multipoint project
+        // var multiplePoints = latLngResultsFilteredLatLng[k][2];
+        // var id = latLngResultsFilteredLatLng[k][0];
+
+        // console.log(id);
+
+        // var multiPointProjects = [];
+
+        // // Pushing id to multiPointProjects
+        // multiPointProjects.push(id);
+            for ( var j = 0 ; j < coordinates.length; j++) {
+              // console.log(multiplePoints[p].reverse());
+
+              // var flipped = multiplePoints[p].reverse();
+              // var flip = coordinates[i];
+
+                  var latlng = L.latLng(coordinates[j].reverse());
+                  var distance = (latlng).distanceTo(circle_lat_long);
+                  // console.log("ID: " + latLngResultsFilteredLatLng[k][0]);
+                  // Convert meters to feet
+                  var distanceInMiles = distance * 0.000621371192;
+
+                  // multiPointProjects.push(distanceInMiles);
+                  console.log("DISTANCE: ", distanceInMiles);
+
+                if (distanceInMiles <= globalRadius) {
+                    finalResults.features.push(features[i]);
+                    break;
+                }
+
+              // multiPointProjects.push()
+
+            }
+
+        }
+    }
+    displayResults(finalResults);
+    console.log("FINAL RESULTS: ", finalResults);
+}
+
+
 function displayResults(results) {
+
 
 
     $('#main-info').empty();
@@ -478,7 +523,10 @@ function displayResults(results) {
     var count = 0;
 
     var features = results.features;
+
     for (var i = 0; i < features.length; i++) {
+
+
 
         var projectFeatures = features[i].properties;
         var projectType = projectFeatures.Proj_Ty;
@@ -536,14 +584,14 @@ function displayResults(results) {
         var completionDate = projectFeatures.ProjectProjectedCompletionDate;
 
         if (completionDate) {
-            completionDate = moment(completionDate).format("MMM Do YY")
+            completionDate = completionDate;
         } else {
             completionDate = "TBD";
         }
 
         panelCompletion
             .addClass("project-heading-data")
-            .text("COMPLETION DATE: " + moment(projectFeatures.ProjectProjectedCompletionDate).format("MMM Do YY"));
+            .text("COMPLETION DATE: " + completionDate);
 
         panelId
             .addClass("project-heading-data")
@@ -754,7 +802,14 @@ function displayResults(results) {
             var access = $("<p>");
             access.text("Access: " + projectFeatures.Access);
 
-            moreDataWell.append(authorization).append(issues).append(deobligation).append(explanation).append(constrBy).append(infoSource).append(access);
+            moreDataWell
+                .append(authorization)
+                .append(issues)
+                .append(deobligation)
+                .append(explanation)
+                .append(constrBy)
+                .append(infoSource)
+                .append(access);
         }
 
         if (isFunded === "unfunded") {
@@ -806,7 +861,9 @@ function displayResults(results) {
     }
     $("#count-info").empty();
     $('#count-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
-    geoJSON.clearLayers();
+    if (geoJSON) {
+        geoJSON.clearLayers();
+    }
     geoJSON = L.geoJson(results, {
         style: {
             color: "#004EB9"
@@ -814,8 +871,11 @@ function displayResults(results) {
         onEachFeature: function(feature, layer) {
             onEachFeature(feature, layer);
         },
-        pointToLayer: L.mapbox.marker.style
+        pointToLayer: L
+        .mapbox.marker.style
     }).addTo(map);
+    checkZoom();
+
 }
 
 $(document).on("click", ".project-body-button", function() {
@@ -895,12 +955,14 @@ function onEachFeature(feature, layer) {
                 var projectType = l.feature.properties.Proj_Ty;
 
                 var markerStyle = getMarkerStyle(projectType);
+
                 l.setIcon(L.mapbox.marker.icon({
                     "marker-color": markerStyle["marker-color"],
                     "marker-symbol": markerStyle["marker-symbol"],
                     "marker-size": "small"
                 }));
             }
+
         });
         if (e.target.feature.geometry.type === 'MultiPoint') {
             layer.eachLayer(function(l) {
@@ -1093,7 +1155,7 @@ function exportCSV() {
         }
     });
 
-    var queryString = searchIDs.join('&')
+    var queryString = searchIDs.join('&');
     $.ajax({
         method: "GET",
         url: "/projects/ids/" + queryString,
@@ -1173,8 +1235,8 @@ function separateShapes() {
             shapeFilesArr.splice(i, 1);
         }
     }
-    for (var i = 0; i < shapeFilesArr.length; i++) {
-        downloadShapeFiles(shapeFilesArr[i], i + 1, shapeFilesArr.length)
+    for (var j = 0; j < shapeFilesArr.length; j++) {
+        downloadShapeFiles(shapeFilesArr[j], j + 1, shapeFilesArr.length);
     }
 }
 
