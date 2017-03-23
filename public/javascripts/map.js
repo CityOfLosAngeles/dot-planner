@@ -99,18 +99,16 @@ var map = L.mapbox.map('map', {
 
     layers: [imageryLayer]
 });
-
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 var imageryLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     id: 'SATELLITE',
     //attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
     detectRetina: true
 });
-
 var overlayMaps = {
-    'Satellite': imageryLayer
-};
 
+    'SATELLITE': imageryLayer
+};
 L.control.layers({}, overlayMaps).addTo(map);
 
 L.tileLayer("https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ubnn/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q", {
@@ -177,16 +175,16 @@ moveRadius(); // add move radius functionality to map
 
 // Grab the radius value from the slider
 $('#radiusSlider').slider({
-	formatter: function(radius) {
+  formatter: function(value) {
     var latlng;
     if (circleRadius !== undefined) {
       map.removeLayer(circleRadius);
       latlng = circleRadius._latlng;
+      var valueInMiles = Math.floor(value * 0.000621371)
     }
-    updateCircle(latlng, radius);
-    var convertedToMile = Math.floor(radius / 1609.34);
-		return 'Current radius: ' + convertedToMile;
-	}
+    updateCircle(latlng, value);
+    return (valueInMiles + 1) ;
+  }
 });
 
 //---------------------------------------------
