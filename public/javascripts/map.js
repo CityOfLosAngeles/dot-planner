@@ -245,6 +245,8 @@ $('#unfundedTab').on('click', function() {
 $(".filter-check").change(function() {
     if (!isFunded) {
         filterProjectTypes(true);
+    } else {
+        filterProjectTypes();
     }
 });
 
