@@ -537,10 +537,10 @@ router.get('/flagged', function(req, res) {
 });
 
 //Route to search db for a keyword or phrase
-//Area of interest: Router Area that uses 
+//Area of interest: Router Area that uses
 router.get('/search', function(req, res) {
   var search = req.query.search;
-  var searchObj; 
+  var searchObj;
   //If the user is logged in return all results that match the search terms
   if (req.session.logged_in) {
     searchObj = {
