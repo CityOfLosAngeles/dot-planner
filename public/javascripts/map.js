@@ -298,7 +298,7 @@ function filterProjectTypes(type) {
 
 function displayResults(results) {
 
-
+    console.log("RESULTS: ", results);
     $('#main-info').empty();
     // show main info div
     $('#main-info').show();
