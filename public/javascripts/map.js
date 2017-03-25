@@ -154,36 +154,37 @@ function renderAllProjects(zoom) {
         datatype: 'JSON',
         success: function(data) {
             if (data) {
-                var features = data.features;
-                for (var i = 0; i < features.length; i++) {
-
-                    var projectFeatures = features[i].properties;
-
-                    var projectType = projectFeatures.Proj_Ty;
-
-                    var markerStyle = getMarkerStyle(projectType);
-
-
-                    projectFeatures["marker-color"] = markerStyle["marker-color"];
-                    projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
-                    projectFeatures["marker-size"] = "small";
-                }
-
-                if (geoJSON) {
-                    geoJSON.clearLayers();
-                }
-                geoJSON = L.geoJson(data, {
-                    style: {
-                        color: "#004EB9"
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEachFeature(feature, layer);
-                    },
-                    pointToLayer: L.mapbox.marker.style
-                }).addTo(map);
-                if (zoom) {
-                    checkZoom();
-                }
+                // var features = data.features;
+                // for (var i = 0; i < features.length; i++) {
+                //
+                //     var projectFeatures = features[i].properties;
+                //
+                //     var projectType = projectFeatures.Proj_Ty;
+                //
+                //     var markerStyle = getMarkerStyle(projectType);
+                //
+                //
+                //     projectFeatures["marker-color"] = markerStyle["marker-color"];
+                //     projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
+                //     projectFeatures["marker-size"] = "small";
+                // }
+                //
+                // if (geoJSON) {
+                //     geoJSON.clearLayers();
+                // }
+                // geoJSON = L.geoJson(data, {
+                //     style: {
+                //         color: "#004EB9"
+                //     },
+                //     onEachFeature: function(feature, layer) {
+                //         onEachFeature(feature, layer);
+                //     },
+                //     pointToLayer: L.mapbox.marker.style
+                // }).addTo(map);
+                // if (zoom) {
+                //     checkZoom();
+                // }
+                displayResults(data);
             }
         }
     });
@@ -245,6 +246,8 @@ $('#unfundedTab').on('click', function() {
 $(".filter-check").change(function() {
     if (!isFunded) {
         filterProjectTypes(true);
+    } else {
+        filterProjectTypes();
     }
 });
 
