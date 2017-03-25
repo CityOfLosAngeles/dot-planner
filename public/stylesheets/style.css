@@ -8,6 +8,17 @@ body {
 }
 
 /*NEEDS TO BE PUT IN THE RIGHT PLACE*/
+/*Radius search slide bar*/
+#ex1Slider .slider-selection {
+    background: #BABABA;
+  display: inline;
+}
+
+.slider.slider-horizontal {
+    margin: 0 10px;
+}
+
+/*NEEDS TO BE PUT IN THE RIGHT PLACE*/
 /*FUNDED / UNFUNDED PANELS*/
 .projects-list-item {
     border: 1px solid #002E6D;
@@ -558,14 +569,14 @@ body {
 #hide-button {
     position: absolute;
     top: 10px;
-    right: 150px;
+    right: 355px;
     z-index: 100;
 }
 
 #unhide-button {
     position: absolute;
     top: 10px;
-    right: 50px;
+    right: 500px;
     z-index: 100;
 }
 

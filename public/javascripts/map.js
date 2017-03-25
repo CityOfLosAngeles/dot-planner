@@ -53,7 +53,7 @@ function getMarkerStyle(type) {
 
     if (projectType === "Ped and Bike" || projectType === "Bike/ped") {
         newMarker["marker-color"] = colors.rose;
-        newMarker["marker-symbol"] = "pitch"
+        newMarker["marker-symbol"] = "pitch";
     }
 
     else if (projectType === "Bike Only") {
@@ -66,7 +66,7 @@ function getMarkerStyle(type) {
     }
     else if (projectType === "First and Last Mile" || projectType === "First mile and last mile") {
         newMarker["marker-color"] = colors.lime;
-        newMarker["marker-symbol"] = "hospital"
+        newMarker["marker-symbol"] = "hospital";
     }
     else if (projectType === "Safety") {
         newMarker["marker-color"] = colors.red;
@@ -86,30 +86,28 @@ function getMarkerStyle(type) {
     }
     else {
         newMarker["marker-color"] = colors.orange;
-        newMarker["marker-symbol"] = "marker"
+        newMarker["marker-symbol"] = "marker";
     }
 
     return newMarker;
-};
+}
 
 // TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 
 // Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map', {
+
     layers: [imageryLayer]
 });
-
-// TODO: Does mapbox API token expire? We probably need the city to make their own account and create a map. This is currently using Spencer's account.
 var imageryLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     id: 'SATELLITE',
     //attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
     detectRetina: true
 });
-
 var overlayMaps = {
-    'Satellite': imageryLayer
-};
 
+    'SATELLITE': imageryLayer
+};
 L.control.layers({}, overlayMaps).addTo(map);
 
 L.tileLayer("https://api.mapbox.com/styles/v1/spencerc77/ciw30fzgs00ap2jpg6sj6ubnn/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BlbmNlcmM3NyIsImEiOiJjaXczMDZ6NWwwMTgzMm9tbXR4dGRtOXlwIn0.TPfrEq5h7Iuain1LsBsC8Q", {
@@ -132,17 +130,81 @@ var googleOptions = {
 };
 
 //Create the autocomplete input
-var input = document.getElementById("google-search");
+var input = document.getElementById("google-search-input");
 var autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
 
 //Add an event listener that changes the map view when an autocomplete address is selected
-google.maps.event.addListener(autocomplete, 'place_changed', function() {
+google.maps.event.addListener(autocomplete, 'place_changed', function () {
     var place = autocomplete.getPlace();
     var lat = place.geometry.location.lat();
     var lng = place.geometry.location.lng();
     map.setView([lat, lng], 15);
-    $('#google-search').val('');
+    $('#google-search-input').val('');
 });
+
+
+// Create radius to add to map
+var circleRadius = L.circle([34.0522, -118.2437], 100).addTo(map);
+var circle_lat_long = circleRadius.getLatLng();
+var globalRadius;
+
+// Add circle radius to map when slider value changes
+var updateCircle = function (latlng, radius) {
+    if (!isFunded) {
+        filterProjectTypes(true);
+    } else {
+        filterProjectTypes();
+    }
+    globalRadius = radius;
+    circleRadius = L.circle([latlng.lat, latlng.lng], globalRadius).addTo(map);
+
+    // add move radius functionality
+    moveRadius();
+
+};
+
+var moveRadius = function () {
+
+    circleRadius.on({
+        mousedown: function () {
+            map.on('mousemove', function (e) {
+                circleRadius.setLatLng(e.latlng);
+            });
+        }
+    });
+    map.on('mouseup', function (e) {
+        map.removeEventListener('mousemove');
+        if (!isFunded) {
+            filterProjectTypes(true);
+        } else {
+            filterProjectTypes();
+        }
+    });
+};
+
+moveRadius();
+
+// // add move radius functionality to map
+// moveRadius();
+
+// Grab the radius value from the slider
+$('#radiusSlider').slider({
+
+    formatter: function (value) {
+
+        var latlng;
+        map.removeLayer(circleRadius);
+        latlng = circleRadius._latlng;
+        var valueInMiles = Math.round(value * 0.000621371);
+
+
+        // console.log(latlng);
+        updateCircle(latlng, value);
+        globalRadius = valueInMiles;
+        return valueInMiles;
+    }
+});
+
 
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
 function renderAllProjects(zoom) {
@@ -152,39 +214,40 @@ function renderAllProjects(zoom) {
         type: 'GET',
         url: '/projects/all',
         datatype: 'JSON',
-        success: function(data) {
+        success: function (data) {
+
             if (data) {
-                // var features = data.features;
-                // for (var i = 0; i < features.length; i++) {
-                //
-                //     var projectFeatures = features[i].properties;
-                //
-                //     var projectType = projectFeatures.Proj_Ty;
-                //
-                //     var markerStyle = getMarkerStyle(projectType);
-                //
-                //
-                //     projectFeatures["marker-color"] = markerStyle["marker-color"];
-                //     projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
-                //     projectFeatures["marker-size"] = "small";
-                // }
-                //
-                // if (geoJSON) {
-                //     geoJSON.clearLayers();
-                // }
-                // geoJSON = L.geoJson(data, {
-                //     style: {
-                //         color: "#004EB9"
-                //     },
-                //     onEachFeature: function(feature, layer) {
-                //         onEachFeature(feature, layer);
-                //     },
-                //     pointToLayer: L.mapbox.marker.style
-                // }).addTo(map);
-                // if (zoom) {
-                //     checkZoom();
-                // }
-                displayResults(data);
+                var features = data.features;
+                for (var i = 0; i < features.length; i++) {
+
+                    var projectFeatures = features[i].properties;
+
+                    var projectType = projectFeatures.Proj_Ty;
+
+                    var markerStyle = getMarkerStyle(projectType);
+
+
+                    projectFeatures["marker-color"] = markerStyle["marker-color"];
+                    projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
+                    projectFeatures["marker-size"] = "small";
+                }
+
+                if (geoJSON) {
+                    geoJSON.clearLayers();
+                }
+                geoJSON = L.geoJson(data, {
+                    style: {
+                        color: "#004EB9"
+                    },
+                    onEachFeature: function(feature, layer) {
+                        onEachFeature(feature, layer);
+                    },
+                    pointToLayer: L.mapbox.marker.style
+                }).addTo(map);
+                if (zoom) {
+                    checkZoom();
+                }
+
             }
         }
     });
@@ -202,9 +265,9 @@ function checkZoom() {
             method: "GET",
             url: "/projects/id/" + id,
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 if (data) {
-                    geoJSON.eachLayer(function(l) {
+                    geoJSON.eachLayer(function (l) {
                         if (l.feature.properties.id === data[0].id) {
                             l.fireEvent('click');
                         }
@@ -219,16 +282,11 @@ function checkZoom() {
     }
 }
 
-// Global variable to know if we're loking for funded or unfunded
+// Global variable to know if we're looking for funded or unfunded
 var isFunded;
 
-// Checkbox to filter for project types
-// $('.filter input[type="checkbox"]').change(function() {
-//     filterProjectTypes();
-// });
-
 // Give me funded projects
-$('#fundedTab').on('click', function() {
+$('#fundedTab').on('click', function () {
     isFunded = "funded";
     $('#project-details').hide();
     $('#main-info').empty();
@@ -236,14 +294,14 @@ $('#fundedTab').on('click', function() {
 });
 
 //Give me unfunded projects
-$('#unfundedTab').on('click', function() {
+$('#unfundedTab').on('click', function () {
     isFunded = "unfunded";
     $('#project-details').hide();
     $('#main-info').empty();
     filterProjectTypes();
 });
 
-$(".filter-check").change(function() {
+$(".filter-check").change(function () {
     if (!isFunded) {
         filterProjectTypes(true);
     } else {
@@ -255,13 +313,11 @@ $(".filter-check").change(function() {
 function filterProjectTypes(type) {
 
     // reset map view
-    checkZoom();
-
     // var fundingType = $('#fundedTab').getAttribute('value');
     // var fundingType = $('#fundedTab').text().toLowerCase();
     // console.log(fundingType);
 
-    var projectTypes = $('.project-type input[type="checkbox"]:checked').map(function(_, el) {
+    var projectTypes = $('.project-type input[type="checkbox"]:checked').map(function (_, el) {
         return $(el).val();
     }).get();
 
@@ -280,7 +336,7 @@ function filterProjectTypes(type) {
                 url: '/projects/type/' + typeQuery,
                 datatype: 'JSON',
                 success: function (data) {
-                    displayResults(data);
+                    filterByRadius(data);
                 }
             });
         } else {
@@ -289,7 +345,7 @@ function filterProjectTypes(type) {
                 url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
                 datatype: 'JSON',
                 success: function (data) {
-                    displayResults(data);
+                    filterByRadius(data);
                 }
             });
         }
@@ -299,9 +355,100 @@ function filterProjectTypes(type) {
     }
 }
 
+function filterByRadius(data) {
+
+    var finalResults = {};
+    finalResults.features = [];
+
+    var features = data.features;
+    // check if data meets radius requirements
+    for (var i = 0; i < features.length; i++) {
+
+        var projectGeometry = features[i].geometry;
+
+        if (projectGeometry.type === "Point") {
+
+            // Single point
+            var coordinates = projectGeometry.coordinates;
+
+            var latlng = L.latLng(coordinates.reverse());
+
+            var distance = latlng.distanceTo(circle_lat_long);
+            // Convert meters to feet
+            var distanceInMiles = distance * 0.000621371192;
+
+            latlng = L.latLng(coordinates.reverse());
+
+            if (distanceInMiles <= globalRadius) {
+                finalResults.features.push(features[i]);
+            }
+
+
+        }
+        if (projectGeometry.type === "MultiLineString" || projectGeometry.type === "Polygon") {
+
+            var outsideCoordinates = projectGeometry.coordinates;
+
+            var isMatch = false;
+
+            for (var k = 0; k < outsideCoordinates.length; k++) {
+
+                if (isMatch) {
+                    break;
+                }
+                var insideCoordinates = outsideCoordinates[k];
+                for (l = 0; l < insideCoordinates.length; l++) {
+
+                    var coordinates = insideCoordinates[l];
+                    var latlng = L.latLng(coordinates.reverse());
+                    var distance = (latlng).distanceTo(circle_lat_long);
+                    // Convert meters to feet
+                    var distanceInMiles = distance * 0.000621371192;
+                    latlng = L.latLng(coordinates.reverse());
+
+                    if (distanceInMiles <= globalRadius && !isMatch) {
+                        finalResults.features.push(features[i]);
+                        isMatch = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (projectGeometry.type === "MultiPoint" || projectGeometry.type === "LineString") {
+
+            var coordinatesArray = projectGeometry.coordinates;
+
+
+            for (var j = 0; j < coordinatesArray.length; j++) {
+
+
+                var coordinates = coordinatesArray[j];
+
+                var latlng = L.latLng(coordinates.reverse());
+
+
+                var distance = (latlng).distanceTo(circle_lat_long);
+                // Convert meters to feet
+                var distanceInMiles = distance * 0.000621371192;
+                latlng = L.latLng(coordinates.reverse());
+
+                if (distanceInMiles <= globalRadius) {
+                    finalResults.features.push(features[i]);
+                    break;
+                }
+
+            }
+
+        }
+    }
+    displayResults(finalResults);
+}
+
+
 function displayResults(results) {
 
-    console.log("RESULTS: ", results);
+    checkZoom();
+
     $('#main-info').empty();
     // show main info div
     $('#main-info').show();
@@ -322,7 +469,9 @@ function displayResults(results) {
     var count = 0;
 
     var features = results.features;
+
     for (var i = 0; i < features.length; i++) {
+
 
         var projectFeatures = features[i].properties;
         var projectType = projectFeatures.Proj_Ty;
@@ -380,14 +529,14 @@ function displayResults(results) {
         var completionDate = projectFeatures.ProjectProjectedCompletionDate;
 
         if (completionDate) {
-            completionDate = moment(completionDate).format("MMM Do YY")
+            completionDate = completionDate;
         } else {
             completionDate = "TBD";
         }
 
         panelCompletion
             .addClass("project-heading-data")
-            .text("COMPLETION DATE: " + moment(projectFeatures.ProjectProjectedCompletionDate).format("MMM Do YY"));
+            .text("COMPLETION DATE: " + completionDate);
 
         panelId
             .addClass("project-heading-data")
@@ -598,13 +747,19 @@ function displayResults(results) {
             var access = $("<p>");
             access.text("Access: " + projectFeatures.Access);
 
-            moreDataWell.append(authorization).append(issues).append(deobligation).append(explanation).append(constrBy).append(infoSource).append(access);
+            moreDataWell
+                .append(authorization)
+                .append(issues)
+                .append(deobligation)
+                .append(explanation)
+                .append(constrBy)
+                .append(infoSource)
+                .append(access);
         }
 
         if (isFunded === "unfunded") {
 
             // unfunded project marker color
-
 
 
             var unfundedMoreInfo = $("<p>");
@@ -623,6 +778,7 @@ function displayResults(results) {
                 estCost.text("Estimated Cost: $" + projectFeatures.Est_Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                 moreDataWell.append(estCost);
             }
+
             if (projectFeatures.Fund_Rq) {
                 var fundRq = $("<p>");
                 fundRq.text("Fund Request: " + projectFeatures.Fund_Rq.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
@@ -649,28 +805,32 @@ function displayResults(results) {
     }
     $("#count-info").empty();
     $('#count-info').append("<p><strong>Projects Listed: " + count + "</strong></p>");
-    geoJSON.clearLayers();
+    if (geoJSON) {
+        geoJSON.clearLayers();
+    }
     geoJSON = L.geoJson(results, {
         style: {
             color: "#004EB9"
         },
-        onEachFeature: function(feature, layer) {
+        onEachFeature: function (feature, layer) {
             onEachFeature(feature, layer);
         },
-        pointToLayer: L.mapbox.marker.style
+        pointToLayer: L
+            .mapbox.marker.style
     }).addTo(map);
+    checkZoom();
+
 }
 
-$(document).on("click", ".project-body-button", function() {
+$(document).on("click", ".project-body-button", function () {
     var id = $(this).data("id");
-    console.log(id);
     $.ajax({
         method: "GET",
         url: "/projects/id/" + id,
         datatype: 'JSON',
-        success: function(data) {
+        success: function (data) {
             if (data) {
-                geoJSON.eachLayer(function(l) {
+                geoJSON.eachLayer(function (l) {
                     if (l.feature.properties.id === data[0].id) {
                         l.fireEvent('click');
                     }
@@ -680,15 +840,15 @@ $(document).on("click", ".project-body-button", function() {
     });
 });
 
-$('#hide-button').on('click', function() {
-    geoJSON.eachLayer(function(l) {
+$('#hide-button').on('click', function () {
+    geoJSON.eachLayer(function (l) {
         if (l._leaflet_id === layerID) {
             map.removeLayer(l);
         }
     });
 });
 
-$('#unhide-button').on('click', function() {
+$('#unhide-button').on('click', function () {
     renderAllProjects(false);
 });
 
@@ -698,7 +858,7 @@ $('#unhide-button').on('click', function() {
 function zoomToFeature(e) {
     if (e.target.feature.geometry.type === 'Point') {
         var coordinates = e.target.feature.geometry.coordinates.slice().reverse();
-        map.setView(coordinates, 16)
+        map.setView(coordinates, 16);
     } else {
         map.fitBounds(e.target.getBounds());
     }
@@ -707,7 +867,7 @@ function zoomToFeature(e) {
 
 /* ON EACH FEATURE FUNCTION */
 function onEachFeature(feature, layer) {
-    layer.on('click', function(e) {
+    layer.on('click', function (e) {
 
 
         $("#project-details").show();
@@ -717,10 +877,10 @@ function onEachFeature(feature, layer) {
         $('#Cross_Streets').empty();
         layerID = layer._leaflet_id;
         zoomToFeature(e);
-        geoJSON.eachLayer(function(l) {
+        geoJSON.eachLayer(function (l) {
             geoJSON.resetStyle(l);
             if (l.feature.geometry.type === 'MultiPoint') {
-                l.eachLayer(function(MultiPointLayer) {
+                l.eachLayer(function (MultiPointLayer) {
 
                     var projectType = l.feature.properties.Proj_Ty;
 
@@ -738,15 +898,17 @@ function onEachFeature(feature, layer) {
                 var projectType = l.feature.properties.Proj_Ty;
 
                 var markerStyle = getMarkerStyle(projectType);
+
                 l.setIcon(L.mapbox.marker.icon({
                     "marker-color": markerStyle["marker-color"],
                     "marker-symbol": markerStyle["marker-symbol"],
                     "marker-size": "small"
                 }));
             }
+
         });
         if (e.target.feature.geometry.type === 'MultiPoint') {
-            layer.eachLayer(function(l) {
+            layer.eachLayer(function (l) {
                 var projectType = e.target.feature.properties.Proj_Ty;
 
                 var markerStyle = getMarkerStyle(projectType);
@@ -783,6 +945,7 @@ function onEachFeature(feature, layer) {
             });
         }
         var fundStatus = feature.properties.Fund_St;
+
         $('#sidebar-fundedAndUnfunded').hide();
         $('#sidebar-funded-attributes').hide();
         $('#sidebar-unfunded-attributes').hide();
@@ -791,7 +954,7 @@ function onEachFeature(feature, layer) {
         $('#hide-info').remove();
         $('#edit-button').show();
 
-        $(document).on('click', '#show-info', function() {
+        $(document).on('click', '#show-info', function () {
             $('#show-info').remove();
             $('#hide-info').remove();
             var button = $('<button id="hide-info" type="button" name="button" class="btn">Less Info</button>');
@@ -806,7 +969,7 @@ function onEachFeature(feature, layer) {
             }
         });
 
-        $(document).on('click', '#hide-info', function() {
+        $(document).on('click', '#hide-info', function () {
             $('#show-info').remove();
             $('#hide-info').remove();
             var button = $('<button id="show-info" type="button" name="button" class="btn">More Info</button>');
@@ -844,9 +1007,9 @@ function onEachFeature(feature, layer) {
                 }
                 $('#Cross_Streets').append(streetsString);
             }
-            $('#sidebar-fundedAndUnfunded').show();
-            var button = $('<button id="show-info" class="btn" type="button" name="button">More Info</button>');
-            $('#project-details').append(button);
+            // $('#sidebar-fundedAndUnfunded').show();
+            // var button = $('<button id="show-info" class="btn" type="button" name="button">More Info</button>');
+            // $('#project-details').append(button);
         }
 
         //Separate section for funded attributes
@@ -904,22 +1067,22 @@ function onEachFeature(feature, layer) {
 }
 
 //When the edit button is clicked redirect to the edit page which is defined in data-href
-$(document).on('click', '#edit-button', function() {
+$(document).on('click', '#edit-button', function () {
     window.location = $('#edit-button').attr('data-href');
 });
 
-$('#export-csv').on('click', function() {
+$('#export-csv').on('click', function () {
     exportCSV();
 });
 
-$('#export-shapefiles').on('click', function() {
+$('#export-shapefiles').on('click', function () {
     separateShapes();
 });
 
 function exportCSV() {
     var searchIDs = [];
     var bounds = map.getBounds();
-    geoJSON.eachLayer(function(layer) {
+    geoJSON.eachLayer(function (layer) {
         if (layer.feature.geometry.type === 'Point') {
             if (bounds.contains(layer.getLatLng())) {
                 searchIDs.push(layer.feature.properties.id);
@@ -935,18 +1098,18 @@ function exportCSV() {
         }
     });
 
-    var queryString = searchIDs.join('&')
+    var queryString = searchIDs.join('&');
     $.ajax({
         method: "GET",
         url: "/projects/ids/" + queryString,
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             var geoJSON = JSON.stringify(data);
             $.post('https://ogre.adc4gis.com/convertJson', {
                     json: geoJSON,
                     format: "csv"
                 },
-                function(csv) {
+                function (csv) {
                     a = document.createElement('a');
                     a.download = "projects.csv";
                     a.href = 'data:text/csv;charset=utf-8,' + escape(csv);
@@ -980,7 +1143,7 @@ function separateShapes() {
         name: 'multipoints',
         features: []
     };
-    geoJSON.eachLayer(function(layer) {
+    geoJSON.eachLayer(function (layer) {
         switch (layer.feature.geometry.type) {
             case 'Point':
                 if (bounds.contains(layer.getLatLng())) {
@@ -1015,8 +1178,8 @@ function separateShapes() {
             shapeFilesArr.splice(i, 1);
         }
     }
-    for (var i = 0; i < shapeFilesArr.length; i++) {
-        downloadShapeFiles(shapeFilesArr[i], i + 1, shapeFilesArr.length)
+    for (var j = 0; j < shapeFilesArr.length; j++) {
+        downloadShapeFiles(shapeFilesArr[j], j + 1, shapeFilesArr.length);
     }
 }
 
@@ -1026,7 +1189,7 @@ function downloadShapeFiles(geoTypeObj) {
         method: "GET",
         url: "/projects/ids/" + queryString,
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             var geoJSON = JSON.stringify(data);
             // XHR Request Working
             var formData = new FormData();
@@ -1034,14 +1197,14 @@ function downloadShapeFiles(geoTypeObj) {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "https://ogre.adc4gis.com/convertJson");
             xhr.responseType = "arraybuffer"; // ask for a binary result
-            xhr.onreadystatechange = function(evt) {
+            xhr.onreadystatechange = function (evt) {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                        JSZip.loadAsync(xhr.response).then(function(zip) {
+                        JSZip.loadAsync(xhr.response).then(function (zip) {
                             zip.generateAsync({
-                                    type: "blob"
-                                })
-                                .then(function(blob) {
+                                type: "blob"
+                            })
+                                .then(function (blob) {
                                     saveAs(blob, geoTypeObj.name + '.zip');
                                 });
                         });
