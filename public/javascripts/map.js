@@ -132,7 +132,7 @@ var googleOptions = {
 };
 
 //Create the autocomplete input
-var input = document.getElementById("google-search");
+var input = document.getElementById("google-search-input");
 var autocomplete = new google.maps.places.Autocomplete(input, googleOptions);
 
 //Add an event listener that changes the map view when an autocomplete address is selected
@@ -141,7 +141,7 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
     var lat = place.geometry.location.lat();
     var lng = place.geometry.location.lng();
     map.setView([lat, lng], 15);
-    $('#google-search').val('');
+    $('#google-search-input').val('');
 });
 
 //AJAX request to the PostgreSQL database to get all projects and render them on the map
