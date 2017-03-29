@@ -154,7 +154,7 @@ body {
     height: -moz-calc(100vh - 50px);
     /* firefox */
     overflow-y: scroll;
-    padding: 25px;
+    padding: 10px;
 }
 
 #delete {
