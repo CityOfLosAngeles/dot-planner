@@ -1,3 +1,5 @@
+$("#project-details").hide();
+
 //Global variable which will become the geoJSON layer
 var geoJSON;
 
@@ -251,9 +253,9 @@ function renderAllProjects(zoom) {
     });
 }
 
-// renderAllProjects(true);
+renderAllProjects(true);
 
-filterProjectTypes(true);
+// filterProjectTypes(true);
 
 //Function to check if a project should be zoomed in on
 function checkZoom() {
@@ -582,7 +584,8 @@ function displayResults(results) {
             .append(panelTitle)
             .append(panelHeaderData);
 
-
+        panel
+            .append(panelHeading);
 
         var panelBodyCollapse = $("<div>");
 
@@ -649,9 +652,6 @@ function displayResults(results) {
 
         panel
             .append(panelBodyCollapse);
-
-        panel
-            .prepend(panelHeading);
 
         var panelButton = $("<button>");
         panelButton
