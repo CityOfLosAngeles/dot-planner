@@ -184,9 +184,6 @@ var moveRadius = function () {
 
 moveRadius();
 
-// // add move radius functionality to map
-// moveRadius();
-
 // Grab the radius value from the slider
 $('#radiusSlider').slider({
 
@@ -217,43 +214,46 @@ function renderAllProjects(zoom) {
         success: function (data) {
 
             if (data) {
-                var features = data.features;
-                for (var i = 0; i < features.length; i++) {
-
-                    var projectFeatures = features[i].properties;
-
-                    var projectType = projectFeatures.Proj_Ty;
-
-                    var markerStyle = getMarkerStyle(projectType);
-
-
-                    projectFeatures["marker-color"] = markerStyle["marker-color"];
-                    projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
-                    projectFeatures["marker-size"] = "small";
-                }
-
-                if (geoJSON) {
-                    geoJSON.clearLayers();
-                }
-                geoJSON = L.geoJson(data, {
-                    style: {
-                        color: "#004EB9"
-                    },
-                    onEachFeature: function(feature, layer) {
-                        onEachFeature(feature, layer);
-                    },
-                    pointToLayer: L.mapbox.marker.style
-                }).addTo(map);
-                if (zoom) {
-                    checkZoom();
-                }
+                displayResults(data);
+                // var features = data.features;
+                // for (var i = 0; i < features.length; i++) {
+                //
+                //     var projectFeatures = features[i].properties;
+                //
+                //     var projectType = projectFeatures.Proj_Ty;
+                //
+                //     var markerStyle = getMarkerStyle(projectType);
+                //
+                //
+                //     projectFeatures["marker-color"] = markerStyle["marker-color"];
+                //     projectFeatures["marker-symbol"] = markerStyle["marker-symbol"];
+                //     projectFeatures["marker-size"] = "small";
+                // }
+                //
+                // if (geoJSON) {
+                //     geoJSON.clearLayers();
+                // }
+                // geoJSON = L.geoJson(data, {
+                //     style: {
+                //         color: "#004EB9"
+                //     },
+                //     onEachFeature: function(feature, layer) {
+                //         onEachFeature(feature, layer);
+                //     },
+                //     pointToLayer: L.mapbox.marker.style
+                // }).addTo(map);
+                // if (zoom) {
+                //     checkZoom();
+                // }
 
             }
         }
     });
 }
 
-renderAllProjects(true);
+// renderAllProjects(true);
+
+filterProjectTypes(true);
 
 //Function to check if a project should be zoomed in on
 function checkZoom() {
@@ -336,7 +336,8 @@ function filterProjectTypes(type) {
                 url: '/projects/type/' + typeQuery,
                 datatype: 'JSON',
                 success: function (data) {
-                    filterByRadius(data);
+                    displayResults(data);
+                    // filterByRadius(data);
                 }
             });
         } else {
@@ -345,7 +346,8 @@ function filterProjectTypes(type) {
                 url: '/projects/funding/' + fundingQuery + '/type/' + typeQuery,
                 datatype: 'JSON',
                 success: function (data) {
-                    filterByRadius(data);
+                    displayResults(data);
+                    // filterByRadius(data);
                 }
             });
         }
@@ -355,94 +357,94 @@ function filterProjectTypes(type) {
     }
 }
 
-function filterByRadius(data) {
-
-    var finalResults = {};
-    finalResults.features = [];
-
-    var features = data.features;
-    // check if data meets radius requirements
-    for (var i = 0; i < features.length; i++) {
-
-        var projectGeometry = features[i].geometry;
-
-        if (projectGeometry.type === "Point") {
-
-            // Single point
-            var coordinates = projectGeometry.coordinates;
-
-            var latlng = L.latLng(coordinates.reverse());
-
-            var distance = latlng.distanceTo(circle_lat_long);
-            // Convert meters to feet
-            var distanceInMiles = distance * 0.000621371192;
-
-            latlng = L.latLng(coordinates.reverse());
-
-            if (distanceInMiles <= globalRadius) {
-                finalResults.features.push(features[i]);
-            }
-
-
-        }
-        if (projectGeometry.type === "MultiLineString" || projectGeometry.type === "Polygon") {
-
-            var outsideCoordinates = projectGeometry.coordinates;
-
-            var isMatch = false;
-
-            for (var k = 0; k < outsideCoordinates.length; k++) {
-
-                if (isMatch) {
-                    break;
-                }
-                var insideCoordinates = outsideCoordinates[k];
-                for (l = 0; l < insideCoordinates.length; l++) {
-
-                    var coordinates = insideCoordinates[l];
-                    var latlng = L.latLng(coordinates.reverse());
-                    var distance = (latlng).distanceTo(circle_lat_long);
-                    // Convert meters to feet
-                    var distanceInMiles = distance * 0.000621371192;
-                    latlng = L.latLng(coordinates.reverse());
-
-                    if (distanceInMiles <= globalRadius && !isMatch) {
-                        finalResults.features.push(features[i]);
-                        isMatch = true;
-                        break;
-                    }
-                }
-            }
-        }
-        if (projectGeometry.type === "MultiPoint" || projectGeometry.type === "LineString") {
-
-            var coordinatesArray = projectGeometry.coordinates;
-
-
-            for (var j = 0; j < coordinatesArray.length; j++) {
-
-
-                var coordinates = coordinatesArray[j];
-
-                var latlng = L.latLng(coordinates.reverse());
-
-
-                var distance = (latlng).distanceTo(circle_lat_long);
-                // Convert meters to feet
-                var distanceInMiles = distance * 0.000621371192;
-                latlng = L.latLng(coordinates.reverse());
-
-                if (distanceInMiles <= globalRadius) {
-                    finalResults.features.push(features[i]);
-                    break;
-                }
-
-            }
-
-        }
-    }
-    displayResults(finalResults);
-}
+// function filterByRadius(data) {
+//
+//     var finalResults = {};
+//     finalResults.features = [];
+//
+//     var features = data.features;
+//     // check if data meets radius requirements
+//     for (var i = 0; i < features.length; i++) {
+//
+//         var projectGeometry = features[i].geometry;
+//
+//         if (projectGeometry.type === "Point") {
+//
+//             // Single point
+//             var coordinates = projectGeometry.coordinates;
+//
+//             var latlng = L.latLng(coordinates.reverse());
+//
+//             var distance = latlng.distanceTo(circle_lat_long);
+//             // Convert meters to feet
+//             var distanceInMiles = distance * 0.000621371192;
+//
+//             latlng = L.latLng(coordinates.reverse());
+//
+//             if (distanceInMiles <= globalRadius) {
+//                 finalResults.features.push(features[i]);
+//             }
+//
+//
+//         }
+//         if (projectGeometry.type === "MultiLineString" || projectGeometry.type === "Polygon") {
+//
+//             var outsideCoordinates = projectGeometry.coordinates;
+//
+//             var isMatch = false;
+//
+//             for (var k = 0; k < outsideCoordinates.length; k++) {
+//
+//                 if (isMatch) {
+//                     break;
+//                 }
+//                 var insideCoordinates = outsideCoordinates[k];
+//                 for (l = 0; l < insideCoordinates.length; l++) {
+//
+//                     var coordinates = insideCoordinates[l];
+//                     var latlng = L.latLng(coordinates.reverse());
+//                     var distance = (latlng).distanceTo(circle_lat_long);
+//                     // Convert meters to feet
+//                     var distanceInMiles = distance * 0.000621371192;
+//                     latlng = L.latLng(coordinates.reverse());
+//
+//                     if (distanceInMiles <= globalRadius && !isMatch) {
+//                         finalResults.features.push(features[i]);
+//                         isMatch = true;
+//                         break;
+//                     }
+//                 }
+//             }
+//         }
+//         if (projectGeometry.type === "MultiPoint" || projectGeometry.type === "LineString") {
+//
+//             var coordinatesArray = projectGeometry.coordinates;
+//
+//
+//             for (var j = 0; j < coordinatesArray.length; j++) {
+//
+//
+//                 var coordinates = coordinatesArray[j];
+//
+//                 var latlng = L.latLng(coordinates.reverse());
+//
+//
+//                 var distance = (latlng).distanceTo(circle_lat_long);
+//                 // Convert meters to feet
+//                 var distanceInMiles = distance * 0.000621371192;
+//                 latlng = L.latLng(coordinates.reverse());
+//
+//                 if (distanceInMiles <= globalRadius) {
+//                     finalResults.features.push(features[i]);
+//                     break;
+//                 }
+//
+//             }
+//
+//         }
+//     }
+//     displayResults(finalResults);
+// }
 
 
 function displayResults(results) {
@@ -508,7 +510,8 @@ function displayResults(results) {
             .attr("aria-controls", "collapse_" + i)
             .text(projectFeatures.Proj_Title);
 
-        panelTitle.append(panelLink);
+        panelTitle
+            .append(panelLink);
 
         var panelHeaderData = $("<div>");
         panelHeaderData
@@ -579,8 +582,7 @@ function displayResults(results) {
             .append(panelTitle)
             .append(panelHeaderData);
 
-        panel
-            .append(panelHeading);
+
 
         var panelBodyCollapse = $("<div>");
 
@@ -641,11 +643,15 @@ function displayResults(results) {
             .append(contactPhone)
             .append(contactEmail);
 
+
         panelBodyCollapse
             .append(panelBody);
 
         panel
             .append(panelBodyCollapse);
+
+        panel
+            .prepend(panelHeading);
 
         var panelButton = $("<button>");
         panelButton
@@ -795,11 +801,14 @@ function displayResults(results) {
             moreDataWell.append(matchPt);
         }
 
-        moreData.append(moreDataWell);
+        moreData
+            .append(moreDataWell);
 
-        panelBodyCollapse.append(moreData);
+        panelBodyCollapse
+            .append(moreData);
 
-        panelGroup.append(panel);
+        panelGroup
+            .append(panel);
 
         count++;
     }
