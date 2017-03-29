@@ -98,7 +98,6 @@ function getMarkerStyle(type) {
 
 // Creating the map with mapbox (view coordinates are downtown Los Angeles)
 var map = L.mapbox.map('map', {
-
     layers: [imageryLayer]
 });
 var imageryLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -152,14 +151,14 @@ var globalRadius;
 
 // Add circle radius to map when slider value changes
 var updateCircle = function (latlng, radius) {
-    if (!isFunded) {
-        filterProjectTypes(true);
-    } else {
-        filterProjectTypes();
-    }
+    //
+    // if (!isFunded) {
+    //     filterProjectTypes(true);
+    // } else {
+    //     filterProjectTypes();
+    // }
     globalRadius = radius;
     circleRadius = L.circle([latlng.lat, latlng.lng], globalRadius).addTo(map);
-
     // add move radius functionality
     moveRadius();
 
@@ -176,11 +175,23 @@ var moveRadius = function () {
     });
     map.on('mouseup', function (e) {
         map.removeEventListener('mousemove');
-        if (!isFunded) {
-            filterProjectTypes(true);
-        } else {
-            filterProjectTypes();
-        }
+        map.featuresAt(e.point, {
+            radius: globalRadius,
+            includeGeometry: true
+        }, function(err, features) {
+            if (err || !features.length) {
+                popup.remove();
+                return;
+            }
+
+            displayResults(features);
+        });
+
+        // if (!isFunded) {
+        //     filterProjectTypes(true);
+        // } else {
+        //     filterProjectTypes();
+        // }
     });
 };
 
@@ -338,6 +349,7 @@ function filterProjectTypes(type) {
                 url: '/projects/type/' + typeQuery,
                 datatype: 'JSON',
                 success: function (data) {
+
                     displayResults(data);
                     // filterByRadius(data);
                 }
@@ -466,7 +478,7 @@ function displayResults(results) {
         .addClass("panel-group")
         .attr("id", "project-accordian")
         .attr("role", "tablist")
-        .attr("aria-multiselectable", "true");
+        // .attr("aria-multiselectable", "true");
 
     $("#main-info").append(panelGroup);
 
@@ -505,11 +517,11 @@ function displayResults(results) {
         panelLink
             .addClass("project-heading-data")
             .attr("role", "button")
-            .attr("data-toggle", "collapse")
             .attr("data-parent", "#project-accordian")
+            .attr("data-toggle", "collapse")
             .attr("href", "#collapse_" + i)
-            .attr("aria-expanded", "true")
-            .attr("aria-controls", "collapse_" + i)
+            // .attr("aria-expanded", "true")
+            // .attr("aria-controls", "collapse_" + i)
             .text(projectFeatures.Proj_Title);
 
         panelTitle
@@ -561,7 +573,7 @@ function displayResults(results) {
         var panelIcon = $("<i>");
         panelIcon
             .addClass("fa fa-circle fa-3x panel-icon")
-            .attr("aria-hidden", "true")
+            // .attr("aria-hidden", "true")
             .css("color", projectColor);
 
         var panelSvg = $("<img>");
@@ -593,7 +605,7 @@ function displayResults(results) {
             .addClass("panel-collapse collapse")
             .attr("id", "collapse_" + i)
             .attr("role", "tabpanel")
-            .attr("aria-labelledby", "heading_" + i);
+            // .attr("aria-labelledby", "heading_" + i);
 
         var panelBody = $("<div>");
         panelBody
@@ -646,7 +658,6 @@ function displayResults(results) {
             .append(contactPhone)
             .append(contactEmail);
 
-
         panelBodyCollapse
             .append(panelBody);
 
@@ -659,8 +670,8 @@ function displayResults(results) {
             .attr("type", "button")
             .attr("data-toggle", "collapse")
             .attr("data-target", "#collapseMore_" + i)
-            .attr("aria-expanded", "false")
-            .attr("aria-controls", "collapseMore_" + i)
+            // .attr("aria-expanded", "false")
+            // .attr("aria-controls", "collapseMore_" + i)
             .text("More Info");
 
         var viewButton = $("<a>");
