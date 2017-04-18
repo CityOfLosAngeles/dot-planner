@@ -58,5 +58,4 @@ To deploy the codebase, simply run `eb deploy .`
 ## Contact
 
 Jacqui Swartz (LADOT, jacqui.swartz@lacity.org)
-Hunter Owens (ITA, hunter.owens@lacity.org)
 
