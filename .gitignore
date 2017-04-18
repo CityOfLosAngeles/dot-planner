@@ -44,10 +44,10 @@ crashlytics-build.properties
 fabric.properties
 ### Node template
 .DS_Store
-## Data files 
+## Data files
 data
 
-## 
+##
 # Logs
 logs
 *.log
