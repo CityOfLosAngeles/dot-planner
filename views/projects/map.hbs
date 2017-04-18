@@ -3,225 +3,306 @@
         <div id="map-column" class="col-xs-8">
             <div id="map"></div>
             <div class="dropdown" id="map-legend">
-              <a class="btn dropdown-toggle" type="button" id="map-legend-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                LEGEND
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu" id="legend-dropdown">
-                <li class="legend-category">Bike</li>
-                <li role="separator" class="divider"></li>
-                <li class="legend-category">Pedestrian</li>
-                <li role="separator" class="divider"></li>
-                <li class="legend-category">Bike/Pedestrian</li>
-                <li role="separator" class="divider"></li>
-                <li class="legend-category">Safety</li>
-              </ul>
+                <a class="btn dropdown-toggle" type="button" id="map-legend-button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    LEGEND
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" id="legend-dropdown">
+                    <li class="legend-category">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-1x" id="legend-bike" aria-hidden="true"></i>
+                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
+                        </span>
+                        Bike
+                    </li>
+
+                    <li role="separator" class="divider"></li>
+
+                    <li class="legend-category">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-1x" id="legend-bike-ped" aria-hidden="true"></i>
+                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
+                        </span>
+                        Bike/Pedestrian
+                    </li>
+
+                    <li role="separator" class="divider"></li>
+
+                    <li class="legend-category">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-1x" id="legend-first-last" aria-hidden="true"></i>
+                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
+                        </span>
+                        First/Last Mile
+                    </li>
+
+                    <li role="separator" class="divider"></li>
+
+                    <li class="legend-category">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-1x" id="legend-other" aria-hidden="true"></i>
+                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
+                        </span>
+                        Other
+                    </li>
+
+                    <li role="separator" class="divider"></li>
+
+                    <li class="legend-category">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-1x" id="legend-ped" aria-hidden="true"></i>
+                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
+                        </span>
+                        Pedestrian
+
+                    </li>
+
+                    <li role="separator" class="divider"></li>
+
+                    <li class="legend-category">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-1x" id="legend-people" aria-hidden="true"></i>
+                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
+                        </span>
+                        People St
+                    </li>
+
+                    <li role="separator" class="divider"></li>
+
+                    <li class="legend-category">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-1x" id="legend-safety" aria-hidden="true"></i>
+                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
+                        </span>
+                        Safety
+                    </li>
+
+                    <li role="separator" class="divider"></li>
+
+                    <li class="legend-category">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-1x" id="legend-srts" aria-hidden="true"></i>
+                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
+                        </span>
+                        SRTS
+                    </li>
+
+                </ul>
             </div>
             <a type="button" name="button" id="hide-button" class="map-button btn">Hide Project</a>
             <a type="button" name="button" id="unhide-button" class="map-button btn">Unhide All</a>
             <div class="input-group" id="google-search">
-              <span class="input-group-addon" id="google-search-icon"><i class="fa fa-crosshairs fa-lg" aria-hidden="true"></i></span>
-              <input type="text" class="form-control input-block-level" id="google-search-input" placeholder="Search For Address Or Cross Street">
+                <span class="input-group-addon" id="google-search-icon"><i class="fa fa-crosshairs fa-lg"
+                                                                           aria-hidden="true"></i></span>
+                <input type="text" class="form-control input-block-level" id="google-search-input"
+                       placeholder="Search For Address Or Cross Street">
             </div>
         </div>
         <div id="project-view-sidebar" class="col-xs-4">
-          <div class="container-fluid">
+            <div class="container-fluid">
 
-            <div class="card" id="project-details">
-                <div class="card-block">
-                    <h2 class="card-title text-center" id="Proj_Title">Project View</h2>
-                    <p class="card-text text-center" id="Proj_Desc">Click on a project on the map to view its details.</p>
-                </div>
-                <ul class="list-group list-group-flush" id="sidebar-always-shown-attributes">
-                    <li class="list-group-item">
-                      <label for="Legacy_ID">Legacy ID</label>
-                      <p id="Legacy_ID"></p>
-                    </li>
-
-                    <li class="list-group-item">
-                      <label for="Lead_Ag">Lead Agency</label>
-                      <p id="Lead_Ag"></p>
-                    </li>
-
-                    <li class="list-group-item">
-                      <label for="Fund_St">Funding Status</label>
-                      <p id="Fund_St"></p>
-                    </li>
-
-                    <li class="list-group-item">
-                      <label for="Proj_Ty">Project Type</label>
-                      <p id="Proj_Ty"></p>
-                    </li>
-
-                    <li class="list-group-item">
-                      <label for="Contact_info_name">Contact Name</label>
-                      <p id="Contact_info_name"></p>
-                    </li>
-
-                    <li class="list-group-item">
-                      <label for="Contact_info_phone">Contact Number</label>
-                      <p id="Contact_info_phone"></p>
-                    </li>
-
-                    <li class="list-group-item">
-                      <label for="Contact_info_email">Contact Email Address</label>
-                      <p id="Contact_info_email"></p>
-                    </li>
-
-                    <li class="list-group-item">
-                      <label for="attachment">Files</label>
-                      <a href="http://" id="attachment"></a>
-                    </li>
-
-                    <div id="sidebar-fundedAndUnfunded">
-                      <li class="list-group-item">
-                        <label for="Proj_Man">Project Manager</label>
-                        <p id="Proj_Man"></p>
-                      </li>
-                      <li class="list-group-item">
-                        <label for="Current_Status">Project Status</label>
-                        <p id="Current_Status"></p>
-                      </li>
+                {{!-- butttons to toggle between funded and unfunded projets to show on the right project views bar --}}
+                <a id="fundedTab" value="funded" type="button" name="button" class="map-button btn">Funded</a>
+                <a id="unfundedTab" value="unfunded" type="button" name="button" class="map-button btn">Unfunded</a>
+                <div id="count-info"></div>
+                <div id="main-info"></div>
+                <div class="card" id="project-details">
+                    <div class="card-block">
+                        <h2 class="card-title text-center" id="Proj_Title">Project View</h2>
+                        <p class="card-text text-center" id="Proj_Desc">Click on a project on the map to view its
+                            details.</p>
                     </div>
-                </ul>
+                    <ul class="list-group list-group-flush" id="sidebar-always-shown-attributes">
+                        <li class="list-group-item">
+                            <label for="Legacy_ID">Legacy ID</label>
+                            <p id="Legacy_ID"></p>
+                        </li>
 
-                <ul class="list-group list-group-flush" id="sidebar-more-info">
-                  <li class="list-group-item">
-                    <label for="More_info">More Info/Comments</label>
-                    <p id="More_info"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Lead_Ag">Lead Agency</label>
+                            <p id="Lead_Ag"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="CD">Council District</label>
-                    <p id="CD"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Fund_St">Funding Status</label>
+                            <p id="Fund_St"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Primary_Street">Primary Street</label>
-                    <p id="Primary_Street"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Proj_Ty">Project Type</label>
+                            <p id="Proj_Ty"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Cross_Streets">Cross Streets</label>
-                    <p id="Cross_Streets"></p>
-                  </li>
- 
-                </ul>
+                        <li class="list-group-item">
+                            <label for="Contact_info_name">Contact Name</label>
+                            <p id="Contact_info_name"></p>
+                        </li>
 
-                <ul class="list-group list-group-flush" id="sidebar-funded-attributes">
-                  <li class="list-group-item">
-                    <label for="Dept_Proj_ID">Department Project ID</label>
-                    <p id="Dept_Proj_ID"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Contact_info_phone">Contact Number</label>
+                            <p id="Contact_info_phone"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Other_ID">Other Project ID</label>
-                    <p id="Other_ID"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Contact_info_email">Contact Email Address</label>
+                            <p id="Contact_info_email"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Total_bgt">Total Budget</label>
-                    <p id="Total_bgt"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="attachment">Files</label>
+                            <a href="http://" id="attachment"></a>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Grant">Grant</label>
-                    <p id="Grant"></p>
-                  </li>
+                        <div id="sidebar-fundedAndUnfunded">
+                            <li class="list-group-item">
+                                <label for="Proj_Man">Project Manager</label>
+                                <p id="Proj_Man"></p>
+                            </li>
+                            <li class="list-group-item">
+                                <label for="Current_Status">Project Status</label>
+                                <p id="Current_Status"></p>
+                            </li>
+                        </div>
+                    </ul>
 
-                  <li class="list-group-item">
-                    <label for="Other_funds">Other Funds</label>
-                    <p id="Other_funds"></p>
-                  </li>
+                    <ul class="list-group list-group-flush" id="sidebar-more-info">
+                        <li class="list-group-item">
+                            <label for="More_info">More Info/Comments</label>
+                            <p id="More_info"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Prop_c">Prop C</label>
-                    <p id="Prop_c"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="CD">Council District</label>
+                            <p id="CD"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Measure_r">Measure R</label>
-                    <p id="Measure_r"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Primary_Street">Primary Street</label>
+                            <p id="Primary_Street"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Gas_Tax">Gas Tax</label>
-                    <p id="Gas_Tax"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Cross_Streets">Cross Streets</label>
+                            <p id="Cross_Streets"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="General_fund">General Fund</label>
-                    <p id="General_fund"></p>
-                  </li>
+                    </ul>
 
-                  <li class="list-group-item">
-                    <label for="Authorization">Authorization</label>
-                    <p id="Authorization"></p>
-                  </li>
+                    <ul class="list-group list-group-flush" id="sidebar-funded-attributes">
+                        <li class="list-group-item">
+                            <label for="Dept_Proj_ID">Department Project ID</label>
+                            <p id="Dept_Proj_ID"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Issues">Issues</label>
-                    <p id="Issues"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Other_ID">Other Project ID</label>
+                            <p id="Other_ID"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Deobligation">Deobligation</label>
-                    <p id="Deobligation"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Total_bgt">Total Budget</label>
+                            <p id="Total_bgt"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Explanation">Explanation</label>
-                    <p id="Explanation"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Grant">Grant</label>
+                            <p id="Grant"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Constr_by">Construction By</label>
-                    <p id="Constr_by"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Other_funds">Other Funds</label>
+                            <p id="Other_funds"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Info_source">Info Source</label>
-                    <p id="Info_source"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Prop_c">Prop C</label>
+                            <p id="Prop_c"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Access">Access</label>
-                    <p id="Access"></p>
-                  </li>
-                </ul>
+                        <li class="list-group-item">
+                            <label for="Measure_r">Measure R</label>
+                            <p id="Measure_r"></p>
+                        </li>
 
-                <ul class="list-group list-group-flush" id="sidebar-unfunded-attributes">
-                  <li class="list-group-item">
-                    <label for="Grant_Cat">Grant Category</label>
-                    <p id="Grant_Cat"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Gas_Tax">Gas Tax</label>
+                            <p id="Gas_Tax"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Grant_Cycle">Grant Cycle</label>
-                    <p id="Grant_Cycle"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="General_fund">General Fund</label>
+                            <p id="General_fund"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Est_Cost">Estimated Cost</label>
-                    <p id="Est_Cost"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Authorization">Authorization</label>
+                            <p id="Authorization"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Fund_Rq">Fund Request</label>
-                    <p id="Fund_Rq"></p>
-                  </li>
+                        <li class="list-group-item">
+                            <label for="Issues">Issues</label>
+                            <p id="Issues"></p>
+                        </li>
 
-                  <li class="list-group-item">
-                    <label for="Lc_match">Local Match</label>
-                    <p id="Lc_match"></p>
-                  </li>
-                </ul>
-                {{#if logged_in}}
-                <button id="edit-button" class="btn btn-primary">Edit Project</button>
-                {{/if}}
+                        <li class="list-group-item">
+                            <label for="Deobligation">Deobligation</label>
+                            <p id="Deobligation"></p>
+                        </li>
+
+                        <li class="list-group-item">
+                            <label for="Explanation">Explanation</label>
+                            <p id="Explanation"></p>
+                        </li>
+
+                        <li class="list-group-item">
+                            <label for="Constr_by">Construction By</label>
+                            <p id="Constr_by"></p>
+                        </li>
+
+                        <li class="list-group-item">
+                            <label for="Info_source">Info Source</label>
+                            <p id="Info_source"></p>
+                        </li>
+
+                        <li class="list-group-item">
+                            <label for="Access">Access</label>
+                            <p id="Access"></p>
+                        </li>
+                    </ul>
+
+                    <ul class="list-group list-group-flush" id="sidebar-unfunded-attributes">
+                        <li class="list-group-item">
+                            <label for="Grant_Cat">Grant Category</label>
+                            <p id="Grant_Cat"></p>
+                        </li>
+
+                        <li class="list-group-item">
+                            <label for="Grant_Cycle">Grant Cycle</label>
+                            <p id="Grant_Cycle"></p>
+                        </li>
+
+                        <li class="list-group-item">
+                            <label for="Est_Cost">Estimated Cost</label>
+                            <p id="Est_Cost"></p>
+                        </li>
+
+                        <li class="list-group-item">
+                            <label for="Fund_Rq">Fund Request</label>
+                            <p id="Fund_Rq"></p>
+                        </li>
+
+                        <li class="list-group-item">
+                            <label for="Lc_match">Local Match</label>
+                            <p id="Lc_match"></p>
+                        </li>
+                    </ul>
+                    {{#if logged_in}}
+                        <button id="edit-button" class="btn btn-primary">Edit Project</button>
+                    {{/if}}
+                </div>
             </div>
-          </div>
         </div>
     </div>
-
-    <script type="text/javascript" src='/javascripts/map.js'></script>
+</div>
+<script type="text/javascript" src='/javascripts/map.js'></script>

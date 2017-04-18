@@ -1,3 +1,4 @@
+
 body {
     margin: 0;
     padding: 0;
@@ -5,6 +6,65 @@ body {
     overflow-x: hidden;
     font-family: 'Calibri', sans-serif;
 }
+
+/*NEEDS TO BE PUT IN THE RIGHT PLACE*/
+/*FUNDED / UNFUNDED PANELS*/
+.projects-list-item {
+    border: 1px solid #002E6D;
+    margin: 5px;
+}
+
+#main-info {
+    margin-top: 10px;
+}
+
+.project-data {
+    padding: 2px 15px;
+}
+
+.project-heading {
+    background-color: #004EB9;
+}
+
+.projects-list-item {
+    margin-left: 0;
+}
+
+.project-more-data {
+    margin-bottom: 0;
+}
+
+.project-body > p {
+    margin: 0;
+}
+
+.project-more-data > p {
+    margin: 0;
+}
+
+.project-body-button {
+    margin: -10px 0 10px 15px;
+    background-color: #002E6D;
+    color: white;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.project-body-button:hover,
+.project-body-button:focus {
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+    background-color: #004EB9;
+    color: white;
+}
+
+.project-title {
+    color: white;
+    margin-bottom: 10px;
+}
+.project-heading-data {
+    color: white;
+    margin: 0;
+}
+/*---------------------------------------------------------------*/
 
 .navbar {
     margin-bottom: 0;
@@ -262,7 +322,7 @@ body {
     background-color: #002E6D;
     color: white;
     box-sizing: border-box;
-    margin: 0 5px;
+    margin-right: 5px;
     padding: 5px 8px;
     line-height: 2.2em;
     vertical-align: middle;
@@ -300,19 +360,170 @@ body {
     color: white;
 }
 
+.fa-circle-thin {
+    color: #231F20;
+}
+
+.filter-check {
+    color: black;
+}
+
+#legend-bike {
+    color: #FFCC33;
+}
+
+#filter-bike:checked:after {
+    background-color: #FFCC33;
+    border-color: #FFCC33;
+}
+
+#filter-bike:after {
+    border-color: #FFCC33;
+}
+
+#filter-bike:focus:after {
+    border-color: #FFCC33;
+}
+
+#legend-bike-ped {
+    color: #EE34D2;
+}
+
+#filter-bike-ped:checked:after {
+    background-color: #EE34D2;
+    border-color: #EE34D2;
+}
+
+#filter-bike-ped:after {
+    border-color: #EE34D2;
+}
+
+#filter-bike-ped:focus:after {
+    border-color: #EE34D2;
+}
+
+#legend-ped {
+    color: #AAF0D1;
+}
+
+#filter-ped:checked:after {
+    background-color: #AAF0D1;
+    border-color: #AAF0D1;
+}
+
+#filter-ped:after {
+    border-color: #AAF0D1;
+}
+
+#filter-ped:focus:after {
+    border-color: #AAF0D1;
+}
+
+#legend-safety {
+    color: #FF355E;
+}
+
+#filter-safety:checked:after {
+    background-color: #FF355E;
+    border-color: #FF355E;
+}
+
+#filter-safety:after {
+    border-color: #FF355E;
+}
+
+#filter-safety:focus:after {
+    border-color: #FF355E;
+}
+
+#legend-first-last {
+    color: #CCFF00;
+}
+
+#filter-first-last:checked:after {
+    background-color: #CCFF00;
+    border-color: #CCFF00;
+}
+
+#filter-first-last:after {
+    border-color: #CCFF00;
+}
+
+#filter-first-last:focus:after {
+    border-color: #CCFF00;
+}
+
+#legend-people {
+    color: #66FF66
+}
+
+#filter-people:checked:after {
+    background-color: #66FF66;
+    border-color: #66FF66;
+}
+
+#filter-people:after {
+    border-color: #66FF66;
+}
+
+#filter-people:focus:after {
+    border-color: #66FF66;
+}
+
+#legend-srts {
+    color: #FD5B78;
+}
+
+#filter-srts:checked:after {
+    background-color: #FD5B78;
+    border-color: #FD5B78;
+}
+
+#filter-srts:after {
+    border-color: #FD5B78;
+}
+
+#filter-srts:focus:after {
+    border-color: #FD5B78;
+}
+
+
+#legend-other {
+    color: #FF9933;
+}
+
+#filter-other:checked:after {
+    background-color: #FF9933;
+    border-color: #FF9933;
+}
+
+#filter-other:after {
+    border-color: #FF9933;
+}
+
+#filter-other:focus:after {
+    border-color: #FF9933;
+}
+
 .dropdown.open #map-legend-button {
     background-color: #004EB9;
     color: white;
     border-radius: 3px 3px 0 0;
 }
 
+.dropdown-menu .divider {
+    margin: 5px 0 8px 0;
+}
+
 #legend-dropdown {
+    padding: 8px 0;
     border-radius: 0 0 3px 3px;
 }
 
 .legend-category {
-    margin: 5px 0 5px 10px;
-    font-size: 14px;
+    color: #231F20;
+    margin: -10px 0;
+    font-size: 10px;
 }
 
 #hide-button {
@@ -328,6 +539,7 @@ body {
     right: 340px;
     z-index: 100;
 }
+
 
 #searchbar {
     padding: 0;
@@ -348,7 +560,7 @@ body {
 }
 
 #project-details {
-    margin-top: 25px;
+    margin-top: 10px;
 }
 
 .Intersections {
