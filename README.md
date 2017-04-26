@@ -107,13 +107,21 @@ Run sequelize migrations.
 sequelize db:migrate
 ```
 
+Update the package.json file to set a value for NODE_ENV:
+
+```
+    "scripts": {
+        "start": "NODE_ENV=development node ./bin/www"
+    },
+```
+
 To start the application:
 
 ```
 npm start
 ```
 
-To load data from ./db/projects.js file, create a new file in the db/ director caleld `load.js` and populate with the following code:
+To load data from ./db/projects.js file, create a new file in the db/ director called `load.js` and populate with the following code:
 ```
 var models = require('../models/');
 var dataSet = require('./projects.js');
