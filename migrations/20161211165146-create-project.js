@@ -116,6 +116,17 @@ module.exports = {
       Flagged: {
         type: Sequelize.BOOLEAN
       },
+      TotalUnmetFunding: {
+      	type: Sequelize.INTEGER
+      },
+      ProjectStartDate: {
+      	allowNull: true,
+      	type: Sequelize.DATE
+      },
+      ProjectProjectedCompletionDate: {
+      	allowNull: true,
+      	type: Sequelize.DATE
+      },
       Dup_ID: {
         type: Sequelize.INTEGER
       },
