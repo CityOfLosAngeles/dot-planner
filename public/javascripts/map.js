@@ -658,8 +658,20 @@ function displayResults(results) {
             .append(contactPhone)
             .append(contactEmail);
 
+        var viewButton = $("<a>");
+        viewButton
+            .addClass("btn project-body-button")
+            .attr("type", "button")
+            .attr("data-id", projectFeatures.id)
+            .text("View Project");
+
         panelBodyCollapse
             .append(panelBody);
+
+        if (!isFunded) {
+            panelBodyCollapse
+            .append(viewButton);
+        }
 
         panel
             .append(panelBodyCollapse);
@@ -675,13 +687,6 @@ function displayResults(results) {
                 .attr("aria-expanded", "false")
                 .attr("aria-controls", "collapseMore_" + i)
                 .text("More Info");
-
-            var viewButton = $("<a>");
-            viewButton
-                .addClass("btn project-body-button")
-                .attr("type", "button")
-                .attr("data-id", projectFeatures.id)
-                .text("View Project");
 
             panelBodyCollapse
                 .append(panelButton)
@@ -699,14 +704,17 @@ function displayResults(results) {
 
                 // funded project marker color
 
+                if (projectFeatures.Dept_Proj_ID) {
+                    var deptProjId = $("<p>");
+                    deptProjId.text("Dept Project ID: " + projectFeatures.Dept_Proj_ID);
+                    moreDataWell.append(deptProjId);
+                }
 
-                var deptProjId = $("<p>");
-                deptProjId.text("Dept Project ID: " + projectFeatures.Dept_Proj_ID);
-                moreDataWell.append(deptProjId);
-
-                var otherId = $("<p>");
-                otherId.text("Other ID: " + projectFeatures.Other_ID);
-                moreDataWell.append(otherId);
+                if (projectFeatures.Other_ID) {
+                    var otherId = $("<p>");
+                    otherId.text("Other ID: " + projectFeatures.Other_ID);
+                    moreDataWell.append(otherId);
+                }
 
                 if (projectFeatures.Total_bgt) {
                     var totalBgt = $("<p>");
