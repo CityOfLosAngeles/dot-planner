@@ -317,6 +317,12 @@ function populateData(project) {
     if (project.Lc_match != undefined) {
         $('#Lc_match').val(project.Lc_match);
     }
+    if (project.ProjectStartDate != undefined) {
+      $('#StartDate').val(project.ProjectStartDate);
+    }
+    if (project.ProjectCompletionDate != undefined) {
+      $('#ProjectCompletionDate').val(project.ProjectCompletionDate);
+    }
     if (project.Primary_Street != undefined) {
         $('#Primary_Street').val(project.Primary_Street);
     }
