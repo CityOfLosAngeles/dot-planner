@@ -154,15 +154,21 @@ express-session deprecated undefined resave option; provide resave option app.js
 express-session deprecated undefined saveUninitialized option; provide saveUninitialized option app.js:16:9
 ```
 
-To preview the now-running site in Cloud9, click the Preview button at the top of the page and select `Preview Running Application`.  In the preview screen, you can then click the `Pop Out Into New Window` icon to open the app in a new browser tab.
+Congratulations, you've succesfully got the site up and running!  To view it in Cloud9, click the Preview button at the top of the page and select `Preview Running Application`.  In the preview screen, you can then click the `Pop Out Into New Window` icon to open the app in a new browser tab.
 
 To stop the running application, hit `Ctrl-C` in the console.
 
-### Loading Data
+### Using the Application
+
+Once you've got the application running, navigate to `[application-url]/users/signup` to create an account.  When you log in with your account, you'll be able to see all the data:
+
+![image](https://cloud.githubusercontent.com/assets/1873072/25641160/7bc1a8e2-2f47-11e7-9e7f-c080a1bfc1b9.png)
+
+## Loading Fixtures Data
 
 _Note: This file seems to be already in the repository to this step can be skipped._
 
-_To load data from `./db/projects.js` file, create a new file in the `db/` directory called `load.js` and populate with the following code:_
+To load data from `./db/projects.js` file, create a new file in the `db/` directory called `load.js` and populate with the following code:
 
 ```
 var models = require('../models/');
@@ -173,7 +179,7 @@ for (var i = 0; i < dataSet.length; i++) {
 }
 ```
 
-#### Add Environment Variable
+### Add Environment Variable
 
 If the application is running, hit `Ctrl-C` in the console to stop it.  Navigate to the `~/.bashrc` file to set the environment variable.
 
@@ -198,16 +204,19 @@ Go to the `\db` folder and run `load.js`:
 $ cd db
 $ node load.js
 ```
-_Note: the below command gives me an error: **database "dot" does not exist**_
 
-To load data. You'll need the old ATD database zip file stored in a directory called `data` that will be ignored from git. 
+## Loading Production Data
+
+__Note: the Loading Production Data and Deploying on AWS Elastic Beanstalk portions of this README are only applicable to those working on Production.__
+
+To load production data, you'll need the old ATD database zip file stored in a directory called `data` that will be ignored from git. 
 
 ```
 $ cd etl
 $ ./transform_data.sh
 ```
 
-## Deploying
+## Deploying on AWS Elastic Beanstalk
 
 Currently, the application is deploying on elastic beanstalk. To deploy, you'll need to configure your local repo by running `eb init`. 
 
