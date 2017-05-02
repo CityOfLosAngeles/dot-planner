@@ -90,7 +90,12 @@ At the postgres prompt, update the user password as 'password' (from the /config
 postgres=# \password
 ```
 
-Enter `\q` at the postgres prompt to return to the normal console.
+Quit using `\q`, then create an `ubuntu` user using the permissions from the `postgres` user:
+
+```
+postgres=# \q
+$ sudo sudo -u postgres createuser ubuntu
+```
 
 Now you're ready to follow the installation instructions below!
 
@@ -155,9 +160,9 @@ To stop the running application, hit `Ctrl-C` in the console.
 
 ### Loading Data
 
-To load data from `./db/projects.js` file, create a new file in the `db/` directory called `load.js` and populate with the following code:
+_Note: This file seems to be already in the repository to this step can be skipped._
 
-__Note: This file seems to be already in the repository to this step can be skipped.__
+_To load data from `./db/projects.js` file, create a new file in the `db/` directory called `load.js` and populate with the following code:_
 
 ```
 var models = require('../models/');
@@ -168,20 +173,38 @@ for (var i = 0; i < dataSet.length; i++) {
 }
 ```
 
-Go to the `\db` directory and run the `load.js` file:
+#### Add Environment Variable
+
+If the application is running, hit `Ctrl-C` in the console to stop it.  Navigate to the `~/.bashrc` file to set the environment variable.
+
+If you are currently in the `~\workspace` folder, which is the default folder Cloud9 puts you in, run the following commands:
+
+```
+$ cd ../
+$ vi .bashrc
+```
+
+Hit `i` to enter INSERT mode.  Scroll to the very bottom and add the line:
+
+```
+export NODE_ENV=development
+```
+
+Now this environment variable will be set when you restart your terminal.  Hit `Esc` to exit INSERT mode and type `:x` to save and quit.  Close the current terminal and open a new one.
+
+Go to the `\db` folder and run `load.js`:
 
 ```
 $ cd db
 $ node load.js
 ```
+_Note: the below command gives me an error: **database "dot" does not exist**_
 
-__Note: This currently throws an error because the environment variable `process.env.NODE_ENV` has not been set.__
-
-To load data. You'll need the old ATB database zip file stored in a directory called `data` that will be ignored from git. 
+To load data. You'll need the old ATD database zip file stored in a directory called `data` that will be ignored from git. 
 
 ```
-cd etl
-./transform_data.sh
+$ cd etl
+$ ./transform_data.sh
 ```
 
 ## Deploying
