@@ -31,6 +31,7 @@ To start the application:
 npm start
 ```
 
+#### Loading Fixtures Data
 To load data from ./db/projects.js file, create a new file in the db/ director caleld `load.js` and populate with the following code:
 ```
 var models = require('../models/');
@@ -40,6 +41,8 @@ for (var i = 0; i < dataSet.length; i++) {
 	models.Project.create(dataSet[i]);
 }
 ```
+
+#### Loading Production Data
 - From command line in /db directory, run `node load.js`
 
 To load data. You'll need the old ATB database zip file stored in a directory called `data` that will be ignored from git. 
@@ -49,7 +52,9 @@ cd etl
 ./transform_data.sh
 ```
 
-## Deploying
+-- Either Way, You'll need to create a user a `projecturl:/users/signup`.
+
+## Deploying on AWS Elastic Beanstalk
 
 Currently, the application is deploying on elastic beanstalk. To deploy, you'll need to configure your local repo by running `eb init`. 
 
