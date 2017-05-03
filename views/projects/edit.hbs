@@ -35,7 +35,7 @@
               </div>
 
               <!-- Legacy ID -->
-              
+
               <div class="form-group" id="Legacy-ID-group">
                   <label for="Legacy_ID">Legacy ID</label>
                   <input type="text" class="form-control" id="Legacy_ID" placeholder="">
@@ -44,7 +44,7 @@
               </div>
 
               <!-- Lead Agency -->
-              
+
               <div class="form-group" id="Lead_Ag-group">
                   <label for="Lead_Ag">Lead Agency*</label>
                   <input type="text" class="form-control" id="Lead_Ag">
@@ -53,7 +53,7 @@
               </div>
 
               <!-- Project Title -->
-              
+
               <div class="form-group" id="Proj_Title-group">
                   <label for="Proj_Title">Project Title*</label>
                   <input type="text" class="form-control" id="Proj_Title" placeholder="">
@@ -179,15 +179,16 @@
                       <span id="cross-street2-span" aria-hidden="true"></span>
                       <span>Cross Street 2</span>
                     </div>
-                    
+
                 </div>
-                
+
                 <button type="button" class="btn btn-primary" id="add-intersection">Add More Intersections</button>
                 <button type="button" class="btn btn-danger" id="undo-intersection">Undo Intersection</button>
+
                 <br><br>
 
                 <!-- Project Status -->
-                
+
                 <div class="form-group" id="Proj_Status-group">
                   <label for="Current_Status">Project Status*</label>
                   <input type="text" class="form-control" id="Proj_Status">
@@ -195,7 +196,7 @@
                   <span>Project’s current construction stage</span>
                 </div>
 
-                <!-- Project Manager --> 
+                <!-- Project Manager -->
                 <div class="form-group" id="Proj_Man-group">
                   <label for="Proj_Man">Project Manager*</label>
                   <input type="text" class="form-control" id="Proj_Man">
@@ -247,7 +248,7 @@
                 <div class="form-group" id="budgetdiv">
                 <label>Budget</label>
                 <br>
-                
+
                   <div class="form-group" id="Total_bgt-group">
                   <label for="Total_bgt">Total Budget*</label>
                       <input type="text" class="form-control" id="Total_bgt" placeholder="$">
@@ -356,6 +357,17 @@
                     <span id="Info_source-span" aria-hidden="true"></span>
                 </div>
               </div>
+            {{!-- Projecy Start Date --}}
+              <div class="form-group" id="ProjectStartDate-group">
+                <label for="ProjectStartDate"> ProjectStartDate* </label>
+                <input type="date" id="StartDate">
+              </div>
+
+              {{!-- Project Projected Completion Date --}}
+              <div class="form-group" id="ProjectProjectedCompletionDate-group">
+                <label for="ProjectProjectedCompletionDate">Projected Completion Date*</label>
+                <input type="date" id="ProjectCompletionDate">
+              </div>
 
               <!-- Unfunded Attributes -->
               <div id="unfundedAttributes">
@@ -402,7 +414,7 @@
                 </div>
               </div>
 
-                    <button type="submit" id="update-project" class="btn btn-primary" data-id="{{this.id}}">Update</button>
+                    <button type="submit" id="update-project" class="btn" data-id="{{this.id}}">Update</button>
                   </form>
                 </div>
             </div>
