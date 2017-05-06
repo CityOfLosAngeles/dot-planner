@@ -1,4 +1,4 @@
-# Los Angeles Transportation Project Tool
+# Los Angeles Department of Transportation (DOT) Project Tool
 
 This planning and management tool helps add, review, edit, and search current and future transportation projects.
 
@@ -7,32 +7,70 @@ This planning and management tool helps add, review, edit, and search current an
 
 ![ladot](https://cloud.githubusercontent.com/assets/18273101/21868025/c0c87de2-d805-11e6-8355-47a2efb4a1fb.gif)
 
+__Table of Contents__
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installing Locally](#installing-locally)
+  * [Installing on Cloud9](#installing-on-cloud9)
+
 ## Getting Started
 
-Following these instructions will get you a copy of the project up and running on your local machine for development purposes.
+Following these instructions will get you a copy of the project up and running for development purposes.
 
-### Running on Cloud9
+### Prerequisites
+
+You will need the following installed in order to run this project:
+
+* postgresql, at least v9.4
+* node.js & npm
+
+### Installing Locally
+
+
+### Installing on Cloud9
 You'll need to do some basic setup and configuration to run on Cloud9:
 
 * Upgrade postgresql to version 9.4 because of the `jsonb` data type.
 * Set up the postgres user's password to match the config settings.
+* 
+* 
 
-#### Create a new Cloud9 workspace
-Use the GitHub repo's SSH URL:
+#### Set up a Cloud9 workspace
+Create a Cloud9 account.  _Note: Cloud9 requires you to enter a credit card as protection against abuse of their free services._
+
+Connect your Cloud9 account with your GitHub account through your account settings on the Connected Services page.  Once you're connected, go to your Cloud9 dashboard and create a new workspace.
+
+Give your project a name.  Free accounts are only allotted one Private workspace, so unless you really want this project to be that one, select _Public_ for your workspace.
+
+Next up, we want to connect our workspace to a GitHub repo so the project code is loaded and we can push our changes to the repository.  We have two ways to do this:
+
+1. Use the original GitHub repo's SSH URL:
 
 ```
 git@github.com:datala/dot-planner.git
 ```
 
+2. Fork the original GitHub repo and use the SSH URL of our fork:
+
+```
+git@github.com:<YOUR-USERNAME-HERE>/dot-planner.git
+```
+
+Leave the template to its selected default of HTML5 - this is more applicable if you're starting a new project from scratch - and create your workspace!
+
 #### Remove postgres v9.3
-_Note: run ```sudo service postgresql stop``` if postgres is running._
+As mentioned earlier, you'll need to upgrade postgres.  Cloud9 installs v9.3 by default, but this project uses the `jsonb` datatype and thus requires v9.4.  _Note: run ```sudo service postgresql stop``` to stop postgres if postgres is currently running._
+
+Run the following command to remove postgres:
 
 ```
 $ sudo apt-get --purge remove postgresql\*
 ```
 
 #### Install postgres v9.4
-Instructions adapted from [this Cloud9 support page](https://community.c9.io/t/can-we-upgrade-to-postgres-9-4/3897/4).
+The instructions below were adapted from [this Cloud9 support page](https://community.c9.io/t/can-we-upgrade-to-postgres-9-4/3897/4).
+
+Run the following command to edit the `pgdg.list` file using the `vi` editor:
 
 ```
 $ sudo vi /etc/apt/sources.list.d/pgdg.list
@@ -44,13 +82,13 @@ Hit the 'i' key to enter "insert" mode.  Type out the following text:
 deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main
 ```
 
-Hit the 'Esc' key to exit "insert" mode.  Type ':x' to exit and save.  To confirm your work, use the following command to print the file contents to the terminal:
+Hit the 'Esc' key to exit "insert" mode.  Type ':x' to exit and save.  To confirm your work was saved, you can use the following command to print the file contents to the terminal:
 
 ```
 $ cat /etc/apt/sources.list.d/pgdg.list
 ```
 
-Run the following commands:
+Run the following commands to install postgres v9.4:
 
 ```
 $ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
@@ -58,13 +96,22 @@ $ sudo apt-get update
 $ sudo apt-get install postgresql-9.4
 ```
 
-Modify a config file to trust local connections:
+#### Set up postgres v9.4
+
+
+Some setup needs to be done on this new install of postgres.  First, modify the `pg_hba.conf` config file to trust local connections:  
 
 ```
 $ sudo vi /etc/postgresql/9.4/main/pg_hba.conf
 ```
 
-Hit the 'i' key to enter "insert" mode.  Move your cursor down past the commented portions to modify the last column of the following line, changing `peer` to `trust`:
+Hit the 'i' key to enter "insert" mode.  Use the arrow keys to move your cursor down past the commented portions until you reach this line:
+
+```
+local   all             postgres                                peer
+```
+
+Use the arrow keys to move the cursor to the last column and replace the word `peer` with `trust`:
 
 ```
 local   all             postgres                                trust
@@ -78,17 +125,21 @@ Start up postgres:
 $ sudo service postgresql start
 ```
 
+Now we need to set up two users: `postgres` and `ubuntu`.
+
 Log in to postgres as the user 'postgres'.  _Note: there is no password set by default._
 
 ```
 $ sudo sudo -u postgres psql
 ```
 
-At the postgres prompt, update the user password as 'password' (from the /config/config.js file):
+At the postgres prompt (`postgres=#`), update the user password as 'password' (from the `/config/config.js` file) by entering the following command:
 
 ```
 postgres=# \password
 ```
+
+You'll be prompted to enter a new password twice.  _Note: Linux does not show asterisk (*) charcaters when entering passwords._
 
 Quit using `\q`, then create an `ubuntu` user using the permissions from the `postgres` user:
 
@@ -96,6 +147,25 @@ Quit using `\q`, then create an `ubuntu` user using the permissions from the `po
 postgres=# \q
 $ sudo sudo -u postgres createuser ubuntu
 ```
+
+
+### Loading Development Data
+
+
+### Running Locally
+
+
+## Loading Production Data
+
+
+## Deploying
+
+
+## Contact
+
+---------------------
+
+### Running on Cloud9
 
 Now you're ready to follow the installation instructions below!
 
