@@ -13,6 +13,8 @@ __Table of Contents__
   * [Installing Locally](#installing-locally)
   * [Installing on Cloud9](#installing-on-cloud9)
 
+
+
 ## Getting Started
 
 Following these instructions will get you a copy of the project up and running for development purposes.
@@ -30,10 +32,9 @@ You will need the following installed in order to run this project:
 ### Installing on Cloud9
 You'll need to do some basic setup and configuration to run on Cloud9:
 
-* Upgrade postgresql to version 9.4 because of the `jsonb` data type.
+* Upgrade the postgres database to version 9.4 because of the `jsonb` data type.
 * Set up the postgres user's password to match the config settings.
-* 
-* 
+* Set up the NODE_ENV environment variable.
 
 #### Set up a Cloud9 workspace
 Create a Cloud9 account.  _Note: Cloud9 requires you to enter a credit card as protection against abuse of their free services._
@@ -61,7 +62,7 @@ Leave the template to its selected default of HTML5 - this is more applicable if
 #### Remove postgres v9.3
 As mentioned earlier, you'll need to upgrade postgres.  Cloud9 installs v9.3 by default, but this project uses the `jsonb` datatype and thus requires v9.4.  _Note: run ```sudo service postgresql stop``` to stop postgres if postgres is currently running._
 
-Run the following command to remove postgres:
+Run the following command to remove postgres (_note: the dollar sign (`$`) indicates the command line in Linux and is not meant to be typed as part of the command_):
 
 ```
 $ sudo apt-get --purge remove postgresql\*
@@ -148,37 +149,34 @@ postgres=# \q
 $ sudo sudo -u postgres createuser ubuntu
 ```
 
+Now you're ready to install the application!
 
-### Loading Development Data
+#### Installing the Application
 
-
-### Running Locally
-
-
-## Loading Production Data
-
-
-## Deploying
-
-
-## Contact
-
----------------------
-
-### Running on Cloud9
-
-Now you're ready to follow the installation instructions below!
-
-
-### Installing
-
-Install the required npm packages.
+Install the npm packages required by the application using the following command:
 
 ```
 $ npm install
 ```
 
-Note: until there is a fix added to the code, you will need to manually add the following lines to the file `\migrations\20161211165146-create-project.js`, between the column definitions for `Flagged` and `DupID`:
+#### Create the database tables
+
+Note: until the codebase is fixed, you will need to follow these instructions to fix the table creation.
+
+Open the file `\migrations\20161211165146-create-project.js` through the file navigator.  In the editor window, scroll down until you find the entries for `Flagged` and `Dup_ID`:
+
+```
+Flagged: {
+  type: Sequelize.BOOLEAN
+},
+Dup_ID: {
+  type: Sequelize.INTEGER
+},
+```
+
+These are column definitions and follow a specific format.  The column name is immediately followed by a colon, a space, and curly-brackets.  Column definitions are separated by commas, which are placed immediately after the closing curly-bracket.  Inside the curly-brackets is information defining the data type of the column - e.g. boolean, integer, date, number, string.  This takes the form of the word 'type', immediately followed by a colon, a space, and then the Sequelize data type.
+
+Add the following column definitions between the definitions for `Flagged` and `Dup_ID`, taking care to follow the same syntax conventions and tab-spacing:
 
 ```
 TotalUnmetFunding: {
@@ -194,18 +192,56 @@ ProjectProjectedCompletionDate: {
 },
 ```
 
-Now you can run sequelize migrations.
+Save and close the file.  Now you can run the sequelize migrations:
 
 ```
 $ sequelize db:migrate
 ```
 
-Update the package.json file to set a value for NODE_ENV:
+#### Environment variable setup
+
+Update the `package.json` file to set the NODE_ENV environment variable when the application starts.  Open the file from the file navigator (it's in the root directory).  find the `start` script inside the `scripts` section and replace the string with the following:
 
 ```
 "scripts": {
-    "start": "NODE_ENV=development node ./bin/www"
+    "start": __"NODE_ENV=development node ./bin/www"__
 },
+```
+
+Edit the `.bashrc` file to set the NODE_ENV environment variable for your Cloud9 workspace:
+
+```
+$ vi ~/.bashrc
+```
+
+Hit `i` to enter INSERT mode.  Use the arrow keys to navigate to the bottom of the file and add the following line:
+
+```
+export NODE_ENV=development
+```
+
+Hit `Esc` to exit INSERT mode and type `:x` to save and quit.  Close the current terminal and open a new one.  
+Now `NODE_ENV` will be set as `development` automatically.
+
+### Load Fixtures Data for development
+
+Start the postgres service so the database is running and we can load data into it:
+
+```
+$ sudo service postgresql start
+```
+
+Run the `load.js` file to load Fixtures Data for development purposes:
+
+```
+$ node db/load.js
+```
+
+### Run the application
+If you haven't already, start up the postgres service so your database is running when your application starts.  Otherwise your application won't be able to connect to the database.  You'll need to do this every time you re-open your Cloud9 workspace:
+
+```
+$ sudo service postgresql start
 ```
 
 Start the application:
@@ -234,48 +270,7 @@ Once you've got the application running, navigate to `[application-url]/users/si
 
 ![image](https://cloud.githubusercontent.com/assets/1873072/25641160/7bc1a8e2-2f47-11e7-9e7f-c080a1bfc1b9.png)
 
-## Loading Fixtures Data
-
-_Note: This file seems to be already in the repository to this step can be skipped._
-
-To load data from `./db/projects.js` file, create a new file in the `db/` directory called `load.js` and populate with the following code:
-
-```
-var models = require('../models/');
-var dataSet = require('./projects.js');
-
-for (var i = 0; i < dataSet.length; i++) {
-	models.Project.create(dataSet[i]);
-}
-```
-
-### Add Environment Variable
-
-If the application is running, hit `Ctrl-C` in the console to stop it.  Navigate to the `~/.bashrc` file to set the environment variable.
-
-If you are currently in the `~\workspace` folder, which is the default folder Cloud9 puts you in, run the following commands:
-
-```
-$ cd ../
-$ vi .bashrc
-```
-
-Hit `i` to enter INSERT mode.  Scroll to the very bottom and add the line:
-
-```
-export NODE_ENV=development
-```
-
-Now this environment variable will be set when you restart your terminal.  Hit `Esc` to exit INSERT mode and type `:x` to save and quit.  Close the current terminal and open a new one.
-
-Go to the `\db` folder and run `load.js`:
-
-```
-$ cd db
-$ node load.js
-```
-
-## Loading Production Data
+### Loading Production Data
 
 __Note: the Loading Production Data and Deploying on AWS Elastic Beanstalk portions of this README are only applicable to those working on Production.__
 
