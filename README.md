@@ -12,7 +12,19 @@ __Table of Contents__
   * [Prerequisites](#prerequisites)
   * [Installing Locally](#installing-locally)
   * [Installing on Cloud9](#installing-on-cloud9)
-
+    * [Set up a Cloud9 workspace](#set-up-a-cloud9-workspace)
+    * [Remove postgres v9.3](#remove-postgres-v9.3)
+    * [Install postgres v9.4](#install-postgres-v9.4)
+    * [Set up postgres v9.4](#set-up-postgres-v9.4)
+    * [Installing the Application](#installing-the-application)
+    * [Create the database tables](#create-the-database-tables)
+    * [Environment variable setup](#environment-variable-setup)
+  * [Load Fixtures Data for development](#load-fixtures-data-for-development)
+  * [Run the Application](#run-the-application)
+  * [Using the Application](#using-the-application)
+* [Loading Production Data](#loading-production-data)
+* [Deploying on AWS Elastic Beanstalk](#deploying-on-aws-elastic-beanstalk)
+* [Contact](#contact)
 
 
 ## Getting Started
@@ -28,6 +40,23 @@ You will need the following installed in order to run this project:
 
 ### Installing Locally
 
+Install the required npm packages.
+
+```
+npm install
+```
+
+Run sequelize migrations.
+
+```
+sequelize db:migrate
+```
+
+To start the application:
+
+```
+npm start
+```
 
 ### Installing on Cloud9
 You'll need to do some basic setup and configuration to run on Cloud9:
@@ -237,7 +266,7 @@ Run the `load.js` file to load Fixtures Data for development purposes:
 $ node db/load.js
 ```
 
-### Run the application
+### Run the Application
 If you haven't already, start up the postgres service so your database is running when your application starts.  Otherwise your application won't be able to connect to the database.  You'll need to do this every time you re-open your Cloud9 workspace:
 
 ```
@@ -270,7 +299,7 @@ Once you've got the application running, navigate to `[application-url]/users/si
 
 ![image](https://cloud.githubusercontent.com/assets/1873072/25641160/7bc1a8e2-2f47-11e7-9e7f-c080a1bfc1b9.png)
 
-### Loading Production Data
+## Loading Production Data
 
 __Note: the Loading Production Data and Deploying on AWS Elastic Beanstalk portions of this README are only applicable to those working on Production.__
 
