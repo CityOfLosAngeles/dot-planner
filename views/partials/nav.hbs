@@ -7,14 +7,14 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <img class="navbar-brand" src="images/ladot-logo.png">
+            <a href="/"><img class="navbar-brand" src="images/ladot-logo.png"></a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PROJECTS <span class="caret"></span></a>
-                <ul class="dropdown-menu" id="map-filter">
+                <a href="#" class="dropdown-toggle map-filter-a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PROJECTS <span class="caret"></span></a>
+                <ul class="dropdown-menu" id="map-filter-projects">
                   {{#if logged_in}}
                   <li><a href="/projects/new">Add a Project</a></li>
                   {{/if}}
@@ -28,14 +28,14 @@
               </li>
                 {{#if mapview}}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">MAP FILTERS <span class="caret"></span></a>
-                    <ul class="dropdown-menu" id="map-filter">
+                    <a href="#" class="dropdown-toggle map-filter-a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">MAP FILTERS <span class="caret"></span></a>
+                    <ul class="dropdown-menu" id="map-filter-type">
                         <li role="separator" class="divider"></li>
                         <li class="project-type filter">
                             <a>
                                 <input class="filter-check" id="filter-bike"  type="checkbox" checked="checked"
                                        value="bike only">
-                                Bike Only
+                                    Bike Only
                             </a>
                         </li>
 
@@ -96,7 +96,8 @@
               <form class="navbar-form" role="search" method="get" action="/projects/search">
                 <div class="input-group" id="search-projects">
                     <span class="input-group-addon" id="search-button"><i class="fa fa-search fa-lg" aria-hidden="true"></i></span>
-                    <input type="text" class="form-control input-block-level" id="search-projects-input" placeholder="Search Projects">
+                    <input type="text" name="search" class="form-control input-block-level" id="search-projects-input"
+                           placeholder="Search Projects">
                 </div>
               </form>
             </div>

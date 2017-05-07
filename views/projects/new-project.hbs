@@ -152,7 +152,7 @@
               <div class="form-group" id="file-upload-group">
                   <label for="file-upload">File attachment:</label>
                   <input type="file" name="file-upload" id="file-upload">
-                  <button type="button" id="btnUpload" class="btn btn-default">Upload</button>
+                  <button type="button" id="btnUpload" class="btn">Upload</button>
               </div>
 
               <!-- Funded and Unfunded but NOT Idea -->
@@ -190,8 +190,8 @@
 
                 </div>
 
-                <button type="button" class="btn btn-primary" id="add-intersection">Add More Intersections</button>
-                <button type="button" class="btn btn-danger" id="undo-intersection">Undo Intersection</button>
+                <button type="button" class="btn" id="add-intersection">Add More Intersections</button>
+                <button type="button" class="btn" id="undo-intersection">Undo Intersection</button>
                 <br><br>
 
 
@@ -213,7 +213,7 @@
                 </div>
 
               </div>
- 
+
 
               <!-- Funded Attributes -->
               <div id="fundedAttributes">
@@ -364,6 +364,19 @@
                     <input type="text" class="form-control" id="Info_source" placeholder="">
                     <span id="Info_source-span" aria-hidden="true"></span>
                 </div>
+
+              <!-- Project Start Date -->
+                <div class="form-group" id="ProjectStartDate-group">
+                  <label for="ProjectStartDate"> Project Start Date* </label>
+                  <input type="date" id="StartDate">
+                </div>
+
+                <!-- Project Projected Completion Date-->
+                <div class="form-group" id="ProjectProjectedCompletionDate-group">
+                  <label for="ProjectProjectedCompletionDate"> Projected Completion Date* </label>
+                  <input type="date" id="ProjectedCompletionDate">
+                </div>
+
               </div>
 
               <!-- Unfunded Attributes -->
@@ -410,10 +423,10 @@
                   </div>
                 </div>
 
-                
+
               </div>
 
-              <button type="submit" id="submit-project" class="btn btn-primary" disabled="true">Submit</button>
+              <button type="submit" id="submit-project" class="btn" disabled="true">Submit</button>
             </form>
         </div>
       </div>
@@ -433,9 +446,9 @@
           <div id="duplicateProjects"></div>
         </div>
         <div class="modal-footer">
-          <button type="button" id="cancel-button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" id="add-button" class="btn btn-warning">Continue without Flagging</button>
-          <button type="button" id="flag-button" class="btn btn-primary">Flag Project and Continue</button>
+          <button type="button" id="cancel-button" class="btn" data-dismiss="modal">Cancel</button>
+          <button type="button" id="add-button" class="btn">Continue without Flagging</button>
+          <button type="button" id="flag-button" class="btn">Flag Project and Continue</button>
         </div>
       </div>
     </div>

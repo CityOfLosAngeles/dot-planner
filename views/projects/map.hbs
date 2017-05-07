@@ -1,110 +1,36 @@
 <div class="container-fluid">
     <div class="row">
+        {{#if logged_in}}
         <div id="map-column" class="col-xs-8">
-            <div id="map"></div>
-            <div class="dropdown" id="map-legend">
-                <a class="btn dropdown-toggle" type="button" id="map-legend-button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    LEGEND
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu" id="legend-dropdown">
-                    <li class="legend-category">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-1x" id="legend-bike" aria-hidden="true"></i>
-                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
-                        </span>
-                        Bike
-                    </li>
+        {{else}}
+        <div id="map-column" class="col-xs-12">
+        {{/if}}
+        <div id="map"></div>
 
-                    <li role="separator" class="divider"></li>
-
-                    <li class="legend-category">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-1x" id="legend-bike-ped" aria-hidden="true"></i>
-                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
-                        </span>
-                        Bike/Pedestrian
-                    </li>
-
-                    <li role="separator" class="divider"></li>
-
-                    <li class="legend-category">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-1x" id="legend-first-last" aria-hidden="true"></i>
-                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
-                        </span>
-                        First/Last Mile
-                    </li>
-
-                    <li role="separator" class="divider"></li>
-
-                    <li class="legend-category">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-1x" id="legend-other" aria-hidden="true"></i>
-                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
-                        </span>
-                        Other
-                    </li>
-
-                    <li role="separator" class="divider"></li>
-
-                    <li class="legend-category">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-1x" id="legend-ped" aria-hidden="true"></i>
-                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
-                        </span>
-                        Pedestrian
-
-                    </li>
-
-                    <li role="separator" class="divider"></li>
-
-                    <li class="legend-category">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-1x" id="legend-people" aria-hidden="true"></i>
-                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
-                        </span>
-                        People St
-                    </li>
-
-                    <li role="separator" class="divider"></li>
-
-                    <li class="legend-category">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-1x" id="legend-safety" aria-hidden="true"></i>
-                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
-                        </span>
-                        Safety
-                    </li>
-
-                    <li role="separator" class="divider"></li>
-
-                    <li class="legend-category">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-1x" id="legend-srts" aria-hidden="true"></i>
-                            <i class="fa fa-circle-thin fa-stack-1x" aria-hidden="true"></i>
-                        </span>
-                        SRTS
-                    </li>
-
-                </ul>
-            </div>
             <a type="button" name="button" id="hide-button" class="map-button btn">Hide Project</a>
             <a type="button" name="button" id="unhide-button" class="map-button btn">Unhide All</a>
             <div class="input-group" id="google-search">
                 <span class="input-group-addon" id="google-search-icon"><i class="fa fa-crosshairs fa-lg"
-                                                                           aria-hidden="true"></i></span>
+                    aria-hidden="true"></i></span>
                 <input type="text" class="form-control input-block-level" id="google-search-input"
                        placeholder="Search For Address Or Cross Street">
             </div>
         </div>
+        {{#if logged_in}}
         <div id="project-view-sidebar" class="col-xs-4">
+
             <div class="container-fluid">
 
                 {{!-- butttons to toggle between funded and unfunded projets to show on the right project views bar --}}
                 <a id="fundedTab" value="funded" type="button" name="button" class="map-button btn">Funded</a>
                 <a id="unfundedTab" value="unfunded" type="button" name="button" class="map-button btn">Unfunded</a>
+
+                <br  />
+                <br  />
+                <!--<div id="sliderDiv">-->
+                <!--&lt;!&ndash; Slider for map radius search &ndash;&gt;-->
+                    <!--<span>1 Mile  </span><input id="radiusSlider" data-slider-id='Slider' type="text" data-slider-min="1609.34" data-slider-max="16093.44" data-slider-step="1609.34" /><span>  10 Miles</span>-->
+                <!--</div>-->
                 <div id="count-info"></div>
                 <div id="main-info"></div>
                 <div class="card" id="project-details">
@@ -298,11 +224,13 @@
                         </li>
                     </ul>
                     {{#if logged_in}}
-                        <button id="edit-button" class="btn btn-primary">Edit Project</button>
+                        <button id="edit-button" class="btn">Edit Project</button>
                     {{/if}}
                 </div>
             </div>
         </div>
+        {{/if}}
+
     </div>
 </div>
 <script type="text/javascript" src='/javascripts/map.js'></script>

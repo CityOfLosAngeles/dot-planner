@@ -8,6 +8,17 @@ body {
 }
 
 /*NEEDS TO BE PUT IN THE RIGHT PLACE*/
+/*Radius search slide bar*/
+#ex1Slider .slider-selection {
+    background: #BABABA;
+  display: inline;
+}
+
+.slider.slider-horizontal {
+    margin: 0 10px;
+}
+
+/*NEEDS TO BE PUT IN THE RIGHT PLACE*/
 /*FUNDED / UNFUNDED PANELS*/
 .projects-list-item {
     border: 1px solid #002E6D;
@@ -58,12 +69,28 @@ body {
 
 .project-title {
     color: white;
+    font-weight: 700;
     margin-bottom: 10px;
 }
 .project-heading-data {
     color: white;
     margin: 0;
 }
+
+.map-filter-a,
+.map-filter-a:focus,
+.map-filter-a:hover,
+.map-filter-a:visited {
+    color: white;
+}
+
+.panel-svg {
+    position: relative;
+    right: 24px;
+    bottom: 2px;
+    stroke: white;
+}
+
 /*---------------------------------------------------------------*/
 
 .navbar {
@@ -127,7 +154,7 @@ body {
     height: -moz-calc(100vh - 50px);
     /* firefox */
     overflow-y: scroll;
-    padding: 25px;
+    padding: 10px;
 }
 
 #delete {
@@ -150,10 +177,10 @@ body {
     margin-top: 15px;
     margin-bottom: 15px;
     padding: 10px;
-    background-color: #f0eeee;
-    color: #231F20;
-    border: 1px solid #002E6D;
-    border-radius: 0px;
+    border-radius: 3px;
+    background-color: #002E6D;
+    color: white;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
 }
 
 #submit-project {
@@ -174,11 +201,22 @@ body {
 #add-intersection,
 #undo-intersection,
 #update-project {
-    background-color: #f0eeee;
-    border: 1px solid #002E6D;
-    border-radius: 0px;
-    color: #231F20;
-    margin: 0 20px 0 20px;
+    background-color: #002E6D;
+    color: white;
+    box-sizing: border-box;
+    margin-right: 5px;
+    padding: 5px 8px;
+    line-height: 2.2em;
+    vertical-align: middle;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+}
+
+#show-info {
+    margin-left: 20px;
+}
+
+#edit-button {
+    margin-right: 20px;
 }
 
 #delete-project-button,
@@ -245,11 +283,13 @@ body {
 #exportCSV:hover,
 #exportShape:hover,
 #submit-project:hover,
-#update-project:hover {
+#update-project:hover,
+#exportCSV:focus {
     background-color: #004EB9;
-    border: 1px solid #002E6D;
-    border-radius: 0px;
+    border-radius: 3px;
     color: white;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
 }
 
 #fundedAttributes,
@@ -529,14 +569,14 @@ body {
 #hide-button {
     position: absolute;
     top: 10px;
-    right: 440px;
+    right: 355px;
     z-index: 100;
 }
 
 #unhide-button {
     position: absolute;
     top: 10px;
-    right: 340px;
+    right: 500px;
     z-index: 100;
 }
 

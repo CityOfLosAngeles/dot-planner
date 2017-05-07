@@ -43,8 +43,8 @@
         </table>
       </div>
     </div>
-    <button type="submit" name="button" class="btn btn-primary" id="exportCSV"><i id="spreadsheet-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Spreadsheet</button>
-    <button type="submit" name="button" class="btn btn-primary" id="exportShape"><i id="shape-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Shapefiles</button>
+    <button type="submit" name="button" class="btn" id="exportCSV"><i id="spreadsheet-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Spreadsheet</button>
+    <button type="submit" name="button" class="btn" id="exportShape"><i id="shape-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Shapefiles</button>
   {{/if}}
   {{#unless logged_in}}
   <div id="search-results" class="table-section">
@@ -83,8 +83,8 @@
         </table>
       </div>
     </div>
-    <button type="submit" name="button" class="btn btn-primary" id="exportCSV"><i id="spreadsheet-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Spreadsheet</button>
-    <button type="submit" name="button" class="btn btn-primary" id="exportShape"><i id="shape-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Shapefiles</button>
+    <button type="submit" name="button" class="btn" id="exportCSV"><i id="spreadsheet-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Spreadsheet</button>
+    <button type="submit" name="button" class="btn" id="exportShape"><i id="shape-spinner" class="fa fa-spinner fa-pulse fa-spin fa-fw"></i> Export As Shapefiles</button>
   {{/unless}}
 </div>
 
@@ -102,8 +102,8 @@
           </div>
           <div class="modal-footer">
               <form method="POST" id="delete-form">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-modal-button">Close</button>
-                  <button type="submit" class="btn btn-danger" id="delete-project-button">Delete</button>
+                  <button type="button" class="btn" data-dismiss="modal" id="close-modal-button">Close</button>
+                  <button type="submit" class="btn" id="delete-project-button">Delete</button>
               </form>
           </div>
       </div>

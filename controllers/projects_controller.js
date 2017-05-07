@@ -140,6 +140,73 @@ router.get('/funding/:status/type/:type', function(req, res) {
     }
 });
 
+
+
+// Route to get all projects of a certain type
+
+//Endpoint to get projects by specific funding and project types
+router.get('/type/:type', function(req, res) {
+    //Create an empty geoJSON feature collections
+    //The features array will be populated when toGeoJSON is run
+    var featureCollection = {
+        "type": "FeatureCollection",
+        features: []
+    };
+    //get the project types requested
+    var type = req.params.type;
+    //string manipulations to separate funding and project types into arrays
+    type = type.split('&');
+    console.log("TYPE: ", type);
+    //create the search array that sequelize while use as the $or parameter
+    var searchArr = [];
+
+    //If the user is logged in
+    if (req.session.logged_in) {
+        for (var j = 0; j < type.length; j++) {
+            var searchObj = {
+                Proj_Ty: {
+                    ilike: type[j]
+                }
+            };
+            searchArr.push(searchObj);
+        }
+        models.Project.findAll({
+            where: {
+                $or: searchArr
+            }
+        }).then(function(projects) {
+            for (var i = 0; i < projects.length; i++) {
+                toGeoJSON(projects[i], featureCollection.features);
+            }
+            res.send(featureCollection);
+        });
+
+        //If the user is not logged in only return publicy accessible projects
+    } else {
+        for (var i = 0; i < status.length; i++) {
+            for (var j = 0; j < type.length; j++) {
+                var searchObj = {
+                    Proj_Ty: {
+                        ilike: type[j]
+                    },
+                    Access: 'Public'
+                };
+                searchArr.push(searchObj);
+            }
+        }
+        models.Project.findAll({
+            where: {
+                $or: searchArr
+            }
+        }).then(function(projects) {
+            for (var i = 0; i < projects.length; i++) {
+                toGeoJSON(projects[i], featureCollection.features);
+            }
+            res.send(featureCollection);
+        });
+    }
+});
+
 //Saves a new project to the DB only if user is logged in
 router.post('/new', function(req, res) {
     //If the user is logged in
@@ -170,7 +237,7 @@ router.post('/new', function(req, res) {
             res.send({"status": "saved"});
         });
 
-        //If newProject does not have property flagged then check the db for potention duplicates
+        //If newProject does not have property flagged then check the db for potential duplicates
       } else {
         var searchArr = [
           {
@@ -470,11 +537,13 @@ router.get('/flagged', function(req, res) {
 });
 
 //Route to search db for a keyword or phrase
+//Area of interest: Router Area that uses
 router.get('/search', function(req, res) {
   var search = req.query.search;
+  var searchObj;
   //If the user is logged in return all results that match the search terms
   if (req.session.logged_in) {
-    var searchObj = {
+    searchObj = {
       $or: [
         {
           Proj_Title: {
@@ -507,10 +576,10 @@ router.get('/search', function(req, res) {
           }
         }
       ]
-    }
+    };
     //If the user is not logged in return only publicly available projects that match the search terms
   } else {
-    var searchObj = {
+    searchObj = {
       $or: [
         {
           Proj_Title: {
